@@ -1,18 +1,19 @@
 /*
 	PrefsWindow.cpp: Window class to show and edit settings for the Filer
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
-#include "PrefsWindow.h"
-#include "FilerRule.h"
-#include "RuleItem.h"
-#include "RuleEditWindow.h"
-#include "RuleRunner.h"
-
-#include <Application.h>
-#include <View.h>
 #include <Alert.h>
+#include <Application.h>
 #include <ScrollView.h>
+#include <View.h>
+
+#include "FilerRule.h"
+#include "PrefsWindow.h"
+#include "RuleEditWindow.h"
+#include "RuleItem.h"
+#include "RuleRunner.h"
 
 enum 
 {

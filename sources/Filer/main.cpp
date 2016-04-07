@@ -1,19 +1,20 @@
 /*
 	Filer - an automatic rule-based file organizer
 	
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
-#include "main.h"
-#include "FilerRule.h"
-#include "RuleRunner.h"
-#include "PrefsWindow.h"
-
 #include <FindDirectory.h>
+#include <MenuItem.h>
 #include <Mime.h>
 #include <Path.h>
 #include <PopUpMenu.h>
-#include <MenuItem.h>
+
+#include "main.h"
+#include "FilerRule.h"
+#include "PrefsWindow.h"
+#include "RuleRunner.h"
 
 // Created upon startup instead of when spawning a RuleEditWindow for
 // better performance

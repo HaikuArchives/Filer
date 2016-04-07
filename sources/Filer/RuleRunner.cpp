@@ -1,20 +1,21 @@
 /*
 	RuleRunner.cpp: class to handle running test and actions for the rules
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
-#include "RuleRunner.h"
-#include "CppSQLite3.h"
-#include "Database.h"
-#include "FSUtils.h"
-#include "PatternProcessor.h"
-
 #include <Directory.h>
 #include <Entry.h>
 #include <FindDirectory.h>
 #include <Mime.h>
 #include <Path.h>
 #include <Roster.h>
+
+#include "CppSQLite3.h"
+#include "Database.h"
+#include "FSUtils.h"
+#include "PatternProcessor.h"
+#include "RuleRunner.h"
 
 #include <fs_attr.h>
 #include <stdlib.h>

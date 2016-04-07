@@ -1,4 +1,8 @@
-#include "PrefWindow.h"
+/*
+	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+*/
 #include <Application.h>
 #include <File.h>
 #include <FindDirectory.h>
@@ -7,11 +11,14 @@
 #include <Path.h>
 #include <Roster.h>
 #include <StringView.h>
-#include <stdio.h>
 #include <TypeConstants.h>
 
+#include "PrefWindow.h"
 #include "RefStorage.h"
 #include "TypedRefFilter.h"
+
+#include <stdio.h>
+
 
 const BRect kDefaultFrame(100,100,500,400);
 

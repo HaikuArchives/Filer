@@ -1,15 +1,17 @@
 /*
 	RuleRunner.h: class to handle running test and actions for the rules
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
 #ifndef RULERUNNER_H
 #define RULERUNNER_H
 
-#include "ObjectList.h"
-#include <Message.h>
-#include <Entry.h>
 #include "FilerRule.h"
+#include "ObjectList.h"
+
+#include <Entry.h>
+#include <Message.h>
 
 enum
 {

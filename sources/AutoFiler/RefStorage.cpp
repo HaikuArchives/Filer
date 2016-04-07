@@ -1,10 +1,15 @@
-#include "RefStorage.h"
-
+/*
+	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+*/
 #include <Autolock.h>
 #include <File.h>
 #include <FindDirectory.h>
 #include <Message.h>
 #include <Path.h>
+
+#include "RefStorage.h"
 
 BList gRefStructList;
 BLocker gRefLock;

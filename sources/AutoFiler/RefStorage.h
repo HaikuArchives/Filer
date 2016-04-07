@@ -2,9 +2,9 @@
 #define REFSTORAGE_H
 
 #include <Entry.h>
-#include <Node.h>
 #include <List.h>
 #include <Locker.h>
+#include <Node.h>
 #include <String.h>
 
 extern BList gRefStructList;
