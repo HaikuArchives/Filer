@@ -9,7 +9,7 @@
 
 extern BList gRefStructList;
 extern BLocker gRefLock;
-extern const BString gPrefsPath;
+extern const char gPrefsPath[];
 
 enum
 {

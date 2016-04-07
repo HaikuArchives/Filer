@@ -9,7 +9,9 @@
 #include "RuleRunner.h"
 #include "PrefsWindow.h"
 
+#include <FindDirectory.h>
 #include <Mime.h>
+#include <Path.h>
 #include <PopUpMenu.h>
 #include <MenuItem.h>
 
@@ -31,8 +33,8 @@ App::App(void)
 	fRuleList = new BObjectList<FilerRule>(20,true);
 	
 //	SetupTypeMenu();
-	
-	LoadRules("/boot/home/config/settings/FilerRules",fRuleList);
+
+	LoadRules(fRuleList);
 }
 
 
@@ -116,7 +118,6 @@ App::ReadyToRun(void)
 			entry_ref ref = *fRefList->ItemAt(i);
 			FileRef(ref);
 		}
-		
 		PostMessage(B_QUIT_REQUESTED);
 	}
 	else

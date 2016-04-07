@@ -9,13 +9,15 @@
 #include "FSUtils.h"
 #include "PatternProcessor.h"
 
-#include <Entry.h>
-#include <fs_attr.h>
-#include <Path.h>
-#include <Mime.h>
-#include <stdlib.h>
 #include <Directory.h>
+#include <Entry.h>
+#include <FindDirectory.h>
+#include <Mime.h>
+#include <Path.h>
 #include <Roster.h>
+
+#include <fs_attr.h>
+#include <stdlib.h>
 
 /*
 	FilerAction message fields:
@@ -1015,7 +1017,10 @@ CommandAction(const BMessage &action, entry_ref &ref)
 status_t
 TrashAction(const BMessage &action, entry_ref &ref)
 {
-	BEntry entry("/boot/home/Desktop/Trash",true);
+	BPath path;
+	find_directory(B_TRASH_DIRECTORY, &path);
+
+	BEntry entry(path.Path(), true);
 	status_t status = entry.InitCheck();
 	if (status != B_OK || !entry.Exists() || !entry.IsDirectory())
 		return B_ERROR;
@@ -1060,15 +1065,32 @@ DeleteAction(const BMessage &action, entry_ref &ref)
 
 
 status_t
-SaveRules(const char *path, BObjectList<FilerRule> *ruleList)
+SaveRules(BObjectList<FilerRule> *ruleList)
 {
-	BEntry entry("/boot/home/config/settings/FilerRules");
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+
+	status_t ret = path.Append("Filer");
+	if (ret == B_OK)
+		ret = create_directory(path.Path(), 0777);
+
+	if (ret == B_OK)
+		ret = path.Append("FilerRules");
+
+	if (ret == B_OK) {
+		BFile file(path.Path(), B_WRITE_ONLY | B_CREATE_FILE);
+		ret = file.InitCheck();
+	}
+	if (ret != B_OK)
+		return(ret);
+
+	BEntry entry(path.Path());
 	if (entry.Exists())
 		entry.Remove();
 	
 	CppSQLite3DB db;
-	db.open("/boot/home/config/settings/FilerRules");
-	
+	db.open(path.Path());
+
 	// While we could use other means of obtaining table names, this table is also
 	// used for maintaining the order of the rules, which must be preserved
 	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar);",
@@ -1155,14 +1177,18 @@ SaveRules(const char *path, BObjectList<FilerRule> *ruleList)
 
 
 status_t
-LoadRules(const char *path, BObjectList<FilerRule> *ruleList)
+LoadRules(BObjectList<FilerRule> *ruleList)
 {
-	BEntry entry("/boot/home/config/settings/FilerRules");
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append("Filer/FilerRules");
+
+	BEntry entry(path.Path());
 	if (!entry.Exists())
 		return B_OK;
 	
 	CppSQLite3DB db;
-	db.open("/boot/home/config/settings/FilerRules");
+	db.open(path.Path());
 	
 	// Because this particular build of sqlite3 does not support multithreading
 	// because of lack of pthreads support, we need to do this in a slightly different order

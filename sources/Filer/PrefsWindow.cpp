@@ -4,14 +4,15 @@
 	Released under the MIT license.
 */
 #include "PrefsWindow.h"
-#include <Application.h>
-#include <View.h>
-#include <Alert.h>
-#include <ScrollView.h>
 #include "FilerRule.h"
 #include "RuleItem.h"
 #include "RuleEditWindow.h"
 #include "RuleRunner.h"
+
+#include <Application.h>
+#include <View.h>
+#include <Alert.h>
+#include <ScrollView.h>
 
 enum 
 {
@@ -104,8 +105,8 @@ PrefsWindow::PrefsWindow(void)
 	
 	float minwidth = (fRemoveButton->Bounds().Width() * 3.0) + 40;
 	SetSizeLimits(minwidth, 30000, 200, 30000);
-	
-	LoadRules("/boot/home/config/settings/FilerRules",fRuleList);
+
+	LoadRules(fRuleList);
 	
 	for (int32 i = 0; i < fRuleList->CountItems(); i++)
 		fRuleItemList->AddItem(new RuleItem(fRuleList->ItemAt(i)));
@@ -158,7 +159,7 @@ PrefsWindow::PrefsWindow(void)
 //			rule->SetDescription("");
 //			AddRule(rule);
 		}
-		SaveRules("/boot/home/config/settings/FilerRules",fRuleList);
+		SaveRules(fRuleList);
 	}
 }
 
@@ -173,7 +174,7 @@ bool
 PrefsWindow::QuitRequested(void)
 {
 	if (fChanges)
-		SaveRules("/boot/home/config/settings/FilerRules",fRuleList);
+		SaveRules(fRuleList);
 	MakeEmpty();
 	be_app->PostMessage(B_QUIT_REQUESTED);
 	return true;
@@ -257,7 +258,8 @@ PrefsWindow::MessageReceived(BMessage *msg)
 			fRuleList->MakeEmpty();
 			fEditButton->SetEnabled(false);
 			fRemoveButton->SetEnabled(false);
-			LoadRules("/boot/home/config/settings/FilerRules",fRuleList);
+
+			LoadRules(fRuleList);
 			break;
 		}
 		case M_RULE_SELECTED:

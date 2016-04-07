@@ -1,6 +1,7 @@
 #include "PrefWindow.h"
 #include <Application.h>
 #include <File.h>
+#include <FindDirectory.h>
 #include <Messenger.h>
 #include <Node.h>
 #include <Path.h>
@@ -61,7 +62,11 @@ PrefWindow::PrefWindow(void)
 						Bounds().bottom - fAutorunBox->Bounds().Height() - 10.0);
 	// add as child later
 
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	bool autorun = true;
 	if (node.InitCheck() == B_OK)
 	{
@@ -140,7 +145,11 @@ PrefWindow::QuitRequested(void)
 	// save autorun value
 	bool autorun = (fAutorunBox->Value() == B_CONTROL_ON);
 	
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	if (node.InitCheck() == B_OK)
 		node.WriteAttr("autorun",B_BOOL_TYPE,0,(void*)&autorun,sizeof(bool));
 	
@@ -260,7 +269,11 @@ PrefWindow::LoadFrame(void)
 {
 	BRect frame(kDefaultFrame);
 	
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	if (node.InitCheck() == B_OK)
 	{
 		BRect r;
@@ -276,7 +289,11 @@ void
 PrefWindow::SaveFrame(void)
 {
 	BRect r(Frame());
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	if (node.InitCheck() == B_OK)
 		node.WriteAttr("windowframe",B_RECT_TYPE,0,(void*)&r,sizeof(BRect));
 }
