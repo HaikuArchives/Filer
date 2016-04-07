@@ -130,9 +130,9 @@ PrefsWindow::PrefsWindow(void)
 			AddRule(rule);
 			
 			rule = new FilerRule();
-			rule->AddTest(MakeTest("Type","contains","x-vnd.gobe.productive"));
+			rule->AddTest(MakeTest("Type","is","application/pdf"));
 			rule->AddAction(MakeAction("Move it to…","/boot/home/Documents"));
-			rule->SetDescription("Store Productive files in my Documents folder");
+			rule->SetDescription("Store PDF files in my Documents folder");
 			AddRule(rule);
 			
 			rule = new FilerRule();
