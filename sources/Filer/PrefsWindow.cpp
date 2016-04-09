@@ -28,7 +28,7 @@ enum
 
 
 PrefsWindow::PrefsWindow(void)
- :	BWindow(BRect(100,100,450,350),"Filer Settings",B_TITLED_WINDOW,
+ :	BWindow(BRect(100,100,450,350),"Filer settings",B_TITLED_WINDOW,
  			B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE),
  	fChanges(false)
 {
@@ -82,7 +82,7 @@ PrefsWindow::PrefsWindow(void)
 	fRemoveButton->SetEnabled(false);
 	
 	
-	fMoveDownButton = new BButton(BRect(0,0,1,1),"movedownbutton","Move Down",
+	fMoveDownButton = new BButton(BRect(0,0,1,1),"movedownbutton","Move down",
 									new BMessage(M_MOVE_RULE_DOWN),
 									B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fMoveDownButton->ResizeToPreferred();
@@ -90,7 +90,7 @@ PrefsWindow::PrefsWindow(void)
 					fAddButton->Frame().bottom + 10.0);
 	
 	
-	fMoveUpButton = new BButton(BRect(0,0,1,1),"moveupbutton","Move Up",
+	fMoveUpButton = new BButton(BRect(0,0,1,1),"moveupbutton","Move up",
 									new BMessage(M_MOVE_RULE_UP),
 									B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fMoveUpButton->ResizeTo(fMoveDownButton->Bounds().Width(), fMoveDownButton->Bounds().Height());

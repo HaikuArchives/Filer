@@ -30,8 +30,7 @@ APP_MIME_SIG = application/x-vnd.dw-Filer
 #	Also note that spaces in folder names do not work well with this Makefile.
 SRCS = FilerRule.cpp FSUtils.cpp main.cpp PatternProcessor.cpp RuleRunner.cpp \
 	ActionView.cpp AutoTextControl.cpp CppSQLite3.cpp Database.cpp \
-	PrefsWindow.cpp RuleEditWindow.cpp RuleHelpWindow.cpp RuleItem.cpp \
-	TestView.cpp
+	PrefsWindow.cpp RuleEditWindow.cpp RuleItem.cpp TestView.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.

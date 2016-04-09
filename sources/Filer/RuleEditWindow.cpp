@@ -38,13 +38,13 @@ enum
 
 
 RuleEditWindow::RuleEditWindow(BRect &rect, FilerRule *rule)
- :	BWindow(rect,"Edit Rule",B_TITLED_WINDOW,B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE),
+ :	BWindow(rect,"Edit rule",B_TITLED_WINDOW,B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE),
  	fOriginalID(-1)
 {
 	if (rule)
 		fOriginalID = rule->GetID();
 	else
-		SetTitle("Add Rule");
+		SetTitle("Add rule");
 	
 	
 	AddCommonFilter(new EscapeCancelFilter);
@@ -375,7 +375,7 @@ RuleEditWindow::SendRuleMessage(void)
 	for (int32 i = 0; i < be_app->CountWindows(); i++)
 	{
 		BWindow *win = be_app->WindowAt(i);
-		if (strcmp(win->Title(),"Filer Settings") == 0)
+		if (strcmp(win->Title(),"Filer settings") == 0)
 			win->PostMessage(&msg);
 	}
 }

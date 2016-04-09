@@ -79,8 +79,8 @@ status_t CheckCopiable(BEntry *src,BEntry *dest)
 		newpath+=name;
 		newpath+=" exists. Do you want to replace it?";
 		
-		BAlert *alert=new BAlert("Error",newpath.String(),"Replace File",
-		 "Skip File", "Stop");
+		BAlert *alert=new BAlert("Error",newpath.String(),"Replace file",
+		 "Skip file", "Stop");
 		returncode=alert->Go();
 		switch(returncode)
 		{

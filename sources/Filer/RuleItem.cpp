@@ -22,7 +22,7 @@ RuleItem::SetRule(FilerRule *rule)
 	if (fRule)
 		SetText(rule->GetDescription());
 	else
-		SetText("BUG:Invalid Rule");
+		SetText("BUG: Invalid rule");
 }
 
 
