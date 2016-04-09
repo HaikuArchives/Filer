@@ -1,12 +1,20 @@
-#include "RefStorage.h"
+/*
+	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+*/
 #include <Autolock.h>
 #include <File.h>
+#include <FindDirectory.h>
 #include <Message.h>
+#include <Path.h>
+
+#include "RefStorage.h"
 
 BList gRefStructList;
 BLocker gRefLock;
 
-const BString gPrefsPath = "/boot/home/config/settings/AutoFilerFolders";
+const char gPrefsPath[] = "Filer/AutoFilerFolders";
 
 RefStorage::RefStorage(const entry_ref &fileref)
 {
@@ -29,7 +37,11 @@ RefStorage::SetData(const entry_ref &fileref)
 status_t
 LoadFolders(void)
 {
-	if (!BEntry(gPrefsPath.String()).Exists())
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	if (!BEntry(path.Path()).Exists())
 		return B_OK;
 	
 	BAutolock autolock(&gRefLock);
@@ -38,7 +50,7 @@ LoadFolders(void)
 	
 	BMessage msg;
 	
-	BFile file(gPrefsPath.String(), B_READ_ONLY);
+	BFile file(path.Path(), B_READ_ONLY);
 	status_t status = file.InitCheck();
 	if (status != B_OK)
 		return status;
@@ -95,8 +107,11 @@ SaveFolders(void)
 		
 		msg.AddRef("refs",&refholder->ref);;
 	}
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
 	
-	BFile file(gPrefsPath.String(),B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
+	BFile file(path.Path(),B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
 	status_t status = file.InitCheck();
 	if (status != B_OK)
 		return status;

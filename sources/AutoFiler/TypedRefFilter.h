@@ -4,6 +4,8 @@
 #include <FilePanel.h>
 #include <String.h>
 
+#include <compat/sys/stat.h>
+
 /*
 	This utility class is for filtering 
 */
@@ -24,7 +26,7 @@ public:
 			void			SetNodeType(const uint32 &node_type);
 	
 	virtual bool			Filter(const entry_ref *ref, BNode *node,
-									struct stat *st, const char *filetype);
+									struct stat_beos *st, const char *filetype);
 	
 	
 private:

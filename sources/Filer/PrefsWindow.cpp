@@ -1,16 +1,18 @@
 /*
 	PrefsWindow.cpp: Window class to show and edit settings for the Filer
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
-#include "PrefsWindow.h"
-#include <Application.h>
-#include <View.h>
 #include <Alert.h>
+#include <Application.h>
 #include <ScrollView.h>
+#include <View.h>
+
 #include "FilerRule.h"
-#include "RuleItem.h"
+#include "PrefsWindow.h"
 #include "RuleEditWindow.h"
+#include "RuleItem.h"
 #include "RuleRunner.h"
 
 enum 
@@ -26,7 +28,7 @@ enum
 
 
 PrefsWindow::PrefsWindow(void)
- :	BWindow(BRect(100,100,450,350),"Filer Settings",B_TITLED_WINDOW,
+ :	BWindow(BRect(100,100,450,350),"Filer settings",B_TITLED_WINDOW,
  			B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE),
  	fChanges(false)
 {
@@ -80,7 +82,7 @@ PrefsWindow::PrefsWindow(void)
 	fRemoveButton->SetEnabled(false);
 	
 	
-	fMoveDownButton = new BButton(BRect(0,0,1,1),"movedownbutton","Move Down",
+	fMoveDownButton = new BButton(BRect(0,0,1,1),"movedownbutton","Move down",
 									new BMessage(M_MOVE_RULE_DOWN),
 									B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fMoveDownButton->ResizeToPreferred();
@@ -88,7 +90,7 @@ PrefsWindow::PrefsWindow(void)
 					fAddButton->Frame().bottom + 10.0);
 	
 	
-	fMoveUpButton = new BButton(BRect(0,0,1,1),"moveupbutton","Move Up",
+	fMoveUpButton = new BButton(BRect(0,0,1,1),"moveupbutton","Move up",
 									new BMessage(M_MOVE_RULE_UP),
 									B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fMoveUpButton->ResizeTo(fMoveDownButton->Bounds().Width(), fMoveDownButton->Bounds().Height());
@@ -104,8 +106,8 @@ PrefsWindow::PrefsWindow(void)
 	
 	float minwidth = (fRemoveButton->Bounds().Width() * 3.0) + 40;
 	SetSizeLimits(minwidth, 30000, 200, 30000);
-	
-	LoadRules("/boot/home/config/settings/FilerRules",fRuleList);
+
+	LoadRules(fRuleList);
 	
 	for (int32 i = 0; i < fRuleList->CountItems(); i++)
 		fRuleItemList->AddItem(new RuleItem(fRuleList->ItemAt(i)));
@@ -129,9 +131,9 @@ PrefsWindow::PrefsWindow(void)
 			AddRule(rule);
 			
 			rule = new FilerRule();
-			rule->AddTest(MakeTest("Type","contains","x-vnd.gobe.productive"));
+			rule->AddTest(MakeTest("Type","is","application/pdf"));
 			rule->AddAction(MakeAction("Move it to…","/boot/home/Documents"));
-			rule->SetDescription("Store Productive files in my Documents folder");
+			rule->SetDescription("Store PDF files in my Documents folder");
 			AddRule(rule);
 			
 			rule = new FilerRule();
@@ -158,7 +160,7 @@ PrefsWindow::PrefsWindow(void)
 //			rule->SetDescription("");
 //			AddRule(rule);
 		}
-		SaveRules("/boot/home/config/settings/FilerRules",fRuleList);
+		SaveRules(fRuleList);
 	}
 }
 
@@ -173,7 +175,7 @@ bool
 PrefsWindow::QuitRequested(void)
 {
 	if (fChanges)
-		SaveRules("/boot/home/config/settings/FilerRules",fRuleList);
+		SaveRules(fRuleList);
 	MakeEmpty();
 	be_app->PostMessage(B_QUIT_REQUESTED);
 	return true;
@@ -257,7 +259,8 @@ PrefsWindow::MessageReceived(BMessage *msg)
 			fRuleList->MakeEmpty();
 			fEditButton->SetEnabled(false);
 			fRemoveButton->SetEnabled(false);
-			LoadRules("/boot/home/config/settings/FilerRules",fRuleList);
+
+			LoadRules(fRuleList);
 			break;
 		}
 		case M_RULE_SELECTED:

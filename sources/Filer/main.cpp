@@ -1,17 +1,20 @@
 /*
 	Filer - an automatic rule-based file organizer
 	
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
+#include <FindDirectory.h>
+#include <MenuItem.h>
+#include <Mime.h>
+#include <Path.h>
+#include <PopUpMenu.h>
+
 #include "main.h"
 #include "FilerRule.h"
-#include "RuleRunner.h"
 #include "PrefsWindow.h"
-
-#include <Mime.h>
-#include <PopUpMenu.h>
-#include <MenuItem.h>
+#include "RuleRunner.h"
 
 // Created upon startup instead of when spawning a RuleEditWindow for
 // better performance
@@ -31,8 +34,8 @@ App::App(void)
 	fRuleList = new BObjectList<FilerRule>(20,true);
 	
 //	SetupTypeMenu();
-	
-	LoadRules("/boot/home/config/settings/FilerRules",fRuleList);
+
+	LoadRules(fRuleList);
 }
 
 
@@ -116,7 +119,6 @@ App::ReadyToRun(void)
 			entry_ref ref = *fRefList->ItemAt(i);
 			FileRef(ref);
 		}
-		
 		PostMessage(B_QUIT_REQUESTED);
 	}
 	else

@@ -1,20 +1,24 @@
 /*
 	RuleEditWindow.cpp: Rule editor class (duh)
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
 #include "RuleEditWindow.h"
+
+#include <Alert.h>
 #include <Application.h>
 #include <Message.h>
+#include <Path.h>
+#include <Roster.h>
 #include <View.h>
-#include <Alert.h>
+
 
 #include "ActionView.h"
 #include "AutoTextControl.h"
 #include "EscapeCancelFilter.h"
 #include "FilerRule.h"
 #include "TestView.h"
-#include "RuleHelpWindow.h"
 
 // Internal message defs
 enum
@@ -34,13 +38,13 @@ enum
 
 
 RuleEditWindow::RuleEditWindow(BRect &rect, FilerRule *rule)
- :	BWindow(rect,"Edit Rule",B_TITLED_WINDOW,B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE),
+ :	BWindow(rect,"Edit rule",B_TITLED_WINDOW,B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE),
  	fOriginalID(-1)
 {
 	if (rule)
 		fOriginalID = rule->GetID();
 	else
-		SetTitle("Add Rule");
+		SetTitle("Add rule");
 	
 	
 	AddCommonFilter(new EscapeCancelFilter);
@@ -172,12 +176,19 @@ RuleEditWindow::MessageReceived(BMessage *msg)
 	{
 		case M_SHOW_HELP:
 		{
-			BRect r = Frame();
-			r.OffsetBy(10,10);
-			r.right = r.left + 400;
-			r.bottom = r.top + 300;
-			RuleHelpWindow *help = new RuleHelpWindow(r);
-			help->Show();
+			app_info info;
+			BPath path;
+			be_roster->GetActiveAppInfo(&info);
+			BEntry entry(&info.ref);
+
+			entry.GetPath(&path);
+			path.GetParent(&path);
+			path.Append("documentation/Rule-Making Reference.html");
+
+			entry = path.Path();
+			entry_ref ref;
+			entry.GetRef(&ref);
+			be_roster->Launch(&ref);
 			break;
 		}
 		case M_OK:
@@ -364,7 +375,7 @@ RuleEditWindow::SendRuleMessage(void)
 	for (int32 i = 0; i < be_app->CountWindows(); i++)
 	{
 		BWindow *win = be_app->WindowAt(i);
-		if (strcmp(win->Title(),"Filer Settings") == 0)
+		if (strcmp(win->Title(),"Filer settings") == 0)
 			win->PostMessage(&msg);
 	}
 }

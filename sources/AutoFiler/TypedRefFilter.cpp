@@ -48,7 +48,7 @@ TypedRefFilter::SetNodeType(const uint32 &node_type)
 
 
 bool
-TypedRefFilter::Filter(const entry_ref *ref, BNode *node, struct stat *st,
+TypedRefFilter::Filter(const entry_ref *ref, BNode *node, struct stat_beos *st,
 						const char *filetype)
 {
 	// it does not match the entry filter, then we automatically kick back a false

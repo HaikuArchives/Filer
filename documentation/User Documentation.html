@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<!-- 
+ * Copyright 2016
+ * Distributed under the terms of the MIT License.
+ *
+ * Authors:
+ *		Humdinger <humdingerb@gmail.com>
+-->
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="robots" content="all" />
+	<title>Filer's User Documentation</title>
+
+<style type="text/css">
+
+body {
+    font-size: 0.9em;
+	font-family: "DejaVu Sans",Arial,Helvetica,sans-serif;
+	line-height: 1.5;
+	margin: 40px;
+	min-width: 45em;
+	max-width: 70em;
+}
+/* link colors and text decoration */
+
+a:link {
+	font-weight: bold;
+	text-decoration: none;
+	color: #dc3c01;
+}
+a:visited {
+	font-weight: bold;
+	text-decoration: none;
+	color: #892601;
+}
+a:hover, a:active {
+	text-decoration: underline;
+	color: #ff4500;
+}
+
+hr {
+	border: dotted thin #e0e0e0;
+}
+h1 {
+	font-size: 1.3em;
+	border-bottom: dotted thin #e0e0e0;
+	margin-bottom: 45px;
+}
+h2 {
+	font-size: 1.2em;
+	border-bottom: dotted thin #e0e0e0;
+	margin-top: 40px;
+}
+h3 {
+	font-size: 1em;
+	border-bottom: none;
+	margin-bottom: 0px;
+}
+.key {				/* Shortcut (separate with &#160; */
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border-color: #c7c7c7;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0px 2px 0px 2px;
+	background-color: #e8e8e8;
+    font-family: sans;
+	font-variant: small-caps;
+	font-size: 1em;
+}
+.menu {				/* Menu */
+    font-size: 1.0em;
+    font-family: serif;
+    font-style: italic;
+	color: #24225e;
+}
+.button {			/* Button */
+    font-size: 1.0em;
+    font-family: serif;
+    font-style: italic;
+	color: #33583c;
+}
+.path {				/* File path */
+    background-color: #e8e8e8;
+    font-size: 0.9em;
+    font-family: monospace;
+}
+td.onelinetop {
+	vertical-align: top;
+	white-space: nowrap;
+}
+ol {
+	padding-left: 20px;
+}
+ul {
+	padding-left: 14px;
+}
+</style>
+
+</head>
+<body>
+<div align = "center">
+<img width="64" height="64" src="./images/filer_icon_64.png" alt="Filer icon" />
+<p><span style="font-size: 1.5em; font-weight:bold">Filer's User Documentation</span></p>
+<hr />
+<p id="index"><a href="#filer">Filer</a> &mdash; <a href="#filer-usage">Filer Usage</a><br />
+<a href="#autofiler">AutoFiler</a> &mdash; <a href="#autofiler-usage">AutoFiler Usage</a></p>
+</div>
+<hr />
+<p><br /></p>
+<p><i>Filer</i> is an automatic file organizer. It takes the files it's opened with or that are dropped on its icon and move, rename, copy or do all sorts of other things with them according to rules created by the user.</p>
+<p><i>Filer</i> is accompanied by <i>AutoFiler</i>. Instead of working on a set of files provided by the user, it can be started together with Haiku to monitor certain folders and deal with new files appearing there according to the user-defined rules.</p>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="filer" name="filer">Filer</a></h2>
+<div align="center">
+<img src="./images/filer_ruleslist.png" alt="Filer list of rules" />&nbsp;&nbsp;&nbsp;<img src="./images/filer_edit_rule.png" alt="Editing a rule" /></div>
+<p>Double-clicking <i>Filer</i> opens the settings with a list of organization rules. When started for the first time, you are asked if you'd like to have a few example rules by default. You can edit them to your needs or remove them altogether at any time.</p>
+<p>A rule needs three items: A <span class="menu">Description</span>, the condition <span class="menu">When</span> it is applied, and what action to <span class="menu">Do</span>.</p>
+<p>Click on the buttons in the "When" and "Do" boxes to explore the various options to construct the right condition and what action will be taken. You can add several conditions which will <i>all</i> have to be met to trigger the action. If you add several actions in the "Do" box, be aware that they are executed in order, from top to bottom.</p>
+<p>Please read the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> (also available from the <span class="button">Help…</span> button) for more information on the various possibilities.</p>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="filer-usage" name="filer-usage">Filer Usage</a></h2>
+<p>Once you have created some rules, using <i>Filer</i> to process some files accordingly is very simple. There are basically three ways:</p>
+<ol>
+<li>Select the files to process, right-click them and choose <span class="menu">Open with… | Filer</span> from Tracker's context menu.</li>
+<li>Select the files to process and drag&amp;drop them on Filer's icon. You may want to create a link to Filer on the Desktop for that.</li>
+<li>From within a Terminal, simply type "Filer" followed by the files you want processed.</li>
+</ol>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="autofiler" name="autofiler">AutoFiler</a></h2>
+<p>When <i>AutoFiler</i> is running, it monitors user-defined folders and executes the actions defined in the <i>Filer</i> rules automatically.</p>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="autofiler-usage" name="autofiler-usage">AutoFiler Usage</a></h2>
+<p>The <i>AutoFiler</i> itself is a background application that normally isn't started manually. If you want to stop an already running <i>AutoFiler</i>, you'll have to quit it through a tool like Haiku's ProcessController or kill it from the TeamMonitor (press <span class="key">CTRL</span> <span class="key">ALT</span> <span class="key">DEL</span>).</p>
+<p>The configuration is done with the <i>AutoFiler Settings</i>:</p>
+<div align="center">
+<img src="./images/autofiler_settings.png" alt="AutoFiler settings" /></div>
+<p>You can add, edit and remove the folders that <i>AutoFiler</i> will monitor and use the checkbox to enable/disable the automatic launch on startup.</p>
+</body>
+</html>

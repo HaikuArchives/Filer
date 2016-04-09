@@ -1,16 +1,25 @@
-#include "PrefWindow.h"
+/*
+	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+*/
 #include <Application.h>
 #include <File.h>
+#include <FindDirectory.h>
 #include <Messenger.h>
 #include <Node.h>
 #include <Path.h>
 #include <Roster.h>
 #include <StringView.h>
-#include <stdio.h>
+#include <SymLink.h>
 #include <TypeConstants.h>
 
+#include "PrefWindow.h"
 #include "RefStorage.h"
 #include "TypedRefFilter.h"
+
+#include <stdio.h>
+
 
 const BRect kDefaultFrame(100,100,500,400);
 
@@ -37,7 +46,7 @@ PrefWindow::PrefWindow(void)
 	AddChild(top);
 	
 	BStringView *folderLabel = new BStringView(BRect(10,5,11,6),"folderlabel",
-												"Automatically run Filer on the contents of these folders:");
+		"Automatically run Filer on the contents of these folders:");
 	folderLabel->ResizeToPreferred();
 	top->AddChild(folderLabel);
 	
@@ -61,7 +70,11 @@ PrefWindow::PrefWindow(void)
 						Bounds().bottom - fAutorunBox->Bounds().Height() - 10.0);
 	// add as child later
 
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	bool autorun = true;
 	if (node.InitCheck() == B_OK)
 	{
@@ -140,7 +153,11 @@ PrefWindow::QuitRequested(void)
 	// save autorun value
 	bool autorun = (fAutorunBox->Value() == B_CONTROL_ON);
 	
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	if (node.InitCheck() == B_OK)
 		node.WriteAttr("autorun",B_BOOL_TYPE,0,(void*)&autorun,sizeof(bool));
 	
@@ -260,7 +277,11 @@ PrefWindow::LoadFrame(void)
 {
 	BRect frame(kDefaultFrame);
 	
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	if (node.InitCheck() == B_OK)
 	{
 		BRect r;
@@ -276,7 +297,11 @@ void
 PrefWindow::SaveFrame(void)
 {
 	BRect r(Frame());
-	BNode node(gPrefsPath.String());
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+	path.Append(gPrefsPath);
+
+	BNode node(path.Path());
 	if (node.InitCheck() == B_OK)
 		node.WriteAttr("windowframe",B_RECT_TYPE,0,(void*)&r,sizeof(BRect));
 }
@@ -295,58 +320,52 @@ PrefWindow::FrameResized(float width, float height)
 void
 PrefWindow::EnableAutorun(void)
 {
-	BFile file("/boot/home/config/boot/UserBootscript",B_READ_WRITE | B_CREATE_FILE);
-	if (file.InitCheck() != B_OK)
-		return;
-	
-	off_t fileSize;
-	file.GetSize(&fileSize);
-	BString fileData;
-	char *dataptr = fileData.LockBuffer(fileSize + 2);
+	BDirectory destDir;
+	BPath destPath;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &destPath);
 
-	
-	ssize_t bytesRead = file.Read(dataptr,fileSize);
-	fileData[bytesRead] = '\0';
-	
-	fileData.UnlockBuffer();
-	
-	if (fileData.FindFirst("/boot/apps/System\\ Tools/Filer/AutoFiler &\n") < 0)
-	{
-		fileData << "\n/boot/apps/System\\ Tools/Filer/AutoFiler &\n";
-		file.Seek(0,SEEK_SET);
-		file.Write(fileData.String(),fileData.Length());
+	status_t ret = destPath.Append("boot");
+	if (ret == B_OK)
+		ret = create_directory(destPath.Path(), 0777);
+
+	ret = destPath.Append("launch");
+	if (ret == B_OK)
+		ret = create_directory(destPath.Path(), 0777);
+
+	if (ret == B_OK) {
+		destDir = BDirectory(destPath.Path());
+		ret = destDir.InitCheck();
 	}
-	file.Unset();
+
+	if (ret != B_OK)
+		return;
+
+	destPath.Append("AutoFiler");
+
+	app_info info;
+	BPath linkPath;
+	be_roster->GetActiveAppInfo(&info);
+	BEntry entry(&info.ref);
+
+	entry.GetPath(&linkPath);
+	linkPath.GetParent(&linkPath);
+	linkPath.Append("AutoFiler");
+	destDir.CreateSymLink(destPath.Path(), linkPath.Path(), NULL);
 }
 
 
 void
 PrefWindow::DisableAutorun(void)
 {
-	BFile file("/boot/home/config/boot/UserBootscript",B_READ_WRITE | B_CREATE_FILE);
-	if (file.InitCheck() != B_OK)
+	BPath path;
+
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) < B_OK)
 		return;
-	
-	off_t fileSize;
-	file.GetSize(&fileSize);
-	BString fileData;
-	char *dataptr = fileData.LockBuffer(fileSize);
-	
-	ssize_t bytesRead = file.Read(dataptr,fileSize);
-	fileData[bytesRead] = '\0';
-	
-	fileData.UnlockBuffer();
-	
-	if (fileData.FindFirst("/boot/apps/System\\ Tools/Filer/AutoFiler &\n") >= 0)
-	{
-		fileData.RemoveAll("/boot/apps/System\\ Tools/Filer/AutoFiler &\n");
-		if (fileData.FindLast("\n\n") == fileData.CountChars() - 2)
-			fileData.Truncate(fileData.CountChars() - 1);
-		
-		file.SetSize(0);
-		file.Seek(0,SEEK_SET);
-		file.Write(fileData.String(),fileData.Length());
+	status_t ret = path.Append("boot/launch/AutoFiler");
+
+	if (ret == B_OK) {
+		BEntry entry(path.Path());
+		entry.Remove();
 	}
-	file.Unset();
 }
 

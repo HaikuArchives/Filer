@@ -9,8 +9,6 @@
 #include <Application.h>
 #include <Message.h>
 
-class MainWindow;
-
 class App : public BApplication
 {
 public:

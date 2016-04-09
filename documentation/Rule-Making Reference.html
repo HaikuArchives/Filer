@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<!-- 
+ * Copyright 2016
+ * Distributed under the terms of the MIT License.
+ *
+ * Authors:
+ *		Humdinger <humdingerb@gmail.com>
+-->
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="robots" content="all" />
+	<title>Filer's Rule-Making Reference</title>
+
+<style type="text/css">
+
+body {
+    font-size: 0.9em;
+	font-family: "DejaVu Sans",Arial,Helvetica,sans-serif;
+	line-height: 1.5;
+	margin: 40px;
+	min-width: 45em;
+	max-width: 70em;
+}
+/* link colors and text decoration */
+
+a:link {
+	font-weight: bold;
+	text-decoration: none;
+	color: #dc3c01;
+}
+a:visited {
+	font-weight: bold;
+	text-decoration: none;
+	color: #892601;
+}
+a:hover, a:active {
+	text-decoration: underline;
+	color: #ff4500;
+}
+
+hr {
+	border: dotted thin #e0e0e0;
+}
+h1 {
+	font-size: 1.3em;
+	border-bottom: dotted thin #e0e0e0;
+	margin-bottom: 45px;
+}
+h2 {
+	font-size: 1.2em;
+	border-bottom: dotted thin #e0e0e0;
+	margin-top: 40px;
+}
+h3 {
+	font-size: 1em;
+	border-bottom: none;
+	margin-bottom: 0px;
+}
+.key {				/* Shortcut (separate with &#160; */
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border-color: #c7c7c7;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0px 2px 0px 2px;
+	background-color: #e8e8e8;
+    font-family: sans;
+	font-variant: small-caps;
+	font-size: 1em;
+}
+.menu {				/* Menu */
+    font-size: 1.0em;
+    font-family: serif;
+    font-style: italic;
+	color: #24225e;
+}
+.button {			/* Button */
+    font-size: 1.0em;
+    font-family: serif;
+    font-style: italic;
+	color: #33583c;
+}
+.path {				/* File path */
+    background-color: #e8e8e8;
+    font-size: 0.9em;
+    font-family: monospace;
+}
+td.onelinetop {
+	vertical-align: top;
+	white-space: nowrap;
+}
+ul {
+	padding-left: 14px;
+}
+</style>
+
+</head>
+<body>
+<div align = "center">
+<img width="64" height="64" src="./images/filer_icon_64.png" alt="Filer icon" />
+<p><span style="font-size: 1.5em; font-weight:bold">Filer's Rule-Making Reference</span></p>
+<hr />
+<p id="index"><a href="#rule-conditions">Rule Conditions</a> &mdash; <a href="#rule-actions">Rule Actions</a> &mdash; <a href="#substitutions">Substitutions</a><br /><a href="#common-attributes">Common Attribute Names</a> &mdash; <a href="#examples">Example Rules</a></p>
+</div>
+<hr />
+<p><br /></p>
+<p>You will probably find most parts of the Filer pretty self-explanatory, please refer to <a href="User%20Documentation.html">Filer's User Documentation</a> for more information.</p>
+<p>To really get power out of it, you'll want to read the information below, though. There are also a number of useful examples to get you going.</p>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="rule-conditions" name="rule-conditions">Rule Conditions</a></h2>
+<p>You will need at least one condition for the rule to test for. It can be the type of file, something about its name, how big it is, or some other attribute. These other attributes can be things like someone's nickname kept in a Person file or the e-mail address in the To: field of an e-mail. Note that these can appear on just about any kind of file, but generally will only be found on the kind of file you expect it to be on. A rule will only match if all the conditions you set are met.</p>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="rule-actions" name="rule-actions">Rule Actions</a></h2>
+<p>If the conditions are met, the Filer will perform a series of actions that you choose. Actions can be chained together, such as renaming a file and then moving it to another folder.</p>
+<table>
+<tr><td class="onelinetop"><span class="key">Move it to…</span></td><td width="10"></td><td>Move a file to the folder entered in the text field.</td></tr>
+<tr><td class="onelinetop"><span class="key">Copy it to…</span></td><td></td><td>Copy a file to the folder entered in the text field.</td></tr>
+<tr><td class="onelinetop"><span class="key">Rename it to…</span></td><td></td><td>Rename the file. </td></tr>
+<tr><td class="onelinetop"><span class="key">Move it to the Trash</span></td><td></td><td>For those files which you no longer want.</td></tr>
+<tr><td class="onelinetop"><span class="key">Delete it</span></td><td></td><td>Only if you're sure of yourself and hate a cluttered Trash can.</td></tr>
+<tr><td class="onelinetop"><span class="key">Terminal command…</span></td><td></td><td>For experts. Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more Terminal command actions or a shell script.</td></tr>
+</table>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="substitutions" name="substitutions">Substitutions</a></h2>
+<p>You can also substitute certain information about the file into the text box for an action. For example: %TIME% is replaced with the current time before the action is performed. Here are all the possible choices:</p>
+<table>
+<tr><td class="onelinetop">%FILENAME%</td><td width="10"></td><td>Full name of the file being processed.</td></tr>
+<tr><td class="onelinetop">%EXTENSION%</td><td></td><td>Just the extension of the file, as in <span class="path">.txt</span> in <span class="path">MyTextFile.txt</span> or <span class="path">.tar.gz</span> in <span class="path">MyArchive.tar.gz</span>.</td></tr>
+<tr><td class="onelinetop">%BASENAME%</td><td></td><td>File name without extension, like <span class="path">MyTextFile</span> in <span class="path">MyTextFile.txt</span>.</td></tr>
+<tr><td class="onelinetop">%FOLDER%</td><td></td><td>Full location of the folder which contains the file, like <span class="path">/boot/home/Videos</span> for <span class="path">/boot/home/Videos/HaikuRocks.wmv</span>.</td></tr>
+<tr><td class="onelinetop">%FULLPATH%</td><td></td><td>Full location of the file, such as <span class="path">/boot/home/config/MyFavoriteSong.mp3</span>. You'll need this for "Terminal Command" actions.</td></tr>
+<tr><td class="onelinetop">%DATE%</td><td></td><td>Current date in the format MM-DD-YYYY.</td></tr>
+<tr><td class="onelinetop">%EURODATE%</td><td></td><td>Current date in the format DD-MM-YYYY.</td></tr>
+<tr><td class="onelinetop">%REVERSEDATE%</td><td></td><td>Current date in the format YYYY-MM-DD. This is often useful for file archives or for pictures.</td></tr>
+<tr><td class="onelinetop">%TIME%</td><td></td><td>Current time using 24-hour time.</td></tr>
+<tr><td class="onelinetop">%ATTR:xxxx%</td><td></td><td>An extended attribute of the file. The technical name for the attribute is put between the colon and the second %. At this point, unfortunately, the case-sensitive, technical name of the attribute must be used. For example, an e-mail address attribute is META:email. This can be found in the FileTypes preferences application by choosing the type of file it is normally found on and double-clicking on it in the "Extra attributes" box. In the window that appears, it will be in the box marked "Internal name".</td></tr>
+</table>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="common-attributes" name="common-attributes">Common Attributes</a></h2>
+<p>Here's a list of some common attibutes. Consult the FileTypes preferences if you look for the attribute name of a specific file type.</p>
+<table>
+<tr><td></td><td width="10"></td><td><b>Attribute name</b></td></tr>
+<tr><td>E-mail address</td><td></td><td>MAIL:email</td></tr>
+<tr><td>E-mail subject</td><td></td><td>MAIL:subject</td></tr>
+<tr><td>E-mail recipient</td><td></td><td>MAIL:to</td></tr>
+<tr><td>E-mail sender</td><td></td><td>MAIL:from</td></tr>
+<tr><td>E-Mail spam/genuine</td><td></td><td>MAIL:classification</td></tr>
+<tr><td>Nickname</td><td></td><td>META:nickname</td></tr>
+<tr><td>Street address</td><td></td><td>META:address</td></tr>
+<tr><td>MP3 artist</td><td></td><td>Audio:Artist</td></tr>
+<tr><td>MP3 album</td><td></td><td>Audio:Album</td></tr>
+<tr><td>MP3 track name</td><td></td><td>Audio:Title</td></tr>
+<tr><td>Program category</td><td></td><td>META:category</td></tr>
+</table>
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="examples" name="examples">Example Rules</a></h2>
+<ul>
+<li>
+<p>Move all e-mails on the MyAccount account to its own folder in the mail folder:</p>
+<table>
+<tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Email:Account</span></td><td width="10"></td><td><span class="key">is</span></td><td width="10"></td><td>MyAccount</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Move it to…</span></td><td width="10"></td><td colspan="3">/boot/home/mail/MyAccount</td></tr>
+</table>
+</li><li>
+<p>Sort JPEG photos by date into their own folder in /boot/home/Pictures:</p>
+<table>
+<tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Type</span></td><td width="10"></td><td><span class="key">is</span></td><td width="10"></td><td>image/jpeg</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Rename it to…</span></td><td width="10"></td><td colspan="3">Photo %TIME%.jpg</td></tr>
+<tr><td></td><td width="10"></td><td><span class="key">Move it to…</span></td><td width="10"></td><td colspan="3">/boot/home/Pictures/%DATE%</td></tr>
+</table>
+</li><li>
+<p>Make sure that MP3s have searchable attributes using Axel Dörfler's excellent id3attr program, rename them to "ArtistName - SongName.mp3", and sort them in the /boot/home/music folder by the artist's name. This would make importing an MP3 collection from somewhere else very easy.</p>
+<table>
+<tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.mp3</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Terminal command…</span></td><td width="10"></td><td colspan="3">id3attr '%FULLPATH%'</td></tr>
+<tr><td></td><td width="10"></td><td><span class="key">Rename it to…</span></td><td width="10"></td><td class="onelinetop" colspan="3">%ATTR:Audio:Artist% - %ATTR:Audio:Title%.mp3</td></tr>
+<tr><td></td><td width="10"></td><td><span class="key">Move it to…</span></td><td width="10"></td><td colspan="3">/boot/home/music/%ATTR:Audio:Artist%</td></tr>
+</table>
+</li><li>
+<p>Extract Zip archives to the Desktop and dump them into the Trash for later disposal:</p>
+<table>
+<tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.zip</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Terminal command…</span></td><td width="10"></td><td class="onelinetop" colspan="3">unzip %FULLPATH% -d boot/home/Desktop</td></tr>
+<tr><td></td><td width="10"></td><td colspan="6"><span class="key">Move it to the Trash</span></td></tr>
+</table>
+</li>
+</ul>
+</body>
+</html>
