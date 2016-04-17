@@ -13,7 +13,7 @@
 #include "ObjectList.h"
 
 class FilerRule;
-class PrefsWindow;
+class MainWindow;
 
 class App : public BApplication
 {
@@ -32,7 +32,7 @@ public:
 private:
 	BObjectList<entry_ref>	*fRefList;
 	BObjectList<FilerRule>	*fRuleList;
-	PrefsWindow				*fPrefsWin;
+	MainWindow				*fMainWin;
 	
 	bool	fQuitRequested;
 };

@@ -13,7 +13,7 @@
 
 #include "main.h"
 #include "FilerRule.h"
-#include "PrefsWindow.h"
+#include "MainWindow.h"
 #include "RuleRunner.h"
 
 // Created upon startup instead of when spawning a RuleEditWindow for
@@ -27,7 +27,7 @@ App::App(void)
  :	BApplication("application/x-vnd.dw-Filer"),
  	fRefList(NULL),
  	fRuleList(NULL),
- 	fPrefsWin(NULL),
+	fMainWin(NULL),
  	fQuitRequested(false)
 {
 	fRefList = new BObjectList<entry_ref>(20,true);
@@ -123,8 +123,8 @@ App::ReadyToRun(void)
 	}
 	else
 	{
-		fPrefsWin = new PrefsWindow();
-		fPrefsWin->Show();
+		fMainWin = new MainWindow();
+		fMainWin->Show();
 	}
 }
 
