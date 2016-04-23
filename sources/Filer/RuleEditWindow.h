@@ -9,6 +9,7 @@
 #include <Box.h>
 #include <Button.h>
 #include <Window.h>
+
 #include "ObjectList.h"
 
 class AutoTextControl;
@@ -26,39 +27,39 @@ enum
 class RuleEditWindow : public BWindow
 {
 public:
-				RuleEditWindow(BRect &rect, FilerRule *rule);
-				~RuleEditWindow(void);
-	void		MessageReceived(BMessage *msg);
-	
-//	FilerRule *	Rule(void);
-	
-	void		AppendTest(BMessage *test);
-	void		RemoveTest(void);
-	
-	void		AppendAction(BMessage *action);
-	void		RemoveAction(void);
-	
+				RuleEditWindow(BRect& rect, FilerRule* rule);
+				~RuleEditWindow();
+
+	void		MessageReceived(BMessage* msg);
+
+//	FilerRule*	Rule();
+
+	void		AppendTest(BMessage* test);
+	void		RemoveTest();
+
+	void		AppendAction(BMessage* action);
+	void		RemoveAction();
 private:
-	BRect		GetPreferredSize(void) const;
-	void		SendRuleMessage(void);
-	
-	AutoTextControl	*fDescriptionBox;
-	
-	BBox			*fTestGroup,
-					*fActionGroup;
-	
-	BButton			*fOK,
-					*fCancel,
-					*fAddTest,
-					*fRemoveTest,
-					*fAddAction,
-					*fRemoveAction,
-					*fHelp;
-	
+	BRect		GetPreferredSize() const;
+	void		SendRuleMessage();
+
+	AutoTextControl*	fDescriptionBox;
+
+	BBox*			fTestGroup;
+	BBox*			fActionGroup;
+
+	BButton*		fOK;
+	BButton*		fCancel;
+	BButton*		fAddTest;
+	BButton*		fRemoveTest;
+	BButton*		fAddAction;
+	BButton*		fRemoveAction;
+	BButton*		fHelp;
+
 	int64			fOriginalID;
-	
-	BList			fTestList,
-					fActionList;
+
+	BList			fTestList;
+	BList			fActionList;
 };
 
-#endif
+#endif	// RULE_EDIT_WINDNOW_H

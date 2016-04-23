@@ -3,24 +3,25 @@
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
 */
+
 #ifndef RULEITEM_H
 #define RULEITEM_H
 
-#include <ListItem.h>
 #include <Entry.h>
+#include <ListItem.h>
 
 class FilerRule;
 
 class RuleItem : public BStringItem
 {
 public:
-				RuleItem(FilerRule *item);
-				
-	void		SetRule(FilerRule *rule);
-	FilerRule *	Rule(void);
-	
+				RuleItem(FilerRule* item);
+
+	void		SetRule(FilerRule* rule);
+	FilerRule*	Rule();
+
 private:
-	FilerRule	*fRule;
+	FilerRule*	fRule;
 };
 
-#endif
+#endif	// RULEITEM_H

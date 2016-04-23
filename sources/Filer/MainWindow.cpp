@@ -95,14 +95,14 @@ MainWindow::_BuildLayout()
 
 
 void
-MainWindow::MessageReceived(BMessage* message)
+MainWindow::MessageReceived(BMessage* msg)
 {
-//	message->PrintToStream();
-	switch (message->what)
+//	msg->PrintToStream();
+	switch (msg->what)
 	{
 		default:
 		{
-			BWindow::MessageReceived(message);
+			BWindow::MessageReceived(msg);
 			break;
 		}
 	}

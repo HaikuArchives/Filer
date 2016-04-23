@@ -8,8 +8,8 @@
 
 #include <Messenger.h>
 
-#include "main.h"
 #include "DropZone.h"
+#include "main.h"
 
 
 DropZone::DropZone()

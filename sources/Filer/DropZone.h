@@ -5,6 +5,7 @@
  * Author:
  *	Humdinger, humdingerb@gmail.com
  */
+
 #ifndef DROPZONE_H
 #define DROPZONE_H
 
@@ -21,6 +22,5 @@ public:
 	virtual void	Draw(BRect rect);
 	void			MessageReceived(BMessage* message);
 };
-
 
 #endif // DROPZONE_H

@@ -6,6 +6,7 @@
  *  DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
  *	Humdinger, humdingerb@gmail.com
  */
+
 #include <Alert.h>
 #include <Application.h>
 #include <ControlLook.h>
@@ -39,7 +40,8 @@ AutoFilerTab::AutoFilerTab()
 	LoadFolders();
 	_BuildLayout();
 
-//	fRefFilter = new TypedRefFilter("application/x-vnd.Be-directory",B_DIRECTORY_NODE);
+//	fRefFilter = new TypedRefFilter("application/x-vnd.Be-directory",
+//		B_DIRECTORY_NODE);
 	fRefFilter = new TypedRefFilter("", B_DIRECTORY_NODE);
 	fFilePanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
 		B_DIRECTORY_NODE, false, NULL, fRefFilter);
@@ -141,8 +143,8 @@ AutoFilerTab::AttachedToWindow()
 
 	if (fFolderList->CountItems() > 0) {
 		BMessenger messenger(this);
-		BMessage message(M_FOLDER_SELECTED);
-		messenger.SendMessage(&message);
+		BMessage msg(M_FOLDER_SELECTED);
+		messenger.SendMessage(&msg);
 	}	
 	BView::AttachedToWindow();
 }
@@ -162,9 +164,10 @@ AutoFilerTab::DetachedFromWindow()
 	path.Append(gPrefsPath);
 
 	BNode node(path.Path());
-	if (node.InitCheck() == B_OK)
-		node.WriteAttr("autorun",B_BOOL_TYPE,0,(void*)&autorun,sizeof(bool));
-	
+	if (node.InitCheck() == B_OK) {
+		node.WriteAttr("autorun", B_BOOL_TYPE, 0,
+			(void*)&autorun, sizeof(bool));
+	}
 	if (autorun)
 		EnableAutorun();
 	else
@@ -181,9 +184,9 @@ AutoFilerTab::DetachedFromWindow()
 
 
 void
-AutoFilerTab::MessageReceived(BMessage *message)
+AutoFilerTab::MessageReceived(BMessage* msg)
 {
-	switch (message->what)
+	switch (msg->what)
 	{
 		case M_SHOW_ADD_PANEL:
 		{
@@ -232,11 +235,11 @@ AutoFilerTab::MessageReceived(BMessage *message)
 		case M_FOLDER_CHOSEN:
 		{
 			int32 index;
-			if (message->FindInt32("index", &index) != B_OK)
+			if (msg->FindInt32("index", &index) != B_OK)
 				index = -1;
 			
 			entry_ref ref;
-			if (message->FindRef("refs", &ref) != B_OK)
+			if (msg->FindRef("refs", &ref) != B_OK)
 				break;
 			
 			BStringItem* item = (BStringItem*)fFolderList->ItemAt(index);
@@ -259,7 +262,7 @@ AutoFilerTab::MessageReceived(BMessage *message)
 			break;
 		}
 		default:
-			BView::MessageReceived(message);
+			BView::MessageReceived(msg);
 	}
 }
 

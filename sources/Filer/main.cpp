@@ -5,6 +5,7 @@
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
+
 #include <FindDirectory.h>
 #include <MenuItem.h>
 #include <Mime.h>
@@ -23,15 +24,16 @@ BMessage gArchivedTypeMenu;
 // Original def in TestView.cpp
 #define M_TYPE_CHOSEN 'tych'
 
-App::App(void)
- :	BApplication("application/x-vnd.dw-Filer"),
+App::App()
+	:
+	BApplication("application/x-vnd.dw-Filer"),
  	fRefList(NULL),
  	fRuleList(NULL),
 	fMainWin(NULL),
  	fQuitRequested(false)
 {
-	fRefList = new BObjectList<entry_ref>(20,true);
-	fRuleList = new BObjectList<FilerRule>(20,true);
+	fRefList = new BObjectList<entry_ref>(20, true);
+	fRuleList = new BObjectList<FilerRule>(20, true);
 	
 //	SetupTypeMenu();
 
@@ -39,7 +41,7 @@ App::App(void)
 }
 
 
-App::~App(void)
+App::~App()
 {
 	delete fRefList;
 	delete fRuleList;
@@ -47,9 +49,9 @@ App::~App(void)
 
 
 void
-App::MessageReceived(BMessage *msg)
+App::MessageReceived(BMessage* msg)
 {
-	switch(msg->what)
+	switch (msg->what)
 	{
 		default:
 			BApplication::MessageReceived(msg);
@@ -59,7 +61,7 @@ App::MessageReceived(BMessage *msg)
 
 
 void
-App::RefsReceived(BMessage *msg)
+App::RefsReceived(BMessage* msg)
 {
 	entry_ref tempRef;
 	int32 i = 0;
@@ -69,11 +71,10 @@ App::RefsReceived(BMessage *msg)
 		BEntry entry(&tempRef);
 		if (entry.Exists())
 		{
-			entry_ref *ref = new entry_ref(tempRef);
+			entry_ref* ref = new entry_ref(tempRef);
 			entry.GetRef(ref);
 			fRefList->AddItem(ref);
-		}
-		else
+		} else
 			printf("Couldn't find file %s\n",tempRef.name);
 		i++;
 	}
@@ -88,18 +89,16 @@ App::RefsReceived(BMessage *msg)
 
 
 void
-App::ArgvReceived(int32 argc, char **argv)
+App::ArgvReceived(int32 argc, char** argv)
 {
 	for (int32 i = 1; i < argc; i++)
 	{
 		BEntry entry(argv[i]);
-		if (entry.Exists())
-		{
-			entry_ref *ref = new entry_ref;
+		if (entry.Exists()) {
+			entry_ref* ref = new entry_ref;
 			entry.GetRef(ref);
 			fRefList->AddItem(ref);
-		}
-		else
+		} else
 			printf("Couldn't find file %s\n",argv[i]);
 	}
 	
@@ -112,7 +111,7 @@ App::ArgvReceived(int32 argc, char **argv)
 
 
 void
-App::ReadyToRun(void)
+App::ReadyToRun()
 {
 	if (fRefList->CountItems() > 0 || fQuitRequested) {
 		ProcessFiles();
@@ -142,60 +141,58 @@ App::FileRef(entry_ref ref)
 	
 	for (int32 i = 0; i < fRuleList->CountItems(); i++)
 	{
-		FilerRule * rule = fRuleList->ItemAt(i);
-		runner.RunRule(rule,ref);
+		FilerRule* rule = fRuleList->ItemAt(i);
+		runner.RunRule(rule, ref);
 	}
 }
 
 
 void
-App::SetupTypeMenu(void)
+App::SetupTypeMenu()
 {
-	BPopUpMenu *menu = new BPopUpMenu("Type");
-	
-	
+	BPopUpMenu* menu = new BPopUpMenu("Type");
+
 	// Read in the types in the MIME database which have extra attributes
 	// associated with them
-	
+
 	BMimeType mime;
 	BMessage supertypes, types, info, attr;
 	BString supertype;
-	
+
 	BMimeType::GetInstalledSupertypes(&supertypes);
-	
+
 	int32 index = 0;
-	while (supertypes.FindString("super_types",index,&supertype) == B_OK)
+	while (supertypes.FindString("super_types", index, &supertype) == B_OK)
 	{
 		index++;
-		
-		BMenu *submenu = new BMenu(supertype.String());
+
+		BMenu* submenu = new BMenu(supertype.String());
 		menu->AddItem(submenu);
-	
-		BMimeType::GetInstalledTypes(supertype.String(),&types);
-		
+
+		BMimeType::GetInstalledTypes(supertype.String(), &types);
+
 		BString string;
 		int32 typeindex = 0;
-		
-		while (types.FindString("types",typeindex,&string) == B_OK)
+
+		while (types.FindString("types", typeindex, &string) == B_OK)
 		{
 			typeindex++;
-			
+
 			mime.SetTo(string.String());
-			
+
 			char attrTypeName[B_MIME_TYPE_LENGTH];
 			mime.GetShortDescription(attrTypeName);
-			
+
 			BString supertype = string.String();
 			supertype.Truncate(supertype.FindFirst("/"));
-			
-			BMenuItem *item = menu->FindItem(supertype.String());
-			BMenu *submenu = item->Submenu();
-			if (!submenu->FindItem(attrTypeName))
-			{
-				BMessage *msg = new BMessage(M_TYPE_CHOSEN);
-				msg->AddString("type",string.String());
-				msg->AddString("typename",attrTypeName);
-				submenu->AddItem(new BMenuItem(attrTypeName,msg));
+
+			BMenuItem* item = menu->FindItem(supertype.String());
+			BMenu* submenu = item->Submenu();
+			if (!submenu->FindItem(attrTypeName)) {
+				BMessage* msg = new BMessage(M_TYPE_CHOSEN);
+				msg->AddString("type", string.String());
+				msg->AddString("typename", attrTypeName);
+				submenu->AddItem(new BMenuItem(attrTypeName, msg));
 			}
 		}
 	}
@@ -208,7 +205,7 @@ App::SetupTypeMenu(void)
 int
 main()
 {
-	App *app = new App;
+	App* app = new App;
 	app->Run();
 	delete app;
 	return 0;

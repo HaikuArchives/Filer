@@ -6,6 +6,7 @@
  *  DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
  *	Humdinger, humdingerb@gmail.com
  */
+
 #ifndef AUTOFILERTAB_H
 #define AUTOFILERTAB_H
 
@@ -23,9 +24,10 @@ class AutoFilerTab : public BView
 public:
 					AutoFilerTab();
 					~AutoFilerTab();
+
 	virtual void	AttachedToWindow();
 	virtual void	DetachedFromWindow();
-	void			MessageReceived(BMessage* message);
+	void			MessageReceived(BMessage* msg);
 	
 private:
 	void			_BuildLayout();
@@ -45,6 +47,5 @@ private:
 	BFilePanel*		fFilePanel;
 	TypedRefFilter*	fRefFilter;
 };
-
 
 #endif // AUTOFILERTAB_H

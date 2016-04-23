@@ -16,12 +16,11 @@
 class DropZoneTab : public BView
 {
 public:
-					DropZoneTab();
-					~DropZoneTab();
+				DropZoneTab();
+				~DropZoneTab();
 	
 private:
-	DropZone*		fDropzone;
+	DropZone*	fDropzone;
 };
-
 
 #endif // DROPZONETAB_H

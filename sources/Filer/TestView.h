@@ -6,50 +6,50 @@
 #ifndef TESTVIEW_H
 #define TESTVIEW_H
 
-#include <View.h>
+#include <Button.h>
 #include <Menu.h>
 #include <MenuItem.h>
 #include <MenuField.h>
-#include <Button.h>
-#include <PopUpMenu.h>
 #include <Message.h>
+#include <PopUpMenu.h>
+#include <View.h>
 
 class AutoTextControl;
 
 class TestView : public BView
 {
 public:
-				TestView(const BRect &frame,const char *name,
-						BMessage *test = NULL,
-						const int32 &resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
-						const int32 &flags = B_WILL_DRAW);
-	void 		AttachedToWindow(void);
-	BRect		GetPreferredSize(void);
-	void		ResizeToPreferred(void);
-	void		MessageReceived(BMessage *msg);
-	BMessage *	GetTest(void) const;
+				TestView(const BRect& frame, const char* name,
+					BMessage* test = NULL,
+					const int32& resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
+					const int32& flags = B_WILL_DRAW);
+
+	void 		AttachedToWindow();
+	BRect		GetPreferredSize();
+	void		ResizeToPreferred();
+	void		MessageReceived(BMessage* msg);
+	BMessage*	GetTest() const;
 	
 private:
-
-	void		SetupTestMenu(void);
-	void		ShowModeMenu(void);
-	bool		SetTest(BMessage *msg);
-	void		SetMode(const char *mode);
-	const char *GetValue(void);
+	void		SetupTestMenu();
+	void		ShowModeMenu();
+	bool		SetTest(BMessage* msg);
+	void		SetMode(const char* mode);
+	const char*	GetValue();
 	
-	BMenu *		AddMenuSorted(BMenu *parent,const char *name);
-	BMenu *		GetMenu(BMenu *parent,const char *name);
+	BMenu*		AddMenuSorted(BMenu* parent, const char* name);
+	BMenu*		GetMenu(BMenu* parent, const char* name);
 	
-	BButton		*fTestButton,
-				*fModeButton;
+	BButton*	fTestButton;
+	BButton*	fModeButton;
 	
 	BMessage	fArchivedTestMenu;
 	
-	AutoTextControl	*fValueBox;
+	AutoTextControl*	fValueBox;
 	
-	BMessage		*fTest;
-	BMessage		fTestTypes;
+	BMessage*	fTest;
+	BMessage	fTestTypes;
 	
 };
  
-#endif
+#endif	// TESTVIEW_H

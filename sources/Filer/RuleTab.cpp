@@ -189,7 +189,7 @@ void
 RuleTab::MessageReceived(BMessage* message)
 {
 //	message->PrintToStream();
-	switch(message->what)
+	switch (message->what)
 	{
 		case M_SHOW_ADD_WINDOW:
 		{
@@ -327,8 +327,9 @@ RuleTab::AddRule(FilerRule* rule)
 void
 RuleTab::RemoveRule(RuleItem* item)
 {
-	// Select a new rule (if there is one) before removing the old one. BListView simply drops
-	// the selection if the selected item is removed. What a pain in the neck. :/
+	// Select a new rule (if there is one) before removing the old one.
+	// BListView simply drops the selection if the selected item is removed.
+	// What a pain in the neck. :/
 	int32 itemindex = fRuleItemList->IndexOf(item);
 	int32 selection = fRuleItemList->CurrentSelection();
 	if (itemindex == selection && fRuleItemList->CountItems() > 1) {

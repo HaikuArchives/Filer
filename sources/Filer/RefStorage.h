@@ -19,15 +19,15 @@ enum
 class RefStorage
 {
 public:
-				RefStorage(const entry_ref &ref);
-	void		SetData(const entry_ref &ref);
-	
+				RefStorage(const entry_ref& ref);
+	void		SetData(const entry_ref& ref);
+
 	entry_ref	ref;
 	node_ref	nref;
 };
 
-status_t LoadFolders(void);
-status_t ReloadFolders(void);
-status_t SaveFolders(void);
+status_t LoadFolders();
+status_t ReloadFolders();
+status_t SaveFolders();
 
-#endif
+#endif	// REFSTORAGE_H

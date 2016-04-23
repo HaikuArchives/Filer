@@ -3,11 +3,12 @@
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
 */
+
 #ifndef ACTIONVIEW_H
 #define ACTIONVIEW_H
 
-#include <View.h>
 #include <Button.h>
+#include <View.h>
 
 class AutoTextControl;
 
@@ -16,28 +17,29 @@ class AutoTextControl;
 class ActionView : public BView
 {
 public:
-					ActionView(const BRect &frame,const char *name,
-							BMessage *test = NULL,
-							const int32 &resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
-							const int32 &flags = B_WILL_DRAW);
-					~ActionView(void);
-	void 			AttachedToWindow(void);
-	BRect			GetPreferredSize(void);
-	void			ResizeToPreferred(void);
-	void			MessageReceived(BMessage *msg);
-	BMessage *	GetAction(void) const;
-	
+					ActionView(const BRect& frame, const char* name,
+							BMessage* test = NULL,
+							const int32& resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
+							const int32& flags = B_WILL_DRAW);
+					~ActionView();
+
+	void 			AttachedToWindow();
+	BRect			GetPreferredSize();
+	void			ResizeToPreferred();
+	void			MessageReceived(BMessage* msg);
+
+	BMessage*		GetAction() const;
+
 private:
-	void			ShowActionMenu(void);
-	void			SetAction(const char *name
-);
+	void			ShowActionMenu();
+	void			SetAction(const char* name);
 	
-	BButton			*fActionButton;
+	BButton*		fActionButton;
 	
-	AutoTextControl	*fValueBox;
+	AutoTextControl*	fValueBox;
 	
-	BMessage		*fAction;
+	BMessage*		fAction;
 	BMessage		fActions;
 };
 
-#endif
+#endif	// ACTIONVIEW_H

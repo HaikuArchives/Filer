@@ -36,7 +36,7 @@ public:
 	virtual			~MainWindow();
 
 	bool			QuitRequested();
-	void			MessageReceived(BMessage* message);
+	void			MessageReceived(BMessage* msg);
 
 private:
 	void			_BuildLayout();

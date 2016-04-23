@@ -3,11 +3,12 @@
 	Written by DarkWyrm <darkwyrm@earthlink.net>, Copyright 2007
 	Released under the MIT license.
 */
+
 #ifndef AUTO_TEXT_CONTROL_H
 #define AUTO_TEXT_CONTROL_H
 
-#include <TextControl.h>
 #include <MessageFilter.h>
+#include <TextControl.h>
 
 class AutoTextControlFilter;
 
@@ -23,36 +24,37 @@ class AutoTextControlFilter;
 class AutoTextControl : public BTextControl
 {
 public:
-			AutoTextControl(const BRect &frame, const char *name,
-							const char *label, const char *text,
-							BMessage *msg,
-							uint32 resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
-							uint32 flags = B_WILL_DRAW | B_NAVIGABLE);
-							
-							AutoTextControl(BMessage *data);
-	static	BArchivable *	Instantiate(BMessage *data);
-	virtual	status_t		Archive(BMessage *data, bool deep = true) const;
+			AutoTextControl(const BRect& frame, const char* name,
+				const char* label, const char* text,
+				BMessage* msg,
+				uint32 resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
+				uint32 flags = B_WILL_DRAW | B_NAVIGABLE);
+			AutoTextControl(BMessage* data);
+	virtual	~AutoTextControl();
+
+	static	BArchivable*	Instantiate(BMessage* data);
+	virtual	status_t		Archive(BMessage* data, bool deep = true) const;
 	
-	virtual	status_t		GetSupportedSuites(BMessage *msg);
-	virtual BHandler *		ResolveSpecifier(BMessage *msg, int32 index,
-											BMessage *specifier, int32 form,
-											const char *property);
+	virtual	status_t		GetSupportedSuites(BMessage* msg);
+	virtual BHandler*		ResolveSpecifier(BMessage* msg, int32 index,
+								BMessage* specifier, int32 form,
+								const char* property);
 			
-	virtual					~AutoTextControl(void);
+
 	
-	virtual	void	AttachedToWindow(void);
-	virtual	void 	DetachedFromWindow(void);
+	virtual	void	AttachedToWindow();
+	virtual	void 	DetachedFromWindow();
 			
-			void	SetFilter(AutoTextControlFilter *filter);
-			AutoTextControlFilter *	GetFilter(void) { return fFilter; }
+			void	SetFilter(AutoTextControlFilter* filter);
+	AutoTextControlFilter*	GetFilter() { return fFilter; }
 	
-			void	SetCharacterLimit(const uint32 &limit);
-			uint32	GetCharacterLimit(const uint32 &limit);
+			void	SetCharacterLimit(const uint32& limit);
+			uint32	GetCharacterLimit(const uint32& limit);
 	
 private:
 	friend AutoTextControlFilter;
 	
-	AutoTextControlFilter	*fFilter;
+	AutoTextControlFilter*	fFilter;
 	uint32					fCharLimit;
 };
 
@@ -68,16 +70,16 @@ private:
 class AutoTextControlFilter : public BMessageFilter
 {
 public:
-							AutoTextControlFilter(AutoTextControl *checkview);
-							~AutoTextControlFilter(void);
-	virtual	filter_result	Filter(BMessage *msg, BHandler **target);
-	virtual	filter_result	KeyFilter(const int32 &key, const int32 &mod);
+							AutoTextControlFilter(AutoTextControl* checkview);
+							~AutoTextControlFilter();
+	virtual	filter_result	Filter(BMessage* msg, BHandler** target);
+	virtual	filter_result	KeyFilter(const int32& key, const int32& mod);
 	
-			AutoTextControl *	TextControl(void) const { return fBox; }
-			BMessage *		GetCurrentMessage(void) { return fCurrentMessage; }
+			AutoTextControl*	TextControl() const { return fBox; }
+			BMessage*			GetCurrentMessage() { return fCurrentMessage; }
 private:
-			AutoTextControl *fBox;
-			BMessage 		*fCurrentMessage;
+			AutoTextControl*	fBox;
+			BMessage*			fCurrentMessage;
 };
 
-#endif
+#endif	// AUTO_TEXT_CONTROL_H

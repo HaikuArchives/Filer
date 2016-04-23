@@ -3,22 +3,24 @@
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
 */
+
 #include "RuleItem.h"
 #include "FilerRule.h"
 
 
-RuleItem::RuleItem(FilerRule *item)
- :	BStringItem("")
+RuleItem::RuleItem(FilerRule* item)
+	:
+	BStringItem("")
 {
 	SetRule(item);
 }
-	
+
 
 void
-RuleItem::SetRule(FilerRule *rule)
+RuleItem::SetRule(FilerRule* rule)
 {
 	fRule = rule;
-	
+
 	if (fRule)
 		SetText(rule->GetDescription());
 	else
@@ -26,9 +28,8 @@ RuleItem::SetRule(FilerRule *rule)
 }
 
 
-FilerRule *
-RuleItem::Rule(void)
+FilerRule*
+RuleItem::Rule()
 {
 	return fRule;
 }
-

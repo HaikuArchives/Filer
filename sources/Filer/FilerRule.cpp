@@ -5,37 +5,40 @@
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
 */
+
 #include "FilerRule.h"
 
 static int64 sIDCounter = 0;
 
-FilerRule::FilerRule(void)
- :	fTestList(NULL),
+FilerRule::FilerRule()
+	:
+	fTestList(NULL),
  	fActionList(NULL),
  	fMode(FILER_RULE_ALL)
 {
-	fTestList = new BObjectList<BMessage>(20,true);
-	fActionList = new BObjectList<BMessage>(20,true);
-	
+	fTestList = new BObjectList<BMessage>(20, true);
+	fActionList = new BObjectList<BMessage>(20, true);
+
 	fID = sIDCounter++;
 }
 
 
-FilerRule::FilerRule(FilerRule &rule)
- :	fTestList(NULL),
+FilerRule::FilerRule(FilerRule& rule)
+	:
+	fTestList(NULL),
  	fActionList(NULL),
  	fMode(FILER_RULE_ALL)
 {
-	fTestList = new BObjectList<BMessage>(20,true);
-	fActionList = new BObjectList<BMessage>(20,true);
-	
+	fTestList = new BObjectList<BMessage>(20, true);
+	fActionList = new BObjectList<BMessage>(20, true);
+
 	fID = sIDCounter++;
-	
+
 	*this = rule;
 }
 
 
-FilerRule::~FilerRule(void)
+FilerRule::~FilerRule()
 {
 	delete fTestList;
 	delete fActionList;
@@ -43,90 +46,90 @@ FilerRule::~FilerRule(void)
 
 
 void
-FilerRule::SetRuleMode(const filer_rule_mode &mode)
+FilerRule::SetRuleMode(const filer_rule_mode& mode)
 {
 	fMode = mode;
 }
 
 
-const char *
-FilerRule::GetDescription(void) const
+const char*
+FilerRule::GetDescription() const
 {
 	return fDescription.String();
 }
 
 
 void
-FilerRule::SetDescription(const char *desc)
+FilerRule::SetDescription(const char* desc)
 {
 	fDescription = desc;
 }
 
 
 void
-FilerRule::AddTest(BMessage *item, const int32 &index)
+FilerRule::AddTest(BMessage* item, const int32& index)
 {
 	if (index < 0)
 		fTestList->AddItem(item);
 	else
-		fTestList->AddItem(item,index);
+		fTestList->AddItem(item, index);
 }
 
 
-BMessage *
-FilerRule::RemoveTest(const int32 &index)
+BMessage*
+FilerRule::RemoveTest(const int32& index)
 {
 	return fTestList->RemoveItemAt(index);
 }
 
 
-BMessage *
-FilerRule::TestAt(const int32 &index)
+BMessage*
+FilerRule::TestAt(const int32& index)
 {
 	return fTestList->ItemAt(index);
 }
 
 
 int32
-FilerRule::CountTests(void) const
+FilerRule::CountTests() const
 {
 	return fTestList->CountItems();
 }
 
 
 void
-FilerRule::AddAction(BMessage *item, const int32 &index)
+FilerRule::AddAction(BMessage* item, const int32& index)
 {
 	if (index < 0)
 		fActionList->AddItem(item);
 	else
-		fActionList->AddItem(item,index);
+		fActionList->AddItem(item, index);
 }
 
 
-BMessage *
-FilerRule::RemoveAction(const int32 &index)
+BMessage*
+FilerRule::RemoveAction(const int32& index)
 {
 	return fActionList->RemoveItemAt(index);
 }
 
 
-BMessage *
-FilerRule::ActionAt(const int32 &index)
+BMessage*
+FilerRule::ActionAt(const int32& index)
 {
 	return fActionList->ItemAt(index);
 }
 
 
 int32
-FilerRule::CountActions(void) const
+FilerRule::CountActions() const
 {
 	return fActionList->CountItems();
 }
 
 
 void
-FilerRule::MakeEmpty(void)
+FilerRule::MakeEmpty()
 {
 	fTestList->MakeEmpty();
 	fActionList->MakeEmpty();
@@ -134,39 +137,39 @@ FilerRule::MakeEmpty(void)
 
 
 void
-FilerRule::PrintToStream(void)
+FilerRule::PrintToStream()
 {
-	printf("Filer Rule '%s':\n",GetDescription());
+	printf("Filer Rule '%s':\n", GetDescription());
 	
 	for (int32 i = 0; i < fTestList->CountItems(); i++)
 		fTestList->ItemAt(i)->PrintToStream();
-	
+
 	for (int32 i = 0; i < fActionList->CountItems(); i++)
 		fActionList->ItemAt(i)->PrintToStream();
 }
 
 
-FilerRule &
-FilerRule::operator=(FilerRule &from)
+FilerRule&
+FilerRule::operator=(FilerRule& from)
 {
 	MakeEmpty();
 	for (int32 i = 0; i < from.CountTests(); i++)
 	{
-		BMessage *test = from.TestAt(i);
+		BMessage* test = from.TestAt(i);
 		if (test)
 			AddTest(new BMessage(*test));
 	}
-	
+
 	for (int32 i = 0; i < from.CountActions(); i++)
 	{
-		BMessage *action = from.ActionAt(i);
+		BMessage* action = from.ActionAt(i);
 		if (action)
 			AddAction(new BMessage(*action));
 	}
-	
+
 	SetDescription(from.GetDescription());
 	SetRuleMode(from.GetRuleMode());
-	
+
 	return *this;
 }
 
