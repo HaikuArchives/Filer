@@ -25,7 +25,7 @@
 
 MainWindow::MainWindow()
 	:
-	BWindow(BRect(50, 50, 400, 400), B_TRANSLATE_SYSTEM_NAME("Filer"),
+	BWindow(BRect(50, 50, 400, 350), B_TRANSLATE_SYSTEM_NAME("Filer"),
 		B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	_BuildLayout();

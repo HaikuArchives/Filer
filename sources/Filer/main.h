@@ -30,6 +30,8 @@ public:
 	void	FileRef(entry_ref ref);
 	
 private:
+	void	ProcessFiles();
+
 	BObjectList<entry_ref>	*fRefList;
 	BObjectList<FilerRule>	*fRuleList;
 	MainWindow				*fMainWin;

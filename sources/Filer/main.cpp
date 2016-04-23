@@ -65,6 +65,7 @@ App::RefsReceived(BMessage *msg)
 	int32 i = 0;
 	while (msg->FindRef("refs",i, &tempRef) == B_OK)
 	{
+		printf ("File dropped: %s\n", tempRef.name);
 		BEntry entry(&tempRef);
 		if (entry.Exists())
 		{
@@ -82,6 +83,7 @@ App::RefsReceived(BMessage *msg)
 		printf("No files given could be processed. Exiting.\n");
 		fQuitRequested = true;
 	}
+	ProcessFiles();
 }
 
 
@@ -112,19 +114,23 @@ App::ArgvReceived(int32 argc, char **argv)
 void
 App::ReadyToRun(void)
 {
-	if (fRefList->CountItems() > 0 || fQuitRequested)
-	{
-		for (int32 i = 0; i < fRefList->CountItems(); i++)
-		{
-			entry_ref ref = *fRefList->ItemAt(i);
-			FileRef(ref);
-		}
+	if (fRefList->CountItems() > 0 || fQuitRequested) {
+		ProcessFiles();
 		PostMessage(B_QUIT_REQUESTED);
-	}
-	else
-	{
+	} else {
 		fMainWin = new MainWindow();
 		fMainWin->Show();
+	}
+}
+
+
+void
+App::ProcessFiles()
+{
+	for (int32 i = 0; i < fRefList->CountItems(); i++)
+	{
+		entry_ref ref = *fRefList->ItemAt(i);
+		FileRef(ref);
 	}
 }
 
