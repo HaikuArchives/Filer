@@ -29,6 +29,7 @@ public:
 	void		ReadyToRun();
 
 	void		SetupTypeMenu();
+	void		ShowHTML(const char* docfile);
 	void		FileRef(entry_ref ref);
 	
 private:

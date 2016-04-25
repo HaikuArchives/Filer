@@ -23,6 +23,7 @@
 
 #include "AutoFilerTab.h"
 #include "DropZoneTab.h"
+#include "HelpTab.h"
 #include "RuleTab.h"
 
 #include <stdio.h>
@@ -45,6 +46,7 @@ private:
 	DropZoneTab*	fDropZone;
 	RuleTab*		fRules;
 	AutoFilerTab*	fAutoFiler;
+	HelpTab*		fHelp;
 };
 
 #endif // MAIN_WINDOW_H

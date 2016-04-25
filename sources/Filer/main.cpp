@@ -11,6 +11,7 @@
 #include <Mime.h>
 #include <Path.h>
 #include <PopUpMenu.h>
+#include <Roster.h>
 
 #include "main.h"
 #include "FilerRule.h"
@@ -23,6 +24,11 @@ BMessage gArchivedTypeMenu;
 
 // Original def in TestView.cpp
 #define M_TYPE_CHOSEN 'tych'
+
+// Original def in EditRuleWindow.cpp
+#define M_SHOW_HELP 'shhl'
+#define M_SHOW_DOCS 'shdc'
+
 
 App::App()
 	:
@@ -53,6 +59,16 @@ App::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
+		case M_SHOW_HELP:
+		{
+			ShowHTML("documentation/Rule-Making Reference.html");
+			break;
+		}
+		case M_SHOW_DOCS:
+		{
+			ShowHTML("documentation/User Documentation.html");
+			break;
+		}
 		default:
 			BApplication::MessageReceived(msg);
 			break;
@@ -102,8 +118,7 @@ App::ArgvReceived(int32 argc, char** argv)
 			printf("Couldn't find file %s\n",argv[i]);
 	}
 	
-	if (argc > 1 && fRefList->CountItems() == 0)
-	{
+	if (argc > 1 && fRefList->CountItems() == 0) {
 		printf("No files given could be processed. Exiting.\n");
 		fQuitRequested = true;
 	}
@@ -131,6 +146,25 @@ App::ProcessFiles()
 		entry_ref ref = *fRefList->ItemAt(i);
 		FileRef(ref);
 	}
+}
+
+
+void
+App::ShowHTML(const char* docfile)
+{
+	app_info info;
+	BPath path;
+	be_roster->GetActiveAppInfo(&info);
+	BEntry entry(&info.ref);
+
+	entry.GetPath(&path);
+	path.GetParent(&path);
+	path.Append(docfile);
+
+	entry = path.Path();
+	entry_ref ref;
+	entry.GetRef(&ref);
+	be_roster->Launch(&ref);
 }
 
 

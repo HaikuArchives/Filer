@@ -11,7 +11,18 @@
 
 #include <View.h>
 
-#include "DropZone.h"
+const pattern stripePattern = {0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99};
+
+class DropZone : public BView
+{
+public:
+					DropZone();
+					~DropZone();
+
+	virtual void	Draw(BRect rect);
+	void			MessageReceived(BMessage* msg);
+};
+
 
 class DropZoneTab : public BView
 {

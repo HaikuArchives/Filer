@@ -25,7 +25,7 @@
 
 MainWindow::MainWindow()
 	:
-	BWindow(BRect(50, 50, 400, 350), B_TRANSLATE_SYSTEM_NAME("Filer"),
+	BWindow(BRect(50, 50, 400, 320), B_TRANSLATE_SYSTEM_NAME("Filer"),
 		B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	_BuildLayout();
@@ -48,27 +48,6 @@ MainWindow::QuitRequested()
 void
 MainWindow::_BuildLayout()
 {
-	// The menu
-	BMenuBar* menuBar = new BMenuBar("menubar");
-	BMenu* menu;
-	BMenuItem* item;
-
-	menu = new BMenu(B_TRANSLATE("App"));
-	item = new BMenuItem(B_TRANSLATE("About Filer"),
-		new BMessage(B_ABOUT_REQUESTED));
-	menu->AddItem(item);
-	item->SetTarget(be_app);
-	item = new BMenuItem(B_TRANSLATE("User documentation"),
-		new BMessage(DOCS));
-	menu->AddItem(item);
-	item = new BMenuItem(B_TRANSLATE("Help on Rules"),
-		new BMessage(HELP));
-	menu->AddItem(item);
-	item = new BMenuItem(B_TRANSLATE("Quit"),
-		new BMessage(B_QUIT_REQUESTED), 'Q');
-	menu->AddItem(item);
-	menuBar->AddItem(menu);
-
 	// The tabview
 	fTabView = new BTabView("tabview", B_WIDTH_FROM_WIDEST);
 	fTabView->SetBorder(B_NO_BORDER);
@@ -77,14 +56,16 @@ MainWindow::_BuildLayout()
 	fDropZone = new DropZoneTab();
 	fRules = new RuleTab();
 	fAutoFiler = new AutoFilerTab();
+	fHelp = new HelpTab();
 
 	fTabView->AddTab(fDropZone);
 	fTabView->AddTab(fRules);
 	fTabView->AddTab(fAutoFiler);
+	fTabView->AddTab(fHelp);
 
 	// do the layouting
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
-		.Add(menuBar)
+//		.Add(menuBar)
 		.AddGroup(B_VERTICAL)
 			.SetInsets(0, B_USE_DEFAULT_SPACING, 0, 0)
 			.Add(fTabView)

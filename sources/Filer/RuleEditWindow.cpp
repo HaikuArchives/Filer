@@ -5,18 +5,18 @@
 	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
 */
 
-
 #include <Alert.h>
 #include <Application.h>
 #include <Message.h>
+#include <Messenger.h>
 #include <Path.h>
 #include <Roster.h>
 #include <View.h>
 
-
 #include "ActionView.h"
 #include "AutoTextControl.h"
 #include "FilerRule.h"
+#include "main.h"
 #include "RuleEditWindow.h"
 #include "TestView.h"
 
@@ -33,7 +33,8 @@ enum
 	M_ADD_ACTION = 'adac',
 	M_REMOVE_ACTION = 'rmac',
 	
-	M_SHOW_HELP = 'shhl'
+	M_SHOW_HELP = 'shhl',
+	M_SHOW_DOCS = 'shdc'
 };
 
 
@@ -138,6 +139,7 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
 		new BMessage(M_SHOW_HELP), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fHelp->ResizeToPreferred();
 	fHelp->MoveTo(10, fOK->Frame().top);
+	fHelp->SetTarget(be_app);
 	top->AddChild(fHelp);
 
 	top->AddChild(fCancel);
@@ -172,23 +174,6 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case M_SHOW_HELP:
-		{
-			app_info info;
-			BPath path;
-			be_roster->GetActiveAppInfo(&info);
-			BEntry entry(&info.ref);
-
-			entry.GetPath(&path);
-			path.GetParent(&path);
-			path.Append("documentation/Rule-Making Reference.html");
-
-			entry = path.Path();
-			entry_ref ref;
-			entry.GetRef(&ref);
-			be_roster->Launch(&ref);
-			break;
-		}
 		case M_OK:
 		{
 			if (strlen(fDescriptionBox->Text()) < 1) {
