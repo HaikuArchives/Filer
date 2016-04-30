@@ -19,13 +19,10 @@
 
 #include "MainWindow.h"
 
-#undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "MainWindow"
-
 
 MainWindow::MainWindow()
 	:
-	BWindow(BRect(50, 50, 400, 320), B_TRANSLATE_SYSTEM_NAME("Filer"),
+	BWindow(BRect(50, 50, 400, 300), ("Filer"),
 		B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	_BuildLayout();
@@ -65,7 +62,6 @@ MainWindow::_BuildLayout()
 
 	// do the layouting
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
-//		.Add(menuBar)
 		.AddGroup(B_VERTICAL)
 			.SetInsets(0, B_USE_DEFAULT_SPACING, 0, 0)
 			.Add(fTabView)

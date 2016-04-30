@@ -13,9 +13,6 @@
 #include <Button.h>
 #include <CheckBox.h>
 #include <GroupLayoutBuilder.h>
-#include <Menu.h>
-#include <MenuBar.h>
-#include <MenuItem.h>
 #include <ScrollView.h>
 #include <Size.h>
 #include <TabView.h>

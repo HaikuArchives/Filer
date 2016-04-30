@@ -9,29 +9,49 @@
 #ifndef DROPZONETAB_H
 #define DROPZONETAB_H
 
+#include <Button.h>
+#include <StringView.h>
 #include <View.h>
 
 const pattern stripePattern = {0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99};
 
+class _EXPORT DropZone;
+
 class DropZone : public BView
 {
 public:
-					DropZone();
-					~DropZone();
+							DropZone(bool replicatable = true);
+							DropZone(BMessage* data);
+							~DropZone();
 
-	virtual void	Draw(BRect rect);
-	void			MessageReceived(BMessage* msg);
+	static 	BArchivable* 	Instantiate(BMessage* archive);
+	virtual status_t 		Archive(BMessage* data, bool deep = true) const;
+
+	virtual void			Draw(BRect rect);
+	void					MessageReceived(BMessage* msg);
+
+	void					_Init();
+
+private:
+	bool					fReplicated;
+	BStringView*			fLabel1;
+	BStringView* 			fLabel2;
 };
 
 
 class DropZoneTab : public BView
 {
 public:
-				DropZoneTab();
-				~DropZoneTab();
+					DropZoneTab();
+					~DropZoneTab();
+
+	virtual void	AttachedToWindow();
+	void			MessageReceived(BMessage* msg);
+
 	
 private:
-	DropZone*	fDropzone;
+	DropZone*		fDropzone;
+	BButton*		fRepliButton;
 };
 
 #endif // DROPZONETAB_H

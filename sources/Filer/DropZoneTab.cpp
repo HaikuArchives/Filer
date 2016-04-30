@@ -7,18 +7,93 @@
  */
 
 #include <ControlLook.h>
+#include <Dragger.h>
+#include <Font.h>
 #include <LayoutBuilder.h>
-#include <StringView.h>
+#include <Roster.h>
 #include <View.h>
+#include <private/interface/AboutWindow.h>
 
 #include "DropZoneTab.h"
 #include "main.h"
+#include "ReplicantWindow.h"
 
 
-DropZone::DropZone()
-	:
-	BView("dropzone", B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE)
+#define REPLICATE 'repl'
+
+void
+DropZone::_Init()
 {
+	if (fReplicated)
+		SetViewColor(B_TRANSPARENT_COLOR);
+
+	fLabel1 = new BStringView("label1", " Filer ");
+	fLabel2 = new BStringView("label2", " Dropzone ");
+
+	BFont font;
+	fLabel1->GetFont(&font);
+	font.SetFace(B_CONDENSED_FACE);
+	font.SetSize(font.Size() * 1.5);
+	fLabel1->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
+		| B_FONT_FLAGS);
+	font.SetSize(font.Size() * 0.75);
+	fLabel2->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
+		| B_FONT_FLAGS);
+
+	fLabel1->SetAlignment(B_ALIGN_CENTER);
+	fLabel2->SetAlignment(B_ALIGN_CENTER);
+
+	return;
+}
+
+
+DropZone::DropZone(bool replicatable)
+	:
+	BView("Filer dropzone", B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE),
+	fReplicated(false)
+{
+	_Init();
+
+	if (replicatable) {
+		// Dragger
+		BRect rect(Bounds());
+		rect.left = rect.right - 7;
+		rect.top = rect.bottom - 7;
+		BDragger* dragger = new BDragger(rect, this,
+			B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
+		dragger->SetExplicitMinSize(BSize(7, 7));
+		dragger->SetExplicitMaxSize(BSize(7, 7));
+		dragger->SetExplicitAlignment(BAlignment(B_ALIGN_RIGHT, B_ALIGN_BOTTOM));
+
+		// Layout
+		BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+			.AddGroup(B_VERTICAL, 3)
+				.AddGlue()
+				.AddStrut(1)
+				.Add(fLabel1)
+				.Add(fLabel2)
+				.AddGlue()
+			.End()
+			.Add(dragger, 0.01);
+	} else {
+		BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+			.AddGroup(B_VERTICAL, 3)
+				.AddGlue()
+				.AddStrut(1)
+				.Add(fLabel1)
+				.Add(fLabel2)
+				.AddGlue()
+			.End();
+	}
+}
+
+
+DropZone::DropZone(BMessage* archive)
+	:
+	BView(archive),
+	fReplicated(true)
+{
+	_Init();
 }
 
 
@@ -27,15 +102,41 @@ DropZone::~DropZone()
 }
 
 
+BArchivable*
+DropZone::Instantiate(BMessage* data)
+{
+	if (!validate_instantiation(data, "Filer"))
+		return NULL;
+
+	return new DropZone(data);
+}
+
+
+status_t
+DropZone::Archive(BMessage* archive, bool deep) const
+{
+	BView::Archive(archive, deep);
+
+	archive->AddString("add_on", "application/x-vnd.dw-Filer");
+	archive->AddString("class", "Filer");
+		
+	archive->PrintToStream();
+
+	return B_OK;
+}
+
+
 void
 DropZone::Draw(BRect rect)
 {
 	SetDrawingMode(B_OP_ALPHA);
 
-	SetHighColor(tint_color(ViewColor(), B_DARKEN_2_TINT));
 	SetLowColor(0, 0, 0, 0);
+	SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR),
+		B_DARKEN_2_TINT));
 
 	BRect bounds = Bounds();
+	FillRect(bounds, B_SOLID_LOW);
 	StrokeRect(bounds);
 	FillRect(bounds.InsetBySelf(3, 3), stripePattern);
 
@@ -49,30 +150,83 @@ DropZone::MessageReceived(BMessage* msg)
 	if (msg->WasDropped()) {
 		BMessenger messenger(be_app);
 		msg->what = B_REFS_RECEIVED;
-		messenger.SendMessage(msg);
+		be_roster->Launch("application/x-vnd.dw-Filer", msg);
 	}
-
-	BView::MessageReceived(msg);
+	switch (msg->what)
+	{
+		case B_ABOUT_REQUESTED:
+		{
+			BAboutWindow* about = new BAboutWindow("Filer",
+				"application/x-vnd.dw-Filer");
+			about->AddDescription(
+				"Filer is an automatic file organizer. It takes the "
+				"files it's opened with or that are dropped on it and moves, "
+				"renames, copies or does all sorts of other things with them "
+				"according to rules created by the user.");
+			about->AddCopyright(2008, "DarkWyrm");
+			about->AddCopyright(2016, "Humdinger");
+			about->Show();
+		}
+		default:
+		{
+			BView::MessageReceived(msg);
+			break;
+		}
+	}
 }
 
 
 DropZoneTab::DropZoneTab()
 	:
-	BView("Drop zone", B_SUPPORTS_LAYOUT)
+	BView("Dropzone", B_SUPPORTS_LAYOUT)
 {
 	BStringView* zoneLabel = new BStringView("zonelabel",
 		"Drag and drop the files to be processed below.");
 	zoneLabel->SetAlignment(B_ALIGN_CENTER);
-	fDropzone = new DropZone();
+	fDropzone = new DropZone(false);
+
+	fRepliButton = new BButton("replibutton", "Replicate dropzone",
+		new BMessage(REPLICATE));
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(spacing)
 		.Add(zoneLabel)
-		.Add(fDropzone);
+		.Add(fDropzone)
+		.Add(fRepliButton);
 }
 
 
 DropZoneTab::~DropZoneTab()
 {
+}
+
+
+void
+DropZoneTab::AttachedToWindow()
+{
+	fRepliButton->SetTarget(this);
+
+	BView::AttachedToWindow();
+}
+
+
+void
+DropZoneTab::MessageReceived(BMessage* msg)
+{
+	switch (msg->what)
+	{
+		printf("click!\n");
+		case REPLICATE:
+		{
+			ReplicantWindow* replicantWindow = new ReplicantWindow(Window()->Frame());
+			replicantWindow->Show();
+			break;
+		}
+		default:
+		{
+			BView::MessageReceived(msg);
+			break;
+		}
+	}
 }
