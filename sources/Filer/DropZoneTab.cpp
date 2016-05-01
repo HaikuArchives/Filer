@@ -15,6 +15,7 @@
 #include <private/interface/AboutWindow.h>
 
 #include "DropZoneTab.h"
+#include "FilerDefs.h"
 #include "main.h"
 #include "ReplicantWindow.h"
 
@@ -117,7 +118,7 @@ DropZone::Archive(BMessage* archive, bool deep) const
 {
 	BView::Archive(archive, deep);
 
-	archive->AddString("add_on", "application/x-vnd.dw-Filer");
+	archive->AddString("add_on", kApplicationSignature);
 	archive->AddString("class", "Filer");
 		
 	archive->PrintToStream();
@@ -150,14 +151,14 @@ DropZone::MessageReceived(BMessage* msg)
 	if (msg->WasDropped()) {
 		BMessenger messenger(be_app);
 		msg->what = B_REFS_RECEIVED;
-		be_roster->Launch("application/x-vnd.dw-Filer", msg);
+		be_roster->Launch(kApplicationSignature, msg);
 	}
 	switch (msg->what)
 	{
 		case B_ABOUT_REQUESTED:
 		{
 			BAboutWindow* about = new BAboutWindow("Filer",
-				"application/x-vnd.dw-Filer");
+				kApplicationSignature);
 			about->AddDescription(
 				"Filer is an automatic file organizer. It takes the "
 				"files it's opened with or that are dropped on it and moves, "
@@ -185,8 +186,8 @@ DropZoneTab::DropZoneTab()
 	zoneLabel->SetAlignment(B_ALIGN_CENTER);
 	fDropzone = new DropZone(false);
 
-	fRepliButton = new BButton("replibutton", "Replicate dropzone",
-		new BMessage(REPLICATE));
+	fRepliButton = new BButton("replibutton",
+		"Replicate dropzone" B_UTF8_ELLIPSIS, new BMessage(REPLICATE));
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
@@ -216,7 +217,6 @@ DropZoneTab::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		printf("click!\n");
 		case REPLICATE:
 		{
 			ReplicantWindow* replicantWindow = new ReplicantWindow(Window()->Frame());

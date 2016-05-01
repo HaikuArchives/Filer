@@ -20,17 +20,9 @@
 #include <View.h>
 
 #include "AutoFilerTab.h"
+#include "FilerDefs.h"
 #include "RefStorage.h"
 #include "TypedRefFilter.h"
-
-enum 
-{
-	M_SHOW_ADD_PANEL = 'shaw',
-	M_SHOW_EDIT_PANEL = 'shew',
-	M_REMOVE_FOLDER = 'rmfl',
-	M_FOLDER_SELECTED = 'flsl',
-	M_FOLDER_CHOSEN = 'flch'
-};
 
 
 AutoFilerTab::AutoFilerTab()
@@ -45,7 +37,7 @@ AutoFilerTab::AutoFilerTab()
 	fRefFilter = new TypedRefFilter("", B_DIRECTORY_NODE);
 	fFilePanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
 		B_DIRECTORY_NODE, false, NULL, fRefFilter);
-	BMessage panelMsg(M_FOLDER_CHOSEN);
+	BMessage panelMsg(MSG_FOLDER_CHOSEN);
 	fFilePanel->SetMessage(&panelMsg);
 	
 	gRefLock.Lock();
@@ -78,8 +70,8 @@ AutoFilerTab::_BuildLayout()
 		B_WILL_DRAW	| B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
 	fScrollView = new BScrollView("listscroll", fFolderList,
 		B_FRAME_EVENTS | B_WILL_DRAW, false, true);
-	fFolderList->SetSelectionMessage(new BMessage(M_FOLDER_SELECTED));
-	fFolderList->SetInvocationMessage(new BMessage(M_SHOW_EDIT_PANEL));
+	fFolderList->SetSelectionMessage(new BMessage(MSG_FOLDER_SELECTED));
+	fFolderList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_PANEL));
 
 	fAutorunBox = new BCheckBox("autorunbox",
 		"Run AutoFiler on system startup", new BMessage);
@@ -100,14 +92,14 @@ AutoFilerTab::_BuildLayout()
 		fAutorunBox->SetValue(B_CONTROL_ON);
 	
 	fAddButton = new BButton("addbutton", "Add" B_UTF8_ELLIPSIS,
-		new BMessage(M_SHOW_ADD_PANEL));
+		new BMessage(MSG_SHOW_ADD_PANEL));
 	
 	fEditButton = new BButton("editbutton", "Edit" B_UTF8_ELLIPSIS,
-		new BMessage(M_SHOW_EDIT_PANEL));
+		new BMessage(MSG_SHOW_EDIT_PANEL));
 	fEditButton->SetEnabled(false);
 		
 	fRemoveButton = new BButton("removebutton", "Remove",
-		new BMessage(M_REMOVE_FOLDER));
+		new BMessage(MSG_REMOVE_FOLDER));
 	fRemoveButton->SetEnabled(false);
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
@@ -143,7 +135,7 @@ AutoFilerTab::AttachedToWindow()
 
 	if (fFolderList->CountItems() > 0) {
 		BMessenger messenger(this);
-		BMessage msg(M_FOLDER_SELECTED);
+		BMessage msg(MSG_FOLDER_SELECTED);
 		messenger.SendMessage(&msg);
 	}	
 	BView::AttachedToWindow();
@@ -153,7 +145,6 @@ AutoFilerTab::AttachedToWindow()
 void
 AutoFilerTab::DetachedFromWindow()
 {
-	printf("AutoFilerTab: QuitRequested()\n");
 	SaveFolders();
 	
 	// save autorun value
@@ -176,7 +167,7 @@ AutoFilerTab::DetachedFromWindow()
 	// if AutoFiler is running, tell it to refresh its folders
 	if (be_roster->IsRunning("application/x-vnd.dw-AutoFiler"))
 	{
-		BMessage msg(M_REFRESH_FOLDERS);
+		BMessage msg(MSG_REFRESH_FOLDERS);
 		BMessenger msgr("application/x-vnd.dw-AutoFiler");
 		msgr.SendMessage(&msg);
 	}
@@ -188,12 +179,12 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case M_SHOW_ADD_PANEL:
+		case MSG_SHOW_ADD_PANEL:
 		{
 			fFilePanel->Show();
 			break;
 		}
-		case M_SHOW_EDIT_PANEL:
+		case MSG_SHOW_EDIT_PANEL:
 		{
 			int32 selection = fFolderList->CurrentSelection();
 			if (selection < 0)
@@ -202,13 +193,13 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			BStringItem* item = (BStringItem*)fFolderList->ItemAt(selection);
 			fFilePanel->SetPanelDirectory(item->Text());
 
-			BMessage panelMsg(M_FOLDER_CHOSEN);
+			BMessage panelMsg(MSG_FOLDER_CHOSEN);
 			panelMsg.AddInt32("index", selection);
 			fFilePanel->SetMessage(&panelMsg);
 			fFilePanel->Show();
 			break;
 		}
-		case M_REMOVE_FOLDER:
+		case MSG_REMOVE_FOLDER:
 		{
 			int32 selection = fFolderList->CurrentSelection();
 			if (selection < 0)
@@ -223,7 +214,7 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			gRefLock.Unlock();
 			break;
 		}
-		case M_FOLDER_SELECTED:
+		case MSG_FOLDER_SELECTED:
 		{
 			int32 selection = fFolderList->CurrentSelection();
 			bool value = (selection >= 0);
@@ -232,7 +223,7 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			fRemoveButton->SetEnabled(value);
 			break;
 		}
-		case M_FOLDER_CHOSEN:
+		case MSG_FOLDER_CHOSEN:
 		{
 			int32 index;
 			if (msg->FindInt32("index", &index) != B_OK)

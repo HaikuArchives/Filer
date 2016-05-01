@@ -14,6 +14,7 @@
 #include <Roster.h>
 
 #include "main.h"
+#include "FilerDefs.h"
 #include "FilerRule.h"
 #include "MainWindow.h"
 #include "RuleRunner.h"
@@ -22,17 +23,10 @@
 // better performance
 BMessage gArchivedTypeMenu;
 
-// Original def in TestView.cpp
-#define M_TYPE_CHOSEN 'tych'
-
-// Original def in EditRuleWindow.cpp
-#define M_SHOW_HELP 'shhl'
-#define M_SHOW_DOCS 'shdc'
-
 
 App::App()
 	:
-	BApplication("application/x-vnd.dw-Filer"),
+	BApplication(kApplicationSignature),
  	fRefList(NULL),
  	fRuleList(NULL),
 	fMainWin(NULL),
@@ -59,12 +53,12 @@ App::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case M_SHOW_HELP:
+		case MSG_HELP:
 		{
 			ShowHTML("documentation/Rule-Making Reference.html");
 			break;
 		}
-		case M_SHOW_DOCS:
+		case MSG_DOCS:
 		{
 			ShowHTML("documentation/User Documentation.html");
 			break;
@@ -223,7 +217,7 @@ App::SetupTypeMenu()
 			BMenuItem* item = menu->FindItem(supertype.String());
 			BMenu* submenu = item->Submenu();
 			if (!submenu->FindItem(attrTypeName)) {
-				BMessage* msg = new BMessage(M_TYPE_CHOSEN);
+				BMessage* msg = new BMessage(MSG_TYPE_CHOSEN);
 				msg->AddString("type", string.String());
 				msg->AddString("typename", attrTypeName);
 				submenu->AddItem(new BMenuItem(attrTypeName, msg));

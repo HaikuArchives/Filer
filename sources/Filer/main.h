@@ -20,26 +20,26 @@ class MainWindow;
 class App : public BApplication
 {
 public:
-				App();
-				~App();
+					App();
+					~App();
 
-	void		MessageReceived(BMessage* msg);
-	void		RefsReceived(BMessage* msg);
-	void		ArgvReceived(int32 argc, char** argv);
-	void		ReadyToRun();
+	void			MessageReceived(BMessage* msg);
+	void			RefsReceived(BMessage* msg);
+	void			ArgvReceived(int32 argc, char** argv);
+	void			ReadyToRun();
 
-	void		SetupTypeMenu();
-	void		ShowHTML(const char* docfile);
-	void		FileRef(entry_ref ref);
+	void			SetupTypeMenu();
+	void			ShowHTML(const char* docfile);
+	void			FileRef(entry_ref ref);
 	
 private:
-	void	ProcessFiles();
+	void			ProcessFiles();
 
 	BObjectList<entry_ref>*	fRefList;
 	BObjectList<FilerRule>*	fRuleList;
-	MainWindow*	fMainWin;
+	MainWindow*		fMainWin;
 	
-	bool		fQuitRequested;
+	bool			fQuitRequested;
 };
 
 #endif	// MAIN_H

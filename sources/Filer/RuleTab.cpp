@@ -15,21 +15,11 @@
 #include <View.h>
 
 #include "FilerRule.h"
+#include "FilerDefs.h"
 #include "RuleEditWindow.h"
 #include "RuleItem.h"
 #include "RuleRunner.h"
 #include "RuleTab.h"
-
-enum 
-{
-	M_SHOW_ADD_WINDOW = 'shaw',
-	M_SHOW_EDIT_WINDOW = 'shew',
-	M_REMOVE_RULE = 'shrr',
-	M_REVERT = 'rvrt',
-	M_RULE_SELECTED = 'rlsl',
-	M_MOVE_RULE_UP = 'mvup',
-	M_MOVE_RULE_DOWN = 'mvdn'
-};
 
 
 RuleTab::RuleTab()
@@ -113,27 +103,27 @@ RuleTab::_BuildLayout()
 	fScrollView = new BScrollView("listscroll", fRuleItemList,
 		B_FRAME_EVENTS | B_WILL_DRAW, false, true);
 
-	fRuleItemList->SetSelectionMessage(new BMessage(M_RULE_SELECTED));
-	fRuleItemList->SetInvocationMessage(new BMessage(M_SHOW_EDIT_WINDOW));
+	fRuleItemList->SetSelectionMessage(new BMessage(MSG_RULE_SELECTED));
+	fRuleItemList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_WINDOW));
 //	fScrollView->ScrollBar(B_HORIZONTAL)->SetRange(0.0, 0.0);
 	
 	fAddButton = new BButton("addbutton", "Add" B_UTF8_ELLIPSIS,
-		new BMessage(M_SHOW_ADD_WINDOW));
+		new BMessage(MSG_SHOW_ADD_WINDOW));
 
 	fEditButton = new BButton("editbutton", "Edit" B_UTF8_ELLIPSIS,
-		new BMessage(M_SHOW_EDIT_WINDOW));
+		new BMessage(MSG_SHOW_EDIT_WINDOW));
 	fEditButton->SetEnabled(false);
 
 	fRemoveButton = new BButton("removebutton", "Remove",
-		new BMessage(M_REMOVE_RULE));
+		new BMessage(MSG_REMOVE_RULE));
 	fRemoveButton->SetEnabled(false);
 
 	fMoveUpButton = new BButton("moveupbutton", "Move up",
-		new BMessage(M_MOVE_RULE_UP));
+		new BMessage(MSG_MOVE_RULE_UP));
 	fMoveUpButton->SetEnabled(false);
 	
 	fMoveDownButton = new BButton("movedownbutton", "Move down",
-		new BMessage(M_MOVE_RULE_DOWN));
+		new BMessage(MSG_MOVE_RULE_DOWN));
 	fMoveDownButton->SetEnabled(false);
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
@@ -169,7 +159,7 @@ RuleTab::AttachedToWindow()
 
 	if (fRuleItemList->CountItems() > 0) {
 		BMessenger messenger(this);
-		BMessage message(M_RULE_SELECTED);
+		BMessage message(MSG_RULE_SELECTED);
 		messenger.SendMessage(&message);
 	}	
 	BView::AttachedToWindow();
@@ -191,7 +181,7 @@ RuleTab::MessageReceived(BMessage* message)
 //	message->PrintToStream();
 	switch (message->what)
 	{
-		case M_SHOW_ADD_WINDOW:
+		case MSG_SHOW_ADD_WINDOW:
 		{
 			printf("Show Add Window\n");
 			BRect frame(Frame());
@@ -204,7 +194,7 @@ RuleTab::MessageReceived(BMessage* message)
 			rulewin->Show();
 			break;
 		}
-		case M_SHOW_EDIT_WINDOW:
+		case MSG_SHOW_EDIT_WINDOW:
 		{
 			BRect frame(Frame());
 			ConvertToScreen(&frame);
@@ -219,7 +209,7 @@ RuleTab::MessageReceived(BMessage* message)
 			rulewin->Show();
 			break;
 		}
-		case M_ADD_RULE:
+		case MSG_ADD_RULE:
 		{
 			fChanges = true;
 			FilerRule* item;
@@ -227,7 +217,7 @@ RuleTab::MessageReceived(BMessage* message)
 				AddRule(item);
 			break;
 		}
-		case M_REMOVE_RULE:
+		case MSG_REMOVE_RULE:
 		{
 			fChanges = true;
 			if (fRuleItemList->CurrentSelection() >= 0)
@@ -235,7 +225,7 @@ RuleTab::MessageReceived(BMessage* message)
 					fRuleItemList->CurrentSelection()));
 			break;
 		}
-		case M_UPDATE_RULE:
+		case MSG_UPDATE_RULE:
 		{
 			fChanges = true;
 			FilerRule* rule;
@@ -260,7 +250,7 @@ RuleTab::MessageReceived(BMessage* message)
 			}
 			break;
 		}
-		case M_REVERT:
+		case MSG_REVERT:
 		{
 			while (fRuleItemList->CountItems() > 0)
 				RemoveRule((RuleItem*)fRuleItemList->ItemAt(0L));
@@ -271,7 +261,7 @@ RuleTab::MessageReceived(BMessage* message)
 			LoadRules(fRuleList);
 			break;
 		}
-		case M_RULE_SELECTED:
+		case MSG_RULE_SELECTED:
 		{
 			bool value = (fRuleItemList->CurrentSelection() >= 0);
 
@@ -284,7 +274,7 @@ RuleTab::MessageReceived(BMessage* message)
 			}
 			break;
 		}
-		case M_MOVE_RULE_UP:
+		case MSG_MOVE_RULE_UP:
 		{
 			fChanges = true;
 			int32 selection = fRuleItemList->CurrentSelection();
@@ -295,7 +285,7 @@ RuleTab::MessageReceived(BMessage* message)
 			fRuleList->SwapItems(selection, selection - 1);
 			break;
 		}
-		case M_MOVE_RULE_DOWN:
+		case MSG_MOVE_RULE_DOWN:
 		{
 			fChanges = true;
 			int32 selection = fRuleItemList->CurrentSelection();

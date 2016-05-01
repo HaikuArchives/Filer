@@ -1,5 +1,5 @@
 /*
- * Copyright 2015. All rights reserved.
+ * Copyright 2016. All rights reserved.
  * Distributed under the terms of the MIT license.
  *
  * Author:
@@ -20,13 +20,12 @@
 
 #include "AutoFilerTab.h"
 #include "DropZoneTab.h"
+#include "FilerDefs.h"
 #include "HelpTab.h"
 #include "RuleTab.h"
 
 #include <stdio.h>
 
-#define DOCS	'docs'
-#define HELP	'help'
 
 class MainWindow : public BWindow {
 public:
@@ -38,6 +37,11 @@ public:
 
 private:
 	void			_BuildLayout();
+	void			LoadSettings();
+	void			SaveSettings();
+
+	BRect			fPosition;
+	int32			fTabSelection;
 
 	BTabView*		fTabView;
 	DropZoneTab*	fDropZone;

@@ -11,12 +11,9 @@
 #include <LayoutBuilder.h>
 #include <Resources.h>
 
+#include "FilerDefs.h"
 #include "HelpTab.h"
 #include "main.h"
-
-#define M_SHOW_HELP 'shhl'
-#define	M_SHOW_DOCS 'shdc'
-
 
 IconView::IconView()
 	:
@@ -151,11 +148,11 @@ HelpTab::HelpTab()
 
 	// Buttons
 	fHelpButton = new BButton("help", "Help on rules",
-		new BMessage(M_SHOW_HELP));
+		new BMessage(MSG_HELP));
 	fHelpButton->SetTarget(be_app);
 
 	fDocsButton = new BButton("docs", "User documentation",
-		new BMessage(M_SHOW_DOCS));
+		new BMessage(MSG_DOCS));
 	fDocsButton->SetTarget(be_app);
 
 	// Laying it all out

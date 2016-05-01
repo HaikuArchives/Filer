@@ -15,27 +15,11 @@
 
 #include "ActionView.h"
 #include "AutoTextControl.h"
+#include "FilerDefs.h"
 #include "FilerRule.h"
 #include "main.h"
 #include "RuleEditWindow.h"
 #include "TestView.h"
-
-// Internal message defs
-enum
-{
-	M_DESCRIPTION_CHANGED = 'dsch',
-	M_OK = 'mok ',
-	M_CANCEL = 'cncl',
-	
-	M_ADD_TEST = 'adts',
-	M_REMOVE_TEST = 'rmts',
-	
-	M_ADD_ACTION = 'adac',
-	M_REMOVE_ACTION = 'rmac',
-	
-	M_SHOW_HELP = 'shhl',
-	M_SHOW_DOCS = 'shdc'
-};
 
 
 RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
@@ -55,7 +39,7 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
 
 	// Description
 	fDescriptionBox = new AutoTextControl(BRect(0, 0, 1, 1), "description",
-		"Description: ", NULL, new BMessage(M_DESCRIPTION_CHANGED),
+		"Description: ", NULL, new BMessage(MSG_NEW_DESCRIPTION),
 		B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	top->AddChild(fDescriptionBox);
 
@@ -83,14 +67,14 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
 	top->AddChild(fTestGroup);
 
 	fAddTest = new BButton(BRect(0, 0, 1, 1),"addtestbutton", "Add",
-		new BMessage(M_ADD_TEST), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
+		new BMessage(MSG_ADD_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fAddTest->ResizeToPreferred();
 	fAddTest->MoveTo(10.0, fTestGroup->Bounds().bottom - 10.0
 		- fAddTest->Bounds().Height());
 	fTestGroup->AddChild(fAddTest);
 
 	fRemoveTest = new BButton(BRect(0, 0, 1, 1),"removetestbutton", "Remove",
-		new BMessage(M_REMOVE_TEST), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
+		new BMessage(MSG_REMOVE_TEST), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fRemoveTest->ResizeToPreferred();
 	fRemoveTest->MoveTo(fAddTest->Frame().right + 10, fAddTest->Frame().top);
 	fTestGroup->AddChild(fRemoveTest);
@@ -106,14 +90,14 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
 	top->AddChild(fActionGroup);
 
 	fAddAction = new BButton(BRect(0, 0, 1, 1), "addactionbutton", "Add",
-	new BMessage(M_ADD_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
+	new BMessage(MSG_ADD_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fAddAction->ResizeToPreferred();
 	fAddAction->MoveTo(10.0, fActionGroup->Bounds().bottom - 10.0
 		- fAddAction->Bounds().Height());
 	fActionGroup->AddChild(fAddAction);
 
 	fRemoveAction = new BButton(BRect(0, 0, 1, 1), "removeactionbutton", "Remove",
-		new BMessage(M_REMOVE_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
+		new BMessage(MSG_REMOVE_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fRemoveAction->ResizeToPreferred();
 	fRemoveAction->MoveTo(fAddAction->Frame().right + 10, fAddAction->Frame().top);
 	fActionGroup->AddChild(fRemoveAction);
@@ -122,7 +106,7 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
 	fActionGroup->ResizeBy(0, fAddAction->Bounds().Height() + 10.0);
 
 
-	fOK = new BButton(BRect(0, 0, 1, 1), "okbutton", "OK", new BMessage(M_OK),
+	fOK = new BButton(BRect(0, 0, 1, 1), "okbutton", "OK", new BMessage(MSG_OK),
 		B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
 	fOK->ResizeToPreferred();
 	fOK->MoveTo(Bounds().right - fOK->Bounds().Width() - 10,
@@ -130,13 +114,13 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
 	// calling AddChild later to ensure proper keyboard navigation
 
 	fCancel = new BButton(BRect(0, 0, 1 ,1), "cancelbutton", "Cancel",
-		new BMessage(M_CANCEL), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
+		new BMessage(MSG_CANCEL), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
 	fCancel->ResizeToPreferred();
 	fCancel->MoveTo(fOK->Frame().left - fCancel->Bounds().Width() - 10, 
 		fOK->Frame().top);
 
 	fHelp = new BButton(BRect(0, 0, 1, 1), "helpbutton", "Help…",
-		new BMessage(M_SHOW_HELP), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
+		new BMessage(MSG_HELP), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fHelp->ResizeToPreferred();
 	fHelp->MoveTo(10, fOK->Frame().top);
 	fHelp->SetTarget(be_app);
@@ -174,7 +158,7 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case M_OK:
+		case MSG_OK:
 		{
 			if (strlen(fDescriptionBox->Text()) < 1) {
 				BAlert* alert = new BAlert("Filer",
@@ -189,27 +173,27 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
-		case M_CANCEL:
+		case MSG_CANCEL:
 		{
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
-		case M_ADD_TEST:
+		case MSG_ADD_TEST:
 		{
 			AppendTest(NULL);
 			break;
 		}
-		case M_REMOVE_TEST:
+		case MSG_REMOVE_TEST:
 		{
 			RemoveTest();
 			break;
 		}
-		case M_ADD_ACTION:
+		case MSG_ADD_ACTION:
 		{
 			AppendAction(NULL);
 			break;
 		}
-		case M_REMOVE_ACTION:
+		case MSG_REMOVE_ACTION:
 		{
 			RemoveAction();
 			break;
@@ -352,7 +336,7 @@ RuleEditWindow::SendRuleMessage()
 	}
 
 	BMessage msg;
-	msg.what = (fOriginalID >= 0) ? M_UPDATE_RULE : M_ADD_RULE;
+	msg.what = (fOriginalID >= 0) ? MSG_UPDATE_RULE : MSG_ADD_RULE;
 	msg.AddPointer("item", rule);
 	msg.AddInt64("id", fOriginalID);
 	

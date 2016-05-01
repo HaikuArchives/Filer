@@ -10,21 +10,9 @@
 #include <ScrollBar.h>
 
 #include "AutoTextControl.h"
+#include "FilerDefs.h"
 #include "RuleRunner.h"
 #include "TestView.h"
-
-enum
-{
-	M_TEST_CHOSEN = 'tsch',
-	M_MODE_CHOSEN = 'mdch',
-	M_VALUE_CHANGED = 'vlch',
-	
-	M_TYPE_CHOSEN = 'tych',
-	
-	M_SHOW_TEST_MENU = 'shtm',
-	M_SHOW_TYPE_MENU = 'stym',
-	M_SHOW_MODE_MENU = 'shmm'
-};
 
 extern BMessage gArchivedTypeMenu;
 
@@ -65,7 +53,7 @@ TestView::TestView(const BRect& frame, const char* name, BMessage* test,
 		widesttest = teststr;
 
 	fTestButton = new BButton(BRect(0, 0, 1, 1), "testbutton",
-		widesttest.String(), new BMessage(M_SHOW_TEST_MENU));
+		widesttest.String(), new BMessage(MSG_SHOW_TEST_MENU));
 	fTestButton->ResizeToPreferred();
 	AddChild(fTestButton);
 
@@ -84,7 +72,7 @@ TestView::TestView(const BRect& frame, const char* name, BMessage* test,
 	}
 
 	fModeButton = new BButton(rect, "modebutton", widestmode.String(),
-		new BMessage(M_SHOW_MODE_MENU));
+		new BMessage(MSG_SHOW_MODE_MENU));
 	fModeButton->ResizeToPreferred();
 	AddChild(fModeButton);
 
@@ -92,7 +80,7 @@ TestView::TestView(const BRect& frame, const char* name, BMessage* test,
 	rect.OffsetBy(rect.Width() + 5, 0);
 	rect.right = rect.left + StringWidth("application/x-vnd.dw-foo") + 5;
 	fValueBox = new AutoTextControl(rect, "valuebox", NULL, NULL,
-		new BMessage(M_VALUE_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+		new BMessage(MSG_VALUE_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	AddChild(fValueBox);
 	fValueBox->SetDivider(0);
 	if (fValueBox->Bounds().Height() < fModeButton->Bounds().Height()) {
@@ -184,12 +172,12 @@ TestView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case M_TEST_CHOSEN:
+		case MSG_TEST_CHOSEN:
 		{
 			SetTest(msg);
 			break;
 		}
-		case M_MODE_CHOSEN:
+		case MSG_MODE_CHOSEN:
 		{
 			BString mode;
 			if (msg->FindString("mode",&mode) != B_OK)
@@ -198,7 +186,7 @@ TestView::MessageReceived(BMessage* msg)
 			SetMode(mode.String());
 			break;
 		}
-		case M_VALUE_CHANGED:
+		case MSG_VALUE_CHANGED:
 		{
 			BString str;
 			if (fTest->FindString("value", &str) == B_OK)
@@ -207,7 +195,7 @@ TestView::MessageReceived(BMessage* msg)
 				fTest->AddString("value", fValueBox->Text());
 			break;
 		}
-		case M_SHOW_TEST_MENU:
+		case MSG_SHOW_TEST_MENU:
 		{
 			BPopUpMenu* menu
 				= (BPopUpMenu*)BPopUpMenu::Instantiate(&fArchivedTestMenu);
@@ -236,7 +224,7 @@ TestView::MessageReceived(BMessage* msg)
 			menu->Go(point, true, true, true);
 			break;
 		}
-		case M_SHOW_TYPE_MENU:
+		case MSG_SHOW_TYPE_MENU:
 		{
 			BPopUpMenu* menu
 				= (BPopUpMenu*)BPopUpMenu::Instantiate(&gArchivedTypeMenu);
@@ -265,7 +253,7 @@ TestView::MessageReceived(BMessage* msg)
 			menu->Go(point, true, true, true);
 			break;
 		}
-		case M_SHOW_MODE_MENU:
+		case MSG_SHOW_MODE_MENU:
 		{
 			ShowModeMenu();
 			break;
@@ -338,7 +326,7 @@ TestView::SetupTestMenu()
 			if (!submenu)
 				submenu = AddMenuSorted(menu, attrTypeName);
 
-			msg = new BMessage(M_TEST_CHOSEN);
+			msg = new BMessage(MSG_TEST_CHOSEN);
 			msg->AddString("name", "Attribute");
 			msg->AddString("attrtype", attrName);
 			msg->AddString("attrname", attrPublicName);
@@ -364,7 +352,7 @@ TestView::SetupTestMenu()
 	while (i >= 0)
 	{
 		fTestTypes.FindString("tests", i, &testtype);
-		msg = new BMessage(M_TEST_CHOSEN);
+		msg = new BMessage(MSG_TEST_CHOSEN);
 		msg->AddString("name", testtype);
 		menu->AddItem(new BMenuItem(testtype.String(), msg),0);
 		i--;
@@ -389,7 +377,7 @@ TestView::ShowModeMenu()
 	while (modes.FindString("modes", i, &modestr) == B_OK)
 	{
 		i++;
-		msg = new BMessage(M_MODE_CHOSEN);
+		msg = new BMessage(MSG_MODE_CHOSEN);
 		msg->AddString("mode", modestr);
 		menu->AddItem(new BMenuItem(modestr.String(), msg));
 	}

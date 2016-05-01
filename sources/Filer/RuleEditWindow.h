@@ -16,13 +16,6 @@ class AutoTextControl;
 class FilerRule;
 class TestView;
 
-// Message defs used by other classes
-enum
-{
-	M_ADD_RULE = 'adrl',
-	M_UPDATE_RULE = 'uprl',
-	M_FORCE_QUIT = 'frcq'
-};
 
 class RuleEditWindow : public BWindow
 {

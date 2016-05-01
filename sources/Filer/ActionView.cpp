@@ -12,14 +12,8 @@
 
 #include "ActionView.h"
 #include "AutoTextControl.h"
+#include "FilerDefs.h"
 #include "RuleRunner.h"
-
-enum
-{
-	M_ACTION_CHOSEN = 'tsch',
-	M_SHOW_ACTION_MENU = 'sham',
-	M_VALUE_CHANGED = 'vlch'
-};
 
 
 ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
@@ -42,7 +36,7 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 	}
 
 	fActionButton = new BButton(BRect(0, 0, 1, 1), "actionbutton",
-		wideststr.String(), new BMessage(M_SHOW_ACTION_MENU));
+		wideststr.String(), new BMessage(MSG_SHOW_ACTION_MENU));
 	fActionButton->ResizeToPreferred();
 	AddChild(fActionButton);
 
@@ -53,7 +47,7 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 		rect.right = rect.left + 10;
 
 	fValueBox = new AutoTextControl(rect, "valuebox", NULL, NULL,
-		new BMessage(M_VALUE_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+		new BMessage(MSG_VALUE_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	AddChild(fValueBox);
 	fValueBox->SetDivider(0);
 
@@ -137,19 +131,19 @@ ActionView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case M_SHOW_ACTION_MENU:
+		case MSG_SHOW_ACTION_MENU:
 		{
 			ShowActionMenu();
 			break;
 		}
-		case M_ACTION_CHOSEN:
+		case MSG_ACTION_CHOSEN:
 		{
 			BString name;
 			if (msg->FindString("name", &name) == B_OK)
 				SetAction(name.String());
 			break;
 		}
-		case M_VALUE_CHANGED:
+		case MSG_VALUE_CHANGED:
 		{
 			BString str;
 			if (fAction->FindString("value", &str) == B_OK)
@@ -207,7 +201,7 @@ ActionView::ShowActionMenu()
 	while (fActions.FindString("actions", i, &name) == B_OK)
 	{
 		i++;
-		msg = new BMessage(M_ACTION_CHOSEN);
+		msg = new BMessage(MSG_ACTION_CHOSEN);
 		msg->AddString("name", name.String());
 		menu->AddItem(new BMenuItem(name.String(), msg));
 	}
