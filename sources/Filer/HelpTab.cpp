@@ -178,7 +178,10 @@ HelpTab::HelpTab()
 				.Add(fDocsButton)
 				.AddGlue()
 			.End()
+		.AddGlue(100.0)
 		.End();
+
+	SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
 }
 
 

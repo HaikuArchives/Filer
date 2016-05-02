@@ -25,9 +25,6 @@
 void
 DropZone::_Init()
 {
-	if (fReplicated)
-		SetViewColor(B_TRANSPARENT_COLOR);
-
 	fLabel1 = new BStringView("label1", " Filer ");
 	fLabel2 = new BStringView("label2", " Dropzone ");
 
@@ -53,6 +50,8 @@ DropZone::DropZone(bool replicatable)
 	BView("Filer dropzone", B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE),
 	fReplicated(false)
 {
+	SetViewColor(B_TRANSPARENT_COLOR);
+
 	_Init();
 
 	if (replicatable) {
@@ -130,13 +129,17 @@ DropZone::Archive(BMessage* archive, bool deep) const
 void
 DropZone::Draw(BRect rect)
 {
-	SetDrawingMode(B_OP_ALPHA);
+	BRect bounds = Bounds();
+	if (!fReplicated) {
+		SetHighColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+		FillRect(bounds);
+	}
 
+	SetDrawingMode(B_OP_ALPHA);
 	SetLowColor(0, 0, 0, 0);
 	SetHighColor(tint_color(ui_color(B_PANEL_BACKGROUND_COLOR),
 		B_DARKEN_2_TINT));
 
-	BRect bounds = Bounds();
 	FillRect(bounds, B_SOLID_LOW);
 	StrokeRect(bounds);
 	FillRect(bounds.InsetBySelf(3, 3), stripePattern);
