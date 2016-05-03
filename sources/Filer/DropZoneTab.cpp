@@ -117,7 +117,7 @@ DropZone::Archive(BMessage* archive, bool deep) const
 {
 	BView::Archive(archive, deep);
 
-	archive->AddString("add_on", kApplicationSignature);
+	archive->AddString("add_on", kFilerSignature);
 	archive->AddString("class", "Filer");
 		
 	archive->PrintToStream();
@@ -154,14 +154,13 @@ DropZone::MessageReceived(BMessage* msg)
 	if (msg->WasDropped()) {
 		BMessenger messenger(be_app);
 		msg->what = B_REFS_RECEIVED;
-		be_roster->Launch(kApplicationSignature, msg);
+		be_roster->Launch(kFilerSignature, msg);
 	}
 	switch (msg->what)
 	{
 		case B_ABOUT_REQUESTED:
 		{
-			BAboutWindow* about = new BAboutWindow("Filer",
-				kApplicationSignature);
+			BAboutWindow* about = new BAboutWindow("Filer", kFilerSignature);
 			about->AddDescription(
 				"Filer is an automatic file organizer. It takes the "
 				"files it's opened with or that are dropped on it and moves, "

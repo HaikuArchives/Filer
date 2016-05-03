@@ -26,7 +26,7 @@ BMessage gArchivedTypeMenu;
 
 App::App()
 	:
-	BApplication(kApplicationSignature),
+	BApplication(kFilerSignature),
  	fRefList(NULL),
  	fRuleList(NULL),
 	fMainWin(NULL),

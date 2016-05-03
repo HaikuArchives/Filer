@@ -9,7 +9,8 @@
 #ifndef FILERDEFS_H
 #define FILERDEFS_H
 
-static const char *kApplicationSignature = "application/x-vnd.dw-Filer";
+static const char *kFilerSignature = "application/x-vnd.dw-Filer";
+static const char *kAutoFilerSignature = "application/x-vnd.dw-AutoFiler";
 static const char kSettingsFolder[] = "Filer";
 static const char kSettingsFile[] = "Filer_settings";
 
@@ -36,6 +37,8 @@ static const char kSettingsFile[] = "Filer_settings";
 #define MSG_MOVE_RULE_UP		'mvup'
 #define MSG_MOVE_RULE_DOWN		'mvdn'
 
+#define MSG_STARTSTOP_AUTOFILER	'ssaf'
+#define MSG_UPDATE_LABEL		'upla'
 #define MSG_SHOW_ADD_PANEL		'shap'
 #define MSG_SHOW_EDIT_PANEL		'shep'
 #define MSG_REMOVE_FOLDER		'rmfl'

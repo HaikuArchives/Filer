@@ -34,11 +34,15 @@ private:
 
 	void			EnableAutorun();
 	void			DisableAutorun();
+
+	void			ToggleAutoFiler();
+	void			UpdateAutoFilerLabel();
 	
 	BListView*		fFolderList;
 	BScrollView*	fScrollView;
 
 	BCheckBox*		fAutorunBox;
+	BButton*		fStartStop;
 	
 	BButton*		fAddButton;
 	BButton*		fEditButton;
@@ -46,6 +50,7 @@ private:
 					
 	BFilePanel*		fFilePanel;
 	TypedRefFilter*	fRefFilter;
+	BMessageRunner*	fRunner;
 };
 
 #endif // AUTOFILERTAB_H

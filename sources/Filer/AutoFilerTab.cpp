@@ -12,6 +12,7 @@
 #include <ControlLook.h>
 #include <FindDirectory.h>
 #include <LayoutBuilder.h>
+#include <MessageRunner.h>
 #include <Path.h>
 #include <Roster.h>
 #include <ScrollView.h>
@@ -65,7 +66,7 @@ AutoFilerTab::_BuildLayout()
 {
 	BStringView* folderLabel = new BStringView("folderlabel",
 		"Automatically run Filer on the contents of these folders:");
-	
+
 	fFolderList = new BListView("rulelist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW	| B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
 	fScrollView = new BScrollView("listscroll", fFolderList,
@@ -75,6 +76,9 @@ AutoFilerTab::_BuildLayout()
 
 	fAutorunBox = new BCheckBox("autorunbox",
 		"Run AutoFiler on system startup", new BMessage);
+
+	fStartStop = new BButton("startstop", "Start AutoFiler",
+		new BMessage(MSG_STARTSTOP_AUTOFILER));
 
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
@@ -106,7 +110,11 @@ AutoFilerTab::_BuildLayout()
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(spacing)
 		.AddGroup(B_VERTICAL)
-			.Add(fAutorunBox)
+			.AddGroup(B_HORIZONTAL)
+				.Add(fAutorunBox)
+				.Add(new BSeparatorView(B_VERTICAL))
+				.Add(fStartStop)
+			.End()
 			.Add(new BSeparatorView(B_HORIZONTAL))
 			.Add(folderLabel)
 			.Add(fScrollView)
@@ -126,10 +134,11 @@ AutoFilerTab::AttachedToWindow()
 {
 //	SetFlags(Flags() | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
 
+	fStartStop->SetTarget(this);
 	fAddButton->SetTarget(this);
 	fEditButton->SetTarget(this);
 	fRemoveButton->SetTarget(this);
-	
+
 	fFolderList->SetTarget(this);
 	fFilePanel->SetTarget(this);
 
@@ -137,7 +146,10 @@ AutoFilerTab::AttachedToWindow()
 		BMessenger messenger(this);
 		BMessage msg(MSG_FOLDER_SELECTED);
 		messenger.SendMessage(&msg);
-	}	
+	}
+	BMessage msg(MSG_UPDATE_LABEL);
+	fRunner	= new BMessageRunner(this, &msg, 0.5 * 6000000); // x * seconds
+
 	BView::AttachedToWindow();
 }
 
@@ -179,6 +191,16 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
+		case MSG_STARTSTOP_AUTOFILER:
+		{
+			ToggleAutoFiler();
+			break;
+		}
+		case MSG_UPDATE_LABEL:
+		{
+			UpdateAutoFilerLabel();
+			break;
+		}
 		case MSG_SHOW_ADD_PANEL:
 		{
 			fFilePanel->Show();
@@ -255,6 +277,31 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 		default:
 			BView::MessageReceived(msg);
 	}
+}
+
+
+void
+AutoFilerTab::ToggleAutoFiler()
+{
+	if (be_roster->IsRunning(kAutoFilerSignature)) {
+		BString command = "hey %app% quit";
+		command.ReplaceFirst("%app%", kAutoFilerSignature);
+		system(command.String());
+		fStartStop->SetLabel("Start AutoFiler");
+	} else {
+		be_roster->Launch(kAutoFilerSignature);
+		fStartStop->SetLabel("Stop AutoFiler");
+	}
+}
+
+
+void
+AutoFilerTab::UpdateAutoFilerLabel()
+{
+	if (be_roster->IsRunning(kAutoFilerSignature))
+		fStartStop->SetLabel("Stop AutoFiler");
+	else
+		fStartStop->SetLabel("Start AutoFiler");
 }
 
 
