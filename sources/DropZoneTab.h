@@ -15,8 +15,6 @@
 
 const pattern stripePattern = {0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99};
 
-class _EXPORT DropZone;
-
 class DropZone : public BView
 {
 public:

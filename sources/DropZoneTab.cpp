@@ -152,7 +152,6 @@ void
 DropZone::MessageReceived(BMessage* msg)
 {
 	if (msg->WasDropped()) {
-		BMessenger messenger(be_app);
 		msg->what = B_REFS_RECEIVED;
 		be_roster->Launch(kFilerSignature, msg);
 	}

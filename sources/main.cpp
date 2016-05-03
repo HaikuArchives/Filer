@@ -77,7 +77,6 @@ App::RefsReceived(BMessage* msg)
 	int32 i = 0;
 	while (msg->FindRef("refs",i, &tempRef) == B_OK)
 	{
-		printf ("File dropped: %s\n", tempRef.name);
 		BEntry entry(&tempRef);
 		if (entry.Exists())
 		{
