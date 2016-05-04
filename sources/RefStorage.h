@@ -11,10 +11,6 @@ extern BList gRefStructList;
 extern BLocker gRefLock;
 extern const char gPrefsPath[];
 
-enum
-{
-	M_REFRESH_FOLDERS = 'rffl'
-};
 
 class RefStorage
 {

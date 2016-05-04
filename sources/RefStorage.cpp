@@ -61,7 +61,7 @@ LoadFolders()
 
 	entry_ref tempRef;
 	int32 i = 0;
-	while (msg.FindRef("refs",i,&tempRef) == B_OK)
+	while (msg.FindRef("refs", i, &tempRef) == B_OK)
 	{
 		i++;
 		RefStorage* refholder = new RefStorage(tempRef);
