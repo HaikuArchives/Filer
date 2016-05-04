@@ -28,7 +28,8 @@
 
 AutoFilerTab::AutoFilerTab()
 	:
-	BView("AutoFiler", B_SUPPORTS_LAYOUT)
+	BView("AutoFiler", B_SUPPORTS_LAYOUT),
+	fDirtySettings(false)
 {
 	LoadFolders();
 	_BuildLayout();
@@ -75,7 +76,8 @@ AutoFilerTab::_BuildLayout()
 	fFolderList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_PANEL));
 
 	fAutorunBox = new BCheckBox("autorunbox",
-		"Run AutoFiler on system startup", new BMessage);
+		"Run AutoFiler on system startup",
+		new BMessage(MSG_AUTOFILER_AUTORUN));
 
 	fStartStop = new BButton("startstop", "Start AutoFiler",
 		new BMessage(MSG_STARTSTOP_AUTOFILER));
@@ -132,8 +134,7 @@ AutoFilerTab::_BuildLayout()
 void
 AutoFilerTab::AttachedToWindow()
 {
-//	SetFlags(Flags() | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
-
+	fAutorunBox->SetTarget(this);
 	fStartStop->SetTarget(this);
 	fAddButton->SetTarget(this);
 	fEditButton->SetTarget(this);
@@ -157,6 +158,9 @@ AutoFilerTab::AttachedToWindow()
 void
 AutoFilerTab::DetachedFromWindow()
 {
+	if (!fDirtySettings)
+		return;
+
 	SaveFolders();
 	
 	// save autorun value
@@ -171,18 +175,7 @@ AutoFilerTab::DetachedFromWindow()
 		node.WriteAttr("autorun", B_BOOL_TYPE, 0,
 			(void*)&autorun, sizeof(bool));
 	}
-	if (autorun)
-		EnableAutorun();
-	else
-		DisableAutorun();
-	
-	// if AutoFiler is running, tell it to refresh its folders
-	if (be_roster->IsRunning("application/x-vnd.dw-AutoFiler"))
-	{
-		BMessage msg(MSG_REFRESH_FOLDERS);
-		BMessenger msgr("application/x-vnd.dw-AutoFiler");
-		msgr.SendMessage(&msg);
-	}
+	ToggleAutorun(autorun);
 }
 
 
@@ -191,6 +184,11 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
+		case MSG_AUTOFILER_AUTORUN:
+		{
+			ToggleAutorun(fAutorunBox->Value() == B_CONTROL_ON);
+			break;
+		}
 		case MSG_STARTSTOP_AUTOFILER:
 		{
 			ToggleAutoFiler();
@@ -234,6 +232,8 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			RefStorage* refholder = (RefStorage*)gRefStructList.RemoveItem(selection);
 			delete refholder;
 			gRefLock.Unlock();
+
+			UpdateAutoFilerFolders();
 			break;
 		}
 		case MSG_FOLDER_SELECTED:
@@ -272,6 +272,8 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 
 			item->SetText(BPath(&ref).Path());
 			fFolderList->Invalidate();
+
+			UpdateAutoFilerFolders();
 			break;
 		}
 		default:
@@ -302,6 +304,30 @@ AutoFilerTab::UpdateAutoFilerLabel()
 		fStartStop->SetLabel("Stop AutoFiler");
 	else
 		fStartStop->SetLabel("Start AutoFiler");
+}
+
+
+void
+AutoFilerTab::UpdateAutoFilerFolders()
+{
+	fDirtySettings = true;
+	// if AutoFiler is running, tell it to refresh its folders
+	if (be_roster->IsRunning(kAutoFilerSignature)) {
+		BMessage msg(MSG_REFRESH_FOLDERS);
+		BMessenger msgr(kAutoFilerSignature);
+		msgr.SendMessage(&msg);
+	}
+}
+
+
+void
+AutoFilerTab::ToggleAutorun(bool autorun)
+{
+	fDirtySettings = true;
+	if (autorun)
+		EnableAutorun();
+	else
+		DisableAutorun();
 }
 
 
