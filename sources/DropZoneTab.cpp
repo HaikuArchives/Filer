@@ -10,6 +10,8 @@
 #include <Dragger.h>
 #include <Font.h>
 #include <LayoutBuilder.h>
+#include <MenuItem.h>
+#include <PopUpMenu.h>
 #include <Roster.h>
 #include <View.h>
 #include <private/interface/AboutWindow.h>
@@ -18,9 +20,6 @@
 #include "FilerDefs.h"
 #include "main.h"
 #include "ReplicantWindow.h"
-
-
-#define REPLICATE 'repl'
 
 void
 DropZone::_Init()
@@ -157,6 +156,11 @@ DropZone::MessageReceived(BMessage* msg)
 	}
 	switch (msg->what)
 	{
+		case MSG_OPEN_FILER:
+		{
+			be_roster->Launch(kFilerSignature);
+			break;
+		}
 		case B_ABOUT_REQUESTED:
 		{
 			BAboutWindow* about = new BAboutWindow("Filer", kFilerSignature);
@@ -178,6 +182,37 @@ DropZone::MessageReceived(BMessage* msg)
 }
 
 
+void
+DropZone::MouseDown(BPoint position)
+{
+	uint32 buttons = 0;
+	if (Window() != NULL && Window()->CurrentMessage() != NULL)
+		buttons = Window()->CurrentMessage()->FindInt32("buttons");
+
+	if (buttons == B_SECONDARY_MOUSE_BUTTON)
+		ShowPopUpMenu(ConvertToScreen(position));
+
+	BView::MouseDown(position);
+}
+
+
+void
+DropZone::ShowPopUpMenu(BPoint screen)
+{
+	if (!fReplicated)
+		return;
+
+	BPopUpMenu* menu = new BPopUpMenu("PopUpMenu", this);
+
+	BMenuItem* item = new BMenuItem("Open Filer" B_UTF8_ELLIPSIS,
+		new BMessage(MSG_OPEN_FILER));
+	menu->AddItem(item);
+
+	menu->SetTargetForItems(this);
+	menu->Go(screen, true, true, true);
+}
+
+
 DropZoneTab::DropZoneTab()
 	:
 	BView("Dropzone", B_SUPPORTS_LAYOUT)
@@ -188,7 +223,7 @@ DropZoneTab::DropZoneTab()
 	fDropzone = new DropZone(false);
 
 	fRepliButton = new BButton("replibutton",
-		"Replicate dropzone" B_UTF8_ELLIPSIS, new BMessage(REPLICATE));
+		"Replicate dropzone" B_UTF8_ELLIPSIS, new BMessage(MSG_REPLICATE));
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
@@ -218,9 +253,10 @@ DropZoneTab::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case REPLICATE:
+		case MSG_REPLICATE:
 		{
-			ReplicantWindow* replicantWindow = new ReplicantWindow(Window()->Frame());
+			ReplicantWindow* replicantWindow
+				= new ReplicantWindow(Window()->Frame());
 			replicantWindow->Show();
 			break;
 		}

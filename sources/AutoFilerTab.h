@@ -32,6 +32,8 @@ public:
 private:
 	void			_BuildLayout();
 
+	void			UpdateAutoFilerFolders();
+	void			ToggleAutorun(bool autorun);
 	void			EnableAutorun();
 	void			DisableAutorun();
 
@@ -51,6 +53,8 @@ private:
 	BFilePanel*		fFilePanel;
 	TypedRefFilter*	fRefFilter;
 	BMessageRunner*	fRunner;
+
+	bool			fDirtySettings;
 };
 
 #endif // AUTOFILERTAB_H
