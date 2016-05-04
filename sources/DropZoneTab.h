@@ -27,10 +27,13 @@ public:
 
 	virtual void			Draw(BRect rect);
 	void					MessageReceived(BMessage* msg);
+	void					MouseDown(BPoint position);
 
 	void					_Init();
 
 private:
+	void					ShowPopUpMenu(BPoint screen);
+
 	bool					fReplicated;
 	BStringView*			fLabel1;
 	BStringView* 			fLabel2;

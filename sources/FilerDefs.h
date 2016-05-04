@@ -21,6 +21,9 @@ static const char kSettingsFile[] = "Filer_settings";
 #define MSG_OK					'okay'
 #define MSG_CANCEL				'cncl'
 
+#define MSG_REPLICATE			'repl'
+#define MSG_OPEN_FILER			'opfi'
+
 #define MSG_ADD_TEST			'adts'
 #define MSG_REMOVE_TEST			'rmts'
 #define MSG_ADD_ACTION			'adac'
