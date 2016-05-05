@@ -143,12 +143,13 @@ AutoFilerTab::AttachedToWindow()
 	fFolderList->SetTarget(this);
 	fFilePanel->SetTarget(this);
 
+	BMessenger messenger(this);
 	if (fFolderList->CountItems() > 0) {
-		BMessenger messenger(this);
 		BMessage msg(MSG_FOLDER_SELECTED);
 		messenger.SendMessage(&msg);
 	}
 	BMessage msg(MSG_UPDATE_LABEL);
+	messenger.SendMessage(&msg);
 	fRunner	= new BMessageRunner(this, &msg, 0.5 * 6000000); // x * seconds
 
 	BView::AttachedToWindow();
@@ -160,8 +161,6 @@ AutoFilerTab::DetachedFromWindow()
 {
 	if (!fDirtySettings)
 		return;
-
-	SaveFolders();
 	
 	// save autorun value
 	bool autorun = (fAutorunBox->Value() == B_CONTROL_ON);
@@ -310,7 +309,8 @@ AutoFilerTab::UpdateAutoFilerLabel()
 void
 AutoFilerTab::UpdateAutoFilerFolders()
 {
-	fDirtySettings = true;
+	SaveFolders();
+
 	// if AutoFiler is running, tell it to refresh its folders
 	if (be_roster->IsRunning(kAutoFilerSignature)) {
 		BMessage msg(MSG_REFRESH_FOLDERS);

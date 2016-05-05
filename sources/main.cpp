@@ -93,7 +93,6 @@ App::RefsReceived(BMessage* msg)
 		printf("No files given could be processed. Exiting.\n");
 		fQuitRequested = true;
 	}
-	ProcessFiles();
 }
 
 

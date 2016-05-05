@@ -167,15 +167,6 @@ RuleTab::AttachedToWindow()
 
 
 void
-RuleTab::DetachedFromWindow()
-{
-	if (fChanges)
-		SaveRules(fRuleList);
-	MakeEmpty();
-}
-
-
-void
 RuleTab::MessageReceived(BMessage* message)
 {
 //	message->PrintToStream();
@@ -190,7 +181,7 @@ RuleTab::MessageReceived(BMessage* message)
 			frame.bottom = frame.top + 300;
 			frame.OffsetBy(60, 30);
 
-			RuleEditWindow* rulewin = new RuleEditWindow(frame, NULL);
+			RuleEditWindow* rulewin = new RuleEditWindow(frame, NULL, this);
 			rulewin->Show();
 			break;
 		}
@@ -205,29 +196,30 @@ RuleTab::MessageReceived(BMessage* message)
 			FilerRule* rule = fRuleList->ItemAt(
 				fRuleItemList->CurrentSelection());
 
-			RuleEditWindow* rulewin = new RuleEditWindow(frame, rule);
+			RuleEditWindow* rulewin = new RuleEditWindow(frame, rule, this);
 			rulewin->Show();
 			break;
 		}
 		case MSG_ADD_RULE:
 		{
-			fChanges = true;
 			FilerRule* item;
 			if (message->FindPointer("item", (void**)&item) == B_OK)
 				AddRule(item);
+
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_REMOVE_RULE:
 		{
-			fChanges = true;
 			if (fRuleItemList->CurrentSelection() >= 0)
 				RemoveRule((RuleItem*)fRuleItemList->ItemAt(
 					fRuleItemList->CurrentSelection()));
+
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_UPDATE_RULE:
 		{
-			fChanges = true;
 			FilerRule* rule;
 			if (message->FindPointer("item", (void**)&rule) == B_OK)
 			{
@@ -248,6 +240,8 @@ RuleTab::MessageReceived(BMessage* message)
 				}
 				delete rule;
 			}
+
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_REVERT:
@@ -276,24 +270,26 @@ RuleTab::MessageReceived(BMessage* message)
 		}
 		case MSG_MOVE_RULE_UP:
 		{
-			fChanges = true;
 			int32 selection = fRuleItemList->CurrentSelection();
 			if (selection < 1)
 				break;
 
 			fRuleItemList->SwapItems(selection, selection - 1);
 			fRuleList->SwapItems(selection, selection - 1);
+
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_MOVE_RULE_DOWN:
 		{
-			fChanges = true;
 			int32 selection = fRuleItemList->CurrentSelection();
 			if (selection > fRuleItemList->CountItems() - 1)
 				break;
 
 			fRuleItemList->SwapItems(selection, selection + 1);
 			fRuleList->SwapItems(selection, selection + 1);
+
+			SaveRules(fRuleList);
 			break;
 		}
 		default:
