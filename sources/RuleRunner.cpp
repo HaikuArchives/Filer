@@ -1053,7 +1053,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 	// While we could use other means of obtaining table names, this table is also
 	// used for maintaining the order of the rules, which must be preserved
 	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar);",
-		"PrefsWindow::SaveRules");
+		"RuleTab::SaveRules");
 
 	BString command;
 
@@ -1077,11 +1077,11 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 			<< "(entrytype varchar, testtype varchar, testmode varchar,
 			testvalue varchar, attrtype varchar, attrtypename varchar,
 			attrpublicname varchar);";
-		DBCommand(db, command.String(), "PrefsWindow::SaveRules");
+		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		command = "insert into RuleList values(";
 		command << i << ",'" << tablename << "');";
-		DBCommand(db, command.String(), "PrefsWindow::SaveRules");
+		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		for (int32 j = 0; j < rule->CountTests(); j++)
 		{
@@ -1108,7 +1108,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 				<< "', '" << EscapeIllegalCharacters(attrName.String())
 				<< "');";
 
-			DBCommand(db, command.String(), "PrefsWindow::SaveRules:save test");
+			DBCommand(db, command.String(), "RuleTab::SaveRules:save test");
 		}
 
 		for (int32 j = 0; j < rule->CountActions(); j++)
@@ -1127,7 +1127,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 				<< "', '"
 				<< "', '" << EscapeIllegalCharacters(value.String())
 				<< "', '', '', '');";
-			DBCommand(db, command.String(), "PrefsWindow::SaveRules:save action");
+			DBCommand(db, command.String(), "RuleTab::SaveRules:save action");
 		}
 	}
 	db.close();
@@ -1156,7 +1156,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 
 	CppSQLite3Query query;
 	query = DBQuery(db,"select name from RuleList order by ruleid;",
-		"PrefsWindow::LoadRules");
+		"RuleTab::LoadRules");
 
 	BString command;
 	while (!query.eof())
@@ -1185,7 +1185,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		// Now comes the fun(?) part: loading the tests and actions. Joy. :/
 		command = "select * from ";
 		command << rulename << " where entrytype = 'test';";
-		query = DBQuery(db, command.String(), "PrefsWindow::LoadRules");
+		query = DBQuery(db, command.String(), "RuleTab::LoadRules");
 
 		while (!query.eof())
 		{
@@ -1216,7 +1216,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 
 		command = "select * from ";
 		command << rulename << " where entrytype = 'action';";
-		query = DBQuery(db, command.String(), "PrefsWindow::LoadRules");
+		query = DBQuery(db, command.String(), "RuleTab::LoadRules");
 		
 		while (!query.eof())
 		{
