@@ -41,7 +41,7 @@ AutoFilerTab::AutoFilerTab()
 		B_DIRECTORY_NODE, false, NULL, fRefFilter);
 	BMessage panelMsg(MSG_FOLDER_CHOSEN);
 	fFilePanel->SetMessage(&panelMsg);
-	
+
 	gRefLock.Lock();
 	for (int32 i = 0; i < gRefStructList.CountItems(); i++)
 	{
@@ -49,7 +49,7 @@ AutoFilerTab::AutoFilerTab()
 		fFolderList->AddItem(new BStringItem(BPath(&refholder->ref).Path()));
 	}
 	gRefLock.Unlock();
-	
+
 	fFolderList->MakeFocus();
 	if (fFolderList->CountItems() > 0)
 		fFolderList->Select(0L);
@@ -181,6 +181,22 @@ AutoFilerTab::DetachedFromWindow()
 void
 AutoFilerTab::MessageReceived(BMessage* msg)
 {
+	if (msg->WasDropped()) {
+		BMessenger msgr(this);
+		entry_ref tempRef;
+		int32 i = 0;
+		while (msg->FindRef("refs", i, &tempRef) == B_OK)
+		{
+			BEntry entry(&tempRef);
+			if (entry.Exists()) {
+				BMessage newMsg(MSG_FOLDER_CHOSEN);
+				newMsg.AddRef("refs", &tempRef);
+				msgr.SendMessage(&newMsg);
+			} else
+				printf("Couldn't find file %s\n",tempRef.name);
+			i++;
+		}
+	}
 	switch (msg->what)
 	{
 		case MSG_AUTOFILER_AUTORUN:
@@ -252,11 +268,23 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			int32 index;
 			if (msg->FindInt32("index", &index) != B_OK)
 				index = -1;
-			
+
 			entry_ref ref;
 			if (msg->FindRef("refs", &ref) != B_OK)
 				break;
-			
+
+			BEntry entry(&ref);
+			BPath path;
+			entry.GetPath(&path);
+			if (!entry.IsDirectory()) {
+				path.GetParent(&path);
+				get_ref_for_path(path.Path(), &ref);
+			}
+
+			BString newpath(path.Path());
+			if (!IsFolderUnique(newpath))
+				return;
+
 			BStringItem* item = (BStringItem*)fFolderList->ItemAt(index);
 			if (item) {
 				gRefLock.Lock();
@@ -281,6 +309,22 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 		default:
 			BView::MessageReceived(msg);
 	}
+}
+
+
+bool
+AutoFilerTab::IsFolderUnique(BString newpath)
+{
+	if (fFolderList->IsEmpty())
+		return true;
+
+	bool unique = true;
+	for (int i = 0; i < fFolderList->CountItems(); i++) {
+		BStringItem* sItem = (BStringItem*)fFolderList->ItemAt(i);
+		if (newpath.Compare(sItem->Text()) == 0)
+			unique = false;
+	}
+	return unique;
 }
 
 
