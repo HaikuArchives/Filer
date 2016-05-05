@@ -211,9 +211,14 @@ RuleTab::MessageReceived(BMessage* message)
 		}
 		case MSG_REMOVE_RULE:
 		{
-			if (fRuleItemList->CurrentSelection() >= 0)
-				RemoveRule((RuleItem*)fRuleItemList->ItemAt(
-					fRuleItemList->CurrentSelection()));
+			int32 selection = fRuleItemList->CurrentSelection();
+			if (selection < 0)
+				break;
+
+			RemoveRule((RuleItem*)fRuleItemList->ItemAt(selection));
+
+			int32 count = fRuleItemList->CountItems();
+			fRuleItemList->Select((selection > count - 1) ? count - 1 : selection);
 
 			SaveRules(fRuleList);
 			break;

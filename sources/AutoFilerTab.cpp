@@ -227,6 +227,9 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			BStringItem* item = (BStringItem*)fFolderList->RemoveItem(selection);
 			delete item;
 
+			int32 count = fFolderList->CountItems();
+			fFolderList->Select((selection > count - 1) ? count - 1 : selection);
+
 			gRefLock.Lock();
 			RefStorage* refholder = (RefStorage*)gRefStructList.RemoveItem(selection);
 			delete refholder;
