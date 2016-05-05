@@ -25,7 +25,6 @@ public:
 					~RuleTab();
 
 	virtual void	AttachedToWindow();
-	virtual void	DetachedFromWindow();
 	void			MessageReceived(BMessage* message);
 	
 private:

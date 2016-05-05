@@ -37,6 +37,7 @@ private:
 	void			EnableAutorun();
 	void			DisableAutorun();
 
+	bool			IsFolderUnique(BString newpath);
 	void			ToggleAutoFiler();
 	void			UpdateAutoFilerLabel();
 	

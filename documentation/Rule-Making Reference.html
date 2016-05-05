@@ -8,6 +8,7 @@
  * Distributed under the terms of the MIT License.
  *
  * Authors:
+ *		DarkWyrm <darkwyrm@gmail.com>
  *		Humdinger <humdingerb@gmail.com>
 -->
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -98,6 +99,25 @@ td.onelinetop {
 ul {
 	padding-left: 14px;
 }
+
+/* Rounded corner boxes */
+/* Common declarations */
+.box-info {
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border-style: dotted;
+	border-width: thin;
+	border-color: #dcdcdc;
+	padding: 10px 15px 10px 80px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	min-height: 42px;
+}
+.box-info {
+	background: #e4ffde url(images/alert_info_32.png) 15px 15px no-repeat;
+}
 </style>
 
 </head>
@@ -110,12 +130,15 @@ ul {
 </div>
 <hr />
 <p><br /></p>
-<p>You will probably find most parts of the Filer pretty self-explanatory, please refer to <a href="User%20Documentation.html">Filer's User Documentation</a> for more information.</p>
-<p>To really get power out of it, you'll want to read the information below, though. There are also a number of useful examples to get you going.</p>
+<p>You will probably find most parts of the Filer pretty self-explanatory, please refer to <a href="User%20Documentation.html">Filer's User Documentation</a> for more information.<br />
+To really get power out of it, you'll want to read the information below, though. There are also a number of useful examples to get you going.</p>
+
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="rule-conditions" name="rule-conditions">Rule Conditions</a></h2>
 <p>You will need at least one condition for the rule to test for. It can be the type of file, something about its name, how big it is, or some other attribute. These other attributes can be things like someone's nickname kept in a Person file or the e-mail address in the To: field of an e-mail. Note that these can appear on just about any kind of file, but generally will only be found on the kind of file you expect it to be on. A rule will only match if all the conditions you set are met.</p>
+<div class="box-info">If a rule doesn't work right, try running Filer from the Terminal to see what it's doing as it processes your files.</div>
+
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="rule-actions" name="rule-actions">Rule Actions</a></h2>
@@ -128,6 +151,7 @@ ul {
 <tr><td class="onelinetop"><span class="key">Delete it</span></td><td></td><td>Only if you're sure of yourself and hate a cluttered Trash can.</td></tr>
 <tr><td class="onelinetop"><span class="key">Terminal command…</span></td><td></td><td>For experts. Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more Terminal command actions or a shell script.</td></tr>
 </table>
+
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="substitutions" name="substitutions">Substitutions</a></h2>
@@ -144,6 +168,7 @@ ul {
 <tr><td class="onelinetop">%TIME%</td><td></td><td>Current time using 24-hour time.</td></tr>
 <tr><td class="onelinetop">%ATTR:xxxx%</td><td></td><td>An extended attribute of the file. The technical name for the attribute is put between the colon and the second %. At this point, unfortunately, the case-sensitive, technical name of the attribute must be used. For example, an e-mail address attribute is META:email. This can be found in the FileTypes preferences application by choosing the type of file it is normally found on and double-clicking on it in the "Extra attributes" box. In the window that appears, it will be in the box marked "Internal name".</td></tr>
 </table>
+
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="common-attributes" name="common-attributes">Common Attributes</a></h2>

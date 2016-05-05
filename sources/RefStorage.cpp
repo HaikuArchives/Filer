@@ -68,7 +68,6 @@ LoadFolders()
 		if (refholder)
 			gRefStructList.AddItem(refholder);
 	}
-
 	return status;
 }
 

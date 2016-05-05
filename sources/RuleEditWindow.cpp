@@ -22,11 +22,12 @@
 #include "TestView.h"
 
 
-RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule)
+RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller)
 	:
 	BWindow(rect, "Edit rule", B_TITLED_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_CLOSE_ON_ESCAPE),
- 	fOriginalID(-1)
+	fOriginalID(-1),
+	fCaller(caller)
 {
 	if (rule)
 		fOriginalID = rule->GetID();
@@ -340,10 +341,5 @@ RuleEditWindow::SendRuleMessage()
 	msg.AddPointer("item", rule);
 	msg.AddInt64("id", fOriginalID);
 	
-	for (int32 i = 0; i < be_app->CountWindows(); i++)
-	{
-		BWindow* win = be_app->WindowAt(i);
-		if (strcmp(win->Title(), "Filer settings") == 0)
-			win->PostMessage(&msg);
-	}
+	fCaller->Looper()->PostMessage(&msg, fCaller);
 }

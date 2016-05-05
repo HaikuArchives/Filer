@@ -1,34 +1,5 @@
-Filer v1.0 Beta 3
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
 
-Filer is an automatic filer organizer. It can move, rename, copy, and much, much more. You could even make it bark. ;-) For extensive help and tips, click on the Help button from with the program.
+Filer is accompanied by AutoFiler. Instead of working on a set of files provided by the user, it can be started (automatically with Haiku) to monitor certain folders and deal with new files appearing there according to the user-defined rules.
 
-About this version
-
-Some more bugs were found in the second beta release and a suggested feature was added. Changes since Beta 2:
-
-1) Fixed a bug which caused all Type tests to fail
-
-2) Removed a crash after removing a rule
-
-3) Added the AutoFiler, a helper program which watches folders and runs the Filer on them whenever a new file appears in one of them.
-
-Please e-mail me if you find any bugs.
-
---DarkWyrm
-darkwyrm@gmail.com
-
-
-Usage
-
-Double-click on the Filer to open the list of organization rules. To make it organize files, just drag and drop one or more files onto its icon, right click on a file and choose it from the Open With menu, or give it a list of file names from the Terminal. If a rule doesn't work right, try running it from the Terminal to see what it's doing as it processes your files.
-
-
-Features
-
-- Choose from a file's name, size, location, type, or attributes as a source for conditions for organization
-
-- A wide variety of possible actions for files which match
-
-- Use substitution patterns in actions for more flexible renaming and organizing
-
-- Wildly extensible through the use of Terminal commands
+For more information, see the accompanying documentation and rule making reference in the documentation folder.

@@ -101,6 +101,25 @@ ol {
 ul {
 	padding-left: 14px;
 }
+
+/* Rounded corner boxes */
+/* Common declarations */
+.box-info {
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border-style: dotted;
+	border-width: thin;
+	border-color: #dcdcdc;
+	padding: 10px 15px 10px 80px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	min-height: 42px;
+}
+.box-info {
+	background: #e4ffde url(images/alert_info_32.png) 15px 15px no-repeat;
+}
 </style>
 
 </head>
@@ -113,7 +132,7 @@ ul {
 </div>
 <hr />
 <p><br /></p>
-<p><i>Filer</i> is an automatic file organizer. It takes the files it's opened with or that are dropped on its icon and moves, renames, copies or does all sorts of other things with them according to rules created by the user.</p>
+<p><i>Filer</i> is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.</p>
 <p><i>Filer</i> is accompanied by <i>AutoFiler</i>. Instead of working on a set of files provided by the user, it can be started (automatically with Haiku) to monitor certain folders and deal with new files appearing there according to the user-defined rules.</p>
 
 <h2>
@@ -137,7 +156,10 @@ ul {
 <img src="./images/filer_dropzone.png" alt="Filer's dropzone" />
 </div>
 <p>As described above under 4.), you can drag&amp;drop files onto the Dropzone to have them processed according to your set of rules. If you'd like to embed this Dropzone into the Desktop, click the button <span class="button">Replicate dropzone…</span>.<br />
-It opens a window to resize the dropzone to fit your needs. When that's done, drag the little Replicant handle in the bottom-right corner onto your Desktop. Make sure to have <span class="menu">Show replicants</span> in the Deskbar menu activated. Once on the Desktop, right-click the Replicant's handle for a menu to remove it again.</p>
+It opens a window to resize the dropzone to fit your needs. When that's done, drag the little Replicant handle in the bottom-right corner onto your Desktop. Make sure to have <span class="menu">Show replicants</span> in the Deskbar menu activated. Once on the Desktop, right-click the Replicant's handle for a menu to remove it again.<br />
+A right-click into the shaded part of the replicated Dropzone offers a menu as a shortcut to <span class="menu">Open Filer…</span>.</p>
+<div class="box-info">
+If you drag files from another partition onto a replicated Dropzone, you'll end up with copies of those files on your Desktop. This is because notifications of dropped files are not only processed by the Replicant, but also by the Tracker sitting below.</div>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
@@ -181,11 +203,13 @@ Here's the window that opens to edit a rule:</p>
 <li>Initial release.</li>
 </ul>
 
-<p><b>1.1.0</b> - <i>03-05-2016</i></p>
+<p><b>1.1.0</b> - <i>05-05-2016</i></p>
 <ul>
-<li>A new GUI to integrate Filer and AutoFiler settings.</li>
+<li>A new GUI that integrates Filer and AutoFiler settings.</li>
+<li>Some usability improvements.</li>
+<li>Apply changed settings, rules and monitored folders live.</li>
 <li>Add a button to manually start/stop AutoFiler.</li>
-<li>Adding a dropzone and make it replicatable.
+<li>Add a dropzone and make it replicatable.
 <li>Add user documentation.</li></li>
 </ul>
 </body>

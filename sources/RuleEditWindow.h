@@ -20,7 +20,7 @@ class TestView;
 class RuleEditWindow : public BWindow
 {
 public:
-				RuleEditWindow(BRect& rect, FilerRule* rule);
+				RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller);
 				~RuleEditWindow();
 
 	void		MessageReceived(BMessage* msg);
@@ -50,6 +50,7 @@ private:
 	BButton*		fHelp;
 
 	int64			fOriginalID;
+	BHandler*		fCaller;
 
 	BList			fTestList;
 	BList			fActionList;
