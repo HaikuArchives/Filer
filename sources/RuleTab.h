@@ -10,6 +10,7 @@
 #define RULETAB_H
 
 #include <Button.h>
+#include <CheckBox.h>
 #include <ListView.h>
 #include <View.h>
 
@@ -35,6 +36,8 @@ private:
 	void			MakeEmpty();
 
 	BObjectList<FilerRule>*fRuleList;
+
+	BCheckBox*		fMatchBox;
 
 	BButton*		fAddButton;
 	BButton*		fEditButton;

@@ -16,6 +16,7 @@
 
 #include "FilerRule.h"
 #include "FilerDefs.h"
+#include "main.h"
 #include "RuleEditWindow.h"
 #include "RuleItem.h"
 #include "RuleRunner.h"
@@ -98,6 +99,10 @@ RuleTab::~RuleTab()
 void
 RuleTab::_BuildLayout()
 {
+	fMatchBox = new BCheckBox("matchoncebox",
+		"Apply only the first matching rule",
+		new BMessage(MSG_MATCH_ONCE));
+
 	fRuleItemList = new BListView("rulelist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW	| B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
 	fScrollView = new BScrollView("listscroll", fRuleItemList,
@@ -105,7 +110,6 @@ RuleTab::_BuildLayout()
 
 	fRuleItemList->SetSelectionMessage(new BMessage(MSG_RULE_SELECTED));
 	fRuleItemList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_WINDOW));
-//	fScrollView->ScrollBar(B_HORIZONTAL)->SetRange(0.0, 0.0);
 	
 	fAddButton = new BButton("addbutton", "Add" B_UTF8_ELLIPSIS,
 		new BMessage(MSG_SHOW_ADD_WINDOW));
@@ -127,22 +131,25 @@ RuleTab::_BuildLayout()
 	fMoveDownButton->SetEnabled(false);
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
-	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(spacing)
-		.AddGroup(B_VERTICAL, 10.0f)
-			.Add(fScrollView)
-			.AddGroup(B_HORIZONTAL)
-				.AddGlue()
-				.Add(fAddButton)
-				.Add(fEditButton)
-				.Add(fRemoveButton)
+		.Add(fMatchBox)
+		.AddGroup(B_HORIZONTAL)
+			.AddGroup(B_VERTICAL, 10.0f)
+				.Add(fScrollView)
+				.AddGroup(B_HORIZONTAL)
+					.AddGlue()
+					.Add(fAddButton)
+					.Add(fEditButton)
+					.Add(fRemoveButton)
+					.AddGlue()
+				.End()
+			.End()
+			.AddGroup(B_VERTICAL)
+				.Add(fMoveUpButton)
+				.Add(fMoveDownButton)
 				.AddGlue()
 			.End()
-		.End()
-		.AddGroup(B_VERTICAL)
-			.Add(fMoveUpButton)
-			.Add(fMoveDownButton)
-			.AddGlue()
 		.End();
 }
 
@@ -150,6 +157,7 @@ RuleTab::_BuildLayout()
 void
 RuleTab::AttachedToWindow()
 {
+	fMatchBox->SetTarget(Looper());
 	fAddButton->SetTarget(this);
 	fEditButton->SetTarget(this);
 	fRemoveButton->SetTarget(this);
@@ -161,7 +169,10 @@ RuleTab::AttachedToWindow()
 		BMessenger messenger(this);
 		BMessage message(MSG_RULE_SELECTED);
 		messenger.SendMessage(&message);
-	}	
+	}
+	App* my_app = dynamic_cast<App*>(be_app);
+	fMatchBox->SetValue(my_app->GetMatchSetting());
+
 	BView::AttachedToWindow();
 }
 

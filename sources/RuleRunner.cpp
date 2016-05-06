@@ -172,6 +172,7 @@ static const char* sActions[] =
 	"Move it to the Trash",
 	"Delete it",
 	"Terminal command…",	
+	"Continue",
 
 	// Future expansion
 //	"Shred it",
@@ -476,6 +477,8 @@ RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 		return TrashAction(action, ref);
 	else if (actionname.Compare("Delete it") == 0)
 		return DeleteAction(action, ref);
+	else if (actionname.Compare("Continue") == 0)
+		return CONTINUE_TESTS;	// arbitrary pos non-B_OK value
 
 	return B_ERROR;
 }
@@ -525,11 +528,14 @@ RuleRunner::RunRule(FilerRule* rule, entry_ref& ref)
 			// required to do this is for the particular action to change the ref
 			// passed to it.
 			status_t status = RunAction(*action, realref);
+			if (status == CONTINUE_TESTS)	// keep ref in sync with reality
+				ref = realref;
 			if (status != B_OK)
 				return status;
 		}
+		return B_OK;
 	}
-	return B_OK;
+	return CONTINUE_TESTS;
 }
 
 
@@ -1234,6 +1240,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		query.finalize();
 	}
 	db.close();
+
 	return B_OK;
 }
 

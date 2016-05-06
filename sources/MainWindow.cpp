@@ -12,6 +12,7 @@
 #include <Path.h>
 #include <Screen.h>
 
+#include "main.h"
 #include "MainWindow.h"
 
 
@@ -91,6 +92,13 @@ MainWindow::MessageReceived(BMessage* msg)
 //	msg->PrintToStream();
 	switch (msg->what)
 	{
+		case MSG_MATCH_ONCE:
+		{
+			App* my_app = dynamic_cast<App*>(be_app);
+			my_app->ToggleMatchSetting();
+			SaveSettings();
+			break;
+		}
 		default:
 		{
 			BWindow::MessageReceived(msg);
@@ -104,6 +112,7 @@ MainWindow::LoadSettings()
 {
 	fPosition.Set(-1, -1, -1, -1);
 	fTabSelection = 0;
+	fMatchBoxSetting = false;
 
 	BPath path;
 	BMessage msg;
@@ -119,6 +128,8 @@ MainWindow::LoadSettings()
 					fPosition.Set(-1, -1, -1, -1);
 				if (msg.FindInt32("tab", &fTabSelection) != B_OK)
 					fTabSelection = 0;
+				if (msg.FindBool("match", &fMatchBoxSetting) != B_OK)
+					fMatchBoxSetting = false;
 			}
 		}
 	}
@@ -130,7 +141,10 @@ MainWindow::SaveSettings()
 {
 	BRect pos = Frame();
 	int32 tab = fTabView->Selection();
-	if (pos == fPosition && tab == fTabSelection)
+	App* my_app = dynamic_cast<App*>(be_app);
+	bool match = my_app->GetMatchSetting();
+
+	if (pos == fPosition && tab == fTabSelection && match == fMatchBoxSetting)
 		return;
 
 	BPath path;
@@ -153,6 +167,7 @@ MainWindow::SaveSettings()
 		if (ret == B_OK) {
 			msg.AddRect("pos", pos);
 			msg.AddInt32("tab", tab);
+			msg.AddBool("match", match);
 			msg.Flatten(&file);
 		}
 	}

@@ -23,6 +23,8 @@ enum
 	TEST_TYPE_ANY
 };
 
+// Pos-non-zero status value to specify checking more rules after match
+#define CONTINUE_TESTS 1
 
 class RuleRunner
 {

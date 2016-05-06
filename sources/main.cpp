@@ -30,13 +30,15 @@ App::App()
  	fRefList(NULL),
  	fRuleList(NULL),
 	fMainWin(NULL),
- 	fQuitRequested(false)
+	fQuitRequested(false),
+	fMatchSetting(false)
 {
 	fRefList = new BObjectList<entry_ref>(20, true);
 	fRuleList = new BObjectList<FilerRule>(20, true);
 	
 //	SetupTypeMenu();
 
+	LoadRuleSettings();
 	LoadRules(fRuleList);
 }
 
@@ -45,6 +47,41 @@ App::~App()
 {
 	delete fRefList;
 	delete fRuleList;
+}
+
+
+void
+App::LoadRuleSettings()
+{
+	BPath path;
+	BMessage msg;
+
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, &path) == B_OK) {
+		status_t ret = path.Append(kSettingsFolder);
+		if (ret == B_OK) {
+			path.Append(kSettingsFile);
+			BFile file(path.Path(), B_READ_ONLY);
+
+			if ((file.InitCheck() == B_OK) && (msg.Unflatten(&file) == B_OK)) {
+				if (msg.FindBool("match", &fMatchSetting) != B_OK)
+					fMatchSetting = false;
+			}
+		}
+	}
+}
+
+
+bool
+App::GetMatchSetting()
+{
+	return fMatchSetting;
+}
+
+
+void
+App::ToggleMatchSetting()
+{
+	fMatchSetting = !fMatchSetting;
 }
 
 
@@ -142,25 +179,6 @@ App::ProcessFiles()
 
 
 void
-App::ShowHTML(const char* docfile)
-{
-	app_info info;
-	BPath path;
-	be_roster->GetActiveAppInfo(&info);
-	BEntry entry(&info.ref);
-
-	entry.GetPath(&path);
-	path.GetParent(&path);
-	path.Append(docfile);
-
-	entry = path.Path();
-	entry_ref ref;
-	entry.GetRef(&ref);
-	be_roster->Launch(&ref);
-}
-
-
-void
 App::FileRef(entry_ref ref)
 {
 	RuleRunner runner;
@@ -168,7 +186,15 @@ App::FileRef(entry_ref ref)
 	for (int32 i = 0; i < fRuleList->CountItems(); i++)
 	{
 		FilerRule* rule = fRuleList->ItemAt(i);
-		runner.RunRule(rule, ref);
+		status_t res = runner.RunRule(rule,ref);
+		printf("return: %i\n", res);
+
+		// default stop here if rule was successful
+		// note that the loop will continue if a rule has an error
+		if (res == B_OK && fMatchSetting == true) {
+			printf("Applying first matching rule only!\n");
+			break;
+		}
 	}
 }
 
@@ -225,6 +251,25 @@ App::SetupTypeMenu()
 
 	menu->Archive(&gArchivedTypeMenu);
 	delete menu;
+}
+
+
+void
+App::ShowHTML(const char* docfile)
+{
+	app_info info;
+	BPath path;
+	be_roster->GetActiveAppInfo(&info);
+	BEntry entry(&info.ref);
+
+	entry.GetPath(&path);
+	path.GetParent(&path);
+	path.Append(docfile);
+
+	entry = path.Path();
+	entry_ref ref;
+	entry.GetRef(&ref);
+	be_roster->Launch(&ref);
 }
 
 
