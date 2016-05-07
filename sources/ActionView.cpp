@@ -92,7 +92,7 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 		"\%REVERSEDATE\%\t\tCurrent date in the format YYYY-MM-DD\n"
 		"\%TIME\%\t\t\t\tCurrent time using 24-hour time\n"
 		"\%ATTR:xxxx\%\t\t\tAn extended attribute of the file");
-	SetToolTip(toolTip.String());
+	fValueBox->SetToolTip(toolTip.String());
 }
 
 

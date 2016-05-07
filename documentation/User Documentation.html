@@ -125,7 +125,7 @@ ul {
 </head>
 <body>
 <div align = "center">
-<img width="64" height="64" src="./images/filer_icon_64.png" alt="Filer icon" />
+<img src="./images/filer_icon_64.png" alt="Filer icon" />
 <p><span style="font-size: 1.5em; font-weight:bold">Filer's User Documentation</span></p>
 <hr />
 <p id="index"><a href="#usage">Usage</a> &mdash; <a href="#dropzone">Dropzone</a> &mdash; <a href="#rules">Rules</a> &mdash; <a href="#autofiler">AutoFiler</a> &mdash; <a href="#help">Help</a> &mdash; <a href="#history">History</a></p>
@@ -167,9 +167,10 @@ If you drag files from another partition onto a replicated Dropzone, you'll end 
 <div align="center">
 <img src="./images/filer_ruleslist.png" alt="Filer's rules" />
 </div>
-<p>The second tab shows the list of organization rules. Every dropped file is being tested against &ndash; and if its type etc. matches processed  by &ndash; each rule, top to bottom.</p>
+<p>The second tab shows the list of organization rules. Every dropped file is being tested against &ndash; and if its type etc. matches, processed  by &ndash; each rule, top to bottom.</p>
+<p>You can opt to <span class="menu">Apply only the first matching rule</span> if you prefer that. Filer will then stop trying to match rules to a file after it found one. (A rule can override that by adding a <span class="menu">Continue</span> at the end of its "Do" block. See the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> for more info.)</p>
 <p>You can arrange the rules with the <span class="button">Move up/down</span> buttons and <span class="button">Add…</span>, <span class="button">Edit…</span> and <span class="button">Remove</span> them.<br />
-Here's the window that opens to edit a rule:</p>
+Here's the window that opens to edit a rule, which is similar to the one for adding a rule:</p>
 <div align="center">
 <img src="./images/filer_edit_rule.png" alt="Editing a rule" /></div>
 <p>A rule needs three items: A <span class="menu">Description</span>, the condition <span class="menu">When</span> it is applied, and what action to <span class="menu">Do</span>.</p>
@@ -203,14 +204,15 @@ Here's the window that opens to edit a rule:</p>
 <li>Initial release.</li>
 </ul>
 
-<p><b>1.1.0</b> - <i>05-05-2016</i></p>
+<p><b>1.1.0</b> - <i>08-05-2016</i></p>
 <ul>
 <li>A new GUI that integrates Filer and AutoFiler settings.</li>
-<li>Some usability improvements.</li>
+<li>Some usability improvements like drag&amp;drop support for AutoFiler folders and a tooltip for actions in the rule editing window.</li>
 <li>Apply changed settings, rules and monitored folders live.</li>
 <li>Add a button to manually start/stop AutoFiler.</li>
-<li>Add a dropzone and make it replicatable.
-<li>Add user documentation.</li></li>
+<li>Add a dropzone and make it replicatable.</li>
+<li>Add an option to stop matching rules after the first match was found (idea and code adopted from Pete Goodeve).</li>
+<li>Add user documentation.</li>
 </ul>
 </body>
 </html>

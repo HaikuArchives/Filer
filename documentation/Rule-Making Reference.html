@@ -123,7 +123,7 @@ ul {
 </head>
 <body>
 <div align = "center">
-<img width="64" height="64" src="./images/filer_icon_64.png" alt="Filer icon" />
+<img src="./images/filer_icon_64.png" alt="Filer icon" />
 <p><span style="font-size: 1.5em; font-weight:bold">Filer's Rule-Making Reference</span></p>
 <hr />
 <p id="index"><a href="#rule-conditions">Rule Conditions</a> &mdash; <a href="#rule-actions">Rule Actions</a> &mdash; <a href="#substitutions">Substitutions</a><br /><a href="#common-attributes">Common Attribute Names</a> &mdash; <a href="#examples">Example Rules</a></p>
@@ -149,7 +149,10 @@ To really get power out of it, you'll want to read the information below, though
 <tr><td class="onelinetop"><span class="key">Rename it to…</span></td><td></td><td>Rename the file. </td></tr>
 <tr><td class="onelinetop"><span class="key">Move it to the Trash</span></td><td></td><td>For those files which you no longer want.</td></tr>
 <tr><td class="onelinetop"><span class="key">Delete it</span></td><td></td><td>Only if you're sure of yourself and hate a cluttered Trash can.</td></tr>
-<tr><td class="onelinetop"><span class="key">Terminal command…</span></td><td></td><td>For experts. Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more Terminal command actions or a shell script.</td></tr>
+<tr><td class="onelinetop"><span class="key">Terminal command…</span></td><td></td><td>Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more Terminal command actions or a shell script.</td></tr>
+<tr><td class="onelinetop"><span class="key">Continue</span></td><td></td><td>This one should only be added last to a list of actions. There are two cases where it comes in useful:
+<ul><li>Firstly, if you've set <span class="menu">Apply only the first matching rule</span> in the rules settings, this "<i>Continue</i>" will override it, and the matching of rules will continue anyway.</li>
+<li>Secondly, if several rules are applied to a file which change the file name or location. Otherwise, if the first rule renames or moves a file, the second won't be able to find the file anymore. A "<i>Continue</i>" at the bottom of the first rule will hand over the new file name or location to the next rule.</li></ul></td></tr>
 </table>
 
 <h2>
