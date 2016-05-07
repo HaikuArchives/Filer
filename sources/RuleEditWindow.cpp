@@ -68,7 +68,7 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller)
 	top->AddChild(fTestGroup);
 
 	fAddTest = new BButton(BRect(0, 0, 1, 1),"addtestbutton", "Add",
-		new BMessage(MSG_ADD_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
+		new BMessage(MSG_ADD_TEST), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	fAddTest->ResizeToPreferred();
 	fAddTest->MoveTo(10.0, fTestGroup->Bounds().bottom - 10.0
 		- fAddTest->Bounds().Height());

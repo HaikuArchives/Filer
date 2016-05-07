@@ -2,7 +2,9 @@
 	RuleRunner.cpp: class to handle running test and actions for the rules
 	Released under the MIT license.
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
-	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+	Contributed by:
+		Humdinger <humdingerb@gmail.com>, 2016
+		Pete Goodeve
 */
 
 #include <Directory.h>

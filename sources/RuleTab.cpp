@@ -185,7 +185,6 @@ RuleTab::MessageReceived(BMessage* message)
 	{
 		case MSG_SHOW_ADD_WINDOW:
 		{
-			printf("Show Add Window\n");
 			BRect frame(Frame());
 			ConvertToScreen(&frame);
 			frame.right = frame.left + 400;
@@ -258,16 +257,7 @@ RuleTab::MessageReceived(BMessage* message)
 			}
 
 			SaveRules(fRuleList);
-			break;
-		}
-		case MSG_REVERT:
-		{
-			while (fRuleItemList->CountItems() > 0)
-				RemoveRule((RuleItem*)fRuleItemList->ItemAt(0L));
 			fRuleList->MakeEmpty();
-			fEditButton->SetEnabled(false);
-			fRemoveButton->SetEnabled(false);
-
 			LoadRules(fRuleList);
 			break;
 		}

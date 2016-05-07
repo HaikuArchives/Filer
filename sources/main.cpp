@@ -3,7 +3,9 @@
 	
 	Released under the MIT license.
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
-	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+	Contributed by:
+		Humdinger <humdingerb@gmail.com>, 2016
+		Pete Goodeve
 */
 
 #include <FindDirectory.h>
