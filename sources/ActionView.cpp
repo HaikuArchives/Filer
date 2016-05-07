@@ -80,6 +80,19 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 
 		fValueBox->SetText("");
 	}
+
+	BString toolTip(
+		"\%FILENAME\%\t\t\tFull file name\n"
+		"\%EXTENSION\%\t\tJust the extension\n"
+		"\%BASENAME\%\t\tFile name without extension\n"
+		"\%FOLDER\%\t\t\tFull location of the folder which contains the file\n"
+		"\%FULLPATH\%\t\t\tFull location of the file\n"
+		"\%DATE\%\t\t\t\tCurrent date in the format MM-DD-YYYY\n"
+		"\%EURODATE\%\t\tCurrent date in the format DD-MM-YYYY\n"
+		"\%REVERSEDATE\%\t\tCurrent date in the format YYYY-MM-DD\n"
+		"\%TIME\%\t\t\t\tCurrent time using 24-hour time\n"
+		"\%ATTR:xxxx\%\t\t\tAn extended attribute of the file");
+	SetToolTip(toolTip.String());
 }
 
 

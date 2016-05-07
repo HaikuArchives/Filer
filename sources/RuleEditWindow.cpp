@@ -81,10 +81,9 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller)
 	fTestGroup->AddChild(fRemoveTest);
 	fRemoveTest->SetEnabled(false);
 
-	fTestGroup->ResizeBy(0, fAddTest->Bounds().Height() + 10.0);
+	fTestGroup->ResizeBy(0, fAddTest->Bounds().Height());
 
 	// Set up the actions group and associated buttons
-
 	rect.OffsetTo(10, fTestGroup->Frame().bottom + 10.0);
 	fActionGroup = new BBox(rect, "dogroup", B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	fActionGroup->SetLabel("Do");
