@@ -2,14 +2,20 @@
 	AutoTextControl.cpp: A BTextControl which notifies on each keypress
 	Written by DarkWyrm <darkwyrm@earthlink.net>, Copyright 2007
 	Released under the MIT license.
+	Contributed by:
+		Pete Goodeve
 */
 
 #include "AutoTextControl.h"
-#include <Window.h>
+
+#include <Entry.h>
+#include <Path.h>
+#include <PropertyInfo.h>
 #include <String.h>
+#include <Window.h>
+
 #include <stdio.h>
 #include <ctype.h>
-#include <PropertyInfo.h>
 
 static property_info sProperties[] = {
 	{ "CharacterLimit", { B_GET_PROPERTY, 0 }, { B_DIRECT_SPECIFIER, 0 },
@@ -115,6 +121,19 @@ AutoTextControl::DetachedFromWindow()
 		Window()->RemoveCommonFilter(fFilter);
 
 	BTextControl::DetachedFromWindow();
+}
+
+
+void
+AutoTextControl::MessageReceived(BMessage* msg)
+{
+	if (msg->WasDropped()) {
+		entry_ref r;
+		if (msg->FindRef("refs", &r) == B_OK)
+			SetText(BPath(&r).Path());
+		Invoke();
+	}
+	else BTextControl::MessageReceived(msg);
 }
 
 

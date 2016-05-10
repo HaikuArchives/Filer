@@ -34,6 +34,7 @@ private:
 	void			AddRule(FilerRule* rule);
 	void			RemoveRule(RuleItem* item);
 	void			MakeEmpty();
+	void			UpdateRules();
 
 	BObjectList<FilerRule>*fRuleList;
 

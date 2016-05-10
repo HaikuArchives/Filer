@@ -785,9 +785,6 @@ StringCompare(const BString& from, const BString& to, const char* mode,
 		else
 			pos = to.IFindLast(from);
 
-		if (pos == B_ERROR)
-			return false;
-
 		return (to.CountChars() - from.CountChars() == pos);
 	}	
 

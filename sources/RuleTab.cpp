@@ -216,7 +216,7 @@ RuleTab::MessageReceived(BMessage* message)
 			if (message->FindPointer("item", (void**)&item) == B_OK)
 				AddRule(item);
 
-			SaveRules(fRuleList);
+			UpdateRules();
 			break;
 		}
 		case MSG_REMOVE_RULE:
@@ -230,7 +230,7 @@ RuleTab::MessageReceived(BMessage* message)
 			int32 count = fRuleItemList->CountItems();
 			fRuleItemList->Select((selection > count - 1) ? count - 1 : selection);
 
-			SaveRules(fRuleList);
+			UpdateRules();
 			break;
 		}
 		case MSG_UPDATE_RULE:
@@ -256,9 +256,7 @@ RuleTab::MessageReceived(BMessage* message)
 				delete rule;
 			}
 
-			SaveRules(fRuleList);
-			fRuleList->MakeEmpty();
-			LoadRules(fRuleList);
+			UpdateRules();
 			break;
 		}
 		case MSG_RULE_SELECTED:
@@ -283,7 +281,7 @@ RuleTab::MessageReceived(BMessage* message)
 			fRuleItemList->SwapItems(selection, selection - 1);
 			fRuleList->SwapItems(selection, selection - 1);
 
-			SaveRules(fRuleList);
+			UpdateRules();
 			break;
 		}
 		case MSG_MOVE_RULE_DOWN:
@@ -295,7 +293,7 @@ RuleTab::MessageReceived(BMessage* message)
 			fRuleItemList->SwapItems(selection, selection + 1);
 			fRuleList->SwapItems(selection, selection + 1);
 
-			SaveRules(fRuleList);
+			UpdateRules();
 			break;
 		}
 		default:
@@ -358,4 +356,14 @@ RuleTab::MakeEmpty()
 		RuleItem* item = (RuleItem*)fRuleItemList->RemoveItem(i);
 		delete item;
 	}
+}
+
+
+void
+RuleTab::UpdateRules()
+{
+printf("UpdateRules!\n");
+	SaveRules(fRuleList);
+	fRuleList->MakeEmpty();
+	LoadRules(fRuleList);
 }
