@@ -2,6 +2,7 @@
 	ActionView.cpp: View for adjusting settings for an individual Filer action
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Contributed by: Pete Goodeve, 2016
 */
 
 #include <Font.h>
@@ -157,7 +158,7 @@ ActionView::MessageReceived(BMessage* msg)
 			break;
 		}
 		case MSG_VALUE_CHANGED:
-		{
+		{	// now done in GetAction, but left here for now
 			BString str;
 			if (fAction->FindString("value", &str) == B_OK)
 				fAction->ReplaceString("value", fValueBox->Text());
@@ -176,6 +177,12 @@ ActionView::MessageReceived(BMessage* msg)
 BMessage*
 ActionView::GetAction() const
 {
+	BString str;
+	if (fAction->FindString("value", &str) == B_OK)
+		fAction->ReplaceString("value", fValueBox->Text());
+	else
+		fAction->AddString("value", fValueBox->Text());
+
 	return fAction;
 }
 

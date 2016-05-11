@@ -173,7 +173,7 @@ static const char* sActions[] =
 	"Add to archive…",
 	"Move to Trash",
 	"Delete",
-	"Terminal command…",	
+	"Shell command…",
 	"Continue",
 
 	// Future expansion
@@ -473,7 +473,7 @@ RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 		return OpenAction(action, ref);
 	else if (actionname.Compare("Add to archive…") == 0)
 		return ArchiveAction(action, ref);
-	else if (actionname.Compare("Terminal command…") == 0)
+	else if (actionname.Compare("Shell command…") == 0)
 		return CommandAction(action, ref);
 	else if (actionname.Compare("Move to Trash") == 0)
 		return TrashAction(action, ref);
@@ -978,10 +978,10 @@ CommandAction(const BMessage& action, entry_ref& ref)
 
 	int result = system(value.String());
 	if (result) {
-		printf("\tTerminal Command: %s\n\t\tPossible error: "
+		printf("\Shell Command: %s\n\t\tPossible error: "
 			"command returned %d\n", value.String(), result);
 	} else
-		printf("\tTerminal Command: %s\n", value.String());
+		printf("\Shell Command: %s\n", value.String());
 
 	return B_OK;
 }

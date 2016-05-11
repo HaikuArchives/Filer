@@ -2,6 +2,7 @@
 	TestView.cpp: view to display and edit settings for Filer tests
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Contributed by: Pete Goodeve, 2016
 */
 
 #include <Font.h>
@@ -187,7 +188,7 @@ TestView::MessageReceived(BMessage* msg)
 			break;
 		}
 		case MSG_VALUE_CHANGED:
-		{
+		{	// Now done in GetTest, but left for now...
 			BString str;
 			if (fTest->FindString("value", &str) == B_OK)
 				fTest->ReplaceString("value", fValueBox->Text());
@@ -271,6 +272,12 @@ TestView::MessageReceived(BMessage* msg)
 BMessage*
 TestView::GetTest() const
 {
+	BString str;
+	if (fTest->FindString("value", &str) == B_OK)
+		fTest->ReplaceString("value", fValueBox->Text());
+	else
+		fTest->AddString("value", fValueBox->Text());
+
 	return fTest;
 }
 
@@ -293,7 +300,7 @@ TestView::SetupTestMenu()
 	BMimeType::GetInstalledTypes(&types);
 
 	int32 index = 0;
-	while (types.FindString("types",index,&string) == B_OK)
+	while (types.FindString("types", index, &string) == B_OK)
 	{
 		index++;
 		mime.SetTo(string.String());

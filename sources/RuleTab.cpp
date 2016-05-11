@@ -74,7 +74,7 @@ RuleTab::RuleTab()
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Name", "ends with", ".zip"));
-			rule->AddAction(MakeAction("Terminal command…",
+			rule->AddAction(MakeAction("Shell command…",
 				"unzip %FULLPATH% -d /boot/home/Desktop"));
 			rule->SetDescription("Extract ZIP files to the Desktop");
 			AddRule(rule);
