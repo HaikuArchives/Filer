@@ -144,15 +144,15 @@ To really get power out of it, you'll want to read the information below, though
 <a id="rule-actions" name="rule-actions">Rule Actions</a></h2>
 <p>If the conditions are met, the Filer will perform a series of actions that you choose. Actions can be chained together, such as renaming a file and then moving it to another folder.</p>
 <table>
-<tr><td class="onelinetop"><span class="key">Move it to…</span></td><td width="10"></td><td>Move a file to the folder entered in the text field.</td></tr>
-<tr><td class="onelinetop"><span class="key">Copy it to…</span></td><td></td><td>Copy a file to the folder entered in the text field.</td></tr>
-<tr><td class="onelinetop"><span class="key">Rename it to…</span></td><td></td><td>Rename the file. </td></tr>
-<tr><td class="onelinetop"><span class="key">Move it to the Trash</span></td><td></td><td>For those files which you no longer want.</td></tr>
-<tr><td class="onelinetop"><span class="key">Delete it</span></td><td></td><td>Only if you're sure of yourself and hate a cluttered Trash can.</td></tr>
-<tr><td class="onelinetop"><span class="key">Terminal command…</span></td><td></td><td>Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more Terminal command actions or a shell script.</td></tr>
-<tr><td class="onelinetop"><span class="key">Continue</span></td><td></td><td>This one should only be added last to a list of actions. There are two cases where it comes in useful:
-<ul><li>Firstly, if you've set <span class="menu">Apply only the first matching rule</span> in the rules settings, this "<i>Continue</i>" will override it, and the matching of rules will continue anyway.</li>
-<li>Secondly, if several rules are applied to a file which change the file name or location. Otherwise, if the first rule renames or moves a file, the second won't be able to find the file anymore. A "<i>Continue</i>" at the bottom of the first rule will hand over the new file name or location to the next rule.</li></ul></td></tr>
+<tr><td class="onelinetop"><span class="key">Move to folder…</span></td><td width="10"></td><td>Move a file to the folder entered in the text field.</td></tr>
+<tr><td class="onelinetop"><span class="key">Copy to folder…</span></td><td></td><td>Copy a file to the folder entered in the text field.</td></tr>
+<tr><td class="onelinetop"><span class="key">Rename  to…</span></td><td></td><td>Rename the file.</td></tr>
+<tr><td class="onelinetop"><span class="key">Open</span></td><td></td><td>Open the file with its preferred application.</td></tr>
+<tr><td class="onelinetop"><span class="key">Add to archive…</span></td><td></td><td>Adds the file to a ZIP archive.</td></tr>
+<tr><td class="onelinetop"><span class="key">Move to Trash</span></td><td></td><td>Puts the file into the Trash.</td></tr>
+<tr><td class="onelinetop"><span class="key">Delete</span></td><td></td><td>By-passes the Trash and removes the file directly.</td></tr>
+<tr><td class="onelinetop"><span class="key">Shell command…</span></td><td></td><td>Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more Terminal command actions or a shell script, because the following actions/rules can't keep track of these changes.</td></tr>
+<tr><td class="onelinetop"><span class="key">Continue</span></td><td></td><td>If you've set <span class="menu">Apply only the first matching rule</span> in the rules settings, this "<i>Continue</i>" will override it, and the matching of rules will continue anyway.</td></tr>
 </table>
 
 <h2>
@@ -198,29 +198,29 @@ To really get power out of it, you'll want to read the information below, though
 <p>Move all e-mails on the MyAccount account to its own folder in the mail folder:</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Email:Account</span></td><td width="10"></td><td><span class="key">is</span></td><td width="10"></td><td>MyAccount</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Move it to…</span></td><td width="10"></td><td colspan="3">/boot/home/mail/MyAccount</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Move to folder…</span></td><td width="10"></td><td colspan="3">/boot/home/mail/MyAccount</td></tr>
 </table>
 </li><li>
 <p>Sort JPEG photos by date into their own folder in /boot/home/Pictures:</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Type</span></td><td width="10"></td><td><span class="key">is</span></td><td width="10"></td><td>image/jpeg</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Rename it to…</span></td><td width="10"></td><td colspan="3">Photo %TIME%.jpg</td></tr>
-<tr><td></td><td width="10"></td><td><span class="key">Move it to…</span></td><td width="10"></td><td colspan="3">/boot/home/Pictures/%DATE%</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Rename to…</span></td><td width="10"></td><td colspan="3">Photo %TIME%.jpg</td></tr>
+<tr><td></td><td width="10"></td><td><span class="key">Move to folder…</span></td><td width="10"></td><td colspan="3">/boot/home/Pictures/%DATE%</td></tr>
 </table>
 </li><li>
 <p>Make sure that MP3s have searchable attributes using Axel Dörfler's excellent id3attr program, rename them to "ArtistName - SongName.mp3", and sort them in the /boot/home/music folder by the artist's name. This would make importing an MP3 collection from somewhere else very easy.</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.mp3</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Terminal command…</span></td><td width="10"></td><td colspan="3">id3attr '%FULLPATH%'</td></tr>
-<tr><td></td><td width="10"></td><td><span class="key">Rename it to…</span></td><td width="10"></td><td class="onelinetop" colspan="3">%ATTR:Audio:Artist% - %ATTR:Audio:Title%.mp3</td></tr>
-<tr><td></td><td width="10"></td><td><span class="key">Move it to…</span></td><td width="10"></td><td colspan="3">/boot/home/music/%ATTR:Audio:Artist%</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command…</span></td><td width="10"></td><td colspan="3">id3attr '%FULLPATH%'</td></tr>
+<tr><td></td><td width="10"></td><td><span class="key">Rename  to…</span></td><td width="10"></td><td class="onelinetop" colspan="3">%ATTR:Audio:Artist% - %ATTR:Audio:Title%.mp3</td></tr>
+<tr><td></td><td width="10"></td><td><span class="key">Move to folder…</span></td><td width="10"></td><td colspan="3">/boot/home/music/%ATTR:Audio:Artist%</td></tr>
 </table>
 </li><li>
 <p>Extract Zip archives to the Desktop and dump them into the Trash for later disposal:</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.zip</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Terminal command…</span></td><td width="10"></td><td class="onelinetop" colspan="3">unzip %FULLPATH% -d boot/home/Desktop</td></tr>
-<tr><td></td><td width="10"></td><td colspan="6"><span class="key">Move it to the Trash</span></td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command…</span></td><td width="10"></td><td class="onelinetop" colspan="3">unzip %FULLPATH% -d boot/home/Desktop</td></tr>
+<tr><td></td><td width="10"></td><td colspan="6"><span class="key">Move to Trash</span></td></tr>
 </table>
 </li>
 </ul>

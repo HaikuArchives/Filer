@@ -171,7 +171,7 @@ DropZone::MessageReceived(BMessage* msg)
 				"renames, copies or does all sorts of other things with them "
 				"according to rules created by the user.");
 			about->AddCopyright(2008, "DarkWyrm");
-			about->AddCopyright(2016, "Humdinger");
+			about->AddCopyright(2016, "Humdinger, Pete Goodeve");
 			about->Show();
 		}
 		default:
