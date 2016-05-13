@@ -50,25 +50,25 @@ RuleTab::RuleTab()
 
 			// NOTE: If actions 
 			rule->AddTest(MakeTest("Type", "is", "text/plain"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Documents"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Documents"));
 			rule->SetDescription("Store text files in my Documents folder");
 			AddRule(rule);
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Type", "is", "application/pdf"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Documents"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Documents"));
 			rule->SetDescription("Store PDF files in my Documents folder");
 			AddRule(rule);
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Type", "starts with", "image/"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Pictures"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Pictures"));
 			rule->SetDescription("Store pictures in my Pictures folder");
 			AddRule(rule);
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Type", "starts with","video/"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Videos"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Videos"));
 			rule->SetDescription("Store movie files in my Videos folder");
 			AddRule(rule);
 
@@ -165,11 +165,9 @@ RuleTab::AttachedToWindow()
 	fMoveDownButton->SetTarget(this);
 	fRuleItemList->SetTarget(this);
 
-	if (fRuleItemList->CountItems() > 0) {
-		BMessenger messenger(this);
-		BMessage message(MSG_RULE_SELECTED);
-		messenger.SendMessage(&message);
-	}
+	if (fRuleItemList->CountItems() > 0)
+		UpdateButtons();
+
 	App* my_app = dynamic_cast<App*>(be_app);
 	fMatchBox->SetValue(my_app->GetMatchSetting());
 
@@ -216,7 +214,8 @@ RuleTab::MessageReceived(BMessage* message)
 			if (message->FindPointer("item", (void**)&item) == B_OK)
 				AddRule(item);
 
-			UpdateRules();
+			UpdateButtons();
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_REMOVE_RULE:
@@ -225,12 +224,13 @@ RuleTab::MessageReceived(BMessage* message)
 			if (selection < 0)
 				break;
 
-			RemoveRule((RuleItem*)fRuleItemList->ItemAt(selection));
+			RemoveRule(selection);
 
 			int32 count = fRuleItemList->CountItems();
 			fRuleItemList->Select((selection > count - 1) ? count - 1 : selection);
 
-			UpdateRules();
+			UpdateButtons();
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_UPDATE_RULE:
@@ -256,20 +256,12 @@ RuleTab::MessageReceived(BMessage* message)
 				delete rule;
 			}
 
-			UpdateRules();
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_RULE_SELECTED:
 		{
-			bool value = (fRuleItemList->CurrentSelection() >= 0);
-
-			fEditButton->SetEnabled(value);
-			fRemoveButton->SetEnabled(value);
-
-			if (fRuleItemList->CountItems() > 1) {
-				fMoveUpButton->SetEnabled(value);
-				fMoveDownButton->SetEnabled(value);
-			}
+			UpdateButtons();
 			break;
 		}
 		case MSG_MOVE_RULE_UP:
@@ -281,7 +273,8 @@ RuleTab::MessageReceived(BMessage* message)
 			fRuleItemList->SwapItems(selection, selection - 1);
 			fRuleList->SwapItems(selection, selection - 1);
 
-			UpdateRules();
+			UpdateButtons();
+			SaveRules(fRuleList);
 			break;
 		}
 		case MSG_MOVE_RULE_DOWN:
@@ -293,13 +286,30 @@ RuleTab::MessageReceived(BMessage* message)
 			fRuleItemList->SwapItems(selection, selection + 1);
 			fRuleList->SwapItems(selection, selection + 1);
 
-			UpdateRules();
+			UpdateButtons();
+			SaveRules(fRuleList);
 			break;
 		}
 		default:
 			BView::MessageReceived(message);
 			break;
 	}
+}
+
+
+void
+RuleTab::UpdateButtons()
+{
+	int32 selection = fRuleItemList->CurrentSelection();
+	int32 count = fRuleItemList->CountItems();
+
+	if (selection < 0)
+		count = -1;
+
+	fEditButton->SetEnabled((count >= 0) ? true : false);
+	fRemoveButton->SetEnabled((count >= 0) ? true : false);
+	fMoveUpButton->SetEnabled((count > 1 && selection > 0) ? true : false);
+	fMoveDownButton->SetEnabled((count > 1 && selection < count - 1) ? true : false);
 }
 
 
@@ -315,55 +325,8 @@ RuleTab::AddRule(FilerRule* rule)
 
 
 void
-RuleTab::RemoveRule(RuleItem* item)
+RuleTab::RemoveRule(int32 selection)
 {
-	// Select a new rule (if there is one) before removing the old one.
-	// BListView simply drops the selection if the selected item is removed.
-	// What a pain in the neck. :/
-	int32 itemindex = fRuleItemList->IndexOf(item);
-	int32 selection = fRuleItemList->CurrentSelection();
-	if (itemindex == selection && fRuleItemList->CountItems() > 1) {
-		if (selection == fRuleItemList->CountItems() - 1)
-			selection--;
-		else
-			selection++;
-		fRuleItemList->Select(selection);
-	}
-
-	fRuleItemList->RemoveItem(item);
-
-	FilerRule* rule = item->Rule();
-	fRuleList->RemoveItem(rule);
-	delete item;
-
-	if (fRuleItemList->CountItems() <= 0) {
-		fEditButton->SetEnabled(false);
-		fRemoveButton->SetEnabled(false);
-	}
-
-	if (fRuleItemList->CountItems() < 2) {
-		fMoveUpButton->SetEnabled(false);
-		fMoveDownButton->SetEnabled(false);
-	}
-}
-
-
-void
-RuleTab::MakeEmpty()
-{
-	for (int32 i = fRuleItemList->CountItems() - 1; i >= 0; i--)
-	{
-		RuleItem* item = (RuleItem*)fRuleItemList->RemoveItem(i);
-		delete item;
-	}
-}
-
-
-void
-RuleTab::UpdateRules()
-{
-printf("UpdateRules!\n");
-	SaveRules(fRuleList);
-	fRuleList->MakeEmpty();
-	LoadRules(fRuleList);
+	fRuleList->RemoveItemAt(selection);
+	fRuleItemList->RemoveItem(selection);
 }

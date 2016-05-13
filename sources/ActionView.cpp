@@ -126,7 +126,7 @@ ActionView::GetPreferredSize()
 	BRect rect(0.0, 0.0, 10.0, 10.0);
 
 	rect.bottom = fActionButton->Frame().Height();
-	rect.right = StringWidth("Move it to the Trash") + 5.0 + 100;
+	rect.right = StringWidth("Shell command…") + 5.0 + 100;
 
 	return rect;
 }

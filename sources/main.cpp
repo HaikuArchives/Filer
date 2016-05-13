@@ -189,7 +189,6 @@ App::FileRef(entry_ref ref)
 	{
 		FilerRule* rule = fRuleList->ItemAt(i);
 		status_t res = runner.RunRule(rule,ref);
-		printf("return: %i\n", res);
 
 		// default stop here if rule was successful
 		// note that the loop will continue if a rule has an error

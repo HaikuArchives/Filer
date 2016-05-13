@@ -978,10 +978,10 @@ CommandAction(const BMessage& action, entry_ref& ref)
 
 	int result = system(value.String());
 	if (result) {
-		printf("\Shell Command: %s\n\t\tPossible error: "
+		printf("\tShell Command: %s\n\t\tPossible error: "
 			"command returned %d\n", value.String(), result);
 	} else
-		printf("\Shell Command: %s\n", value.String());
+		printf("\tShell Command: %s\n", value.String());
 
 	return B_OK;
 }
@@ -1140,7 +1140,6 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 		}
 	}
 	db.close();
-
 	return B_OK;
 }
 
@@ -1243,7 +1242,6 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		query.finalize();
 	}
 	db.close();
-
 	return B_OK;
 }
 

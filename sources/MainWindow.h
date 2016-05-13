@@ -42,7 +42,6 @@ private:
 
 	BRect			fPosition;
 	int32			fTabSelection;
-	bool			fMatchBoxSetting;
 
 	BTabView*		fTabView;
 	DropZoneTab*	fDropZone;

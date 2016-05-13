@@ -107,12 +107,12 @@ MainWindow::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
 MainWindow::LoadSettings()
 {
 	fPosition.Set(-1, -1, -1, -1);
 	fTabSelection = 0;
-	fMatchBoxSetting = false;
 
 	BPath path;
 	BMessage msg;
@@ -128,8 +128,6 @@ MainWindow::LoadSettings()
 					fPosition.Set(-1, -1, -1, -1);
 				if (msg.FindInt32("tab", &fTabSelection) != B_OK)
 					fTabSelection = 0;
-				if (msg.FindBool("match", &fMatchBoxSetting) != B_OK)
-					fMatchBoxSetting = false;
 			}
 		}
 	}
@@ -143,9 +141,6 @@ MainWindow::SaveSettings()
 	int32 tab = fTabView->Selection();
 	App* my_app = dynamic_cast<App*>(be_app);
 	bool match = my_app->GetMatchSetting();
-
-	if (pos == fPosition && tab == fTabSelection && match == fMatchBoxSetting)
-		return;
 
 	BPath path;
 	BMessage msg;

@@ -30,11 +30,10 @@ public:
 	
 private:
 	void			_BuildLayout();
+	void			UpdateButtons();
 
 	void			AddRule(FilerRule* rule);
-	void			RemoveRule(RuleItem* item);
-	void			MakeEmpty();
-	void			UpdateRules();
+	void			RemoveRule(int32 selection);
 
 	BObjectList<FilerRule>*fRuleList;
 
