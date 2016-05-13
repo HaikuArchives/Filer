@@ -87,7 +87,7 @@ AutoFilerTab::_BuildLayout()
 	path.Append(gPrefsPath);
 
 	BNode node(path.Path());
-	bool autorun = true;
+	bool autorun = false;
 	if (node.InitCheck() == B_OK) {
 		bool tmpbool;
 		if (node.ReadAttr("autorun", B_BOOL_TYPE, 0, (void*)&tmpbool,
