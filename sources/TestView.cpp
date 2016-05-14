@@ -81,7 +81,7 @@ TestView::TestView(const BRect& frame, const char* name, BMessage* test,
 	rect.OffsetBy(rect.Width() + 5, 0);
 	rect.right = rect.left + StringWidth("application/x-vnd.dw-foo") + 5;
 	fValueBox = new AutoTextControl(rect, "valuebox", NULL, NULL,
-		new BMessage(MSG_VALUE_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+		new BMessage(), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	AddChild(fValueBox);
 	fValueBox->SetDivider(0);
 	if (fValueBox->Bounds().Height() < fModeButton->Bounds().Height()) {
@@ -185,15 +185,6 @@ TestView::MessageReceived(BMessage* msg)
 				break;
 
 			SetMode(mode.String());
-			break;
-		}
-		case MSG_VALUE_CHANGED:
-		{	// Now done in GetTest, but left for now...
-			BString str;
-			if (fTest->FindString("value", &str) == B_OK)
-				fTest->ReplaceString("value", fValueBox->Text());
-			else
-				fTest->AddString("value", fValueBox->Text());
 			break;
 		}
 		case MSG_SHOW_TEST_MENU:

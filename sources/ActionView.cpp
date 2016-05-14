@@ -48,7 +48,7 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 		rect.right = rect.left + 10;
 
 	fValueBox = new AutoTextControl(rect, "valuebox", NULL, NULL,
-		new BMessage(MSG_VALUE_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+		new BMessage(), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	AddChild(fValueBox);
 	fValueBox->SetDivider(0);
 
@@ -155,15 +155,6 @@ ActionView::MessageReceived(BMessage* msg)
 			BString name;
 			if (msg->FindString("name", &name) == B_OK)
 				SetAction(name.String());
-			break;
-		}
-		case MSG_VALUE_CHANGED:
-		{	// now done in GetAction, but left here for now
-			BString str;
-			if (fAction->FindString("value", &str) == B_OK)
-				fAction->ReplaceString("value", fValueBox->Text());
-			else
-				fAction->AddString("value", fValueBox->Text());
 			break;
 		}
 		default:

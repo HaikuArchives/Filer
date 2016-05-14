@@ -151,7 +151,7 @@ To really get power out of it, you'll want to read the information below, though
 <tr><td class="onelinetop"><span class="key">Add to archive…</span></td><td></td><td>Adds the file to a ZIP archive.</td></tr>
 <tr><td class="onelinetop"><span class="key">Move to Trash</span></td><td></td><td>Puts the file into the Trash.</td></tr>
 <tr><td class="onelinetop"><span class="key">Delete</span></td><td></td><td>By-passes the Trash and removes the file directly.</td></tr>
-<tr><td class="onelinetop"><span class="key">Shell command…</span></td><td></td><td>Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more Terminal command actions or a shell script, because the following actions/rules can't keep track of these changes.</td></tr>
+<tr><td class="onelinetop"><span class="key">Shell command…</span></td><td></td><td>Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more shell command actions or a script, because the following actions/rules can't keep track of these changes.</td></tr>
 <tr><td class="onelinetop"><span class="key">Continue</span></td><td></td><td>If you've set <span class="menu">Apply only the first matching rule</span> in the rules settings, this "<i>Continue</i>" will override it, and the matching of rules will continue anyway.</td></tr>
 </table>
 
@@ -164,7 +164,7 @@ To really get power out of it, you'll want to read the information below, though
 <tr><td class="onelinetop">%EXTENSION%</td><td></td><td>Just the extension of the file, as in <span class="path">.txt</span> in <span class="path">MyTextFile.txt</span> or <span class="path">.tar.gz</span> in <span class="path">MyArchive.tar.gz</span>.</td></tr>
 <tr><td class="onelinetop">%BASENAME%</td><td></td><td>File name without extension, like <span class="path">MyTextFile</span> in <span class="path">MyTextFile.txt</span>.</td></tr>
 <tr><td class="onelinetop">%FOLDER%</td><td></td><td>Full location of the folder which contains the file, like <span class="path">/boot/home/Videos</span> for <span class="path">/boot/home/Videos/HaikuRocks.wmv</span>.</td></tr>
-<tr><td class="onelinetop">%FULLPATH%</td><td></td><td>Full location of the file, such as <span class="path">/boot/home/config/MyFavoriteSong.mp3</span>. You'll need this for "Terminal Command" actions.</td></tr>
+<tr><td class="onelinetop">%FULLPATH%</td><td></td><td>Full location of the file, such as <span class="path">/boot/home/config/MyFavoriteSong.mp3</span>. You'll need this for "Shell command" actions.</td></tr>
 <tr><td class="onelinetop">%DATE%</td><td></td><td>Current date in the format MM-DD-YYYY.</td></tr>
 <tr><td class="onelinetop">%EURODATE%</td><td></td><td>Current date in the format DD-MM-YYYY.</td></tr>
 <tr><td class="onelinetop">%REVERSEDATE%</td><td></td><td>Current date in the format YYYY-MM-DD. This is often useful for file archives or for pictures.</td></tr>
@@ -209,6 +209,7 @@ To really get power out of it, you'll want to read the information below, though
 </table>
 </li><li>
 <p>Make sure that MP3s have searchable attributes using Axel Dörfler's excellent id3attr program, rename them to "ArtistName - SongName.mp3", and sort them in the /boot/home/music folder by the artist's name. This would make importing an MP3 collection from somewhere else very easy.</p>
+<p><b>Note when using shell commands:</b> Take care to 'escape' the variable, here <tt>'%FULLPATH%'</tt>. The inverted commas make sure spaces and other special characters don't spoil the fun.</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.mp3</td></tr>
 <tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command…</span></td><td width="10"></td><td colspan="3">id3attr '%FULLPATH%'</td></tr>
@@ -216,10 +217,10 @@ To really get power out of it, you'll want to read the information below, though
 <tr><td></td><td width="10"></td><td><span class="key">Move to folder…</span></td><td width="10"></td><td colspan="3">/boot/home/music/%ATTR:Audio:Artist%</td></tr>
 </table>
 </li><li>
-<p>Extract Zip archives to the Desktop and dump them into the Trash for later disposal:</p>
+<p>Extract Zip archives to the Desktop and dump them into the Trash for later disposal. Again, mind the 'escaped' variable '%FULLPATH%' in the shell command!</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.zip</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command…</span></td><td width="10"></td><td class="onelinetop" colspan="3">unzip %FULLPATH% -d boot/home/Desktop</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command…</span></td><td width="10"></td><td class="onelinetop" colspan="3">unzip '%FULLPATH%' -d boot/home/Desktop</td></tr>
 <tr><td></td><td width="10"></td><td colspan="6"><span class="key">Move to Trash</span></td></tr>
 </table>
 </li>
