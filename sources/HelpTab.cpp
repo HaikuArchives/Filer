@@ -120,7 +120,7 @@ HelpTab::HelpTab()
 	fVersion->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
 	
 	fCopyright1 = new BStringView("copy1", "Copyright 2008, DarkWyrm");
-	fCopyright2 = new BStringView("copy2", "Copyright 2016, Humdinger");
+	fCopyright2 = new BStringView("copy2", "Copyright 2016, Humdinger, Pete Goodeve");
 	fCopyright1->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
 		| B_FONT_FLAGS);
 	fCopyright2->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE

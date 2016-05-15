@@ -2,6 +2,8 @@
 	AutoTextControl.h: A BTextControl which notifies on each keypress
 	Written by DarkWyrm <darkwyrm@earthlink.net>, Copyright 2007
 	Released under the MIT license.
+	Contributed by:
+		Pete Goodeve
 */
 
 #ifndef AUTO_TEXT_CONTROL_H
@@ -44,6 +46,7 @@ public:
 	
 	virtual	void	AttachedToWindow();
 	virtual	void 	DetachedFromWindow();
+	virtual	void	MessageReceived(BMessage* msg);
 			
 			void	SetFilter(AutoTextControlFilter* filter);
 	AutoTextControlFilter*	GetFilter() { return fFilter; }

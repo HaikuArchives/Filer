@@ -35,10 +35,10 @@ static const char kSettingsFile[] = "Filer_settings";
 #define MSG_SHOW_ADD_WINDOW		'shaw'
 #define MSG_SHOW_EDIT_WINDOW	'shew'
 #define MSG_REMOVE_RULE			'shrr'
-#define MSG_REVERT				'rvrt'
 #define MSG_RULE_SELECTED		'rlsl'
 #define MSG_MOVE_RULE_UP		'mvup'
 #define MSG_MOVE_RULE_DOWN		'mvdn'
+#define MSG_MATCH_ONCE			'chon'
 
 #define MSG_STARTSTOP_AUTOFILER	'ssaf'
 #define MSG_AUTOFILER_AUTORUN	'afas'
@@ -52,7 +52,6 @@ static const char kSettingsFile[] = "Filer_settings";
 
 #define MSG_ACTION_CHOSEN		'tsch'
 #define MSG_SHOW_ACTION_MENU	'sham'
-#define MSG_VALUE_CHANGED		'vlch'
 
 #define MSG_TEST_CHOSEN			'tsch'
 #define MSG_MODE_CHOSEN			'mdch'

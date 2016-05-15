@@ -31,15 +31,22 @@ public:
 	void			SetupTypeMenu();
 	void			ShowHTML(const char* docfile);
 	void			FileRef(entry_ref ref);
-	
+
+	bool			GetMatchSetting();
+	void			ToggleMatchSetting();
+
 private:
+	void			LoadRuleSettings();
+//	void			SaveRuleSettings();
 	void			ProcessFiles();
 
-	BObjectList<entry_ref>*	fRefList;
-	BObjectList<FilerRule>*	fRuleList;
 	MainWindow*		fMainWin;
 	
 	bool			fQuitRequested;
+	bool 			fMatchSetting;
+
+	BObjectList<entry_ref>*	fRefList;
+	BObjectList<FilerRule>*	fRuleList;
 };
 
 #endif	// MAIN_H

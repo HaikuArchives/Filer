@@ -12,6 +12,7 @@
 #include <Path.h>
 #include <Screen.h>
 
+#include "main.h"
 #include "MainWindow.h"
 
 
@@ -91,6 +92,13 @@ MainWindow::MessageReceived(BMessage* msg)
 //	msg->PrintToStream();
 	switch (msg->what)
 	{
+		case MSG_MATCH_ONCE:
+		{
+			App* my_app = dynamic_cast<App*>(be_app);
+			my_app->ToggleMatchSetting();
+			SaveSettings();
+			break;
+		}
 		default:
 		{
 			BWindow::MessageReceived(msg);
@@ -98,6 +106,7 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 	}
 }
+
 
 void
 MainWindow::LoadSettings()
@@ -130,8 +139,8 @@ MainWindow::SaveSettings()
 {
 	BRect pos = Frame();
 	int32 tab = fTabView->Selection();
-	if (pos == fPosition && tab == fTabSelection)
-		return;
+	App* my_app = dynamic_cast<App*>(be_app);
+	bool match = my_app->GetMatchSetting();
 
 	BPath path;
 	BMessage msg;
@@ -153,6 +162,7 @@ MainWindow::SaveSettings()
 		if (ret == B_OK) {
 			msg.AddRect("pos", pos);
 			msg.AddInt32("tab", tab);
+			msg.AddBool("match", match);
 			msg.Flatten(&file);
 		}
 	}

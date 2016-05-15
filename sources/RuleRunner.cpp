@@ -2,7 +2,9 @@
 	RuleRunner.cpp: class to handle running test and actions for the rules
 	Released under the MIT license.
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
-	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+	Contributed by:
+		Humdinger <humdingerb@gmail.com>, 2016
+		Pete Goodeve
 */
 
 #include <Directory.h>
@@ -84,7 +86,7 @@ static const char* sTestTypes[] =
 	"Name",
 	"Size",
 	"Location",
-//	"Last Changed",
+//	"Last changed",
 	NULL
 };
 
@@ -104,7 +106,7 @@ static const char* sNumberTests[] =
 
 static const char* sDateTests[] =
 {
-//	"Last Changed",
+//	"Last changed",
 	NULL
 };
 
@@ -164,14 +166,15 @@ static const char* sDateModes[] =
 
 static const char* sActions[] =
 {
-	"Move it to…",
-	"Copy it to…",
-	"Rename it to…",
-	"Open it",
-	"Add it to the archive…",
-	"Move it to the Trash",
-	"Delete it",
-	"Terminal command…",	
+	"Move to folder…",
+	"Copy to folder…",
+	"Rename to…",
+	"Open",
+	"Add to archive…",
+	"Move to Trash",
+	"Delete",
+	"Shell command…",
+	"Continue",
 
 	// Future expansion
 //	"Shred it",
@@ -442,7 +445,7 @@ RuleRunner::IsMatch(const BMessage& test, const entry_ref& ref)
 		return IsLocationMatch(test, ref);
 	else if (testname.Compare("Type") == 0)
 		return IsTypeMatch(test, ref);
-	else if (testname.Compare("Last Changed") == 0)
+	else if (testname.Compare("Last changed") == 0)
 		return IsModifiedMatch(test, ref);
 	else if (testname.Compare("Attribute") == 0)
 		return IsAttributeMatch(test, ref);
@@ -460,22 +463,24 @@ RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 		return B_ERROR;
 	}
 
-	if (actionname.Compare("Move it to…") == 0)
+	if (actionname.Compare("Move to folder…") == 0)
 		return MoveAction(action, ref);
-	else if (actionname.Compare("Copy it to…") == 0)
+	else if (actionname.Compare("Copy to folder…") == 0)
 		return CopyAction(action, ref);
-	else if (actionname.Compare("Rename it to…") == 0)
+	else if (actionname.Compare("Rename to…") == 0)
 		return RenameAction(action, ref);
-	else if (actionname.Compare("Open it") == 0)
+	else if (actionname.Compare("Open") == 0)
 		return OpenAction(action, ref);
-	else if (actionname.Compare("Add it to the archive…") == 0)
+	else if (actionname.Compare("Add to archive…") == 0)
 		return ArchiveAction(action, ref);
-	else if (actionname.Compare("Terminal command…") == 0)
+	else if (actionname.Compare("Shell command…") == 0)
 		return CommandAction(action, ref);
-	else if (actionname.Compare("Move it to the Trash") == 0)
+	else if (actionname.Compare("Move to Trash") == 0)
 		return TrashAction(action, ref);
-	else if (actionname.Compare("Delete it") == 0)
+	else if (actionname.Compare("Delete") == 0)
 		return DeleteAction(action, ref);
+	else if (actionname.Compare("Continue") == 0)
+		return CONTINUE_TESTS;	// arbitrary pos non-B_OK value
 
 	return B_ERROR;
 }
@@ -525,11 +530,14 @@ RuleRunner::RunRule(FilerRule* rule, entry_ref& ref)
 			// required to do this is for the particular action to change the ref
 			// passed to it.
 			status_t status = RunAction(*action, realref);
+//			if (status == CONTINUE_TESTS)	// keep ref in sync with reality
+			ref = realref;
 			if (status != B_OK)
 				return status;
 		}
+		return B_OK;
 	}
-	return B_OK;
+	return CONTINUE_TESTS;
 }
 
 
@@ -970,10 +978,10 @@ CommandAction(const BMessage& action, entry_ref& ref)
 
 	int result = system(value.String());
 	if (result) {
-		printf("\tTerminal Command: %s\n\t\tPossible error: "
+		printf("\tShell Command: %s\n\t\tPossible error: "
 			"command returned %d\n", value.String(), result);
 	} else
-		printf("\tTerminal Command: %s\n", value.String());
+		printf("\tShell Command: %s\n", value.String());
 
 	return B_OK;
 }
@@ -1011,15 +1019,16 @@ status_t
 DeleteAction(const BMessage& action, entry_ref& ref)
 {
 	BEntry entry(&ref);
+	BPath path(&entry);
 
 	status_t status = entry.Remove();
 	if (status == B_OK)
-		printf("\tDeleted %s\n", BPath(ref.name).Path());
+		printf("\tDeleted %s\n", path.Path());
 	else {
 		printf("\tCouldn't delete %s. Stopping here.\n\t\tError Message: %s\n",
-			BPath(ref.name).Path(), strerror(status));
+			path.Path(), strerror(status));
 	}
-	return entry.Remove();
+	return status;
 }
 
 
@@ -1131,7 +1140,6 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 		}
 	}
 	db.close();
-
 	return B_OK;
 }
 

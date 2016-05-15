@@ -2,6 +2,7 @@
 	ActionView.cpp: View for adjusting settings for an individual Filer action
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Contributed by: Pete Goodeve, 2016
 */
 
 #include <Font.h>
@@ -47,7 +48,7 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 		rect.right = rect.left + 10;
 
 	fValueBox = new AutoTextControl(rect, "valuebox", NULL, NULL,
-		new BMessage(MSG_VALUE_CHANGED), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+		new BMessage(), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
 	AddChild(fValueBox);
 	fValueBox->SetDivider(0);
 
@@ -80,6 +81,19 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 
 		fValueBox->SetText("");
 	}
+
+	BString toolTip(
+		"\%FILENAME\%\t\t\tFull file name\n"
+		"\%EXTENSION\%\t\tJust the extension\n"
+		"\%BASENAME\%\t\tFile name without extension\n"
+		"\%FOLDER\%\t\t\tFull location of the folder which contains the file\n"
+		"\%FULLPATH\%\t\t\tFull location of the file\n"
+		"\%DATE\%\t\t\t\tCurrent date in the format MM-DD-YYYY\n"
+		"\%EURODATE\%\t\tCurrent date in the format DD-MM-YYYY\n"
+		"\%REVERSEDATE\%\t\tCurrent date in the format YYYY-MM-DD\n"
+		"\%TIME\%\t\t\t\tCurrent time using 24-hour time\n"
+		"\%ATTR:xxxx\%\t\t\tAn extended attribute of the file");
+	fValueBox->SetToolTip(toolTip.String());
 }
 
 
@@ -112,7 +126,7 @@ ActionView::GetPreferredSize()
 	BRect rect(0.0, 0.0, 10.0, 10.0);
 
 	rect.bottom = fActionButton->Frame().Height();
-	rect.right = StringWidth("Move it to the Trash") + 5.0 + 100;
+	rect.right = StringWidth("Shell command…") + 5.0 + 100;
 
 	return rect;
 }
@@ -143,15 +157,6 @@ ActionView::MessageReceived(BMessage* msg)
 				SetAction(name.String());
 			break;
 		}
-		case MSG_VALUE_CHANGED:
-		{
-			BString str;
-			if (fAction->FindString("value", &str) == B_OK)
-				fAction->ReplaceString("value", fValueBox->Text());
-			else
-				fAction->AddString("value", fValueBox->Text());
-			break;
-		}
 		default:
 		{
 			BView::MessageReceived(msg);
@@ -163,6 +168,12 @@ ActionView::MessageReceived(BMessage* msg)
 BMessage*
 ActionView::GetAction() const
 {
+	BString str;
+	if (fAction->FindString("value", &str) == B_OK)
+		fAction->ReplaceString("value", fValueBox->Text());
+	else
+		fAction->AddString("value", fValueBox->Text());
+
 	return fAction;
 }
 

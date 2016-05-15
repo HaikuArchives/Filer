@@ -16,6 +16,7 @@
 
 #include "FilerRule.h"
 #include "FilerDefs.h"
+#include "main.h"
 #include "RuleEditWindow.h"
 #include "RuleItem.h"
 #include "RuleRunner.h"
@@ -49,31 +50,31 @@ RuleTab::RuleTab()
 
 			// NOTE: If actions 
 			rule->AddTest(MakeTest("Type", "is", "text/plain"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Documents"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Documents"));
 			rule->SetDescription("Store text files in my Documents folder");
 			AddRule(rule);
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Type", "is", "application/pdf"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Documents"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Documents"));
 			rule->SetDescription("Store PDF files in my Documents folder");
 			AddRule(rule);
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Type", "starts with", "image/"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Pictures"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Pictures"));
 			rule->SetDescription("Store pictures in my Pictures folder");
 			AddRule(rule);
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Type", "starts with","video/"));
-			rule->AddAction(MakeAction("Move it to…", "/boot/home/Videos"));
+			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Videos"));
 			rule->SetDescription("Store movie files in my Videos folder");
 			AddRule(rule);
 
 			rule = new FilerRule();
 			rule->AddTest(MakeTest("Name", "ends with", ".zip"));
-			rule->AddAction(MakeAction("Terminal command…",
+			rule->AddAction(MakeAction("Shell command…",
 				"unzip %FULLPATH% -d /boot/home/Desktop"));
 			rule->SetDescription("Extract ZIP files to the Desktop");
 			AddRule(rule);
@@ -98,6 +99,10 @@ RuleTab::~RuleTab()
 void
 RuleTab::_BuildLayout()
 {
+	fMatchBox = new BCheckBox("matchoncebox",
+		"Apply only the first matching rule",
+		new BMessage(MSG_MATCH_ONCE));
+
 	fRuleItemList = new BListView("rulelist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW	| B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
 	fScrollView = new BScrollView("listscroll", fRuleItemList,
@@ -105,7 +110,6 @@ RuleTab::_BuildLayout()
 
 	fRuleItemList->SetSelectionMessage(new BMessage(MSG_RULE_SELECTED));
 	fRuleItemList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_WINDOW));
-//	fScrollView->ScrollBar(B_HORIZONTAL)->SetRange(0.0, 0.0);
 	
 	fAddButton = new BButton("addbutton", "Add" B_UTF8_ELLIPSIS,
 		new BMessage(MSG_SHOW_ADD_WINDOW));
@@ -127,22 +131,25 @@ RuleTab::_BuildLayout()
 	fMoveDownButton->SetEnabled(false);
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
-	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(spacing)
-		.AddGroup(B_VERTICAL, 10.0f)
-			.Add(fScrollView)
-			.AddGroup(B_HORIZONTAL)
-				.AddGlue()
-				.Add(fAddButton)
-				.Add(fEditButton)
-				.Add(fRemoveButton)
+		.Add(fMatchBox)
+		.AddGroup(B_HORIZONTAL)
+			.AddGroup(B_VERTICAL, 10.0f)
+				.Add(fScrollView)
+				.AddGroup(B_HORIZONTAL)
+					.AddGlue()
+					.Add(fAddButton)
+					.Add(fEditButton)
+					.Add(fRemoveButton)
+					.AddGlue()
+				.End()
+			.End()
+			.AddGroup(B_VERTICAL)
+				.Add(fMoveUpButton)
+				.Add(fMoveDownButton)
 				.AddGlue()
 			.End()
-		.End()
-		.AddGroup(B_VERTICAL)
-			.Add(fMoveUpButton)
-			.Add(fMoveDownButton)
-			.AddGlue()
 		.End();
 }
 
@@ -150,6 +157,7 @@ RuleTab::_BuildLayout()
 void
 RuleTab::AttachedToWindow()
 {
+	fMatchBox->SetTarget(Looper());
 	fAddButton->SetTarget(this);
 	fEditButton->SetTarget(this);
 	fRemoveButton->SetTarget(this);
@@ -157,11 +165,12 @@ RuleTab::AttachedToWindow()
 	fMoveDownButton->SetTarget(this);
 	fRuleItemList->SetTarget(this);
 
-	if (fRuleItemList->CountItems() > 0) {
-		BMessenger messenger(this);
-		BMessage message(MSG_RULE_SELECTED);
-		messenger.SendMessage(&message);
-	}	
+	if (fRuleItemList->CountItems() > 0)
+		UpdateButtons();
+
+	App* my_app = dynamic_cast<App*>(be_app);
+	fMatchBox->SetValue(my_app->GetMatchSetting());
+
 	BView::AttachedToWindow();
 }
 
@@ -174,7 +183,6 @@ RuleTab::MessageReceived(BMessage* message)
 	{
 		case MSG_SHOW_ADD_WINDOW:
 		{
-			printf("Show Add Window\n");
 			BRect frame(Frame());
 			ConvertToScreen(&frame);
 			frame.right = frame.left + 400;
@@ -206,6 +214,7 @@ RuleTab::MessageReceived(BMessage* message)
 			if (message->FindPointer("item", (void**)&item) == B_OK)
 				AddRule(item);
 
+			UpdateButtons();
 			SaveRules(fRuleList);
 			break;
 		}
@@ -215,11 +224,12 @@ RuleTab::MessageReceived(BMessage* message)
 			if (selection < 0)
 				break;
 
-			RemoveRule((RuleItem*)fRuleItemList->ItemAt(selection));
+			RemoveRule(selection);
 
 			int32 count = fRuleItemList->CountItems();
 			fRuleItemList->Select((selection > count - 1) ? count - 1 : selection);
 
+			UpdateButtons();
 			SaveRules(fRuleList);
 			break;
 		}
@@ -249,28 +259,9 @@ RuleTab::MessageReceived(BMessage* message)
 			SaveRules(fRuleList);
 			break;
 		}
-		case MSG_REVERT:
-		{
-			while (fRuleItemList->CountItems() > 0)
-				RemoveRule((RuleItem*)fRuleItemList->ItemAt(0L));
-			fRuleList->MakeEmpty();
-			fEditButton->SetEnabled(false);
-			fRemoveButton->SetEnabled(false);
-
-			LoadRules(fRuleList);
-			break;
-		}
 		case MSG_RULE_SELECTED:
 		{
-			bool value = (fRuleItemList->CurrentSelection() >= 0);
-
-			fEditButton->SetEnabled(value);
-			fRemoveButton->SetEnabled(value);
-
-			if (fRuleItemList->CountItems() > 1) {
-				fMoveUpButton->SetEnabled(value);
-				fMoveDownButton->SetEnabled(value);
-			}
+			UpdateButtons();
 			break;
 		}
 		case MSG_MOVE_RULE_UP:
@@ -282,6 +273,7 @@ RuleTab::MessageReceived(BMessage* message)
 			fRuleItemList->SwapItems(selection, selection - 1);
 			fRuleList->SwapItems(selection, selection - 1);
 
+			UpdateButtons();
 			SaveRules(fRuleList);
 			break;
 		}
@@ -294,6 +286,7 @@ RuleTab::MessageReceived(BMessage* message)
 			fRuleItemList->SwapItems(selection, selection + 1);
 			fRuleList->SwapItems(selection, selection + 1);
 
+			UpdateButtons();
 			SaveRules(fRuleList);
 			break;
 		}
@@ -301,6 +294,22 @@ RuleTab::MessageReceived(BMessage* message)
 			BView::MessageReceived(message);
 			break;
 	}
+}
+
+
+void
+RuleTab::UpdateButtons()
+{
+	int32 selection = fRuleItemList->CurrentSelection();
+	int32 count = fRuleItemList->CountItems();
+
+	if (selection < 0)
+		count = -1;
+
+	fEditButton->SetEnabled((count >= 0) ? true : false);
+	fRemoveButton->SetEnabled((count >= 0) ? true : false);
+	fMoveUpButton->SetEnabled((count > 1 && selection > 0) ? true : false);
+	fMoveDownButton->SetEnabled((count > 1 && selection < count - 1) ? true : false);
 }
 
 
@@ -316,45 +325,8 @@ RuleTab::AddRule(FilerRule* rule)
 
 
 void
-RuleTab::RemoveRule(RuleItem* item)
+RuleTab::RemoveRule(int32 selection)
 {
-	// Select a new rule (if there is one) before removing the old one.
-	// BListView simply drops the selection if the selected item is removed.
-	// What a pain in the neck. :/
-	int32 itemindex = fRuleItemList->IndexOf(item);
-	int32 selection = fRuleItemList->CurrentSelection();
-	if (itemindex == selection && fRuleItemList->CountItems() > 1) {
-		if (selection == fRuleItemList->CountItems() - 1)
-			selection--;
-		else
-			selection++;
-		fRuleItemList->Select(selection);
-	}
-
-	fRuleItemList->RemoveItem(item);
-
-	FilerRule* rule = item->Rule();
-	fRuleList->RemoveItem(rule);
-	delete item;
-
-	if (fRuleItemList->CountItems() <= 0) {
-		fEditButton->SetEnabled(false);
-		fRemoveButton->SetEnabled(false);
-	}
-
-	if (fRuleItemList->CountItems() < 2) {
-		fMoveUpButton->SetEnabled(false);
-		fMoveDownButton->SetEnabled(false);
-	}
-}
-
-
-void
-RuleTab::MakeEmpty()
-{
-	for (int32 i = fRuleItemList->CountItems() - 1; i >= 0; i--)
-	{
-		RuleItem* item = (RuleItem*)fRuleItemList->RemoveItem(i);
-		delete item;
-	}
+	fRuleList->RemoveItemAt(selection);
+	fRuleItemList->RemoveItem(selection);
 }

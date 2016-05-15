@@ -125,14 +125,6 @@ status_t CopyFile(BEntry* srcentry, BEntry* destentry, bool clobber)
 	command << "'" << srcstring << "' '" << deststring << "/'";
 	int code = system(command.String());
 
-	if (!code) {
-		entry_ref ref;
-		srcentry->GetRef(&ref);
-
-		deststring << "/" << ref.name;
-		return srcentry->SetTo(deststring.String());
-	}
-
 	return code;
 }
 
