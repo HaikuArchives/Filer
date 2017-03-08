@@ -18,6 +18,7 @@ BLocker gRefLock;
 const char gPrefsPath[] = "Filer/AutoFilerFolders";
 
 RefStorage::RefStorage(const entry_ref& fileref)
+	: doAll(false), replace(false)
 {
 	SetData(fileref);
 }

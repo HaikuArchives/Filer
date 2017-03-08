@@ -121,12 +121,16 @@ HelpTab::HelpTab()
 	
 	fCopyright1 = new BStringView("copy1", "Copyright 2008, DarkWyrm");
 	fCopyright2 = new BStringView("copy2", "Copyright 2016, Humdinger, Pete Goodeve");
+	fCopyright3 = new BStringView("copy3", "Copyright 2017, Owen Pan");
 	fCopyright1->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
 		| B_FONT_FLAGS);
 	fCopyright2->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
 		| B_FONT_FLAGS);
+	fCopyright3->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
+		| B_FONT_FLAGS);
 	fCopyright1->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
 	fCopyright2->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
+	fCopyright3->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
 
 	fInfo = new BTextView("info");
 	fInfo->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
@@ -169,6 +173,7 @@ HelpTab::HelpTab()
 			.Add(fVersion)
 			.Add(fCopyright1)
 			.Add(fCopyright2)
+			.Add(fCopyright3)
 			.AddStrut(spacing)
 			.Add(fInfo, 0)
 			.AddStrut(spacing)

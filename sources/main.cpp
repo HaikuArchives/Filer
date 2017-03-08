@@ -6,6 +6,7 @@
 	Contributed by:
 		Humdinger <humdingerb@gmail.com>, 2016
 		Pete Goodeve
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #include <FindDirectory.h>
@@ -33,7 +34,9 @@ App::App()
  	fRuleList(NULL),
 	fMainWin(NULL),
 	fQuitRequested(false),
-	fMatchSetting(false)
+	fMatchSetting(false),
+	fDoAll(false),
+	fReplace(false)
 {
 	fRefList = new BObjectList<entry_ref>(20, true);
 	fRuleList = new BObjectList<FilerRule>(20, true);
@@ -92,6 +95,14 @@ App::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
+		case MSG_AUTO_FILER:
+		{
+			BMessage reply('frpl');
+			reply.AddBool(kDoAll, fDoAll);
+			reply.AddBool(kReplace, fReplace);
+			msg->SendReply(&reply);
+			break;
+		}
 		case MSG_HELP:
 		{
 			ShowHTML("documentation/Rule-Making Reference.html");
@@ -131,6 +142,16 @@ App::RefsReceived(BMessage* msg)
 	{
 		printf("No files given could be processed. Exiting.\n");
 		fQuitRequested = true;
+	}
+	else if (i == 1)
+	{
+		bool tmp;
+
+		if (msg->FindBool(kDoAll, &tmp) == B_OK)
+		{
+			fDoAll = tmp;
+			msg->FindBool(kReplace, &fReplace);
+		}
 	}
 }
 

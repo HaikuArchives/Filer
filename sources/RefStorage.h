@@ -20,6 +20,8 @@ public:
 
 	entry_ref	ref;
 	node_ref	nref;
+	bool		doAll;
+	bool		replace;
 };
 
 status_t LoadFolders();
