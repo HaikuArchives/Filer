@@ -1,8 +1,10 @@
 /*
 	Filer - an automatic rule-based file organizer
 	
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by:
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #ifndef MAIN_H
@@ -35,6 +37,11 @@ public:
 	bool			GetMatchSetting();
 	void			ToggleMatchSetting();
 
+	bool			DoAll() const { return fDoAll; }
+	void			DoAll(bool doAll) { fDoAll = doAll; }
+	bool			Replace() const { return fReplace; }
+	void			Replace(bool replace) { fReplace = replace; }
+
 private:
 	void			LoadRuleSettings();
 //	void			SaveRuleSettings();
@@ -44,6 +51,9 @@ private:
 	
 	bool			fQuitRequested;
 	bool 			fMatchSetting;
+
+	bool			fDoAll;
+	bool			fReplace;
 
 	BObjectList<entry_ref>*	fRefList;
 	BObjectList<FilerRule>*	fRuleList;

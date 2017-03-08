@@ -5,6 +5,7 @@
 	Contributed by:
 		Humdinger <humdingerb@gmail.com>, 2016
 		Pete Goodeve
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #include <Directory.h>
@@ -16,7 +17,9 @@
 
 #include "CppSQLite3.h"
 #include "Database.h"
+#include "ConflictWindow.h"
 #include "FSUtils.h"
+#include "main.h"
 #include "PatternProcessor.h"
 #include "RuleRunner.h"
 
@@ -792,8 +795,8 @@ StringCompare(const BString& from, const BString& to, const char* mode,
 }
 
 
-status_t
-MoveAction(const BMessage& action, entry_ref& ref)
+static status_t
+MoveOrCopy(const BMessage& action, entry_ref& ref, bool move, status_t (*f)(BEntry*, BEntry*, bool))
 {
 	BString value;
 	status_t status;
@@ -815,13 +818,41 @@ MoveAction(const BMessage& action, entry_ref& ref)
 	if (status != B_OK)
 		return B_ERROR;
 
-	status = MoveFile(&source, &entry, false);
-	if (status == B_OK) {
-		printf("\tMoved %s to %s\n", ref.name, value.String());
-		source.GetRef(&ref);
+	App* app = (App *) be_app;
+	bool doAll = app->DoAll();
+	bool replace = app->Replace();
+
+	BPath path;
+	char name[B_FILE_NAME_LENGTH];
+	bool conflict = false;
+
+	if (!(replace && doAll)) {
+		source.GetName(name);
+		entry.GetPath(&path);
+		path.Append(name);
+
+		BEntry dest(path.Path());
+		conflict = dest.Exists();
+	}
+
+	if (conflict && !doAll) {
+		ConflictWindow* window = new ConflictWindow(name);
+		replace = window->Go(doAll);
+		app->Replace(replace);
+		app->DoAll(doAll);
+	}
+
+	if (replace || !conflict) {
+		status = f(&source, &entry, false);
+		if (status == B_OK) {
+			printf("\t%s %s to %s\n", move ? "Moved" : "Copied", ref.name, value.String());
+			source.GetRef(&ref);
+		} else {
+			printf("\tCouldn't %s %s to %s. Stopping here.\n\t\t"
+				"Error Message: %s\n", move ? "move" : "copy", ref.name, value.String(), strerror(status));
+		}
 	} else {
-		printf("\tCouldn't move %s to %s. Stopping here.\n\t\t"
-			"Error Message: %s\n", ref.name, value.String(), strerror(status));
+		printf("\tSkipped %s\n", ref.name);
 	}
 
 	return B_OK;
@@ -829,38 +860,16 @@ MoveAction(const BMessage& action, entry_ref& ref)
 
 
 status_t
+MoveAction(const BMessage& action, entry_ref& ref)
+{
+	return MoveOrCopy(action, ref, true, MoveFile);
+}
+
+
+status_t
 CopyAction(const BMessage& action, entry_ref& ref)
 {
-	BString value;
-	status_t status;
-	status = action.FindString("value", &value);
-	if (status != B_OK)
-		return status;
-	value = ProcessPatterns(value.String(), ref);
-
-	BEntry entry(value.String(), true);
-	status = entry.InitCheck();
-	if (status != B_OK || (entry.Exists() && !entry.IsDirectory()))
-		return B_ERROR;
-
-	if (!entry.Exists())
-		create_directory(value.String(), 0777);
-
-	BEntry source(&ref);
-	status = source.InitCheck();
-	if (status != B_OK)
-		return B_ERROR;
-
-	status = CopyFile(&source, &entry, false);
-	if (status == B_OK) {
-		printf("\tCopied %s to %s\n", ref.name, value.String());
-		source.GetRef(&ref);
-	} else {
-		printf("\tCouldn't copy %s to %s. Stopping here.\n\t\t"
-			"Error Message: %s\n", ref.name, value.String(), strerror(status));
-	}
-
-	return B_OK;
+	return MoveOrCopy(action, ref, false, CopyFile);
 }
 
 

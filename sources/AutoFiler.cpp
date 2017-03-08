@@ -1,7 +1,9 @@
 /*
 	AutoFiler: Watcher daemon which executes the Filer on monitored folders
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by:
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #include <NodeMonitor.h>
@@ -60,6 +62,58 @@ App::StartWatching()
 }
 
 
+static void
+LaunchFiler(const entry_ref& ref)
+{
+	static uint32 launchTime = real_time_clock();
+
+	RefStorage* refholder;
+	team_id team;
+	entry_ref dirRef;
+	BEntry dir, file(&ref);
+	BMessage msg(B_REFS_RECEIVED);
+
+	file.GetParent(&dir);
+	dir.GetRef(&dirRef);
+	msg.AddRef("refs", &ref);
+
+	gRefLock.Lock();
+
+	for (int32 i = 0; i < gRefStructList.CountItems(); i++)
+	{
+		refholder = (RefStorage*) gRefStructList.ItemAt(i);
+
+		if (refholder->ref == dirRef)
+		{
+			if (refholder->doAll && real_time_clock() > launchTime)
+				refholder->doAll = false;
+
+			msg.AddBool(kDoAll, refholder->doAll);
+			msg.AddBool(kReplace, refholder->replace);
+			break;
+		}
+	}
+
+	be_roster->Launch(kFilerSignature, &msg, &team);
+
+	if (!refholder->doAll)
+	{
+		BMessage reply;
+		be_app_messenger.SetTo(NULL, team);
+
+		if (be_app_messenger.SendMessage(MSG_AUTO_FILER, &reply) == B_OK)
+		{
+			reply.FindBool(kDoAll, &refholder->doAll);
+			reply.FindBool(kReplace, &refholder->replace);
+		}
+	}
+
+	launchTime = real_time_clock();
+
+	gRefLock.Unlock();
+}
+
+
 void
 App::HandleNodeMonitoring(BMessage* msg)
 {
@@ -77,10 +131,8 @@ App::HandleNodeMonitoring(BMessage* msg)
 			msg->FindInt64("directory", &ref.directory);
 			msg->FindString("name", &name);
 			ref.set_name(name.String());
-			
-			BMessage args(B_REFS_RECEIVED);
-			args.AddRef("refs", &ref);
-			be_roster->Launch(kFilerSignature, &args);
+
+			LaunchFiler(ref);
 			break;
 		}
 		case B_ENTRY_MOVED:
@@ -114,10 +166,8 @@ App::HandleNodeMonitoring(BMessage* msg)
 				ref.device = nref.device;
 				ref.directory = nref.node;
 				ref.set_name(name.String());
-				
-				BMessage args(B_REFS_RECEIVED);
-				args.AddRef("refs", &ref);
-				be_roster->Launch(kFilerSignature, &args);
+
+				LaunchFiler(ref);
 			}
 			break;
 		}
@@ -147,9 +197,7 @@ App::HandleNodeMonitoring(BMessage* msg)
 			
 			if (match)
 			{
-				BMessage args(B_REFS_RECEIVED);
-				args.AddRef("refs", &ref);
-				be_roster->Launch(kFilerSignature, &args);
+				LaunchFiler(ref);
 			}
 			break;
 		}

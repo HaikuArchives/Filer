@@ -172,6 +172,7 @@ DropZone::MessageReceived(BMessage* msg)
 				"according to rules created by the user.");
 			about->AddCopyright(2008, "DarkWyrm");
 			about->AddCopyright(2016, "Humdinger, Pete Goodeve");
+			about->AddCopyright(2017, "Owen Pan");
 			about->Show();
 		}
 		default:

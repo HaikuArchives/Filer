@@ -44,6 +44,7 @@ private:
 	BStringView*	fVersion;
 	BStringView*	fCopyright1;
 	BStringView*	fCopyright2;
+	BStringView*	fCopyright3;
 	BTextView*		fInfo;
 	
 	BButton*		fHelpButton;
