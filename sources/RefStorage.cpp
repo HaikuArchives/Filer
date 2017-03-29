@@ -61,13 +61,17 @@ LoadFolders()
 		return status;
 
 	entry_ref tempRef;
+	BString tempString;
 	int32 i = 0;
-	while (msg.FindRef("refs", i, &tempRef) == B_OK)
+	while (msg.FindString("path", i, &tempString) == B_OK)
 	{
 		i++;
-		RefStorage* refholder = new RefStorage(tempRef);
-		if (refholder)
-			gRefStructList.AddItem(refholder);
+		status_t err = get_ref_for_path(tempString.String(), &tempRef);
+		if (err == B_OK) {
+			RefStorage* refholder = new RefStorage(tempRef);
+			if (refholder)
+				gRefStructList.AddItem(refholder);
+		}
 	}
 	return status;
 }
@@ -105,7 +109,8 @@ SaveFolders()
 	for (int32 i = 0; i < gRefStructList.CountItems(); i++)
 	{
 		RefStorage* refholder = (RefStorage*)gRefStructList.ItemAt(i);
-		msg.AddRef("refs", &refholder->ref);;
+		BPath path(&refholder->ref);
+		msg.AddString("path", path.Path());;
 	}
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
