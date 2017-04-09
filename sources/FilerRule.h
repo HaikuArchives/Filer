@@ -2,8 +2,9 @@
 	FilerRule.h: The main filing class for Filer. It holds a list of both test
 					conditions and one or more actions to be performed should the
 					conditions be met.
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Contributed by Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #ifndef FILER_RULE_H
@@ -51,6 +52,9 @@ public:
 			FilerRule&			operator=(FilerRule& from);
 			
 			int64				GetID() const { return fID; }
+			bool				Disabled() const { return fDisabled; }
+			void				Disabled(bool disabled) { fDisabled = disabled; }
+			void				Toggle() { fDisabled = !fDisabled; }
 			
 private:
 	BObjectList<BMessage>*		fTestList;
@@ -58,6 +62,7 @@ private:
 	filer_rule_mode				fMode;
 	BString						fDescription;
 	int64						fID;
+	bool						fDisabled;
 };
 
 #endif	// FILER_RULE_H

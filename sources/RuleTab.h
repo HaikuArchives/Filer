@@ -41,6 +41,7 @@ private:
 
 	BButton*		fAddButton;
 	BButton*		fEditButton;
+	BButton*		fDisableButton;
 	BButton*		fRemoveButton;
 	BButton*		fMoveUpButton;
 	BButton*		fMoveDownButton;

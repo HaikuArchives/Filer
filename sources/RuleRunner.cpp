@@ -796,7 +796,7 @@ StringCompare(const BString& from, const BString& to, const char* mode,
 
 
 static status_t
-MoveOrCopy(const BMessage& action, entry_ref& ref, bool move, status_t (*f)(BEntry*, BEntry*, bool))
+MoveOrCopy(const BMessage& action, entry_ref& ref, bool move)
 {
 	BString value;
 	status_t status;
@@ -843,7 +843,7 @@ MoveOrCopy(const BMessage& action, entry_ref& ref, bool move, status_t (*f)(BEnt
 	}
 
 	if (replace || !conflict) {
-		status = f(&source, &entry, false);
+		status = (move ? MoveFile : CopyFile)(&source, &entry, false);
 		if (status == B_OK) {
 			printf("\t%s %s to %s\n", move ? "Moved" : "Copied", ref.name, value.String());
 			source.GetRef(&ref);
@@ -862,14 +862,14 @@ MoveOrCopy(const BMessage& action, entry_ref& ref, bool move, status_t (*f)(BEnt
 status_t
 MoveAction(const BMessage& action, entry_ref& ref)
 {
-	return MoveOrCopy(action, ref, true, MoveFile);
+	return MoveOrCopy(action, ref, true);
 }
 
 
 status_t
 CopyAction(const BMessage& action, entry_ref& ref)
 {
-	return MoveOrCopy(action, ref, false, CopyFile);
+	return MoveOrCopy(action, ref, false);
 }
 
 
@@ -1070,7 +1070,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 
 	// While we could use other means of obtaining table names, this table is also
 	// used for maintaining the order of the rules, which must be preserved
-	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar);",
+	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar, disabled int);",
 		"RuleTab::SaveRules");
 
 	BString command;
@@ -1098,7 +1098,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		command = "insert into RuleList values(";
-		command << i << ",'" << tablename << "');";
+		command << i << ",'" << tablename << "'," << (rule->Disabled() ? 1 : 0) << ");";
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		for (int32 j = 0; j < rule->CountTests(); j++)
@@ -1171,9 +1171,17 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	// because of lack of pthreads support, we need to do this in a slightly
 	// different order
 
-	CppSQLite3Query query;
-	query = DBQuery(db,"select name from RuleList order by ruleid;",
-		"RuleTab::LoadRules");
+	CppSQLite3Query query(DBQuery(db, "select * from RuleList limit 0;", "RuleTab::LoadRules"));
+	bool legacy = query.numFields() == 2;
+	query.finalize();
+
+	BString select("select name");
+
+	if (!legacy)
+		select += ", disabled";
+
+	select += " from RuleList order by ruleid;";
+	query = DBQuery(db, select, "RuleTab::LoadRules");
 
 	BString command;
 	while (!query.eof())
@@ -1182,6 +1190,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 
 		FilerRule* rule = new FilerRule;
 		rule->SetDescription(DeescapeIllegalCharacters(rulename.String()).String());
+		rule->Disabled(legacy ? false : query.getIntField(1));
 
 		ruleList->AddItem(rule);
 

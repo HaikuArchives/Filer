@@ -5,6 +5,7 @@
  * Authors:
  *  DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
  *	Humdinger, humdingerb@gmail.com
+ *	Owen Pan <owen.pan@yahoo.com>, 2017
  */
 #include <Alert.h>
 #include <Application.h>
@@ -21,6 +22,9 @@
 #include "RuleItem.h"
 #include "RuleRunner.h"
 #include "RuleTab.h"
+
+static const char* const kEnable = "Enable";
+static const char* const kDisable = "Disable";
 
 
 RuleTab::RuleTab()
@@ -118,6 +122,9 @@ RuleTab::_BuildLayout()
 		new BMessage(MSG_SHOW_EDIT_WINDOW));
 	fEditButton->SetEnabled(false);
 
+	fDisableButton = new BButton("disablebutton", kDisable, new BMessage(MSG_DISABLE_RULE));
+	fDisableButton->SetEnabled(false);
+
 	fRemoveButton = new BButton("removebutton", "Remove",
 		new BMessage(MSG_REMOVE_RULE));
 	fRemoveButton->SetEnabled(false);
@@ -139,15 +146,16 @@ RuleTab::_BuildLayout()
 				.Add(fScrollView)
 				.AddGroup(B_HORIZONTAL)
 					.AddGlue()
-					.Add(fAddButton)
-					.Add(fEditButton)
-					.Add(fRemoveButton)
+					.Add(fMoveUpButton)
+					.Add(fMoveDownButton)
 					.AddGlue()
 				.End()
 			.End()
 			.AddGroup(B_VERTICAL)
-				.Add(fMoveUpButton)
-				.Add(fMoveDownButton)
+				.Add(fAddButton)
+				.Add(fEditButton)
+				.Add(fDisableButton)
+				.Add(fRemoveButton)
 				.AddGlue()
 			.End()
 		.End();
@@ -160,6 +168,7 @@ RuleTab::AttachedToWindow()
 	fMatchBox->SetTarget(Looper());
 	fAddButton->SetTarget(this);
 	fEditButton->SetTarget(this);
+	fDisableButton->SetTarget(this);
 	fRemoveButton->SetTarget(this);
 	fMoveUpButton->SetTarget(this);
 	fMoveDownButton->SetTarget(this);
@@ -216,6 +225,17 @@ RuleTab::MessageReceived(BMessage* message)
 
 			UpdateButtons();
 			SaveRules(fRuleList);
+			break;
+		}
+		case MSG_DISABLE_RULE:
+		{
+			int32 selection = fRuleItemList->CurrentSelection();
+
+			fRuleList->ItemAt(selection)->Toggle();
+
+			UpdateButtons();
+			SaveRules(fRuleList);
+			fRuleItemList->InvalidateItem(selection);
 			break;
 		}
 		case MSG_REMOVE_RULE:
@@ -310,6 +330,14 @@ RuleTab::UpdateButtons()
 	fRemoveButton->SetEnabled((count >= 0) ? true : false);
 	fMoveUpButton->SetEnabled((count > 1 && selection > 0) ? true : false);
 	fMoveDownButton->SetEnabled((count > 1 && selection < count - 1) ? true : false);
+
+	if (selection < 0) {
+		fDisableButton->SetEnabled(false);
+		fDisableButton->SetLabel(kDisable);
+	} else {
+		fDisableButton->SetEnabled(true);
+		fDisableButton->SetLabel(fRuleList->ItemAt(selection)->Disabled() ? kEnable : kDisable);
+	}
 }
 
 
