@@ -209,6 +209,10 @@ App::FileRef(entry_ref ref)
 	for (int32 i = 0; i < fRuleList->CountItems(); i++)
 	{
 		FilerRule* rule = fRuleList->ItemAt(i);
+
+		if (rule->Disabled())
+			continue;
+
 		status_t res = runner.RunRule(rule,ref);
 
 		// default stop here if rule was successful

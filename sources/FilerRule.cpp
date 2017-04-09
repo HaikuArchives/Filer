@@ -14,7 +14,8 @@ FilerRule::FilerRule()
 	:
 	fTestList(NULL),
  	fActionList(NULL),
- 	fMode(FILER_RULE_ALL)
+	fMode(FILER_RULE_ALL),
+	fDisabled(false)
 {
 	fTestList = new BObjectList<BMessage>(20, true);
 	fActionList = new BObjectList<BMessage>(20, true);
@@ -27,7 +28,8 @@ FilerRule::FilerRule(FilerRule& rule)
 	:
 	fTestList(NULL),
  	fActionList(NULL),
- 	fMode(FILER_RULE_ALL)
+	fMode(FILER_RULE_ALL),
+	fDisabled(false)
 {
 	fTestList = new BObjectList<BMessage>(20, true);
 	fActionList = new BObjectList<BMessage>(20, true);

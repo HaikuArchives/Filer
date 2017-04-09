@@ -38,6 +38,7 @@ static const char kSettingsFile[] = "Filer_settings";
 
 #define MSG_SHOW_ADD_WINDOW		'shaw'
 #define MSG_SHOW_EDIT_WINDOW	'shew'
+#define MSG_DISABLE_RULE		'shdr'
 #define MSG_REMOVE_RULE			'shrr'
 #define MSG_RULE_SELECTED		'rlsl'
 #define MSG_MOVE_RULE_UP		'mvup'
