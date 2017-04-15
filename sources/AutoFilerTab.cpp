@@ -5,6 +5,7 @@
  * Authors:
  *  DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
  *	Humdinger, humdingerb@gmail.com
+ *	Owen Pan <owen.pan@yahoo.com>, 2017
  */
 
 #include <Alert.h>
@@ -37,10 +38,12 @@ AutoFilerTab::AutoFilerTab()
 //	fRefFilter = new TypedRefFilter("application/x-vnd.Be-directory",
 //		B_DIRECTORY_NODE);
 	fRefFilter = new TypedRefFilter("", B_DIRECTORY_NODE);
-	fFilePanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
-		B_DIRECTORY_NODE, false, NULL, fRefFilter);
+
 	BMessage panelMsg(MSG_FOLDER_CHOSEN);
-	fFilePanel->SetMessage(&panelMsg);
+	fFilePanel = new BFilePanel(B_OPEN_PANEL, NULL, NULL,
+		B_DIRECTORY_NODE, true, &panelMsg, fRefFilter);
+	fFilePanel->Window()->SetTitle("AutoFiler: Add folders");
+	fFilePanel->SetButtonLabel(B_DEFAULT_BUTTON, "Add");
 
 	gRefLock.Lock();
 	for (int32 i = 0; i < gRefStructList.CountItems(); i++)
@@ -58,6 +61,7 @@ AutoFilerTab::AutoFilerTab()
 
 AutoFilerTab::~AutoFilerTab()
 {
+	delete fRefFilter;
 	delete fFilePanel;
 }
 
@@ -73,7 +77,6 @@ AutoFilerTab::_BuildLayout()
 	fScrollView = new BScrollView("listscroll", fFolderList,
 		B_FRAME_EVENTS | B_WILL_DRAW, false, true);
 	fFolderList->SetSelectionMessage(new BMessage(MSG_FOLDER_SELECTED));
-	fFolderList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_PANEL));
 
 	fAutorunBox = new BCheckBox("autorunbox",
 		"Run AutoFiler on system startup",
@@ -100,10 +103,6 @@ AutoFilerTab::_BuildLayout()
 	fAddButton = new BButton("addbutton", "Add" B_UTF8_ELLIPSIS,
 		new BMessage(MSG_SHOW_ADD_PANEL));
 	
-	fEditButton = new BButton("editbutton", "Edit" B_UTF8_ELLIPSIS,
-		new BMessage(MSG_SHOW_EDIT_PANEL));
-	fEditButton->SetEnabled(false);
-		
 	fRemoveButton = new BButton("removebutton", "Remove",
 		new BMessage(MSG_REMOVE_FOLDER));
 	fRemoveButton->SetEnabled(false);
@@ -123,7 +122,6 @@ AutoFilerTab::_BuildLayout()
 			.AddGroup(B_HORIZONTAL)
 				.AddGlue()
 				.Add(fAddButton)
-				.Add(fEditButton)
 				.Add(fRemoveButton)
 				.AddGlue()
 			.End()
@@ -137,7 +135,6 @@ AutoFilerTab::AttachedToWindow()
 	fAutorunBox->SetTarget(this);
 	fStartStop->SetTarget(this);
 	fAddButton->SetTarget(this);
-	fEditButton->SetTarget(this);
 	fRemoveButton->SetTarget(this);
 
 	fFolderList->SetTarget(this);
@@ -219,21 +216,6 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			fFilePanel->Show();
 			break;
 		}
-		case MSG_SHOW_EDIT_PANEL:
-		{
-			int32 selection = fFolderList->CurrentSelection();
-			if (selection < 0)
-				break;
-
-			BStringItem* item = (BStringItem*)fFolderList->ItemAt(selection);
-			fFilePanel->SetPanelDirectory(item->Text());
-
-			BMessage panelMsg(MSG_FOLDER_CHOSEN);
-			panelMsg.AddInt32("index", selection);
-			fFilePanel->SetMessage(&panelMsg);
-			fFilePanel->Show();
-			break;
-		}
 		case MSG_REMOVE_FOLDER:
 		{
 			int32 selection = fFolderList->CurrentSelection();
@@ -259,51 +241,50 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			int32 selection = fFolderList->CurrentSelection();
 			bool value = (selection >= 0);
 
-			fEditButton->SetEnabled(value);
 			fRemoveButton->SetEnabled(value);
 			break;
 		}
 		case MSG_FOLDER_CHOSEN:
 		{
-			int32 index;
-			if (msg->FindInt32("index", &index) != B_OK)
-				index = -1;
-
 			entry_ref ref;
-			if (msg->FindRef("refs", &ref) != B_OK)
-				break;
+			bool added = false;
 
-			BEntry entry(&ref);
-			BPath path;
-			entry.GetPath(&path);
-			if (!entry.IsDirectory()) {
-				path.GetParent(&path);
-				get_ref_for_path(path.Path(), &ref);
+			for (int32 i = 0, count = fFolderList->CountItems(); msg->FindRef("refs", i, &ref) == B_OK; i++, count++) {
+				BEntry entry(&ref);
+				BPath path;
+				entry.GetPath(&path);
+				BString newpath(path.Path());
+
+				int32 index = 0;
+				int compare = 1;
+
+				while (index < count) {
+					BString str = ((BStringItem*) fFolderList->ItemAt(index))->Text();
+					int iCompare = newpath.ICompare(str);
+
+					if (iCompare < 0 || iCompare == 0 && (compare = newpath.Compare(str)) <= 0)
+						break;
+
+					index++;
+				}
+
+				if (compare == 0)
+					continue;
+
+				gRefLock.Lock();
+				gRefStructList.AddItem(new RefStorage(ref), index);
+				gRefLock.Unlock();
+
+				BStringItem* item = new BStringItem(newpath);
+				fFolderList->AddItem(item, index);
+				added = true;
 			}
 
-			BString newpath(path.Path());
-			if (!IsFolderUnique(newpath))
-				return;
-
-			BStringItem* item = (BStringItem*)fFolderList->ItemAt(index);
-			if (item) {
-				gRefLock.Lock();
-				RefStorage* refholder = (RefStorage*)gRefStructList.ItemAt(index);
-				refholder->SetData(ref);
-				gRefLock.Unlock();
-			} else {
-				item = new BStringItem("");
-				fFolderList->AddItem(item);
-
-				gRefLock.Lock();
-				gRefStructList.AddItem(new RefStorage(ref));
-				gRefLock.Unlock();
+			if (added) {
+				fFolderList->Invalidate();
+				UpdateAutoFilerFolders();
 			}
 
-			item->SetText(BPath(&ref).Path());
-			fFolderList->Invalidate();
-
-			UpdateAutoFilerFolders();
 			break;
 		}
 		default:

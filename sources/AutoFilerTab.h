@@ -48,7 +48,6 @@ private:
 	BButton*		fStartStop;
 	
 	BButton*		fAddButton;
-	BButton*		fEditButton;
 	BButton*		fRemoveButton;
 					
 	BFilePanel*		fFilePanel;
