@@ -9,17 +9,14 @@
  */
 
 #include <Alert.h>
-#include <Application.h>
 #include <ControlLook.h>
 #include <FindDirectory.h>
 #include <LayoutBuilder.h>
 #include <MessageRunner.h>
 #include <Path.h>
 #include <Roster.h>
-#include <ScrollView.h>
 #include <SeparatorView.h>
 #include <StringView.h>
-#include <View.h>
 
 #include "AutoFilerTab.h"
 #include "FilerDefs.h"
@@ -32,8 +29,8 @@ AutoFilerTab::AutoFilerTab()
 	BView("AutoFiler", B_SUPPORTS_LAYOUT),
 	fDirtySettings(false)
 {
-	LoadFolders();
 	_BuildLayout();
+	LoadFolders(fFolderList);
 
 //	fRefFilter = new TypedRefFilter("application/x-vnd.Be-directory",
 //		B_DIRECTORY_NODE);
@@ -44,14 +41,6 @@ AutoFilerTab::AutoFilerTab()
 		B_DIRECTORY_NODE, true, &panelMsg, fRefFilter);
 	fFilePanel->Window()->SetTitle("AutoFiler: Add folders");
 	fFilePanel->SetButtonLabel(B_DEFAULT_BUTTON, "Add");
-
-	gRefLock.Lock();
-	for (int32 i = 0; i < gRefStructList.CountItems(); i++)
-	{
-		RefStorage* refholder = (RefStorage*)gRefStructList.ItemAt(i);
-		fFolderList->AddItem(new BStringItem(BPath(&refholder->ref).Path()));
-	}
-	gRefLock.Unlock();
 
 	fFolderList->MakeFocus();
 	if (fFolderList->CountItems() > 0)
@@ -228,11 +217,6 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 			int32 count = fFolderList->CountItems();
 			fFolderList->Select((selection > count - 1) ? count - 1 : selection);
 
-			gRefLock.Lock();
-			RefStorage* refholder = (RefStorage*)gRefStructList.RemoveItem(selection);
-			delete refholder;
-			gRefLock.Unlock();
-
 			UpdateAutoFilerFolders();
 			break;
 		}
@@ -248,8 +232,9 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 		{
 			entry_ref ref;
 			bool added = false;
+			int32 count = fFolderList->CountItems();
 
-			for (int32 i = 0, count = fFolderList->CountItems(); msg->FindRef("refs", i, &ref) == B_OK; i++, count++) {
+			for (int32 i = 0; msg->FindRef("refs", i, &ref) == B_OK; i++) {
 				BEntry entry(&ref);
 				BPath path;
 				entry.GetPath(&path);
@@ -271,13 +256,9 @@ AutoFilerTab::MessageReceived(BMessage* msg)
 				if (compare == 0)
 					continue;
 
-				gRefLock.Lock();
-				gRefStructList.AddItem(new RefStorage(ref), index);
-				gRefLock.Unlock();
-
-				BStringItem* item = new BStringItem(newpath);
-				fFolderList->AddItem(item, index);
+				fFolderList->AddItem(new BStringItem(newpath), index);
 				added = true;
+				count++;
 			}
 
 			if (added) {
@@ -337,7 +318,7 @@ AutoFilerTab::UpdateAutoFilerLabel()
 void
 AutoFilerTab::UpdateAutoFilerFolders()
 {
-	SaveFolders();
+	SaveFolders(fFolderList);
 
 	// if AutoFiler is running, tell it to refresh its folders
 	if (be_roster->IsRunning(kAutoFilerSignature)) {

@@ -6,6 +6,7 @@
 		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
+#include <Locker.h>
 #include <NodeMonitor.h>
 #include <Roster.h>
 #include <String.h>
