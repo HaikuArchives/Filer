@@ -1,13 +1,14 @@
 /*
 	Released under the MIT license.
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
-	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+	Contributed by:
+		Humdinger <humdingerb@gmail.com>, 2016
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #include <Autolock.h>
 #include <File.h>
 #include <FindDirectory.h>
-#include <Message.h>
 #include <Path.h>
 
 #include "RefStorage.h"
@@ -18,7 +19,9 @@ BLocker gRefLock;
 const char gPrefsPath[] = "Filer/AutoFilerFolders";
 
 RefStorage::RefStorage(const entry_ref& fileref)
-	: doAll(false), replace(false)
+	:
+	doAll(false),
+	replace(false)
 {
 	SetData(fileref);
 }
@@ -36,7 +39,7 @@ RefStorage::SetData(const entry_ref& fileref)
 
 
 status_t
-LoadFolders()
+LoadFolders(BListView* folderList)
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
@@ -45,9 +48,11 @@ LoadFolders()
 	if (!BEntry(path.Path()).Exists())
 		return B_OK;
 
-	BAutolock autolock(&gRefLock);
-	if (!autolock.IsLocked())
-		return B_BUSY;
+	if (folderList == NULL) {
+		BAutolock autolock(&gRefLock);
+		if (!autolock.IsLocked())
+			return B_BUSY;
+	}
 
 	BMessage msg;
 
@@ -60,19 +65,33 @@ LoadFolders()
 	if (status != B_OK)
 		return status;
 
-	entry_ref tempRef;
-	BString tempString;
-	int32 i = 0;
-	while (msg.FindString("path", i, &tempString) == B_OK)
-	{
-		i++;
-		status_t err = get_ref_for_path(tempString.String(), &tempRef);
-		if (err == B_OK) {
-			RefStorage* refholder = new RefStorage(tempRef);
-			if (refholder)
+	BString str;
+	int32 i, count = 0;
+
+	for (i = 0; msg.FindString("path", i, &str) == B_OK; i++) {
+		BEntry entry(str.String());
+		if (entry.InitCheck() != B_OK || !entry.Exists() || !entry.IsDirectory())
+			continue;
+
+		if (folderList == NULL) {
+			entry_ref ref;
+			if (entry.GetRef(&ref) != B_OK)
+				continue;
+
+			RefStorage* refholder = new RefStorage(ref);
+			if (refholder) {
 				gRefStructList.AddItem(refholder);
+				count++;
+			}
+		} else {
+			folderList->AddItem(new BStringItem(str));
+			count++;
 		}
 	}
+
+	if (count < i)
+		SaveFolders(folderList);
+
 	return status;
 }
 
@@ -98,20 +117,29 @@ ReloadFolders()
 
 
 status_t
-SaveFolders()
+SaveFolders(const BListView* folderList)
 {
-	BAutolock autolock(&gRefLock);
-	if (!autolock.IsLocked())
-		return B_BUSY;
+	int32 count;
+
+	if (folderList == NULL) {
+		BAutolock autolock(&gRefLock);
+		if (!autolock.IsLocked())
+			return B_BUSY;
+
+		count = gRefStructList.CountItems();
+	} else
+		count = folderList->CountItems();
 
 	BMessage msg;
 
-	for (int32 i = 0; i < gRefStructList.CountItems(); i++)
-	{
-		RefStorage* refholder = (RefStorage*)gRefStructList.ItemAt(i);
-		BPath path(&refholder->ref);
-		msg.AddString("path", path.Path());;
-	}
+	for (int32 i = 0; i < count; i++)
+		if (folderList == NULL) {
+			RefStorage* refholder = (RefStorage*)gRefStructList.ItemAt(i);
+			BPath path(&refholder->ref);
+			msg.AddString("path", path.Path());
+		} else
+			msg.AddString("path", ((BStringItem*) folderList->ItemAt(i))->Text());
+
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 	path.Append(gPrefsPath);
