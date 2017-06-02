@@ -17,9 +17,7 @@ class AutoTextControl;
 class ActionView : public BView
 {
 public:
-					ActionView(const BRect& frame, const char* name,
-							BMessage* test = NULL,
-							const int32& resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
+					ActionView(const char* name, BMessage* test = NULL,
 							const int32& flags = B_WILL_DRAW);
 					~ActionView();
 

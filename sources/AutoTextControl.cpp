@@ -31,11 +31,10 @@ static property_info sProperties[] = {
 	},
 };
 
-AutoTextControl::AutoTextControl(const BRect& frame, const char* name,
-	const char* label, const char* text, BMessage* msg, uint32 resize,
-	uint32 flags)
+AutoTextControl::AutoTextControl(const char* name, const char* label,
+	const char* text, BMessage* msg, uint32 flags)
 	:
-	BTextControl(frame ,name, label, text, msg, resize, flags),
+	BTextControl(name, label, text, msg, flags),
  	fFilter(NULL),
  	fCharLimit(0)
 {

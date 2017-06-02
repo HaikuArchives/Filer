@@ -2,10 +2,13 @@
 	TestView.cpp: view to display and edit settings for Filer tests
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
-	Contributed by: Pete Goodeve, 2016
+	Contributed by:
+		Pete Goodeve, 2016
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #include <Font.h>
+#include <LayoutBuilder.h>
 #include <ListItem.h>
 #include <Mime.h>
 #include <ScrollBar.h>
@@ -29,10 +32,9 @@ extern BMessage gArchivedTypeMenu;
 #endif
 
 
-TestView::TestView(const BRect& frame, const char* name, BMessage* test,
-	const int32& resize, const int32& flags)
+TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	:
-	BView(frame, name, resize, flags),
+	BView(name, flags),
  	fTest(NULL)
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
@@ -53,13 +55,8 @@ TestView::TestView(const BRect& frame, const char* name, BMessage* test,
 	if (teststr.CountChars() > widesttest.CountChars())
 		widesttest = teststr;
 
-	fTestButton = new BButton(BRect(0, 0, 1, 1), "testbutton",
-		widesttest.String(), new BMessage(MSG_SHOW_TEST_MENU));
-	fTestButton->ResizeToPreferred();
-	AddChild(fTestButton);
-
-	BRect rect = fTestButton->Frame();
-	rect.OffsetBy(rect.Width() + 10.0, 0.0);
+	fTestButton = new BButton("testbutton", widesttest.String(),
+		new BMessage(MSG_SHOW_TEST_MENU));
 
 	// Find the longest name in all the modes
 	BMessage modes;
@@ -72,24 +69,19 @@ TestView::TestView(const BRect& frame, const char* name, BMessage* test,
 			widestmode = teststr;
 	}
 
-	fModeButton = new BButton(rect, "modebutton", widestmode.String(),
+	fModeButton = new BButton("modebutton", widestmode.String(),
 		new BMessage(MSG_SHOW_MODE_MENU));
-	fModeButton->ResizeToPreferred();
-	AddChild(fModeButton);
 
-	rect = fModeButton->Frame();
-	rect.OffsetBy(rect.Width() + 5, 0);
-	rect.right = rect.left + StringWidth("application/x-vnd.dw-foo") + 5;
-	fValueBox = new AutoTextControl(rect, "valuebox", NULL, NULL,
-		new BMessage(), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	AddChild(fValueBox);
+	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
-	if (fValueBox->Bounds().Height() < fModeButton->Bounds().Height()) {
-		fValueBox->MoveBy(0.0,(fModeButton->Bounds().Height() 
-		- fValueBox->Bounds().Height()) / 2.0);
-	}
 
 	SetupTestMenu();
+
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+		.Add(fTestButton)
+		.Add(fModeButton)
+		.Add(fValueBox)
+		.End();
 
 	bool usedefaults = false;
 	if (test) {
