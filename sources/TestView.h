@@ -19,9 +19,7 @@ class AutoTextControl;
 class TestView : public BView
 {
 public:
-				TestView(const BRect& frame, const char* name,
-					BMessage* test = NULL,
-					const int32& resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
+				TestView(const char* name, BMessage* test = NULL,
 					const int32& flags = B_WILL_DRAW);
 
 	void 		AttachedToWindow();

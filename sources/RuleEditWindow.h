@@ -20,7 +20,7 @@ class TestView;
 class RuleEditWindow : public BWindow
 {
 public:
-				RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller);
+				RuleEditWindow(FilerRule* rule, BHandler* caller);
 				~RuleEditWindow();
 
 	void		MessageReceived(BMessage* msg);
@@ -33,13 +33,15 @@ public:
 	void		AppendAction(BMessage* action);
 	void		RemoveAction();
 private:
-	BRect		GetPreferredSize() const;
 	void		SendRuleMessage();
 
 	AutoTextControl*	fDescriptionBox;
 
 	BBox*			fTestGroup;
 	BBox*			fActionGroup;
+
+	BGroupLayout*	fTestGroupLayout;
+	BGroupLayout*	fActionGroupLayout;
 
 	BButton*		fOK;
 	BButton*		fCancel;

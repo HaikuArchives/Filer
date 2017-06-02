@@ -2,11 +2,14 @@
 	RuleEditWindow.cpp: Rule editor class (duh)
 	Released under the MIT license.
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
-	Contributed by: Humdinger <humdingerb@gmail.com>, 2016
+	Contributed by:
+		Humdinger <humdingerb@gmail.com>, 2016
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #include <Alert.h>
 #include <Application.h>
+#include <LayoutBuilder.h>
 #include <Message.h>
 #include <Messenger.h>
 #include <Path.h>
@@ -22,10 +25,10 @@
 #include "TestView.h"
 
 
-RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller)
+RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	:
-	BWindow(rect, "Edit rule", B_TITLED_WINDOW,
-		B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_CLOSE_ON_ESCAPE),
+	BWindow(BRect(0, 0, 400, 0), "Edit rule", B_TITLED_WINDOW,
+		B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE | B_AUTO_UPDATE_SIZE_LIMITS),
 	fOriginalID(-1),
 	fCaller(caller)
 {
@@ -34,101 +37,63 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller)
 	else
 		SetTitle("Add rule");
 
-	BView* top = new BView(Bounds(), "top", B_FOLLOW_ALL, B_WILL_DRAW);
-	top->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
-	AddChild(top);
-
 	// Description
-	fDescriptionBox = new AutoTextControl(BRect(0, 0, 1, 1), "description",
-		"Description: ", NULL, new BMessage(MSG_NEW_DESCRIPTION),
-		B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	top->AddChild(fDescriptionBox);
-
-	float width, height;
-	fDescriptionBox->GetPreferredSize(&width, &height);
-	fDescriptionBox->ResizeTo(Bounds().Width() - 20, height);
-	fDescriptionBox->MoveTo(10, 10);
-	fDescriptionBox->SetDivider(be_plain_font->StringWidth("Description: ") + 5);
+	fDescriptionBox = new AutoTextControl("description", "Description: ", NULL,
+		new BMessage(MSG_NEW_DESCRIPTION));
 
 	if (rule)
 		fDescriptionBox->SetText(rule->GetDescription());
 
-	// Separator line	
-	BRect rect(fDescriptionBox->Frame());
-	rect.OffsetBy(0, rect.IntegerHeight() + 10);
-	rect.bottom = rect.top + 1.0;
-	BBox* box = new BBox(rect, NULL, B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	top->AddChild(box);
-
 	// Set up the tests group and associated buttons
-	rect.OffsetBy(0, 12.0);
-	rect.bottom = rect.top + 20.0;
-	fTestGroup = new BBox(rect, "whengroup", B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+	fTestGroup = new BBox("whengroup");
 	fTestGroup->SetLabel("When");
-	top->AddChild(fTestGroup);
 
-	fAddTest = new BButton(BRect(0, 0, 1, 1),"addtestbutton", "Add",
-		new BMessage(MSG_ADD_TEST), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fAddTest->ResizeToPreferred();
-	fAddTest->MoveTo(10.0, fTestGroup->Bounds().bottom - 10.0
-		- fAddTest->Bounds().Height());
-	fTestGroup->AddChild(fAddTest);
+	fAddTest = new BButton("addtestbutton", "Add", new BMessage(MSG_ADD_TEST));
 
-	fRemoveTest = new BButton(BRect(0, 0, 1, 1),"removetestbutton", "Remove",
-		new BMessage(MSG_REMOVE_TEST), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fRemoveTest->ResizeToPreferred();
-	fRemoveTest->MoveTo(fAddTest->Frame().right + 10, fAddTest->Frame().top);
-	fTestGroup->AddChild(fRemoveTest);
+	fRemoveTest = new BButton("removetestbutton", "Remove",
+		new BMessage(MSG_REMOVE_TEST));
 	fRemoveTest->SetEnabled(false);
 
-	fTestGroup->ResizeBy(0, fAddTest->Bounds().Height());
-
 	// Set up the actions group and associated buttons
-	rect.OffsetTo(10, fTestGroup->Frame().bottom + 10.0);
-	fActionGroup = new BBox(rect, "dogroup", B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+	fActionGroup = new BBox("dogroup");
 	fActionGroup->SetLabel("Do");
-	top->AddChild(fActionGroup);
 
-	fAddAction = new BButton(BRect(0, 0, 1, 1), "addactionbutton", "Add",
-	new BMessage(MSG_ADD_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fAddAction->ResizeToPreferred();
-	fAddAction->MoveTo(10.0, fActionGroup->Bounds().bottom - 10.0
-		- fAddAction->Bounds().Height());
-	fActionGroup->AddChild(fAddAction);
+	fAddAction = new BButton("addactionbutton", "Add",
+		new BMessage(MSG_ADD_ACTION));
 
-	fRemoveAction = new BButton(BRect(0, 0, 1, 1), "removeactionbutton", "Remove",
-		new BMessage(MSG_REMOVE_ACTION), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fRemoveAction->ResizeToPreferred();
-	fRemoveAction->MoveTo(fAddAction->Frame().right + 10, fAddAction->Frame().top);
-	fActionGroup->AddChild(fRemoveAction);
+	fRemoveAction = new BButton("removeactionbutton", "Remove",
+		new BMessage(MSG_REMOVE_ACTION));
 	fRemoveAction->SetEnabled(false);
 
-	fActionGroup->ResizeBy(0, fAddAction->Bounds().Height() + 10.0);
 
-
-	fOK = new BButton(BRect(0, 0, 1, 1), "okbutton", "OK", new BMessage(MSG_OK),
-		B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
-	fOK->ResizeToPreferred();
-	fOK->MoveTo(Bounds().right - fOK->Bounds().Width() - 10,
-		Bounds().bottom - fOK->Bounds().Height() - 10);
+	fOK = new BButton("okbutton", "OK", new BMessage(MSG_OK));
 	// calling AddChild later to ensure proper keyboard navigation
 
-	fCancel = new BButton(BRect(0, 0, 1 ,1), "cancelbutton", "Cancel",
-		new BMessage(MSG_CANCEL), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
-	fCancel->ResizeToPreferred();
-	fCancel->MoveTo(fOK->Frame().left - fCancel->Bounds().Width() - 10, 
-		fOK->Frame().top);
+	fCancel = new BButton("cancelbutton", "Cancel", new BMessage(MSG_CANCEL));
 
-	fHelp = new BButton(BRect(0, 0, 1, 1), "helpbutton", "Help…",
-		new BMessage(MSG_HELP), B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fHelp->ResizeToPreferred();
-	fHelp->MoveTo(10, fOK->Frame().top);
+	fHelp = new BButton("helpbutton", "Help…", new BMessage(MSG_HELP));
 	fHelp->SetTarget(be_app);
-	top->AddChild(fHelp);
 
-	top->AddChild(fCancel);
-	top->AddChild(fOK);
 	fOK->MakeDefault(true);
+
+	int spacing = B_USE_HALF_ITEM_SPACING;
+	int inset = B_USE_HALF_ITEM_INSETS;
+
+	fTestGroupLayout = BLayoutBuilder::Group<>(B_VERTICAL, spacing)
+		.SetInsets(inset, inset, inset, inset)
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.Add(fAddTest)
+			.Add(fRemoveTest)
+			.AddGlue()
+			.End();
+
+	fActionGroupLayout = BLayoutBuilder::Group<>(B_VERTICAL, spacing)
+		.SetInsets(inset, inset, inset, inset)
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.Add(fAddAction)
+			.Add(fRemoveAction)
+			.AddGlue()
+			.End();
 
 	if (rule) {
 		for (int32 i = 0; i < rule->CountTests(); i++)
@@ -141,10 +106,28 @@ RuleEditWindow::RuleEditWindow(BRect& rect, FilerRule* rule, BHandler* caller)
 		AppendAction(NULL);
 	}
 
-	ResizeTo(Bounds().Width(), fActionGroup->Frame().bottom + 15
-		+ fOK->Bounds().Height());
+	fTestGroup->AddChild(fTestGroupLayout->View());
+	fActionGroup->AddChild(fActionGroupLayout->View());
+
+	inset = B_USE_SMALL_INSETS;
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
+		.SetInsets(inset, inset, inset, inset)
+		.Add(fDescriptionBox)
+		.Add(fTestGroup)
+		.Add(fActionGroup)
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.Add(fHelp)
+			.AddGlue()
+			.Add(fCancel)
+			.Add(fOK)
+			.End()
+		.End();
 
 	fDescriptionBox->MakeFocus();
+
+	CenterOnScreen();
+	Show();
 }
 
 
@@ -207,27 +190,10 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 void
 RuleEditWindow::AppendTest(BMessage* test)
 {
-	TestView* view = new TestView(BRect(0, 0, 1, 1), "test", test,
-		B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	view->ResizeToPreferred();
-	BRect rect = view->GetPreferredSize();
-	fTestGroup->ResizeBy(0, rect.Height() + 10);
+	TestView* view = new TestView("test", test);
 
-	if (fTestGroup->Bounds().Width() < rect.Width() + 20)
-		ResizeBy(rect.Width() + 20 - fTestGroup->Bounds().Width(),0);
-
-	TestView* last = (TestView*)fTestList.ItemAt(fTestList.CountItems() - 1);
-	
-	if (last)
-		view->MoveTo(last->Frame().left, last->Frame().bottom + 10);
-	else
-		view->MoveTo(10, 15);
-
-	fTestGroup->AddChild(view);
+	fTestGroupLayout->AddView(fTestList.CountItems(), view);
 	fTestList.AddItem(view);
-
-	fActionGroup->MoveBy(0, rect.Height() + 10);
-	ResizeBy(0, rect.Height() + 10);
 
 	if (fTestList.CountItems() > 1 && !fRemoveTest->IsEnabled())
 		fRemoveTest->SetEnabled(true);
@@ -238,10 +204,8 @@ void
 RuleEditWindow::RemoveTest()
 {
 	TestView* view = (TestView*)fTestList.RemoveItem(fTestList.CountItems() - 1);
+	fTestGroupLayout->RemoveView(view);
 	view->RemoveSelf();
-	fTestGroup->ResizeBy(0, -view->Bounds().Height() - 10);
-	fActionGroup->MoveBy(0, -view->Bounds().Height() - 10);
-	ResizeBy(0, -view->Bounds().Height() - 10);
 	delete view;
 
 	if (fTestList.CountItems() == 1)
@@ -252,27 +216,10 @@ RuleEditWindow::RemoveTest()
 void
 RuleEditWindow::AppendAction(BMessage* action)
 {
-	ActionView* view = new ActionView(BRect(0, 0, 1, 1), "action", action,
-		B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	BRect rect = view->GetPreferredSize();
-	view->ResizeTo(fActionGroup->Bounds().Width() - 20, rect.Height());
-	fActionGroup->ResizeBy(0, rect.Height() + 10);
+	ActionView* view = new ActionView("action", action);
 
-	if (fActionGroup->Bounds().Width() < rect.Width() + 20)
-		ResizeBy(rect.Width() + 20 - fActionGroup->Bounds().Width(), 0);
-
-	ActionView* last
-		= (ActionView*)fActionList.ItemAt(fActionList.CountItems() - 1);
-
-	if (last)
-		view->MoveTo(last->Frame().left, last->Frame().bottom + 10);
-	else
-		view->MoveTo(10, 15);
-
-	fActionGroup->AddChild(view);
+	fActionGroupLayout->AddView(fActionList.CountItems(), view);
 	fActionList.AddItem(view);
-
-	ResizeBy(0, rect.Height() + 10);
 
 	if (fActionList.CountItems() > 1 && !fRemoveAction->IsEnabled())
 		fRemoveAction->SetEnabled(true);
@@ -291,28 +238,6 @@ RuleEditWindow::RemoveAction()
 
 	if (fActionList.CountItems() == 1)
 		fRemoveAction->SetEnabled(false);
-}
-
-
-BRect
-RuleEditWindow::GetPreferredSize() const
-{
-	// Base minimum size, padding included
-	BRect rect(0.0, 0.0, 320.0, 220.0);
-
-	// Figure preferred height
-	rect.bottom += fDescriptionBox->Bounds().Height() + 10.0;
-
-	// 2 pixels for separator line + 10 pixels padding above it
-	rect.bottom += 12.0;
-
-	// Base minimum size for boxes (including inside padding) of 20 each and
-	// outside padding of 10 pixels above each box
-	rect.bottom += 40.0 + 20.0;
-
-	rect.bottom += fOK->Bounds().Height() + 10.0;
-
-	return rect;
 }
 
 

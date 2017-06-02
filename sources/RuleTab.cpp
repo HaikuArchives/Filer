@@ -192,29 +192,15 @@ RuleTab::MessageReceived(BMessage* message)
 	{
 		case MSG_SHOW_ADD_WINDOW:
 		{
-			BRect frame(Frame());
-			ConvertToScreen(&frame);
-			frame.right = frame.left + 400;
-			frame.bottom = frame.top + 300;
-			frame.OffsetBy(60, 30);
-
-			RuleEditWindow* rulewin = new RuleEditWindow(frame, NULL, this);
-			rulewin->Show();
+			RuleEditWindow* rulewin = new RuleEditWindow(NULL, this);
 			break;
 		}
 		case MSG_SHOW_EDIT_WINDOW:
 		{
-			BRect frame(Frame());
-			ConvertToScreen(&frame);
-			frame.right = frame.left + 400;
-			frame.bottom = frame.top + 300;
-			frame.OffsetBy(60, 30);
-
 			FilerRule* rule = fRuleList->ItemAt(
 				fRuleItemList->CurrentSelection());
 
-			RuleEditWindow* rulewin = new RuleEditWindow(frame, rule, this);
-			rulewin->Show();
+			RuleEditWindow* rulewin = new RuleEditWindow(rule, this);
 			break;
 		}
 		case MSG_ADD_RULE:

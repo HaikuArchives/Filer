@@ -2,10 +2,13 @@
 	ActionView.cpp: View for adjusting settings for an individual Filer action
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
-	Contributed by: Pete Goodeve, 2016
+	Contributed by:
+		Pete Goodeve, 2016
+		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
 #include <Font.h>
+#include <LayoutBuilder.h>
 #include <MenuItem.h>
 #include <PopUpMenu.h>
 #include <ScrollBar.h>
@@ -17,10 +20,9 @@
 #include "RuleRunner.h"
 
 
-ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
-	const int32& resize, const int32& flags)
+ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 	:
-	BView(frame, name, resize, flags | B_FRAME_EVENTS),
+	BView(name, flags | B_FRAME_EVENTS),
  	fAction(NULL)
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
@@ -36,21 +38,16 @@ ActionView::ActionView(const BRect& frame, const char* name, BMessage* action,
 			wideststr = actionstr;
 	}
 
-	fActionButton = new BButton(BRect(0, 0, 1, 1), "actionbutton",
-		wideststr.String(), new BMessage(MSG_SHOW_ACTION_MENU));
-	fActionButton->ResizeToPreferred();
-	AddChild(fActionButton);
+	fActionButton = new BButton("actionbutton", wideststr.String(),
+		new BMessage(MSG_SHOW_ACTION_MENU));
 
-	BRect rect = fActionButton->Frame();
-	rect.OffsetBy(rect.Width() + 5, 0);
-	rect.right = Bounds().Width() - 10.0;
-	if (rect.right < rect.left)
-		rect.right = rect.left + 10;
-
-	fValueBox = new AutoTextControl(rect, "valuebox", NULL, NULL,
-		new BMessage(), B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	AddChild(fValueBox);
+	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
+
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+		.Add(fActionButton)
+		.Add(fValueBox)
+		.End();
 
 	bool usedefaults = false;
 	if (action) {
