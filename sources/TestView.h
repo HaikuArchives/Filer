@@ -6,9 +6,7 @@
 #ifndef TESTVIEW_H
 #define TESTVIEW_H
 
-#include <Button.h>
 #include <Menu.h>
-#include <MenuItem.h>
 #include <MenuField.h>
 #include <Message.h>
 #include <PopUpMenu.h>
@@ -21,25 +19,23 @@ class TestView : public BView
 public:
 				TestView(const char* name, BMessage* test = NULL,
 					const int32& flags = B_WILL_DRAW);
+				~TestView();
 
 	void 		AttachedToWindow();
-	BRect		GetPreferredSize();
-	void		ResizeToPreferred();
 	void		MessageReceived(BMessage* msg);
 	BMessage*	GetTest() const;
 	
 private:
-	void		SetupTestMenu();
-	void		ShowModeMenu();
+	BPopUpMenu*	TestMenu() const;
 	bool		SetTest(BMessage* msg);
 	void		SetMode(const char* mode);
 	const char*	GetValue();
 	
-	BMenu*		AddMenuSorted(BMenu* parent, const char* name);
-	BMenu*		GetMenu(BMenu* parent, const char* name);
+	BMenu*		AddMenuSorted(BMenu* parent, const char* name) const;
+	BMenu*		GetMenu(BMenu* parent, const char* name) const;
 	
-	BButton*	fTestButton;
-	BButton*	fModeButton;
+	BMenuField*	fTestField;
+	BMenuField*	fModeField;
 	
 	BMessage	fArchivedTestMenu;
 	

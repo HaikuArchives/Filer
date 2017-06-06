@@ -7,16 +7,17 @@
 		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
+#include "TestView.h"
+
 #include <Font.h>
 #include <LayoutBuilder.h>
 #include <ListItem.h>
 #include <Mime.h>
-#include <ScrollBar.h>
 
 #include "AutoTextControl.h"
 #include "FilerDefs.h"
+#include "ModeMenu.h"
 #include "RuleRunner.h"
-#include "TestView.h"
 
 extern BMessage gArchivedTypeMenu;
 
@@ -39,47 +40,22 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 
-	// Find the longest name in all the tests
 	RuleRunner::GetTestTypes(fTestTypes);
-	int32 i = 0;
-	BString teststr, widesttest, widestmode;
-	while (fTestTypes.FindString("tests", i, &teststr) == B_OK)
-	{
-		i++;
-		if (teststr.CountChars() > widesttest.CountChars())
-			widesttest = teststr;
-	}
 
-	// This will hopefully accomodate some of the attribute strings
-	teststr = "Netpositive Password";
-	if (teststr.CountChars() > widesttest.CountChars())
-		widesttest = teststr;
+	fTestField = new BMenuField(NULL, TestMenu());
 
-	fTestButton = new BButton("testbutton", widesttest.String(),
-		new BMessage(MSG_SHOW_TEST_MENU));
-
-	// Find the longest name in all the modes
 	BMessage modes;
 	RuleRunner::GetModes(modes);
-	i = 0;
-	while (modes.FindString("modes", i, &teststr) == B_OK)
-	{
-		i++;
-		if (teststr.CountChars() > widestmode.CountChars())
-			widestmode = teststr;
-	}
 
-	fModeButton = new BButton("modebutton", widestmode.String(),
-		new BMessage(MSG_SHOW_MODE_MENU));
+	fModeField = new BMenuField(NULL,
+		new ModeMenu(fTestField->MenuItem(), this));
 
 	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
 
-	SetupTestMenu();
-
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-		.Add(fTestButton)
-		.Add(fModeButton)
+		.Add(fTestField, 0)
+		.Add(fModeField, 0)
 		.Add(fValueBox)
 		.End();
 
@@ -132,31 +108,29 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 }
 
 
+TestView::~TestView()
+{
+	delete fTestField;
+	delete fModeField;
+	delete fValueBox;
+	delete fTest;
+}
+
+
 void
 TestView::AttachedToWindow()
 {
-	fTestButton->SetTarget(this);
-	fModeButton->SetTarget(this);
+	BMenu* menu = fTestField->Menu();
+	menu->SetTargetForItems(this);
+
+	for (int32 i = 0; i < menu->CountItems(); i++)
+	{
+		BMenuItem* item = menu->ItemAt(i);
+		if (item->Submenu())
+			item->Submenu()->SetTargetForItems(this);
+	}
+
 	fValueBox->SetTarget(this);
-}
-
-
-BRect
-TestView::GetPreferredSize()
-{
-	BRect rect(fValueBox->Frame());
-	rect.left = rect.top = 0.0;
-	rect.bottom += 10.0;
-
-	return rect;
-}
-
-
-void
-TestView::ResizeToPreferred()
-{
-	BRect rect = GetPreferredSize();
-	ResizeTo(rect.Width(),rect.Height());
 }
 
 
@@ -173,73 +147,8 @@ TestView::MessageReceived(BMessage* msg)
 		case MSG_MODE_CHOSEN:
 		{
 			BString mode;
-			if (msg->FindString("mode",&mode) != B_OK)
-				break;
-
-			SetMode(mode.String());
-			break;
-		}
-		case MSG_SHOW_TEST_MENU:
-		{
-			BPopUpMenu* menu
-				= (BPopUpMenu*)BPopUpMenu::Instantiate(&fArchivedTestMenu);
-			menu->SetTargetForItems(this);
-
-			for (int32 i = 0; i < menu->CountItems(); i++)
-			{
-				BMenuItem* item = menu->ItemAt(i);
-				if (item->Submenu())
-					item->Submenu()->SetTargetForItems(this);
-			}
-
-			BPoint point;
-			uint32 buttons;
-			GetMouse(&point, &buttons);
-			ConvertToScreen(&point);
-			point.x -= 10.0;
-			if (point.x < 0.0)
-				point.x = 0.0;
-
-			point.y -= 10.0;
-			if (point.y < 0.0)
-				point.y = 0.0;
-
-			menu->SetAsyncAutoDestruct(true);
-			menu->Go(point, true, true, true);
-			break;
-		}
-		case MSG_SHOW_TYPE_MENU:
-		{
-			BPopUpMenu* menu
-				= (BPopUpMenu*)BPopUpMenu::Instantiate(&gArchivedTypeMenu);
-			menu->SetTargetForItems(this);
-
-			for (int32 i = 0; i < menu->CountItems(); i++)
-			{
-				BMenuItem* item = menu->ItemAt(i);
-				if (item->Submenu())
-					item->Submenu()->SetTargetForItems(this);
-			}
-
-			BPoint point;
-			uint32 buttons;
-			GetMouse(&point, &buttons);
-			ConvertToScreen(&point);
-			point.x -= 10.0;
-			if (point.x < 0.0)
-				point.x = 0.0;
-
-			point.y -= 10.0;
-			if (point.y < 0.0)
-				point.y = 0.0;
-
-			menu->SetAsyncAutoDestruct(true);
-			menu->Go(point, true, true, true);
-			break;
-		}
-		case MSG_SHOW_MODE_MENU:
-		{
-			ShowModeMenu();
+			if (msg->FindString("mode", &mode) == B_OK)
+				SetMode(mode.String());
 			break;
 		}
 		default:
@@ -265,13 +174,13 @@ TestView::GetTest() const
 }
 
 
-void
-TestView::SetupTestMenu()
+BPopUpMenu*
+TestView::TestMenu() const
 {
 	// These ones will always exist. Type is the default because it's probably
 	// going to be the one most used
 	BMessage* msg;
-	BPopUpMenu* menu = new BPopUpMenu("Test");	
+	BPopUpMenu* menu = new BPopUpMenu("", true, false);
 
 	// Read in the types in the MIME database which have extra attributes
 	// associated with them
@@ -348,51 +257,12 @@ TestView::SetupTestMenu()
 		i--;
 	}
 
-	menu->Archive(&fArchivedTestMenu);
-	delete menu;
-}
-
-
-void
-TestView::ShowModeMenu()
-{
-	BPopUpMenu* menu = new BPopUpMenu("String");
-	BMessage* msg, modes;
-	
-	if (RuleRunner::GetCompatibleModes(fTestButton->Label(), modes) != B_OK)
-		return;
-	
-	BString modestr;
-	int32 i = 0;
-	while (modes.FindString("modes", i, &modestr) == B_OK)
-	{
-		i++;
-		msg = new BMessage(MSG_MODE_CHOSEN);
-		msg->AddString("mode", modestr);
-		menu->AddItem(new BMenuItem(modestr.String(), msg));
-	}
-
-	menu->SetTargetForItems(this);
-
-	BPoint point;
-	uint32 buttons;
-	GetMouse(&point, &buttons);
-	ConvertToScreen(&point);
-	point.x -= 10.0;
-	if (point.x < 0.0)
-		point.x = 0.0;
-
-	point.y -= 10.0;
-	if (point.y < 0.0)
-		point.y = 0.0;
-
-	menu->SetAsyncAutoDestruct(true);
-	menu->Go(point, true, true, true);
+	return menu;
 }
 
 
 BMenu*
-TestView::AddMenuSorted(BMenu* parent, const char* name)
+TestView::AddMenuSorted(BMenu* parent, const char* name) const
 {
 	// XXX: TODO: This doesn't work for some reason -- the items aren't sorted :(
 
@@ -424,7 +294,7 @@ TestView::AddMenuSorted(BMenu* parent, const char* name)
 
 
 BMenu*
-TestView::GetMenu(BMenu* parent, const char* name)
+TestView::GetMenu(BMenu* parent, const char* name) const
 {
 	// This is because FindMenu recursively searches a menu. We just want to
 	// check the top level of fTestMenu
@@ -488,20 +358,16 @@ TestView::SetTest(BMessage* msg)
 		fTest->FindString("attrname", &str);
 		label << " : " << str;
 		testtype = TEST_TYPE_STRING;
-
-		// Truncate the label because it is likely too long for the button
-		be_plain_font->TruncateString(&label, B_TRUNCATE_SMART,
-			fTestButton->Bounds().Width() - 10.0);
 	} else {
 		label = str;
 		testtype = RuleRunner::GetDataTypeForTest(label.String());
 	}
 
-	fTestButton->SetLabel(label.String());
+	fTestField->MenuItem()->SetLabel(label.String());
 
 	// Now that the test button has been updated, make sure that the mode currently
 	// set is supported by the current test
-	int32 modetype = RuleRunner::GetDataTypeForMode(fModeButton->Label());
+	int32 modetype = RuleRunner::GetDataTypeForMode(fModeField->MenuItem()->Label());
 	if (testtype != modetype && modetype != TEST_TYPE_ANY) {
 		STRACE(("Modes not compatible, refreshing.\n"));
 		// Not compatible, so reset the mode to something compatible
@@ -531,7 +397,7 @@ TestView::SetMode(const char* mode)
 		fTest->ReplaceString("mode", mode);
 	else
 		fTest->AddString("mode", mode);
-	fModeButton->SetLabel(mode);
+	fModeField->MenuItem()->SetLabel(mode);
 }
 
 
