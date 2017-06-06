@@ -231,9 +231,8 @@ RuleEditWindow::RemoveAction()
 {
 	ActionView* view
 		= (ActionView*)fActionList.RemoveItem(fActionList.CountItems() - 1);
+	fActionGroupLayout->RemoveView(view);
 	view->RemoveSelf();
-	fActionGroup->ResizeBy(0, -view->Bounds().Height() - 10);
-	ResizeBy(0, -view->Bounds().Height() - 10);
 	delete view;
 
 	if (fActionList.CountItems() == 1)

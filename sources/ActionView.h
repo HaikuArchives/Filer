@@ -22,17 +22,15 @@ public:
 					~ActionView();
 
 	void 			AttachedToWindow();
-	BRect			GetPreferredSize();
-	void			ResizeToPreferred();
 	void			MessageReceived(BMessage* msg);
 
 	BMessage*		GetAction() const;
 
 private:
-	void			ShowActionMenu();
+	BPopUpMenu*		ActionMenu() const;
 	void			SetAction(const char* name);
 	
-	BButton*		fActionButton;
+	BMenuField*		fActionField;
 	
 	AutoTextControl*	fValueBox;
 	

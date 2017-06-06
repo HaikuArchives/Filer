@@ -38,14 +38,13 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 			wideststr = actionstr;
 	}
 
-	fActionButton = new BButton("actionbutton", wideststr.String(),
-		new BMessage(MSG_SHOW_ACTION_MENU));
+	fActionField = new BMenuField(NULL, ActionMenu());
 
 	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
 
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-		.Add(fActionButton)
+		.Add(fActionField, 0)
 		.Add(fValueBox)
 		.End();
 
@@ -96,6 +95,8 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 
 ActionView::~ActionView()
 {
+	delete fActionField;
+	delete fValueBox;
 	delete fAction;
 }
 
@@ -103,37 +104,8 @@ ActionView::~ActionView()
 void
 ActionView::AttachedToWindow()
 {
-	fActionButton->SetTarget(this);
+	fActionField->Menu()->SetTargetForItems(this);
 	fValueBox->SetTarget(this);
-
-	// This seems stupid, but without it, fValueBox is *never* resized and I
-	// can't find the cause of it. :(
-	fValueBox->ResizeTo(Bounds().Width() - fValueBox->Frame().left,
-		fValueBox->Bounds().Height());
-	if (fValueBox->Bounds().Height() < fActionButton->Bounds().Height()) {
-		fValueBox->MoveBy(0.0, (fActionButton->Bounds().Height()
-			- fValueBox->Bounds().Height()) / 2.0);
-	}
-}
-
-
-BRect
-ActionView::GetPreferredSize()
-{
-	BRect rect(0.0, 0.0, 10.0, 10.0);
-
-	rect.bottom = fActionButton->Frame().Height();
-	rect.right = StringWidth("Shell command…") + 5.0 + 100;
-
-	return rect;
-}
-
-
-void
-ActionView::ResizeToPreferred()
-{
-	BRect rect = GetPreferredSize();
-	ResizeTo(rect.Width(),rect.Height());
 }
 
 
@@ -142,11 +114,6 @@ ActionView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
-		case MSG_SHOW_ACTION_MENU:
-		{
-			ShowActionMenu();
-			break;
-		}
 		case MSG_ACTION_CHOSEN:
 		{
 			BString name;
@@ -184,7 +151,7 @@ ActionView::SetAction(const char* name)
 		fAction->ReplaceString("name", name);
 	else
 		fAction->AddString("name", name);
-	fActionButton->SetLabel(name);
+	fActionField->MenuItem()->SetLabel(name);
 
 	namestr = name;
 
@@ -198,36 +165,17 @@ ActionView::SetAction(const char* name)
 }
 
 
-void
-ActionView::ShowActionMenu()
+BPopUpMenu*
+ActionView::ActionMenu() const
 {
 	BPopUpMenu* menu = new BPopUpMenu("");
-	BMessage* msg;
-	
-	int32 i = 0;
+
 	BString name;
-	while (fActions.FindString("actions", i, &name) == B_OK)
-	{
-		i++;
-		msg = new BMessage(MSG_ACTION_CHOSEN);
+	for (int32 i = 0; fActions.FindString("actions", i, &name) == B_OK; i++) {
+		BMessage* msg = new BMessage(MSG_ACTION_CHOSEN);
 		msg->AddString("name", name.String());
 		menu->AddItem(new BMenuItem(name.String(), msg));
 	}
 
-	menu->SetTargetForItems(this);
-
-	BPoint point;
-	uint32 buttons;
-	GetMouse(&point, &buttons);
-	ConvertToScreen(&point);
-	point.x -= 10.0;
-	if (point.x < 0.0)
-		point.x = 0.0;
-
-	point.y -= 10.0;
-	if (point.y < 0.0)
-		point.y = 0.0;
-
-	menu->SetAsyncAutoDestruct(true);
-	menu->Go(point, true, true, true);
+	return menu;
 }
