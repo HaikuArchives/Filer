@@ -264,8 +264,6 @@ TestView::TestMenu() const
 BMenu*
 TestView::AddMenuSorted(BMenu* parent, const char* name) const
 {
-	// XXX: TODO: This doesn't work for some reason -- the items aren't sorted :(
-
 	if (!name)
 		return NULL;
 
@@ -275,7 +273,7 @@ TestView::AddMenuSorted(BMenu* parent, const char* name) const
 	{
 		BMenuItem* item = parent->ItemAt(i);
 
-		if (strcmp(item->Label(), name) == -1) {
+		if (strcmp(item->Label(), name) > 0) {
 //		printf("INSERT: %s is after %s\n", name, item->Label());
 			parent->AddItem(menu, i);
 			return menu;

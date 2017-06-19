@@ -7,12 +7,10 @@
 #ifndef ACTIONVIEW_H
 #define ACTIONVIEW_H
 
-#include <Button.h>
-#include <View.h>
+#include <MenuField.h>
+#include <PopUpMenu.h>
 
-class AutoTextControl;
-
-#include <TextControl.h>
+#include "AutoTextControl.h"
 
 class ActionView : public BView
 {
