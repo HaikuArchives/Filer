@@ -7,15 +7,10 @@
 		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
-#include <Font.h>
-#include <LayoutBuilder.h>
-#include <MenuItem.h>
-#include <PopUpMenu.h>
-#include <ScrollBar.h>
-#include <String.h>
-
 #include "ActionView.h"
-#include "AutoTextControl.h"
+
+#include <LayoutBuilder.h>
+
 #include "FilerDefs.h"
 #include "RuleRunner.h"
 
@@ -27,16 +22,7 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 
-	// Find the longest name in all the actions
 	RuleRunner::GetActions(fActions);
-	int32 i = 0;
-	BString actionstr, wideststr;
-	while (fActions.FindString("actions", i, &actionstr) == B_OK)
-	{
-		i++;
-		if (actionstr.CountChars() > wideststr.CountChars())
-			wideststr = actionstr;
-	}
 
 	fActionField = new BMenuField(NULL, ActionMenu());
 
@@ -79,16 +65,16 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 	}
 
 	BString toolTip(
-		"\%FILENAME\%\t\t\tFull file name\n"
-		"\%EXTENSION\%\t\tJust the extension\n"
-		"\%BASENAME\%\t\tFile name without extension\n"
-		"\%FOLDER\%\t\t\tFull location of the folder which contains the file\n"
-		"\%FULLPATH\%\t\t\tFull location of the file\n"
-		"\%DATE\%\t\t\t\tCurrent date in the format MM-DD-YYYY\n"
+		"\%FILENAME\%\t\tFull file name\n"
+		"\%EXTENSION\%\tJust the extension\n"
+		"\%BASENAME\%\tFile name without extension\n"
+		"\%FOLDER\%\t\tFull location of the folder which contains the file\n"
+		"\%FULLPATH\%\t\tFull location of the file\n"
+		"\%DATE\%\t\t\tCurrent date in the format MM-DD-YYYY\n"
 		"\%EURODATE\%\t\tCurrent date in the format DD-MM-YYYY\n"
-		"\%REVERSEDATE\%\t\tCurrent date in the format YYYY-MM-DD\n"
-		"\%TIME\%\t\t\t\tCurrent time using 24-hour time\n"
-		"\%ATTR:xxxx\%\t\t\tAn extended attribute of the file");
+		"\%REVERSEDATE\%\tCurrent date in the format YYYY-MM-DD\n"
+		"\%TIME\%\t\t\tCurrent time using 24-hour time\n"
+		"\%ATTR:xxxx\%\t\tAn extended attribute of the file");
 	fValueBox->SetToolTip(toolTip.String());
 }
 

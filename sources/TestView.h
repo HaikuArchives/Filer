@@ -37,8 +37,6 @@ private:
 	BMenuField*	fTestField;
 	BMenuField*	fModeField;
 	
-	BMessage	fArchivedTestMenu;
-	
 	AutoTextControl*	fValueBox;
 	
 	BMessage*	fTest;
