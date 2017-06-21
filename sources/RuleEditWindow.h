@@ -8,20 +8,19 @@
 
 #include <Box.h>
 #include <Button.h>
+#include <LayoutBuilder.h>
 #include <Window.h>
 
-#include "ObjectList.h"
-
-class AutoTextControl;
-class FilerRule;
-class TestView;
+#include "ActionView.h"
+#include "AutoTextControl.h"
+#include "FilerRule.h"
+#include "TestView.h"
 
 
 class RuleEditWindow : public BWindow
 {
 public:
 				RuleEditWindow(FilerRule* rule, BHandler* caller);
-				~RuleEditWindow();
 
 	void		MessageReceived(BMessage* msg);
 
@@ -47,9 +46,10 @@ private:
 	BButton*		fCancel;
 	BButton*		fAddTest;
 	BButton*		fRemoveTest;
-	BButton*		fAddAction;
-	BButton*		fRemoveAction;
 	BButton*		fHelp;
+
+	TestView*		fTestView;
+	ActionView*		fActionView;
 
 	int64			fOriginalID;
 	BHandler*		fCaller;

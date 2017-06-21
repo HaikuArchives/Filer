@@ -9,6 +9,7 @@
 
 #include "ActionView.h"
 
+#include <Font.h>
 #include <LayoutBuilder.h>
 
 #include "FilerDefs.h"
@@ -29,9 +30,32 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
 
-	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+	fAddButton = new BButton(kAdd);
+	fRemoveButton = new BButton(kRemove);
+
+	BMessage* msg = new BMessage(MSG_ADD_ACTION);
+	msg->AddPointer(kAdd, this);
+	fAddButton->SetMessage(msg);
+
+	msg = new BMessage(MSG_REMOVE_ACTION);
+	msg->AddPointer(kRemove, this);
+	fRemoveButton->SetMessage(msg);
+
+	BFont font;
+	GetFont(&font);
+	float width = font.StringWidth("+-") * 2;
+	BSize size(width, width);
+
+	fAddButton->SetExplicitSize(size);
+	fRemoveButton->SetExplicitSize(size);
+
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_HALF_ITEM_SPACING)
 		.Add(fActionField, 0)
 		.Add(fValueBox)
+		.AddGroup(B_HORIZONTAL, 0)
+			.Add(fRemoveButton)
+			.Add(fAddButton)
+			.End()
 		.End();
 
 	bool usedefaults = false;
@@ -76,6 +100,9 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 		"\%TIME\%\t\t\tCurrent time using 24-hour time\n"
 		"\%ATTR:xxxx\%\t\tAn extended attribute of the file");
 	fValueBox->SetToolTip(toolTip.String());
+
+	fAddButton->SetToolTip("Add below");
+	fRemoveButton->SetToolTip("Remove");
 }
 
 
@@ -83,6 +110,8 @@ ActionView::~ActionView()
 {
 	delete fActionField;
 	delete fValueBox;
+	delete fAddButton;
+	delete fRemoveButton;
 	delete fAction;
 }
 

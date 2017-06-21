@@ -7,28 +7,26 @@
 		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
+#include "RuleEditWindow.h"
+
 #include <Alert.h>
 #include <Application.h>
-#include <LayoutBuilder.h>
 #include <Message.h>
 #include <Messenger.h>
 #include <Path.h>
 #include <Roster.h>
 #include <View.h>
 
-#include "ActionView.h"
-#include "AutoTextControl.h"
 #include "FilerDefs.h"
-#include "FilerRule.h"
 #include "main.h"
-#include "RuleEditWindow.h"
-#include "TestView.h"
 
 
 RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	:
 	BWindow(BRect(0, 0, 400, 0), "Edit rule", B_TITLED_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE | B_AUTO_UPDATE_SIZE_LIMITS),
+	fTestView(NULL),
+	fActionView(NULL),
 	fOriginalID(-1),
 	fCaller(caller)
 {
@@ -58,14 +56,6 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	fActionGroup = new BBox("dogroup");
 	fActionGroup->SetLabel("Do");
 
-	fAddAction = new BButton("addactionbutton", "Add",
-		new BMessage(MSG_ADD_ACTION));
-
-	fRemoveAction = new BButton("removeactionbutton", "Remove",
-		new BMessage(MSG_REMOVE_ACTION));
-	fRemoveAction->SetEnabled(false);
-
-
 	fOK = new BButton("okbutton", "OK", new BMessage(MSG_OK));
 	// calling AddChild later to ensure proper keyboard navigation
 
@@ -88,12 +78,7 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 			.End();
 
 	fActionGroupLayout = BLayoutBuilder::Group<>(B_VERTICAL, spacing)
-		.SetInsets(inset, inset, inset, inset)
-		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.Add(fAddAction)
-			.Add(fRemoveAction)
-			.AddGlue()
-			.End();
+		.SetInsets(inset, inset, inset, inset);
 
 	if (rule) {
 		for (int32 i = 0; i < rule->CountTests(); i++)
@@ -128,11 +113,6 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 
 	CenterOnScreen();
 	Show();
-}
-
-
-RuleEditWindow::~RuleEditWindow()
-{
 }
 
 
@@ -173,11 +153,13 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 		}
 		case MSG_ADD_ACTION:
 		{
+			msg->FindPointer(kAdd, (void**) &fActionView);
 			AppendAction(NULL);
 			break;
 		}
 		case MSG_REMOVE_ACTION:
 		{
+			msg->FindPointer(kRemove, (void**) &fActionView);
 			RemoveAction();
 			break;
 		}
@@ -218,25 +200,30 @@ RuleEditWindow::AppendAction(BMessage* action)
 {
 	ActionView* view = new ActionView("action", action);
 
-	fActionGroupLayout->AddView(fActionList.CountItems(), view);
-	fActionList.AddItem(view);
+	if (fActionView == NULL) {
+		fActionGroupLayout->AddView(view);
+		fActionList.AddItem(view);
+	} else {
+		int32 index = fActionList.IndexOf(fActionView) + 1;
+		fActionGroupLayout->AddView(index, view);
+		fActionList.AddItem(view, index);
+	}
 
-	if (fActionList.CountItems() > 1 && !fRemoveAction->IsEnabled())
-		fRemoveAction->SetEnabled(true);
+	((ActionView*) fActionList.FirstItem())
+		->SetRemoveEnabled(fActionList.CountItems() > 1);
 }
 
 
 void
 RuleEditWindow::RemoveAction()
 {
-	ActionView* view
-		= (ActionView*)fActionList.RemoveItem(fActionList.CountItems() - 1);
-	fActionGroupLayout->RemoveView(view);
-	view->RemoveSelf();
-	delete view;
+	fActionList.RemoveItem(fActionView);
+	fActionGroupLayout->RemoveView(fActionView);
+	fActionView->RemoveSelf();
+	delete fActionView;
 
 	if (fActionList.CountItems() == 1)
-		fRemoveAction->SetEnabled(false);
+		((ActionView *) fActionList.FirstItem())->SetRemoveEnabled(false);
 }
 
 

@@ -50,5 +50,5 @@ ModeMenu::AddDynamicItem(add_state state)
 	}
 
 	SetTargetForItems(fTarget);
-	return false;
+	return true;
 }

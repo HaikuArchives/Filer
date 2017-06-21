@@ -7,6 +7,7 @@
 #ifndef ACTIONVIEW_H
 #define ACTIONVIEW_H
 
+#include <Button.h>
 #include <MenuField.h>
 #include <PopUpMenu.h>
 
@@ -24,11 +25,16 @@ public:
 
 	BMessage*		GetAction() const;
 
+	void			SetRemoveEnabled(bool isEnabled)
+						{ fRemoveButton->SetEnabled(isEnabled); }
+
 private:
 	BPopUpMenu*		ActionMenu() const;
 	void			SetAction(const char* name);
 	
 	BMenuField*		fActionField;
+	BButton*		fAddButton;
+	BButton*		fRemoveButton;
 	
 	AutoTextControl*	fValueBox;
 	
