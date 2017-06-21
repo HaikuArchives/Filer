@@ -9,12 +9,14 @@
 #ifndef FILERDEFS_H
 #define FILERDEFS_H
 
-static const char *kDoAll = "all";
-static const char *kReplace = "rpl";
-static const char *kFilerSignature = "application/x-vnd.dw-Filer";
-static const char *kAutoFilerSignature = "application/x-vnd.dw-AutoFiler";
-static const char kSettingsFolder[] = "Filer";
-static const char kSettingsFile[] = "Filer_settings";
+static const char*	kAdd = "+";
+static const char*	kRemove = "-";
+static const char*	kDoAll = "all";
+static const char*	kReplace = "rpl";
+static const char*	kFilerSignature = "application/x-vnd.dw-Filer";
+static const char*	kAutoFilerSignature = "application/x-vnd.dw-AutoFiler";
+static const char	kSettingsFolder[] = "Filer";
+static const char	kSettingsFile[] = "Filer_settings";
 
 #define MSG_AUTO_FILER			'auto'
 

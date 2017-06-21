@@ -332,19 +332,24 @@ TestView::SetTest(BMessage* msg)
 	// There is one catch, however. The message passed here will NOT have the mode
 	// or value, so we need to save them and copy them over
 
-	BString str, mode, value;
+	BString str, mode;
 
 	fTest->FindString("mode", &mode);
-	fTest->FindString("value", &value);
-	*fTest = *msg;
 
-	fTest->what = 0;
+	if (fTest != msg) {
+		BString value;
 
-	if (fTest->FindString("mode" ,&str) != B_OK)
-		fTest->AddString("mode", mode);
+		fTest->FindString("value", &value);
+		*fTest = *msg;
 
-	if (fTest->FindString("value", &str) != B_OK)
-		fTest->AddString("value", value);
+		fTest->what = 0;
+
+		if (fTest->FindString("mode" ,&str) != B_OK)
+			fTest->AddString("mode", mode);
+
+		if (fTest->FindString("value", &str) != B_OK)
+			fTest->AddString("value", value);
+	}
 
 	BString label;
 
@@ -365,7 +370,7 @@ TestView::SetTest(BMessage* msg)
 
 	// Now that the test button has been updated, make sure that the mode currently
 	// set is supported by the current test
-	int32 modetype = RuleRunner::GetDataTypeForMode(fModeField->MenuItem()->Label());
+	int32 modetype = RuleRunner::GetDataTypeForMode(mode.String());
 	if (testtype != modetype && modetype != TEST_TYPE_ANY) {
 		STRACE(("Modes not compatible, refreshing.\n"));
 		// Not compatible, so reset the mode to something compatible
