@@ -7,6 +7,7 @@
 #ifndef ACTIONVIEW_H
 #define ACTIONVIEW_H
 
+#include <Button.h>
 #include <MenuField.h>
 #include <PopUpMenu.h>
 
@@ -29,6 +30,8 @@ private:
 	void			SetAction(const char* name);
 	
 	BMenuField*		fActionField;
+	BButton*		fAddButton;
+	BButton*		fRemoveButton;
 	
 	AutoTextControl*	fValueBox;
 	
