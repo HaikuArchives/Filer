@@ -7,12 +7,9 @@
 #define RULE_EDIT_WINDNOW_H
 
 #include <Box.h>
-#include <Button.h>
 #include <LayoutBuilder.h>
-#include <Window.h>
 
 #include "ActionView.h"
-#include "AutoTextControl.h"
 #include "FilerRule.h"
 #include "TestView.h"
 
@@ -44,8 +41,6 @@ private:
 
 	BButton*		fOK;
 	BButton*		fCancel;
-	BButton*		fAddTest;
-	BButton*		fRemoveTest;
 	BButton*		fHelp;
 
 	TestView*		fTestView;

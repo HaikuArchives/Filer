@@ -9,12 +9,9 @@
 
 #include "TestView.h"
 
-#include <Font.h>
 #include <LayoutBuilder.h>
-#include <ListItem.h>
 #include <Mime.h>
 
-#include "AutoTextControl.h"
 #include "FilerDefs.h"
 #include "ModeMenu.h"
 #include "RuleRunner.h"
@@ -53,10 +50,14 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
 
-	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+	fAddRemoveButtons = new AddRemoveButtons(MSG_ADD_TEST, MSG_REMOVE_TEST,
+		this);
+
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_HALF_ITEM_SPACING)
 		.Add(fTestField, 0)
 		.Add(fModeField, 0)
 		.Add(fValueBox)
+		.Add(fAddRemoveButtons)
 		.End();
 
 	bool usedefaults = false;
@@ -113,6 +114,7 @@ TestView::~TestView()
 	delete fTestField;
 	delete fModeField;
 	delete fValueBox;
+	delete fAddRemoveButtons;
 	delete fTest;
 }
 
