@@ -3,16 +3,15 @@
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
 */
+
 #ifndef TESTVIEW_H
 #define TESTVIEW_H
 
-#include <Menu.h>
 #include <MenuField.h>
-#include <Message.h>
 #include <PopUpMenu.h>
-#include <View.h>
 
-class AutoTextControl;
+#include "AddRemoveButtons.h"
+#include "AutoTextControl.h"
 
 class TestView : public BView
 {
@@ -23,7 +22,11 @@ public:
 
 	void 		AttachedToWindow();
 	void		MessageReceived(BMessage* msg);
+
 	BMessage*	GetTest() const;
+
+	void		SetRemoveEnabled(bool isEnabled)
+					{ fAddRemoveButtons->SetRemoveEnabled(isEnabled); }
 	
 private:
 	BPopUpMenu*	TestMenu() const;
@@ -38,6 +41,7 @@ private:
 	BMenuField*	fModeField;
 	
 	AutoTextControl*	fValueBox;
+	AddRemoveButtons*	fAddRemoveButtons;
 	
 	BMessage*	fTest;
 	BMessage	fTestTypes;

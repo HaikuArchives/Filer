@@ -11,14 +11,8 @@
 
 #include <Alert.h>
 #include <Application.h>
-#include <Message.h>
-#include <Messenger.h>
-#include <Path.h>
-#include <Roster.h>
-#include <View.h>
 
 #include "FilerDefs.h"
-#include "main.h"
 
 
 RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
@@ -46,12 +40,6 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	fTestGroup = new BBox("whengroup");
 	fTestGroup->SetLabel("When");
 
-	fAddTest = new BButton("addtestbutton", "Add", new BMessage(MSG_ADD_TEST));
-
-	fRemoveTest = new BButton("removetestbutton", "Remove",
-		new BMessage(MSG_REMOVE_TEST));
-	fRemoveTest->SetEnabled(false);
-
 	// Set up the actions group and associated buttons
 	fActionGroup = new BBox("dogroup");
 	fActionGroup->SetLabel("Do");
@@ -70,12 +58,7 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	int inset = B_USE_HALF_ITEM_INSETS;
 
 	fTestGroupLayout = BLayoutBuilder::Group<>(B_VERTICAL, spacing)
-		.SetInsets(inset, inset, inset, inset)
-		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.Add(fAddTest)
-			.Add(fRemoveTest)
-			.AddGlue()
-			.End();
+		.SetInsets(inset, inset, inset, inset);
 
 	fActionGroupLayout = BLayoutBuilder::Group<>(B_VERTICAL, spacing)
 		.SetInsets(inset, inset, inset, inset);
@@ -143,23 +126,25 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 		}
 		case MSG_ADD_TEST:
 		{
+			msg->FindPointer(kPointer, (void**) &fTestView);
 			AppendTest(NULL);
 			break;
 		}
 		case MSG_REMOVE_TEST:
 		{
+			msg->FindPointer(kPointer, (void**) &fTestView);
 			RemoveTest();
 			break;
 		}
 		case MSG_ADD_ACTION:
 		{
-			msg->FindPointer(kAdd, (void**) &fActionView);
+			msg->FindPointer(kPointer, (void**) &fActionView);
 			AppendAction(NULL);
 			break;
 		}
 		case MSG_REMOVE_ACTION:
 		{
-			msg->FindPointer(kRemove, (void**) &fActionView);
+			msg->FindPointer(kPointer, (void**) &fActionView);
 			RemoveAction();
 			break;
 		}
@@ -174,24 +159,30 @@ RuleEditWindow::AppendTest(BMessage* test)
 {
 	TestView* view = new TestView("test", test);
 
-	fTestGroupLayout->AddView(fTestList.CountItems(), view);
-	fTestList.AddItem(view);
+	if (fTestView == NULL) {
+		fTestGroupLayout->AddView(view);
+		fTestList.AddItem(view);
+	} else {
+		int32 index = fTestList.IndexOf(fTestView) + 1;
+		fTestGroupLayout->AddView(index, view);
+		fTestList.AddItem(view, index);
+	}
 
-	if (fTestList.CountItems() > 1 && !fRemoveTest->IsEnabled())
-		fRemoveTest->SetEnabled(true);
+	((TestView*) fTestList.FirstItem())
+		->SetRemoveEnabled(fTestList.CountItems() > 1);
 }
 
 
 void
 RuleEditWindow::RemoveTest()
 {
-	TestView* view = (TestView*)fTestList.RemoveItem(fTestList.CountItems() - 1);
-	fTestGroupLayout->RemoveView(view);
-	view->RemoveSelf();
-	delete view;
+	fTestList.RemoveItem(fTestView);
+	fTestGroupLayout->RemoveView(fTestView);
+	fTestView->RemoveSelf();
+	delete fTestView;
 
 	if (fTestList.CountItems() == 1)
-		fRemoveTest->SetEnabled(false);
+		((TestView*) fTestList.FirstItem())->SetRemoveEnabled(false);
 }
 
 
