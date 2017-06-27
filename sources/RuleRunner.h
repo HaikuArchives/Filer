@@ -38,7 +38,7 @@ public:
 	static	void		GetModes(BMessage& msg);
 	static	void		GetActions(BMessage& msg);
 
-	static	BString		GetEditorTypeForTest(const char* testname);
+//	static	BString		GetEditorTypeForTest(const char* testname);
 
 	static	int32		GetDataTypeForTest(const char* testname);
 	static	int32		GetDataTypeForMode(const char* modename);
