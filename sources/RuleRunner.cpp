@@ -88,32 +88,32 @@ static const char* sTestTypes[] =
 	"Type",
 	"Name",
 	"Size",
-	"Location",
-//	"Last changed",
-	NULL
+	"Location"
+//	"Last changed"
 };
 
-static const char* sStringTests[] =
-{
-	"Type",
-	"Name",
-	"Location",
-	NULL
+enum TestType {
+	TEST_TYPE,
+	TEST_NAME,
+	TEST_SIZE,
+	TEST_LOCATION
 };
 
-static const char* sNumberTests[] =
-{
-	"Size",
-	NULL
+static const TestType stringTests[] = {
+	TEST_TYPE,
+	TEST_NAME,
+	TEST_LOCATION
 };
 
-static const char* sDateTests[] =
-{
-//	"Last changed",
-	NULL
+static const TestType numberTests[] = {
+	TEST_SIZE
 };
 
+static const TestType dateTests[] = {
+//	"Last changed"
+};
 
+#if 0
 static const char* sTestEditors[] =
 {
 	"type selector",
@@ -123,45 +123,66 @@ static const char* sTestEditors[] =
 //	"textbox",
 	NULL
 };
+#endif
 
 
 // Internal variables for all the supported types of compare operators
 
-static const char* sAnyModes[] =
-{
+static const char* sModeTypes[] = {
 	"is",
 	"is not",
-
-	// for future expansion
-//	"matches pattern",
-//	"does not match pattern",
-
-	NULL
-};
-
-static const char* sStringModes[] =
-{	
 	"starts with",
 	"ends with",
 	"contains",
 	"does not contain",
-	NULL
-};
-
-static const char* sNumberModes[] =
-{
 	"is more than",
 	"is less than",
 	"is at least",
 	"is at most",
-	NULL
+	"is before",
+	"is after"
 };
 
-static const char* sDateModes[] =
-{
-	"is before",
-	"is after",
-	NULL
+enum ModeType {
+	MODE_IS,
+	MODE_NOT,
+	MODE_START,
+	MODE_END,
+	MODE_CONTAIN,
+	MODE_EXCLUDE,
+	MODE_MORE,
+	MODE_LESS,
+	MODE_LEAST,
+	MODE_MOST,
+	MODE_BEFORE,
+	MODE_AFTER
+};
+
+static const ModeType anyModes[] = {
+	MODE_IS,
+	MODE_NOT
+	// for future expansion
+//	"matches pattern"
+//	"does not match pattern"
+};
+
+static const ModeType stringModes[] = {
+	MODE_START,
+	MODE_END,
+	MODE_CONTAIN,
+	MODE_EXCLUDE
+};
+
+static const ModeType numberModes[] = {
+	MODE_MORE,
+	MODE_LESS,
+	MODE_LEAST,
+	MODE_MOST
+};
+
+static const ModeType dateModes[] = {
+	MODE_BEFORE,
+	MODE_AFTER
 };
 
 
@@ -185,6 +206,18 @@ static const char* sActions[] =
 //	"Make a Deskbar link",
 
 	NULL
+};
+
+enum {
+	ACTION_MOVE,
+	ACTION_COPY,
+	ACTION_RENAME,
+	ACTION_OPEN,
+	ACTION_ARCHIVE,
+	ACTION_TRASH,
+	ACTION_DELETE,
+	ACTION_COMMAND,
+	ACTION_CONTINUE
 };
 
 
@@ -223,68 +256,29 @@ RuleRunner::GetCompatibleModes(const char* testtype, BMessage& msg)
 status_t
 RuleRunner::GetCompatibleModes(const int32& type, BMessage& msg)
 {
-	int32 i = 0;
+	if (type != TEST_TYPE_STRING && type != TEST_TYPE_NUMBER &&
+		type != TEST_TYPE_DATE && type != TEST_TYPE_ANY)
+		return B_BAD_VALUE;
+
+	uint32 i;
+
+	for (i = 0; i < sizeof(anyModes) / sizeof(anyModes[0]); i++)
+		msg.AddString("modes", sModeTypes[anyModes[i]]);
+
 	switch (type)
 	{
 		case TEST_TYPE_STRING:
-		{
-			while (sAnyModes[i])
-			{
-				msg.AddString("modes", sAnyModes[i]);
-				i++;
-			}
-
-			i = 0;
-			while (sStringModes[i])
-			{
-				msg.AddString("modes", sStringModes[i]);
-				i++;
-			}
+			for (i = 0; i < sizeof(stringModes) / sizeof(stringModes[0]); i++)
+				msg.AddString("modes", sModeTypes[stringModes[i]]);
 			break;
-		}
 		case TEST_TYPE_NUMBER:
-		{
-			while (sAnyModes[i])
-			{
-				msg.AddString("modes", sAnyModes[i]);
-				i++;
-			}
-
-			i = 0;
-			while (sNumberModes[i])
-			{
-				msg.AddString("modes", sNumberModes[i]);
-				i++;
-			}
+			for (i = 0; i < sizeof(numberModes) / sizeof(numberModes[0]); i++)
+				msg.AddString("modes", sModeTypes[numberModes[i]]);
 			break;
-		}
 		case TEST_TYPE_DATE:
-		{
-			while (sAnyModes[i])
-			{
-				msg.AddString("modes", sAnyModes[i]);
-				i++;
-			}
-
-			i = 0;
-			while (sDateModes[i])
-			{
-				msg.AddString("modes", sDateModes[i]);
-				i++;
-			}
+			for (i = 0; i < sizeof(dateModes) / sizeof(dateModes[0]); i++)
+				msg.AddString("modes", sModeTypes[dateModes[i]]);
 			break;
-		}
-		case TEST_TYPE_ANY:
-		{
-			while (sAnyModes[i])
-			{
-				msg.AddString("modes", sAnyModes[i]);
-				i++;
-			}
-			break;
-		}
-		default:
-			return B_BAD_VALUE;
 	}
 	return B_OK;
 }
@@ -293,35 +287,19 @@ RuleRunner::GetCompatibleModes(const int32& type, BMessage& msg)
 void
 RuleRunner::GetModes(BMessage& msg)
 {
-	int32 i;
+	uint32 i;
 
-	i = 0;
-	while (sAnyModes[i])
-	{
-		msg.AddString("modes", sAnyModes[i]);
-		i++;
-	}
+	for (i = 0; i < sizeof(anyModes) / sizeof(anyModes[0]); i++)
+		msg.AddString("modes", sModeTypes[anyModes[i]]);
 
-	i = 0;
-	while (sStringModes[i])
-	{
-		msg.AddString("modes", sStringModes[i]);
-		i++;
-	}
+	for (i = 0; i < sizeof(stringModes) / sizeof(stringModes[0]); i++)
+		msg.AddString("modes", sModeTypes[stringModes[i]]);
 
-	i = 0;
-	while (sNumberModes[i])
-	{
-		msg.AddString("modes", sNumberModes[i]);
-		i++;
-	}
+	for (i = 0; i < sizeof(numberModes) / sizeof(numberModes[0]); i++)
+		msg.AddString("modes", sModeTypes[numberModes[i]]);
 
-	i = 0;
-	while (sDateModes[i])
-	{
-		msg.AddString("modes", sDateModes[i]);
-		i++;
-	}
+	for (i = 0; i < sizeof(dateModes) / sizeof(dateModes[0]); i++)
+		msg.AddString("modes", sModeTypes[dateModes[i]]);
 }
 
 
@@ -337,6 +315,7 @@ RuleRunner::GetActions(BMessage& msg)
 }
 
 
+#if 0
 BString
 RuleRunner::GetEditorTypeForTest(const char* testname)
 {
@@ -349,6 +328,7 @@ RuleRunner::GetEditorTypeForTest(const char* testname)
 	}
 	return BString("");
 }
+#endif
 
 
 int32
@@ -357,31 +337,19 @@ RuleRunner::GetDataTypeForTest(const char* testname)
 	if (!testname)
 		return TEST_TYPE_NULL;
 
-	int32 i;
+	uint32 i;
 
-	i = 0;
-	while (sStringTests[i])
-	{
-		if (strcmp(testname, sStringTests[i]) == 0)
+	for (i = 0; i < sizeof(stringTests) / sizeof(stringTests[0]); i++)
+		if (strcmp(testname, sTestTypes[stringTests[i]]) == 0)
 			return TEST_TYPE_STRING;
-		i++;
-	}
 
-	i = 0;
-	while (sNumberTests[i])
-	{
-		if (strcmp(testname, sNumberTests[i]) == 0)
+	for (i = 0; i < sizeof(numberTests) / sizeof(numberTests[0]); i++)
+		if (strcmp(testname, sTestTypes[numberTests[i]]) == 0)
 			return TEST_TYPE_NUMBER;
-		i++;
-	}
 
-	i = 0;
-	while (sDateTests[i])
-	{
-		if (strcmp(testname, sDateTests[i]) == 0)
+	for (i = 0; i < sizeof(dateTests) / sizeof(dateTests[0]); i++)
+		if (strcmp(testname, sTestTypes[dateTests[i]]) == 0)
 			return TEST_TYPE_DATE;
-		i++;
-	}
 
 	return TEST_TYPE_NULL;
 }
@@ -393,39 +361,23 @@ RuleRunner::GetDataTypeForMode(const char* modename)
 	if (!modename)
 		return TEST_TYPE_NULL;
 
-	int32 i;
+	uint32 i;
 
-	i = 0;
-	while (sStringModes[i])
-	{
-		if (strcmp(modename, sStringModes[i]) == 0)
+	for (i = 0; i < sizeof(stringModes) / sizeof(stringModes[0]); i++)
+		if (strcmp(modename, sModeTypes[stringModes[i]]) == 0)
 			return TEST_TYPE_STRING;
-		i++;
-	}
 
-	i = 0;
-	while (sNumberModes[i])
-	{
-		if (strcmp(modename, sNumberModes[i]) == 0)
+	for (i = 0; i < sizeof(numberModes) / sizeof(numberModes[0]); i++)
+		if (strcmp(modename, sModeTypes[numberModes[i]]) == 0)
 			return TEST_TYPE_NUMBER;
-		i++;
-	}
 
-	i = 0;
-	while (sDateModes[i])
-	{
-		if (strcmp(modename, sDateModes[i]) == 0)
+	for (i = 0; i < sizeof(dateModes) / sizeof(dateModes[0]); i++)
+		if (strcmp(modename, sModeTypes[dateModes[i]]) == 0)
 			return TEST_TYPE_DATE;
-		i++;
-	}
 
-	i = 0;
-	while (sAnyModes[i])
-	{
-		if (strcmp(modename, sAnyModes[i]) == 0)
+	for (i = 0; i < sizeof(anyModes) / sizeof(anyModes[0]); i++)
+		if (strcmp(modename, sModeTypes[anyModes[i]]) == 0)
 			return TEST_TYPE_ANY;
-		i++;
-	}
 
 	return TEST_TYPE_NULL;
 }
@@ -466,23 +418,23 @@ RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 		return B_ERROR;
 	}
 
-	if (actionname.Compare("Move to folder…") == 0)
+	if (actionname.Compare(sActions[ACTION_MOVE]) == 0)
 		return MoveAction(action, ref);
-	else if (actionname.Compare("Copy to folder…") == 0)
+	else if (actionname.Compare(sActions[ACTION_COPY]) == 0)
 		return CopyAction(action, ref);
-	else if (actionname.Compare("Rename to…") == 0)
+	else if (actionname.Compare(sActions[ACTION_RENAME]) == 0)
 		return RenameAction(action, ref);
-	else if (actionname.Compare("Open") == 0)
+	else if (actionname.Compare(sActions[ACTION_OPEN]) == 0)
 		return OpenAction(action, ref);
-	else if (actionname.Compare("Add to archive…") == 0)
+	else if (actionname.Compare(sActions[ACTION_ARCHIVE]) == 0)
 		return ArchiveAction(action, ref);
-	else if (actionname.Compare("Shell command…") == 0)
+	else if (actionname.Compare(sActions[ACTION_COMMAND]) == 0)
 		return CommandAction(action, ref);
-	else if (actionname.Compare("Move to Trash") == 0)
+	else if (actionname.Compare(sActions[ACTION_TRASH]) == 0)
 		return TrashAction(action, ref);
-	else if (actionname.Compare("Delete") == 0)
+	else if (actionname.Compare(sActions[ACTION_DELETE]) == 0)
 		return DeleteAction(action, ref);
-	else if (actionname.Compare("Continue") == 0)
+	else if (actionname.Compare(sActions[ACTION_CONTINUE]) == 0)
 		return CONTINUE_TESTS;	// arbitrary pos non-B_OK value
 
 	return B_ERROR;
