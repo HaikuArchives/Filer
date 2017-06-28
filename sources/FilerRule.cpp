@@ -15,7 +15,8 @@ FilerRule::FilerRule()
 	fTestList(NULL),
  	fActionList(NULL),
 	fMode(FILER_RULE_ALL),
-	fDisabled(false)
+	fDisabled(false),
+	fLocale(true)
 {
 	fTestList = new BObjectList<BMessage>(20, true);
 	fActionList = new BObjectList<BMessage>(20, true);
@@ -29,7 +30,8 @@ FilerRule::FilerRule(FilerRule& rule)
 	fTestList(NULL),
  	fActionList(NULL),
 	fMode(FILER_RULE_ALL),
-	fDisabled(false)
+	fDisabled(false),
+	fLocale(true)
 {
 	fTestList = new BObjectList<BMessage>(20, true);
 	fActionList = new BObjectList<BMessage>(20, true);

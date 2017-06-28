@@ -8,6 +8,7 @@
 		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
+#include <Catalog.h>
 #include <Directory.h>
 #include <Entry.h>
 #include <FindDirectory.h>
@@ -81,16 +82,29 @@ status_t TrashAction(const BMessage& action, entry_ref& ref);
 status_t DeleteAction(const BMessage& action, entry_ref& ref);
 
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "RuleRunner"
+
+#define PAIR(s)	{ s, B_TRANSLATE(s) }
+
+
 // Internal variables for all the supported types of tests
 
-static const char* sTestTypes[] =
+struct NamePair
 {
-	"Type",
-	"Name",
-	"Size",
-	"Location"
+	const char* const english;
+	const char* const locale;
+};
+
+static const NamePair sTestTypes[] =
+{
+	PAIR("Type"),
+	PAIR("Name"),
+	PAIR("Size"),
+	PAIR("Location")
 //	"Last changed"
 };
+static const unsigned nTestTypes = sizeof(sTestTypes) / sizeof(sTestTypes[0]);
 
 enum TestType {
 	TEST_TYPE,
@@ -104,14 +118,17 @@ static const TestType stringTests[] = {
 	TEST_NAME,
 	TEST_LOCATION
 };
+static const unsigned nStringTests = sizeof(stringTests) / sizeof(stringTests[0]);
 
 static const TestType numberTests[] = {
 	TEST_SIZE
 };
+static const unsigned nNumberTests = sizeof(numberTests) / sizeof(numberTests[0]);
 
 static const TestType dateTests[] = {
 //	"Last changed"
 };
+static const unsigned nDateTests = sizeof(dateTests) / sizeof(dateTests[0]);
 
 #if 0
 static const char* sTestEditors[] =
@@ -128,20 +145,21 @@ static const char* sTestEditors[] =
 
 // Internal variables for all the supported types of compare operators
 
-static const char* sModeTypes[] = {
-	"is",
-	"is not",
-	"starts with",
-	"ends with",
-	"contains",
-	"does not contain",
-	"is more than",
-	"is less than",
-	"is at least",
-	"is at most",
-	"is before",
-	"is after"
+static const NamePair sModeTypes[] = {
+	PAIR("is"),
+	PAIR("is not"),
+	PAIR("starts with"),
+	PAIR("ends with"),
+	PAIR("contains"),
+	PAIR("does not contain"),
+	PAIR("is more than"),
+	PAIR("is less than"),
+	PAIR("is at least"),
+	PAIR("is at most"),
+	PAIR("is before"),
+	PAIR("is after")
 };
+static const unsigned nModeTypes = sizeof(sModeTypes) / sizeof(sModeTypes[0]);
 
 enum ModeType {
 	MODE_IS,
@@ -165,6 +183,7 @@ static const ModeType anyModes[] = {
 //	"matches pattern"
 //	"does not match pattern"
 };
+static const unsigned nAnyModes = sizeof(anyModes) / sizeof(anyModes[0]);
 
 static const ModeType stringModes[] = {
 	MODE_START,
@@ -172,6 +191,7 @@ static const ModeType stringModes[] = {
 	MODE_CONTAIN,
 	MODE_EXCLUDE
 };
+static const unsigned nStringModes = sizeof(stringModes) / sizeof(stringModes[0]);
 
 static const ModeType numberModes[] = {
 	MODE_MORE,
@@ -179,34 +199,34 @@ static const ModeType numberModes[] = {
 	MODE_LEAST,
 	MODE_MOST
 };
+static const unsigned nNumberModes = sizeof(numberModes) / sizeof(numberModes[0]);
 
 static const ModeType dateModes[] = {
 	MODE_BEFORE,
 	MODE_AFTER
 };
+static const unsigned nDateModes = sizeof(dateModes) / sizeof(dateModes[0]);
 
 
 // Internal variable for all the supported types of actions
 
-static const char* sActions[] =
+static const NamePair sActions[] =
 {
-	"Move to folder…",
-	"Copy to folder…",
-	"Rename to…",
-	"Open",
-	"Add to archive…",
-	"Move to Trash",
-	"Delete",
-	"Shell command…",
-	"Continue",
-
+	PAIR("Move to folder…"),
+	PAIR("Copy to folder…"),
+	PAIR("Rename to…"),
+	PAIR("Open"),
+	PAIR("Add to archive…"),
+	PAIR("Move to Trash"),
+	PAIR("Delete"),
+	PAIR("Shell command…"),
+	PAIR("Continue")
 	// Future expansion
 //	"Shred it",
 //	"E-mail it to…",
 //	"Make a Deskbar link",
-
-	NULL
 };
+static const unsigned nActions = sizeof(sActions) / sizeof(sActions[0]);
 
 enum {
 	ACTION_MOVE,
@@ -234,12 +254,8 @@ RuleRunner::~RuleRunner()
 void
 RuleRunner::GetTestTypes(BMessage& msg)
 {
-	int32 i = 0;
-	while (sTestTypes[i])
-	{
-		msg.AddString("tests", sTestTypes[i]);
-		i++;
-	}
+	for (uint32 i = 0; i < nTestTypes; i++)
+		msg.AddString("tests", sTestTypes[i].locale);
 }
 
 
@@ -262,22 +278,22 @@ RuleRunner::GetCompatibleModes(const int32& type, BMessage& msg)
 
 	uint32 i;
 
-	for (i = 0; i < sizeof(anyModes) / sizeof(anyModes[0]); i++)
-		msg.AddString("modes", sModeTypes[anyModes[i]]);
+	for (i = 0; i < nAnyModes; i++)
+		msg.AddString("modes", sModeTypes[anyModes[i]].locale);
 
 	switch (type)
 	{
 		case TEST_TYPE_STRING:
-			for (i = 0; i < sizeof(stringModes) / sizeof(stringModes[0]); i++)
-				msg.AddString("modes", sModeTypes[stringModes[i]]);
+			for (i = 0; i < nStringModes; i++)
+				msg.AddString("modes", sModeTypes[stringModes[i]].locale);
 			break;
 		case TEST_TYPE_NUMBER:
-			for (i = 0; i < sizeof(numberModes) / sizeof(numberModes[0]); i++)
-				msg.AddString("modes", sModeTypes[numberModes[i]]);
+			for (i = 0; i < nNumberModes; i++)
+				msg.AddString("modes", sModeTypes[numberModes[i]].locale);
 			break;
 		case TEST_TYPE_DATE:
-			for (i = 0; i < sizeof(dateModes) / sizeof(dateModes[0]); i++)
-				msg.AddString("modes", sModeTypes[dateModes[i]]);
+			for (i = 0; i < nDateModes; i++)
+				msg.AddString("modes", sModeTypes[dateModes[i]].locale);
 			break;
 	}
 	return B_OK;
@@ -289,29 +305,25 @@ RuleRunner::GetModes(BMessage& msg)
 {
 	uint32 i;
 
-	for (i = 0; i < sizeof(anyModes) / sizeof(anyModes[0]); i++)
-		msg.AddString("modes", sModeTypes[anyModes[i]]);
+	for (i = 0; i < nAnyModes; i++)
+		msg.AddString("modes", sModeTypes[anyModes[i]].locale);
 
-	for (i = 0; i < sizeof(stringModes) / sizeof(stringModes[0]); i++)
-		msg.AddString("modes", sModeTypes[stringModes[i]]);
+	for (i = 0; i < nStringModes; i++)
+		msg.AddString("modes", sModeTypes[stringModes[i]].locale);
 
-	for (i = 0; i < sizeof(numberModes) / sizeof(numberModes[0]); i++)
-		msg.AddString("modes", sModeTypes[numberModes[i]]);
+	for (i = 0; i < nNumberModes; i++)
+		msg.AddString("modes", sModeTypes[numberModes[i]].locale);
 
-	for (i = 0; i < sizeof(dateModes) / sizeof(dateModes[0]); i++)
-		msg.AddString("modes", sModeTypes[dateModes[i]]);
+	for (i = 0; i < nDateModes; i++)
+		msg.AddString("modes", sModeTypes[dateModes[i]].locale);
 }
 
 
 void
 RuleRunner::GetActions(BMessage& msg)
 {
-	int32 i = 0;
-	while (sActions[i])
-	{
-		msg.AddString("actions", sActions[i]);
-		i++;
-	}
+	for (uint32 i = 0; i < nActions; i++)
+		msg.AddString("actions", sActions[i].locale);
 }
 
 
@@ -339,16 +351,16 @@ RuleRunner::GetDataTypeForTest(const char* testname)
 
 	uint32 i;
 
-	for (i = 0; i < sizeof(stringTests) / sizeof(stringTests[0]); i++)
-		if (strcmp(testname, sTestTypes[stringTests[i]]) == 0)
+	for (i = 0; i < nStringTests; i++)
+		if (strcmp(testname, sTestTypes[stringTests[i]].locale) == 0)
 			return TEST_TYPE_STRING;
 
-	for (i = 0; i < sizeof(numberTests) / sizeof(numberTests[0]); i++)
-		if (strcmp(testname, sTestTypes[numberTests[i]]) == 0)
+	for (i = 0; i < nNumberTests; i++)
+		if (strcmp(testname, sTestTypes[numberTests[i]].locale) == 0)
 			return TEST_TYPE_NUMBER;
 
-	for (i = 0; i < sizeof(dateTests) / sizeof(dateTests[0]); i++)
-		if (strcmp(testname, sTestTypes[dateTests[i]]) == 0)
+	for (i = 0; i < nDateTests; i++)
+		if (strcmp(testname, sTestTypes[dateTests[i]].locale) == 0)
 			return TEST_TYPE_DATE;
 
 	return TEST_TYPE_NULL;
@@ -363,20 +375,20 @@ RuleRunner::GetDataTypeForMode(const char* modename)
 
 	uint32 i;
 
-	for (i = 0; i < sizeof(stringModes) / sizeof(stringModes[0]); i++)
-		if (strcmp(modename, sModeTypes[stringModes[i]]) == 0)
+	for (i = 0; i < nStringModes; i++)
+		if (strcmp(modename, sModeTypes[stringModes[i]].locale) == 0)
 			return TEST_TYPE_STRING;
 
-	for (i = 0; i < sizeof(numberModes) / sizeof(numberModes[0]); i++)
-		if (strcmp(modename, sModeTypes[numberModes[i]]) == 0)
+	for (i = 0; i < nNumberModes; i++)
+		if (strcmp(modename, sModeTypes[numberModes[i]].locale) == 0)
 			return TEST_TYPE_NUMBER;
 
-	for (i = 0; i < sizeof(dateModes) / sizeof(dateModes[0]); i++)
-		if (strcmp(modename, sModeTypes[dateModes[i]]) == 0)
+	for (i = 0; i < nDateModes; i++)
+		if (strcmp(modename, sModeTypes[dateModes[i]].locale) == 0)
 			return TEST_TYPE_DATE;
 
-	for (i = 0; i < sizeof(anyModes) / sizeof(anyModes[0]); i++)
-		if (strcmp(modename, sModeTypes[anyModes[i]]) == 0)
+	for (i = 0; i < nAnyModes; i++)
+		if (strcmp(modename, sModeTypes[anyModes[i]].locale) == 0)
 			return TEST_TYPE_ANY;
 
 	return TEST_TYPE_NULL;
@@ -418,23 +430,23 @@ RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 		return B_ERROR;
 	}
 
-	if (actionname.Compare(sActions[ACTION_MOVE]) == 0)
+	if (actionname.Compare(sActions[ACTION_MOVE].locale) == 0)
 		return MoveAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_COPY]) == 0)
+	else if (actionname.Compare(sActions[ACTION_COPY].locale) == 0)
 		return CopyAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_RENAME]) == 0)
+	else if (actionname.Compare(sActions[ACTION_RENAME].locale) == 0)
 		return RenameAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_OPEN]) == 0)
+	else if (actionname.Compare(sActions[ACTION_OPEN].locale) == 0)
 		return OpenAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_ARCHIVE]) == 0)
+	else if (actionname.Compare(sActions[ACTION_ARCHIVE].locale) == 0)
 		return ArchiveAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_COMMAND]) == 0)
+	else if (actionname.Compare(sActions[ACTION_COMMAND].locale) == 0)
 		return CommandAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_TRASH]) == 0)
+	else if (actionname.Compare(sActions[ACTION_TRASH].locale) == 0)
 		return TrashAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_DELETE]) == 0)
+	else if (actionname.Compare(sActions[ACTION_DELETE].locale) == 0)
 		return DeleteAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_CONTINUE]) == 0)
+	else if (actionname.Compare(sActions[ACTION_CONTINUE].locale) == 0)
 		return CONTINUE_TESTS;	// arbitrary pos non-B_OK value
 
 	return B_ERROR;
@@ -1022,7 +1034,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 
 	// While we could use other means of obtaining table names, this table is also
 	// used for maintaining the order of the rules, which must be preserved
-	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar, disabled int);",
+	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar, disabled int, locale int);",
 		"RuleTab::SaveRules");
 
 	BString command;
@@ -1050,7 +1062,8 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		command = "insert into RuleList values(";
-		command << i << ",'" << tablename << "'," << (rule->Disabled() ? 1 : 0) << ");";
+		command << i << ",'" << tablename << "'," << (rule->Disabled() ? 1 : 0)
+			<< "," << (rule->Locale() ? 1 : 0) << ");";
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		for (int32 j = 0; j < rule->CountTests(); j++)
@@ -1124,13 +1137,16 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	// different order
 
 	CppSQLite3Query query(DBQuery(db, "select * from RuleList limit 0;", "RuleTab::LoadRules"));
-	bool legacy = query.numFields() == 2;
+	unsigned n = query.numFields();
+	bool legacy = n == 2;
+	bool locale = n == 4;
 	query.finalize();
 
 	BString select("select name");
-
 	if (!legacy)
 		select += ", disabled";
+	if (locale)
+		select += ", locale";
 
 	select += " from RuleList order by ruleid;";
 	query = DBQuery(db, select, "RuleTab::LoadRules");
@@ -1143,6 +1159,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		FilerRule* rule = new FilerRule;
 		rule->SetDescription(DeescapeIllegalCharacters(rulename.String()).String());
 		rule->Disabled(legacy ? false : query.getIntField(1));
+		rule->Locale(locale ? query.getIntField(2) : false);
 
 		ruleList->AddItem(rule);
 
@@ -1168,7 +1185,22 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		while (!query.eof())
 		{
 			BString classname = DeescapeIllegalCharacters(query.getStringField(1));
+			BString modename = DeescapeIllegalCharacters(query.getStringField(2));
 			BMessage* test = new BMessage;
+
+			if (!rule->Locale()) {
+				for (uint32 i = 0; i < nTestTypes; i++)
+					if (strcmp(classname.String(), sTestTypes[i].english) == 0) {
+						classname = sTestTypes[i].locale;
+						break;
+					}
+
+				for (uint32 i = 0; i < nModeTypes; i++)
+					if (strcmp(modename.String(), sModeTypes[i].english) == 0) {
+						modename = sModeTypes[i].locale;
+						break;
+					}
+			}
 
 			test->AddString("name", classname);
 
@@ -1181,8 +1213,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 					DeescapeIllegalCharacters(query.getStringField(6)));
 			}
 
-			test->AddString("mode",
-				DeescapeIllegalCharacters(query.getStringField(2)).String());
+			test->AddString("mode", modename);
 			test->AddString("value",
 				DeescapeIllegalCharacters(query.getStringField(3)).String());
 
@@ -1198,10 +1229,17 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		
 		while (!query.eof())
 		{
+			BString actionname = DeescapeIllegalCharacters(query.getStringField(1));
 			BMessage* action = new BMessage;
 
-			action->AddString("name",
-				DeescapeIllegalCharacters(query.getStringField(1)));
+			if (!rule->Locale())
+				for (uint32 i = 0; i < nActions; i++)
+					if (strcmp(actionname.String(), sActions[i].english) == 0) {
+						actionname = sActions[i].locale;
+						break;
+					}
+
+			action->AddString("name", actionname);
 			action->AddString("value",
 				DeescapeIllegalCharacters(query.getStringField(3)));
 

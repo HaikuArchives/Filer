@@ -6,6 +6,7 @@
  *	Humdinger, humdingerb@gmail.com
  */
 
+#include <Catalog.h>
 #include <File.h>
 #include <FindDirectory.h>
 #include <LayoutBuilder.h>
@@ -18,7 +19,7 @@
 
 MainWindow::MainWindow()
 	:
-	BWindow(BRect(), ("Filer"),
+	BWindow(BRect(), B_TRANSLATE_SYSTEM_NAME("Filer"),
 		B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	_BuildLayout();
