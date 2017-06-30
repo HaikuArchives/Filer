@@ -34,8 +34,10 @@ public:
 	void			ShowHTML(const char* docfile);
 	void			FileRef(entry_ref ref);
 
-	bool			GetMatchSetting();
-	void			ToggleMatchSetting();
+	bool			GetMatchSetting() const { return fMatchSetting; }
+	void			ToggleMatchSetting() { fMatchSetting = !fMatchSetting; }
+
+	bool			GetSupportLocale() const { return fSupportLocale; }
 
 	bool			DoAll() const { return fDoAll; }
 	void			DoAll(bool doAll) { fDoAll = doAll; }
@@ -51,6 +53,7 @@ private:
 	
 	bool			fQuitRequested;
 	bool 			fMatchSetting;
+	bool 			fSupportLocale;
 
 	bool			fDoAll;
 	bool			fReplace;

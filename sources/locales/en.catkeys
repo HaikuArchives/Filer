@@ -1,27 +1,27 @@
 1	English	application/x-vnd.dw-Filer	2164702911
-Filer	System name		Filer
 Add to archive…	RuleRunner		Add to archive…
-is not	RuleRunner		is not
-Location	RuleRunner		Location
-Move to Trash	RuleRunner		Move to Trash
-is at least	RuleRunner		is at least
-is before	RuleRunner		is before
-starts with	RuleRunner		starts with
-Move to folder…	RuleRunner		Move to folder…
-Shell command…	RuleRunner		Shell command…
+contains	RuleRunner		contains
 Continue	RuleRunner		Continue
-Name	RuleRunner		Name
-is at most	RuleRunner		is at most
-is	RuleRunner		is
-is more than	RuleRunner		is more than
-is less than	RuleRunner		is less than
-Rename to…	RuleRunner		Rename to…
-Type	RuleRunner		Type
 Copy to folder…	RuleRunner		Copy to folder…
 Delete	RuleRunner		Delete
-ends with	RuleRunner		ends with
-Open	RuleRunner		Open
-contains	RuleRunner		contains
 does not contain	RuleRunner		does not contain
-Size	RuleRunner		Size
+ends with	RuleRunner		ends with
+is	RuleRunner		is
 is after	RuleRunner		is after
+is at least	RuleRunner		is at least
+is at most	RuleRunner		is at most
+is before	RuleRunner		is before
+is less than	RuleRunner		is less than
+is more than	RuleRunner		is more than
+is not	RuleRunner		is not
+Location	RuleRunner		Location
+Move to folder…	RuleRunner		Move to folder…
+Move to Trash	RuleRunner		Move to Trash
+Name	RuleRunner		Name
+Open	RuleRunner		Open
+Rename to…	RuleRunner		Rename to…
+Shell command…	RuleRunner		Shell command…
+Size	RuleRunner		Size
+starts with	RuleRunner		starts with
+Type	RuleRunner		Type
+Filer	System name		Filer

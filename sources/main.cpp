@@ -35,6 +35,7 @@ App::App()
 	fMainWin(NULL),
 	fQuitRequested(false),
 	fMatchSetting(false),
+	fSupportLocale(false),
 	fDoAll(false),
 	fReplace(false)
 {
@@ -70,23 +71,11 @@ App::LoadRuleSettings()
 			if ((file.InitCheck() == B_OK) && (msg.Unflatten(&file) == B_OK)) {
 				if (msg.FindBool("match", &fMatchSetting) != B_OK)
 					fMatchSetting = false;
+				if (msg.FindBool("locale", &fSupportLocale) != B_OK)
+					fSupportLocale = false;
 			}
 		}
 	}
-}
-
-
-bool
-App::GetMatchSetting()
-{
-	return fMatchSetting;
-}
-
-
-void
-App::ToggleMatchSetting()
-{
-	fMatchSetting = !fMatchSetting;
 }
 
 

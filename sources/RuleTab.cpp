@@ -36,13 +36,7 @@ RuleTab::RuleTab()
 	fRuleList = new BObjectList<FilerRule>(20, true);
 	LoadRules(fRuleList);
 
-	for (int32 i = 0; i < fRuleList->CountItems(); i++)
-		fRuleItemList->AddItem(new RuleItem(fRuleList->ItemAt(i)));
-	
-	fRuleItemList->MakeFocus();
-	if (fRuleItemList->CountItems() > 0)
-		fRuleItemList->Select(0L);
-	else {
+	if (fRuleList->CountItems() == 0) {
 		BAlert* alert = new BAlert("Filer",
 			"It appears that there aren't any rules for "
 			"organizing files. Would you like Filer to "
@@ -50,47 +44,17 @@ RuleTab::RuleTab()
 			"No", "Yes");
 
 		if (alert->Go() == 1) {
-			FilerRule* rule = new FilerRule();
-
-			// NOTE: If actions 
-			rule->AddTest(MakeTest("Type", "is", "text/plain"));
-			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Documents"));
-			rule->SetDescription("Store text files in my Documents folder");
-			AddRule(rule);
-
-			rule = new FilerRule();
-			rule->AddTest(MakeTest("Type", "is", "application/pdf"));
-			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Documents"));
-			rule->SetDescription("Store PDF files in my Documents folder");
-			AddRule(rule);
-
-			rule = new FilerRule();
-			rule->AddTest(MakeTest("Type", "starts with", "image/"));
-			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Pictures"));
-			rule->SetDescription("Store pictures in my Pictures folder");
-			AddRule(rule);
-
-			rule = new FilerRule();
-			rule->AddTest(MakeTest("Type", "starts with","video/"));
-			rule->AddAction(MakeAction("Move to folder…", "/boot/home/Videos"));
-			rule->SetDescription("Store movie files in my Videos folder");
-			AddRule(rule);
-
-			rule = new FilerRule();
-			rule->AddTest(MakeTest("Name", "ends with", ".zip"));
-			rule->AddAction(MakeAction("Shell command…",
-				"unzip %FULLPATH% -d /boot/home/Desktop"));
-			rule->SetDescription("Extract ZIP files to the Desktop");
-			AddRule(rule);
-
-//			rule = new FilerRule();
-//			rule->AddTest(MakeTest("","",""));
-//			rule->AddAction(MakeAction("",""));
-//			rule->SetDescription("");
-//			AddRule(rule);
+			AddDefaultRules(fRuleList);
+			SaveRules(fRuleList);
 		}
-		SaveRules(fRuleList);
 	}
+
+	for (int32 i = 0; i < fRuleList->CountItems(); i++)
+		fRuleItemList->AddItem(new RuleItem(fRuleList->ItemAt(i)));
+
+	fRuleItemList->MakeFocus();
+	if (fRuleItemList->CountItems() > 0)
+		fRuleItemList->Select(0L);
 }
 
 

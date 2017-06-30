@@ -12,6 +12,7 @@
 #include <Directory.h>
 #include <Entry.h>
 #include <FindDirectory.h>
+#include <LocaleRoster.h>
 #include <Mime.h>
 #include <Path.h>
 #include <Roster.h>
@@ -85,7 +86,7 @@ status_t DeleteAction(const BMessage& action, entry_ref& ref);
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "RuleRunner"
 
-#define PAIR(s)	{ s, B_TRANSLATE(s) }
+#define LOCALIZE(s)	{ s, B_TRANSLATE(s) }
 
 
 // Internal variables for all the supported types of tests
@@ -98,10 +99,10 @@ struct NamePair
 
 static const NamePair sTestTypes[] =
 {
-	PAIR("Type"),
-	PAIR("Name"),
-	PAIR("Size"),
-	PAIR("Location")
+	LOCALIZE("Type"),
+	LOCALIZE("Name"),
+	LOCALIZE("Size"),
+	LOCALIZE("Location")
 //	"Last changed"
 };
 static const unsigned nTestTypes = sizeof(sTestTypes) / sizeof(sTestTypes[0]);
@@ -146,18 +147,18 @@ static const char* sTestEditors[] =
 // Internal variables for all the supported types of compare operators
 
 static const NamePair sModeTypes[] = {
-	PAIR("is"),
-	PAIR("is not"),
-	PAIR("starts with"),
-	PAIR("ends with"),
-	PAIR("contains"),
-	PAIR("does not contain"),
-	PAIR("is more than"),
-	PAIR("is less than"),
-	PAIR("is at least"),
-	PAIR("is at most"),
-	PAIR("is before"),
-	PAIR("is after")
+	LOCALIZE("is"),
+	LOCALIZE("is not"),
+	LOCALIZE("starts with"),
+	LOCALIZE("ends with"),
+	LOCALIZE("contains"),
+	LOCALIZE("does not contain"),
+	LOCALIZE("is more than"),
+	LOCALIZE("is less than"),
+	LOCALIZE("is at least"),
+	LOCALIZE("is at most"),
+	LOCALIZE("is before"),
+	LOCALIZE("is after")
 };
 static const unsigned nModeTypes = sizeof(sModeTypes) / sizeof(sModeTypes[0]);
 
@@ -212,15 +213,15 @@ static const unsigned nDateModes = sizeof(dateModes) / sizeof(dateModes[0]);
 
 static const NamePair sActions[] =
 {
-	PAIR("Move to folder…"),
-	PAIR("Copy to folder…"),
-	PAIR("Rename to…"),
-	PAIR("Open"),
-	PAIR("Add to archive…"),
-	PAIR("Move to Trash"),
-	PAIR("Delete"),
-	PAIR("Shell command…"),
-	PAIR("Continue")
+	LOCALIZE("Move to folder…"),
+	LOCALIZE("Copy to folder…"),
+	LOCALIZE("Rename to…"),
+	LOCALIZE("Open"),
+	LOCALIZE("Add to archive…"),
+	LOCALIZE("Move to Trash"),
+	LOCALIZE("Delete"),
+	LOCALIZE("Shell command…"),
+	LOCALIZE("Continue")
 	// Future expansion
 //	"Shred it",
 //	"E-mail it to…",
@@ -1006,7 +1007,7 @@ DeleteAction(const BMessage& action, entry_ref& ref)
 
 
 status_t
-SaveRules(BObjectList<FilerRule>* ruleList)
+SaveRules(const BObjectList<FilerRule>* ruleList)
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
@@ -1034,7 +1035,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 
 	// While we could use other means of obtaining table names, this table is also
 	// used for maintaining the order of the rules, which must be preserved
-	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar, disabled int, locale int);",
+	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar, disabled int);",
 		"RuleTab::SaveRules");
 
 	BString command;
@@ -1062,8 +1063,7 @@ SaveRules(BObjectList<FilerRule>* ruleList)
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		command = "insert into RuleList values(";
-		command << i << ",'" << tablename << "'," << (rule->Disabled() ? 1 : 0)
-			<< "," << (rule->Locale() ? 1 : 0) << ");";
+		command << i << ",'" << tablename << "'," << (rule->Disabled() ? 1 : 0) << ");";
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		for (int32 j = 0; j < rule->CountTests(); j++)
@@ -1137,16 +1137,12 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	// different order
 
 	CppSQLite3Query query(DBQuery(db, "select * from RuleList limit 0;", "RuleTab::LoadRules"));
-	unsigned n = query.numFields();
-	bool legacy = n == 2;
-	bool locale = n == 4;
+	bool legacy = query.numFields() == 2;
 	query.finalize();
 
 	BString select("select name");
 	if (!legacy)
 		select += ", disabled";
-	if (locale)
-		select += ", locale";
 
 	select += " from RuleList order by ruleid;";
 	query = DBQuery(db, select, "RuleTab::LoadRules");
@@ -1159,7 +1155,6 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		FilerRule* rule = new FilerRule;
 		rule->SetDescription(DeescapeIllegalCharacters(rulename.String()).String());
 		rule->Disabled(legacy ? false : query.getIntField(1));
-		rule->Locale(locale ? query.getIntField(2) : false);
 
 		ruleList->AddItem(rule);
 
@@ -1167,6 +1162,18 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	}
 
 	query.finalize();
+
+	bool translate = false;
+	if (!static_cast<App*>(be_app)->GetSupportLocale()) {
+		BLocaleRoster* localeRoster = BLocaleRoster::Default();
+		BMessage message;
+		status_t status = localeRoster->GetPreferredLanguages(&message);
+		if (status == B_OK) {
+			const char* language = message.GetString("language");
+			if (language != NULL && strcmp(language, "en"))
+				translate = true;
+		}
+	}
 
 	for (int32 i = 0; i < ruleList->CountItems(); i++)
 	{
@@ -1188,7 +1195,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			BString modename = DeescapeIllegalCharacters(query.getStringField(2));
 			BMessage* test = new BMessage;
 
-			if (!rule->Locale()) {
+			if (translate) {
 				for (uint32 i = 0; i < nTestTypes; i++)
 					if (strcmp(classname.String(), sTestTypes[i].english) == 0) {
 						classname = sTestTypes[i].locale;
@@ -1232,7 +1239,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			BString actionname = DeescapeIllegalCharacters(query.getStringField(1));
 			BMessage* action = new BMessage;
 
-			if (!rule->Locale())
+			if (translate)
 				for (uint32 i = 0; i < nActions; i++)
 					if (strcmp(actionname.String(), sActions[i].english) == 0) {
 						actionname = sActions[i].locale;
@@ -1250,7 +1257,60 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		query.finalize();
 	}
 	db.close();
-	return B_OK;
+
+	return translate ? SaveRules(ruleList) : B_OK;
+}
+
+
+void
+AddDefaultRules(BObjectList<FilerRule>* ruleList)
+{
+	FilerRule* rule = new FilerRule();
+
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
+		sModeTypes[MODE_IS].locale, "text/plain"));
+	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
+		"/boot/home/Documents"));
+	rule->SetDescription("Store text files in my Documents folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
+		sModeTypes[MODE_IS].locale, "application/pdf"));
+	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
+		"/boot/home/Documents"));
+	rule->SetDescription("Store PDF files in my Documents folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
+		sModeTypes[MODE_START].locale, "image/"));
+	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
+		"/boot/home/Pictures"));
+	rule->SetDescription("Store pictures in my Pictures folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
+		sModeTypes[MODE_START].locale, "video/"));
+	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
+		"/boot/home/Videos"));
+	rule->SetDescription("Store movie files in my Videos folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(sTestTypes[TEST_NAME].locale,
+		sModeTypes[MODE_END].locale, ".zip"));
+	rule->AddAction(MakeAction(sActions[ACTION_COMMAND].locale,
+		"unzip %FULLPATH% -d /boot/home/Desktop"));
+	rule->SetDescription("Extract ZIP files to the Desktop");
+	ruleList->AddItem(rule);
+
+//			rule = new FilerRule();
+//			rule->AddTest(MakeTest("","",""));
+//			rule->AddAction(MakeAction("",""));
+//			rule->SetDescription("");
+//			AddRule(rule);
 }
 
 

@@ -48,8 +48,9 @@ public:
 			status_t	RunRule(FilerRule* rule, entry_ref& ref);
 };
 
-status_t LoadRules(BObjectList<FilerRule> *ruleList);
-status_t SaveRules(BObjectList<FilerRule> *ruleList);
+status_t	LoadRules(BObjectList<FilerRule>* ruleList);
+status_t	SaveRules(const BObjectList<FilerRule>* ruleList);
+void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
 
 
 // Some convenience functions. Deleting the returned BMessage is the

@@ -55,8 +55,6 @@ public:
 			bool				Disabled() const { return fDisabled; }
 			void				Disabled(bool disabled) { fDisabled = disabled; }
 			void				Toggle() { fDisabled = !fDisabled; }
-			bool				Locale() const { return fLocale; }
-			void				Locale(bool locale) { fLocale = locale; }
 			
 private:
 	BObjectList<BMessage>*		fTestList;
@@ -65,7 +63,6 @@ private:
 	BString						fDescription;
 	int64						fID;
 	bool						fDisabled;
-	bool						fLocale;
 };
 
 #endif	// FILER_RULE_H
