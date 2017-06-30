@@ -30,7 +30,7 @@ public:
 
 private:
 	BPopUpMenu*		ActionMenu() const;
-	void			SetAction(const char* name);
+	void			SetAction(int8 type);
 	
 	BMenuField*		fActionField;
 	

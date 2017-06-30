@@ -14,6 +14,14 @@
 #include <Entry.h>
 #include <Message.h>
 
+struct NamePair
+{
+	const char* const english;
+	const char* const locale;
+};
+
+extern const NamePair sActions[];
+
 enum
 {
 	TEST_TYPE_NULL = 0,
@@ -58,6 +66,6 @@ void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
 BMessage*	MakeTest(const char* name, const char* mode, const char* value,
 				const char* mimeType = NULL, const char* typeName = NULL,
 				const char* attrType = NULL, const char* attrName = NULL);
-BMessage*	MakeAction(const char* name, const char* value);
+BMessage*	MakeAction(int8 type, const char* value);
 
 #endif	// RULERUNNER_H

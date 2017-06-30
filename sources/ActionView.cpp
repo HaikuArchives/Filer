@@ -42,12 +42,13 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 	if (action) {
 		fAction = new BMessage(*action);
 
-		BString str;
-		if (fAction->FindString("name", &str) == B_OK)
-			SetAction(str.String());
+		int8 type;
+		if (fAction->FindInt8("type", &type) == B_OK)
+			SetAction(type);
 		else
 			usedefaults = true;
 
+		BString str;
 		if (!usedefaults && fAction->FindString("value", &str) == B_OK)
 			fValueBox->SetText(str.String());
 		else
@@ -59,11 +60,11 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 		if (!fAction)
 			fAction = new BMessage;
 
-		BString str;
-		if (fActions.FindString("actions", 0, &str) == B_OK)
-			SetAction(str.String());
+		int8 type;
+		if (fActions.FindInt8("actions", 0, &type) == B_OK)
+			SetAction(type);
 		else
-			SetAction("Nothing");
+			SetAction(0);
 
 		fValueBox->SetText("");
 	}
@@ -107,9 +108,9 @@ ActionView::MessageReceived(BMessage* msg)
 	{
 		case MSG_ACTION_CHOSEN:
 		{
-			BString name;
-			if (msg->FindString("name", &name) == B_OK)
-				SetAction(name.String());
+			int8 type;
+			if (msg->FindInt8("type", &type) == B_OK)
+				SetAction(type);
 			break;
 		}
 		default:
@@ -134,19 +135,18 @@ ActionView::GetAction() const
 
 
 void
-ActionView::SetAction(const char* name)
+ActionView::SetAction(int8 type)
 {
-	BString namestr(name);
-	
-	if (fAction->FindString("name", &namestr) == B_OK)
-		fAction->ReplaceString("name", name);
+	int8 tmpType;
+	if (fAction->FindInt8("type", &tmpType) == B_OK)
+		fAction->ReplaceInt8("type", type);
 	else
-		fAction->AddString("name", name);
+		fAction->AddInt8("type", type);
+
+	BString name(sActions[type].locale);
 	fActionField->MenuItem()->SetLabel(name);
 
-	namestr = name;
-
-	if (namestr.FindFirst("…") >= 0) {
+	if (name.FindFirst("…") >= 0) {
 		if (fValueBox->IsHidden())
 			fValueBox->Show();
 	} else {

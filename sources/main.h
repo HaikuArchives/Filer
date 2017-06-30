@@ -44,6 +44,8 @@ public:
 	bool			Replace() const { return fReplace; }
 	void			Replace(bool replace) { fReplace = replace; }
 
+	BObjectList<FilerRule>*	GetRuleList() const { return fRuleList; }
+
 private:
 	void			LoadRuleSettings();
 //	void			SaveRuleSettings();

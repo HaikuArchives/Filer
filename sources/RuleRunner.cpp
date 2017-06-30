@@ -91,12 +91,6 @@ status_t DeleteAction(const BMessage& action, entry_ref& ref);
 
 // Internal variables for all the supported types of tests
 
-struct NamePair
-{
-	const char* const english;
-	const char* const locale;
-};
-
 static const NamePair sTestTypes[] =
 {
 	LOCALIZE("Type"),
@@ -211,7 +205,7 @@ static const unsigned nDateModes = sizeof(dateModes) / sizeof(dateModes[0]);
 
 // Internal variable for all the supported types of actions
 
-static const NamePair sActions[] =
+const NamePair sActions[] =
 {
 	LOCALIZE("Move to folder…"),
 	LOCALIZE("Copy to folder…"),
@@ -1100,14 +1094,13 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			if (!action)
 				continue;
 
-			BString name, value;
-			action->FindString("name", &name);
+			int8 type;
+			BString value;
+			action->FindInt8("type", &type);
 			action->FindString("value", &value);
 
 			command = "insert into ";
-			command << tablename << " values('action', '"
-				<< EscapeIllegalCharacters(name.String()) 
-				<< "', '"
+			command << tablename << " values('action', " << type << ", '"
 				<< "', '" << EscapeIllegalCharacters(value.String())
 				<< "', '', '', '');";
 			DBCommand(db, command.String(), "RuleTab::SaveRules:save action");
@@ -1164,7 +1157,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	query.finalize();
 
 	bool translate = false;
-	if (!static_cast<App*>(be_app)->GetSupportLocale()) {
+	if (legacy || !static_cast<App*>(be_app)->GetSupportLocale()) {
 		BLocaleRoster* localeRoster = BLocaleRoster::Default();
 		BMessage message;
 		status_t status = localeRoster->GetPreferredLanguages(&message);
@@ -1236,17 +1229,21 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		
 		while (!query.eof())
 		{
-			BString actionname = DeescapeIllegalCharacters(query.getStringField(1));
+			int8 type = 0;
 			BMessage* action = new BMessage;
 
-			if (translate)
+			if (translate) {
+				BString actionname =
+					DeescapeIllegalCharacters(query.getStringField(1));
 				for (uint32 i = 0; i < nActions; i++)
 					if (strcmp(actionname.String(), sActions[i].english) == 0) {
-						actionname = sActions[i].locale;
+						type = i;
 						break;
 					}
+			} else
+				type = query.getIntField(1);
 
-			action->AddString("name", actionname);
+			action->AddInt8("type", type);
 			action->AddString("value",
 				DeescapeIllegalCharacters(query.getStringField(3)));
 
@@ -1269,39 +1266,35 @@ AddDefaultRules(BObjectList<FilerRule>* ruleList)
 
 	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
 		sModeTypes[MODE_IS].locale, "text/plain"));
-	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
-		"/boot/home/Documents"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
 	rule->SetDescription("Store text files in my Documents folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
 		sModeTypes[MODE_IS].locale, "application/pdf"));
-	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
-		"/boot/home/Documents"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
 	rule->SetDescription("Store PDF files in my Documents folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
 		sModeTypes[MODE_START].locale, "image/"));
-	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
-		"/boot/home/Pictures"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Pictures"));
 	rule->SetDescription("Store pictures in my Pictures folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
 		sModeTypes[MODE_START].locale, "video/"));
-	rule->AddAction(MakeAction(sActions[ACTION_MOVE].locale,
-		"/boot/home/Videos"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Videos"));
 	rule->SetDescription("Store movie files in my Videos folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(sTestTypes[TEST_NAME].locale,
 		sModeTypes[MODE_END].locale, ".zip"));
-	rule->AddAction(MakeAction(sActions[ACTION_COMMAND].locale,
+	rule->AddAction(MakeAction(ACTION_COMMAND,
 		"unzip %FULLPATH% -d /boot/home/Desktop"));
 	rule->SetDescription("Extract ZIP files to the Desktop");
 	ruleList->AddItem(rule);
@@ -1339,10 +1332,10 @@ MakeTest(const char* name, const char* mode, const char* value,
 
 
 BMessage*
-MakeAction(const char* name, const char* value)
+MakeAction(int8 type, const char* value)
 {
 	BMessage* msg = new BMessage;
-	msg->AddString("name", name);
+	msg->AddInt8("type", type);
 	msg->AddString("value", value);
 
 	return msg;
