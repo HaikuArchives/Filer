@@ -34,7 +34,7 @@ RuleTab::RuleTab()
 	_BuildLayout();
 
 	fRuleList = new BObjectList<FilerRule>(20, true);
-	LoadRules(fRuleList);
+	fRuleList = static_cast<App*>(be_app)->GetRuleList();
 
 	if (fRuleList->CountItems() == 0) {
 		BAlert* alert = new BAlert("Filer",
