@@ -69,7 +69,7 @@ bool IsSizeMatch(const BMessage& test, const entry_ref& ref);
 bool IsLocationMatch(const BMessage& test, const entry_ref& ref);
 bool IsModifiedMatch(const BMessage& test, const entry_ref& ref);
 bool IsAttributeMatch(const BMessage& test, const entry_ref& ref);
-bool StringCompare(const BString& from, const BString& to, const char* mode,
+bool StringCompare(const BString& from, const BString& to, int8 modetype,
 		const bool& match_case);
 
 // The various action functions used by RunAction to do the heavy lifting
@@ -140,7 +140,7 @@ static const char* sTestEditors[] =
 
 // Internal variables for all the supported types of compare operators
 
-static const NamePair sModeTypes[] = {
+const NamePair sModeTypes[] = {
 	LOCALIZE("is"),
 	LOCALIZE("is not"),
 	LOCALIZE("starts with"),
@@ -274,21 +274,21 @@ RuleRunner::GetCompatibleModes(const int32& type, BMessage& msg)
 	uint32 i;
 
 	for (i = 0; i < nAnyModes; i++)
-		msg.AddString("modes", sModeTypes[anyModes[i]].locale);
+		msg.AddInt8("modes", anyModes[i]);
 
 	switch (type)
 	{
 		case TEST_TYPE_STRING:
 			for (i = 0; i < nStringModes; i++)
-				msg.AddString("modes", sModeTypes[stringModes[i]].locale);
+				msg.AddInt8("modes", stringModes[i]);
 			break;
 		case TEST_TYPE_NUMBER:
 			for (i = 0; i < nNumberModes; i++)
-				msg.AddString("modes", sModeTypes[numberModes[i]].locale);
+				msg.AddInt8("modes", numberModes[i]);
 			break;
 		case TEST_TYPE_DATE:
 			for (i = 0; i < nDateModes; i++)
-				msg.AddString("modes", sModeTypes[dateModes[i]].locale);
+				msg.AddInt8("modes", dateModes[i]);
 			break;
 	}
 	return B_OK;
@@ -301,16 +301,16 @@ RuleRunner::GetModes(BMessage& msg)
 	uint32 i;
 
 	for (i = 0; i < nAnyModes; i++)
-		msg.AddString("modes", sModeTypes[anyModes[i]].locale);
+		msg.AddInt8("modes", anyModes[i]);
 
 	for (i = 0; i < nStringModes; i++)
-		msg.AddString("modes", sModeTypes[stringModes[i]].locale);
+		msg.AddInt8("modes", stringModes[i]);
 
 	for (i = 0; i < nNumberModes; i++)
-		msg.AddString("modes", sModeTypes[numberModes[i]].locale);
+		msg.AddInt8("modes", numberModes[i]);
 
 	for (i = 0; i < nDateModes; i++)
-		msg.AddString("modes", sModeTypes[dateModes[i]].locale);
+		msg.AddInt8("modes", dateModes[i]);
 }
 
 
@@ -363,27 +363,27 @@ RuleRunner::GetDataTypeForTest(const char* testname)
 
 
 int32
-RuleRunner::GetDataTypeForMode(const char* modename)
+RuleRunner::GetDataTypeForMode(int8 modetype)
 {
-	if (!modename)
+	if (modetype < 0)
 		return TEST_TYPE_NULL;
 
 	uint32 i;
 
 	for (i = 0; i < nStringModes; i++)
-		if (strcmp(modename, sModeTypes[stringModes[i]].locale) == 0)
+		if (modetype == stringModes[i])
 			return TEST_TYPE_STRING;
 
 	for (i = 0; i < nNumberModes; i++)
-		if (strcmp(modename, sModeTypes[numberModes[i]].locale) == 0)
+		if (modetype == numberModes[i])
 			return TEST_TYPE_NUMBER;
 
 	for (i = 0; i < nDateModes; i++)
-		if (strcmp(modename, sModeTypes[dateModes[i]].locale) == 0)
+		if (modetype == dateModes[i])
 			return TEST_TYPE_DATE;
 
 	for (i = 0; i < nAnyModes; i++)
-		if (strcmp(modename, sModeTypes[anyModes[i]].locale) == 0)
+		if (modetype == anyModes[i])
 			return TEST_TYPE_ANY;
 
 	return TEST_TYPE_NULL;
@@ -512,16 +512,16 @@ IsNameMatch(const BMessage& test, const entry_ref& ref)
 		return false;
 	}
 
-	BString compare;
-	if (test.FindString("mode", &compare) != B_OK) {
+	int8 modetype;
+	if (test.FindInt8("mode", &modetype) != B_OK) {
 		debugger("Couldn't get mode in IsNameMatch");
 		return false;
 	}
 
-	bool result = StringCompare(value, BString(ref.name), compare.String(),
-		true);
-	printf("\tName test: %s %s %s - %s\n", ref.name, compare.String(),
-		value.String(), result ? "MATCH" : "NO MATCH");
+	bool result = StringCompare(value, BString(ref.name), modetype, true);
+	printf("\tName test: %s %s %s - %s\n", ref.name,
+		sModeTypes[modetype].locale, value.String(),
+		result ? "MATCH" : "NO MATCH");
 
 	return result;
 }
@@ -539,8 +539,8 @@ IsTypeMatch(const BMessage& test, const entry_ref& ref)
 //	if (value == "image/")
 //		debugger("");
 
-	BString compare;
-	if (test.FindString("mode", &compare) != B_OK) {
+	int8 modetype;
+	if (test.FindInt8("mode", &modetype) != B_OK) {
 		debugger("Couldn't get mode in IsTypeMatch");
 		return false;
 	}
@@ -560,10 +560,10 @@ IsTypeMatch(const BMessage& test, const entry_ref& ref)
 	if (node.ReadAttrString("BEOS:TYPE", &string) != B_OK)
 		return false;
 
-	bool result = StringCompare(value, string.String(), compare.String(),
-		true);
-	printf("\tType test: %s %s %s - %s\n", ref.name, compare.String(),
-		value.String(), result ? "MATCH" : "NO MATCH");
+	bool result = StringCompare(value, string.String(), modetype, true);
+	printf("\tType test: %s %s %s - %s\n", ref.name,
+		sModeTypes[modetype].locale, value.String(),
+		result ? "MATCH" : "NO MATCH");
 
 	return result;
 }
@@ -578,8 +578,8 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 		return false;
 	}
 
-	BString compare;
-	if (test.FindString("mode",&compare) != B_OK) {
+	int8 modetype;
+	if (test.FindInt8("mode", &modetype) != B_OK) {
 		debugger("Couldn't get mode in IsTypeMatch");
 		return false;
 	}
@@ -596,21 +596,21 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 
 	bool result = false;
 
-	if (strcmp(compare.String(), "is") == 0)
+	if (modetype == MODE_IS)
 		result = (fromsize == tosize);
-	else if (strcmp(compare.String(), "is not") == 0)
+	else if (modetype == MODE_NOT)
 		result = (fromsize != tosize);
-	else if (strcmp(compare.String(), "is more than") == 0)
+	else if (modetype == MODE_MORE)
 		result = (fromsize > tosize);
-	else if (strcmp(compare.String(), "is less than") == 0)
+	else if (modetype == MODE_LESS)
 		result = (fromsize < tosize);
-	else if (strcmp(compare.String(), "is at least") == 0)
+	else if (modetype == MODE_LEAST)
 		result = (fromsize >= tosize);
-	else if (strcmp(compare.String(), "is at most") == 0)
+	else if (modetype == MODE_MOST)
 		result = (fromsize <= tosize);
 
-	printf("\tSize test: %s %s %lld - %s\n", ref.name, compare.String(),
-		tosize, result ? "MATCH" : "NO MATCH");
+	printf("\tSize test: %s %s %lld - %s\n", ref.name,
+		sModeTypes[modetype].locale, tosize, result ? "MATCH" : "NO MATCH");
 
 	return result;
 }
@@ -625,8 +625,8 @@ IsLocationMatch(const BMessage& test, const entry_ref& ref)
 		return false;
 	}
 
-	BString compare;
-	if (test.FindString("mode", &compare) != B_OK) {
+	int8 modetype;
+	if (test.FindInt8("mode", &modetype) != B_OK) {
 		debugger("Couldn't get mode in IsLocationMatch");
 		return false;
 	}
@@ -642,11 +642,11 @@ IsLocationMatch(const BMessage& test, const entry_ref& ref)
 	if (value[value.CountChars() - 1] != '/')
 		value << "/";
 
-	bool result = StringCompare(value, filepath.String(), compare.String(),
-		true);
+	bool result = StringCompare(value, filepath.String(), modetype, true);
 
 	printf("\tLocation test: %s %s %s - %s\n", filepath.String(),
-		compare.String(), value.String(), result ? "MATCH" : "NO MATCH");
+		sModeTypes[modetype].locale, value.String(),
+		result ? "MATCH" : "NO MATCH");
 
 	return result;
 }
@@ -669,8 +669,8 @@ IsAttributeMatch(const BMessage& test, const entry_ref& ref)
 		return false;
 	}
 
-	BString compare;
-	if (test.FindString("mode", &compare) != B_OK) {
+	int8 modetype;
+	if (test.FindInt8("mode", &modetype) != B_OK) {
 		debugger("Couldn't get mode in IsTypeMatch");
 		return false;
 	}
@@ -693,54 +693,55 @@ IsAttributeMatch(const BMessage& test, const entry_ref& ref)
 	if (node.ReadAttrString(attribute.String(), &string) != B_OK)
 		return false;
 
-	bool result = StringCompare(value, string, compare.String(), true);
+	bool result = StringCompare(value, string, modetype, true);
 
 	BString attrname;
 	if (test.FindString("attrname", &attrname) != B_OK)
 		attrname = attribute;
 
 	printf("\tAttribute test: %s %s %s - %s\n", attrname.String(),
-		compare.String(), value.String(), result ? "MATCH" : "NO MATCH");
+		sModeTypes[modetype].locale, value.String(),
+		result ? "MATCH" : "NO MATCH");
 
 	return result;
 }
 
 
 bool
-StringCompare(const BString& from, const BString& to, const char* mode,
+StringCompare(const BString& from, const BString& to, int8 modetype,
 	const bool& match_case)
 {
-	if (!mode) {
+	if (modetype < 0) {
 		debugger("NULL mode in StringCompare");
 		return false;
 	}
 
-	if (strcmp(mode, "is") == 0)
+	if (modetype == MODE_IS)
 		if (match_case)
 			return from.Compare(to) == 0;
 		else
 			return from.ICompare(to) == 0;
-	else if (strcmp(mode, "is not") == 0)
+	else if (modetype == MODE_NOT)
 		if (match_case)
 			return from.Compare(to) != 0;
 		else
 			return from.ICompare(to) != 0;
-	else if (strcmp(mode, "contains") == 0)
+	else if (modetype == MODE_CONTAIN)
 		if (match_case)
 			return to.FindFirst(from) >= 0;
 		else
 			return to.IFindFirst(from) >= 0;
-	else if (strcmp(mode, "does not contain") == 0)
+	else if (modetype == MODE_EXCLUDE)
 		if (match_case)
 			return to.FindFirst(from) < 0;
 		else
 			return to.IFindFirst(from) < 0;
-	else if (strcmp(mode, "starts with") == 0)
+	else if (modetype == MODE_START)
 		if (match_case)
 			return to.FindFirst(from) == 0;
 		else
 			return to.IFindFirst(from) == 0;
-	else if (strcmp(mode, "ends with") == 0) {
+	else if (modetype == MODE_END) {
 		int32 pos;
 		if (match_case)
 			pos = to.FindLast(from);
@@ -1066,9 +1067,10 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			if (!test)
 				continue;
 
-			BString name, mode, value, mimeType, typeName, attrType, attrName;
+			int8 modetype;
+			BString name, value, mimeType, typeName, attrType, attrName;
 			test->FindString("name", &name);
-			test->FindString("mode", &mode);
+			test->FindInt8("mode", &modetype);
 			test->FindString("value", &value);
 			test->FindString("mimetype", &mimeType);
 			test->FindString("typename", &typeName);
@@ -1077,9 +1079,8 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 
 			command = "insert into ";
 			command << tablename << " values('test', '"
-				<< EscapeIllegalCharacters(name.String()) 
-				<< "', '" << EscapeIllegalCharacters(mode.String())
-				<< "', '" << EscapeIllegalCharacters(value.String())
+				<< EscapeIllegalCharacters(name.String()) << "', " << modetype
+				<< ", '" << EscapeIllegalCharacters(value.String())
 				<< "', '" << EscapeIllegalCharacters(mimeType.String())
 				<< "', '" << EscapeIllegalCharacters(typeName.String())
 				<< "', '" << EscapeIllegalCharacters(attrName.String())
@@ -1185,7 +1186,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		while (!query.eof())
 		{
 			BString classname = DeescapeIllegalCharacters(query.getStringField(1));
-			BString modename = DeescapeIllegalCharacters(query.getStringField(2));
+			int8 modetype = 0;
 			BMessage* test = new BMessage;
 
 			if (translate) {
@@ -1195,12 +1196,16 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 						break;
 					}
 
-				for (uint32 i = 0; i < nModeTypes; i++)
+				BString modename =
+					DeescapeIllegalCharacters(query.getStringField(2));
+				for (uint32 i = 0; i < nModeTypes; i++) {
 					if (strcmp(modename.String(), sModeTypes[i].english) == 0) {
-						modename = sModeTypes[i].locale;
+						modetype = i;
 						break;
 					}
-			}
+				}
+			} else
+				modetype = query.getIntField(2);
 
 			test->AddString("name", classname);
 
@@ -1213,7 +1218,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 					DeescapeIllegalCharacters(query.getStringField(6)));
 			}
 
-			test->AddString("mode", modename);
+			test->AddInt8("mode", modetype);
 			test->AddString("value",
 				DeescapeIllegalCharacters(query.getStringField(3)).String());
 
@@ -1264,36 +1269,33 @@ AddDefaultRules(BObjectList<FilerRule>* ruleList)
 {
 	FilerRule* rule = new FilerRule();
 
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
-		sModeTypes[MODE_IS].locale, "text/plain"));
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_IS,
+		"text/plain"));
 	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
 	rule->SetDescription("Store text files in my Documents folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
-		sModeTypes[MODE_IS].locale, "application/pdf"));
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_IS,
+		"application/pdf"));
 	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
 	rule->SetDescription("Store PDF files in my Documents folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
-		sModeTypes[MODE_START].locale, "image/"));
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_START, "image/"));
 	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Pictures"));
 	rule->SetDescription("Store pictures in my Pictures folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale,
-		sModeTypes[MODE_START].locale, "video/"));
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_START, "video/"));
 	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Videos"));
 	rule->SetDescription("Store movie files in my Videos folder");
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_NAME].locale,
-		sModeTypes[MODE_END].locale, ".zip"));
+	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_END, ".zip"));
 	rule->AddAction(MakeAction(ACTION_COMMAND,
 		"unzip %FULLPATH% -d /boot/home/Desktop"));
 	rule->SetDescription("Extract ZIP files to the Desktop");
@@ -1308,13 +1310,13 @@ AddDefaultRules(BObjectList<FilerRule>* ruleList)
 
 
 BMessage*
-MakeTest(const char* name, const char* mode, const char* value,
+MakeTest(const char* name, int8 modetype, const char* value,
 	const char* mimeType, const char* typeName, const char* attrType, 
 	const char* attrName)
 {
 	BMessage* msg = new BMessage;
 	msg->AddString("name", name);
-	msg->AddString("mode", mode);
+	msg->AddInt8("mode", modetype);
 	msg->AddString("value", value);
 
 	if (typeName || mimeType || attrType || attrName) {

@@ -20,6 +20,7 @@ struct NamePair
 	const char* const locale;
 };
 
+extern const NamePair sModeTypes[];
 extern const NamePair sActions[];
 
 enum
@@ -49,7 +50,7 @@ public:
 //	static	BString		GetEditorTypeForTest(const char* testname);
 
 	static	int32		GetDataTypeForTest(const char* testname);
-	static	int32		GetDataTypeForMode(const char* modename);
+	static	int32		GetDataTypeForMode(int8 modetype);
 
 			bool		IsMatch(const BMessage& test, const entry_ref& ref);
 			status_t	RunAction(const BMessage& test, entry_ref& ref);
@@ -63,7 +64,7 @@ void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
 
 // Some convenience functions. Deleting the returned BMessage is the
 // responsibility of the caller
-BMessage*	MakeTest(const char* name, const char* mode, const char* value,
+BMessage*	MakeTest(const char* name, int8 modetype, const char* value,
 				const char* mimeType = NULL, const char* typeName = NULL,
 				const char* attrType = NULL, const char* attrName = NULL);
 BMessage*	MakeAction(int8 type, const char* value);
