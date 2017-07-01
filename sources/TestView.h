@@ -31,7 +31,7 @@ public:
 private:
 	BPopUpMenu*	TestMenu() const;
 	bool		SetTest(BMessage* msg);
-	void		SetMode(const char* mode);
+	void		SetMode(int8 modetype);
 	const char*	GetValue();
 	
 	BMenu*		AddMenuSorted(BMenu* parent, const char* name) const;

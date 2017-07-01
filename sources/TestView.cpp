@@ -61,24 +61,25 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 		.End();
 
 	bool usedefaults = false;
+	int8 modetype;
 	if (test) {
 		STRACE(("\nTestView::TestView: test parameter\n"));
 		MSGTRACE(test);
 
 		fTest = new BMessage(*test);
-		BString str;
 
 		if (!SetTest(fTest))
 			usedefaults = true;
 
-		if (fTest->FindString("mode", &str) == B_OK)
-			SetMode(str.String());
+		BString str;
+		if (fTest->FindInt8("mode", &modetype) == B_OK)
+			SetMode(modetype);
 		else {
 			fTest->FindString("name" ,&str);
 			modes.MakeEmpty();
 			RuleRunner::GetCompatibleModes(str.String(), modes);
-			modes.FindString("modes", 0, &str);
-			SetMode(str.String());
+			modes.FindInt8("modes", 0, &modetype);
+			SetMode(modetype);
 		}
 
 		if (fTest->FindString("value", &str) == B_OK)
@@ -98,13 +99,13 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 
 		modes.MakeEmpty();
 		RuleRunner::GetCompatibleModes(str.String(), modes);
-		modes.FindString("modes", 0, &str);
+		modes.FindInt8("modes", 0, &modetype);
 
-		newtest.AddString("mode", str);
+		newtest.AddInt8("mode", modetype);
 		newtest.AddString("value", "");
 
 		SetTest(&newtest);
-		SetMode(str.String());
+		SetMode(modetype);
 	}
 }
 
@@ -148,9 +149,9 @@ TestView::MessageReceived(BMessage* msg)
 		}
 		case MSG_MODE_CHOSEN:
 		{
-			BString mode;
-			if (msg->FindString("mode", &mode) == B_OK)
-				SetMode(mode.String());
+			int8 modetype;
+			if (msg->FindInt8("mode", &modetype) == B_OK)
+				SetMode(modetype);
 			break;
 		}
 		default:
@@ -334,9 +335,10 @@ TestView::SetTest(BMessage* msg)
 	// There is one catch, however. The message passed here will NOT have the mode
 	// or value, so we need to save them and copy them over
 
-	BString str, mode;
+	int8 modetype;
+	BString str;
 
-	fTest->FindString("mode", &mode);
+	fTest->FindInt8("mode", &modetype);
 
 	if (fTest != msg) {
 		BString value;
@@ -346,8 +348,9 @@ TestView::SetTest(BMessage* msg)
 
 		fTest->what = 0;
 
-		if (fTest->FindString("mode" ,&str) != B_OK)
-			fTest->AddString("mode", mode);
+		int8 tmpType;
+		if (fTest->FindInt8("mode", &tmpType) != B_OK)
+			fTest->AddInt8("mode", modetype);
 
 		if (fTest->FindString("value", &str) != B_OK)
 			fTest->AddString("value", value);
@@ -372,16 +375,15 @@ TestView::SetTest(BMessage* msg)
 
 	// Now that the test button has been updated, make sure that the mode currently
 	// set is supported by the current test
-	int32 modetype = RuleRunner::GetDataTypeForMode(mode.String());
-	if (testtype != modetype && modetype != TEST_TYPE_ANY) {
+	int32 datatype = RuleRunner::GetDataTypeForMode(modetype);
+	if (testtype != datatype && datatype != TEST_TYPE_ANY) {
 		STRACE(("Modes not compatible, refreshing.\n"));
 		// Not compatible, so reset the mode to something compatible
 		BMessage modes;
 		RuleRunner::GetCompatibleModes(testtype, modes);
 
-		BString modestr;
-		modes.FindString("modes", 0, &modestr);
-		SetMode(modestr.String());
+		modes.FindInt8("modes", 0, &modetype);
+		SetMode(modetype);
 	}
 	STRACE(("-------------------------\n"));
 
@@ -390,19 +392,19 @@ TestView::SetTest(BMessage* msg)
 
 
 void
-TestView::SetMode(const char* mode)
+TestView::SetMode(int8 modetype)
 {
-	if (!mode)
+	if (modetype < 0)
 		return;
 
 	// This function assumes that the string passed to it is valid
 	// for the test type
-	BString str;
-	if (fTest->FindString("mode", &str) == B_OK)
-		fTest->ReplaceString("mode", mode);
+	int8 tmpType;
+	if (fTest->FindInt8("mode", &tmpType) == B_OK)
+		fTest->ReplaceInt8("mode", modetype);
 	else
-		fTest->AddString("mode", mode);
-	fModeField->MenuItem()->SetLabel(mode);
+		fTest->AddInt8("mode", modetype);
+	fModeField->MenuItem()->SetLabel(sModeTypes[modetype].locale);
 }
 
 

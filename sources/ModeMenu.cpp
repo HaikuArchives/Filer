@@ -42,11 +42,11 @@ ModeMenu::AddDynamicItem(add_state state)
 	if (RuleRunner::GetCompatibleModes(label, modes) != B_OK)
 		return false;
 
-	BString modestr;
-	for (int32 i = 0; modes.FindString("modes", i, &modestr) == B_OK; i++) {
+	int8 modetype;
+	for (int32 i = 0; modes.FindInt8("modes", i, &modetype) == B_OK; i++) {
 		BMessage* msg = new BMessage(MSG_MODE_CHOSEN);
-		msg->AddString("mode", modestr);
-		AddItem(new BMenuItem(modestr.String(), msg));
+		msg->AddInt8("mode", modetype);
+		AddItem(new BMenuItem(sModeTypes[modetype].locale, msg));
 	}
 
 	SetTargetForItems(fTarget);
