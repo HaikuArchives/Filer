@@ -12,7 +12,6 @@
 #include <Directory.h>
 #include <Entry.h>
 #include <FindDirectory.h>
-#include <LocaleRoster.h>
 #include <Mime.h>
 #include <Path.h>
 #include <Roster.h>
@@ -1170,16 +1169,8 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	query.finalize();
 
 	bool convert = false;
-	if (legacy || !static_cast<App*>(be_app)->GetSupportLocale()) {
-		BLocaleRoster* localeRoster = BLocaleRoster::Default();
-		BMessage message;
-		status_t status = localeRoster->GetPreferredLanguages(&message);
-		if (status == B_OK) {
-			const char* language = message.GetString("language");
-			if (language != NULL && strcmp(language, "en"))
-				convert = true;
-		}
-	}
+	if (legacy || !static_cast<App*>(be_app)->GetSupportLocale())
+		convert = true;
 
 	for (int32 i = 0; i < ruleList->CountItems(); i++)
 	{
