@@ -164,7 +164,6 @@ MainWindow::SaveSettings()
 			msg.AddRect("pos", pos);
 			msg.AddInt32("tab", tab);
 			msg.AddBool("match", match);
-			msg.AddBool("locale", true);
 			msg.Flatten(&file);
 		}
 	}
