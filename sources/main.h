@@ -37,8 +37,6 @@ public:
 	bool			GetMatchSetting() const { return fMatchSetting; }
 	void			ToggleMatchSetting() { fMatchSetting = !fMatchSetting; }
 
-	bool			GetSupportLocale() const { return fSupportLocale; }
-
 	bool			DoAll() const { return fDoAll; }
 	void			DoAll(bool doAll) { fDoAll = doAll; }
 	bool			Replace() const { return fReplace; }
@@ -55,7 +53,6 @@ private:
 	
 	bool			fQuitRequested;
 	bool 			fMatchSetting;
-	bool 			fSupportLocale;
 
 	bool			fDoAll;
 	bool			fReplace;

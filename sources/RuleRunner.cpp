@@ -1168,10 +1168,6 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 
 	query.finalize();
 
-	bool convert = false;
-	if (legacy || !static_cast<App*>(be_app)->GetSupportLocale())
-		convert = true;
-
 	for (int32 i = 0; i < ruleList->CountItems(); i++)
 	{
 		FilerRule* rule = ruleList->ItemAt(i);
@@ -1192,7 +1188,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			int8 modetype = 0;
 			BMessage* test = new BMessage;
 
-			if (convert) {
+			if (legacy) {
 				BString classname =
 					DeescapeIllegalCharacters(query.getStringField(1));
 				BString modename =
@@ -1245,7 +1241,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			int8 type = 0;
 			BMessage* action = new BMessage;
 
-			if (convert) {
+			if (legacy) {
 				BString actionname =
 					DeescapeIllegalCharacters(query.getStringField(1));
 				for (uint32 i = 0; i < nActions; i++)
@@ -1268,7 +1264,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	}
 	db.close();
 
-	return convert ? SaveRules(ruleList) : B_OK;
+	return legacy ? SaveRules(ruleList) : B_OK;
 }
 
 
