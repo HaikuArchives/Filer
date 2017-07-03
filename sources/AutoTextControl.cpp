@@ -187,7 +187,7 @@ AutoTextControlFilter::Filter(BMessage* msg, BHandler** target)
 	msg->FindInt32("modifiers", &mod);
 
 	BView* view = dynamic_cast<BView*>(*target);
-	if (!view || strcmp("_input_", view->Name()) != 0)
+	if (view != NULL || view->Name() != NULL && strcmp("_input_", view->Name()))
 		return B_DISPATCH_MESSAGE;
 	
 	AutoTextControl* text = dynamic_cast<AutoTextControl*>(view->Parent());
