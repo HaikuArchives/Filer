@@ -24,28 +24,30 @@ public:
 	void		MessageReceived(BMessage* msg);
 
 	BMessage*	GetTest() const;
+	int32		GetDataType() const { return fDataType; }
 
 	void		SetRemoveEnabled(bool isEnabled)
 					{ fAddRemoveButtons->SetRemoveEnabled(isEnabled); }
-	
+
 private:
 	BPopUpMenu*	TestMenu() const;
 	bool		SetTest(BMessage* msg);
 	void		SetMode(int8 modetype);
 	const char*	GetValue();
-	
+
 	BMenu*		AddMenuSorted(BMenu* parent, const char* name) const;
 	BMenu*		GetMenu(BMenu* parent, const char* name) const;
-	
+
 	BMenuField*	fTestField;
 	BMenuField*	fModeField;
-	
+
 	AutoTextControl*	fValueBox;
 	AddRemoveButtons*	fAddRemoveButtons;
-	
+
 	BMessage*	fTest;
 	BMessage	fTestTypes;
-	
+
+	int32		fDataType;
 };
- 
+
 #endif	// TESTVIEW_H

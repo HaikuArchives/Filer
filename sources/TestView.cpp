@@ -33,7 +33,8 @@ extern BMessage gArchivedTypeMenu;
 TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	:
 	BView(name, flags),
- 	fTest(NULL)
+	fTest(NULL),
+	fDataType(TEST_TYPE_NULL)
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 
@@ -360,29 +361,26 @@ TestView::SetTest(BMessage* msg)
 
 	int8 type;
 	fTest->FindInt8("name", &type);
-	int32 testtype;
 	if (type == AttributeTestType()) {
 		BString str;
 		fTest->FindString("typename", &str);
 		label = str;
 		fTest->FindString("attrname", &str);
 		label << " : " << str;
-		testtype = TEST_TYPE_STRING;
-	} else {
+	} else
 		label = sTestTypes[type].locale;
-		testtype = RuleRunner::GetDataTypeForTest(type);
-	}
 
+	fDataType = RuleRunner::GetDataTypeForTest(type);
 	fTestField->MenuItem()->SetLabel(label.String());
 
 	// Now that the test button has been updated, make sure that the mode currently
 	// set is supported by the current test
 	int32 datatype = RuleRunner::GetDataTypeForMode(modetype);
-	if (testtype != datatype && datatype != TEST_TYPE_ANY) {
+	if (fDataType != datatype && datatype != TEST_TYPE_ANY) {
 		STRACE(("Modes not compatible, refreshing.\n"));
 		// Not compatible, so reset the mode to something compatible
 		BMessage modes;
-		RuleRunner::GetCompatibleModes(testtype, modes);
+		RuleRunner::GetCompatibleModes(fDataType, modes);
 
 		modes.FindInt8("modes", 0, &modetype);
 		SetMode(modetype);

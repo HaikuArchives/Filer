@@ -164,7 +164,7 @@ ActionView::ActionMenu() const
 	int8 type;
 	for (int32 i = 0; fActions.FindInt8("actions", i, &type) == B_OK; i++) {
 		BMessage* msg = new BMessage(MSG_ACTION_CHOSEN);
-		msg->AddInt8("name", type);
+		msg->AddInt8("type", type);
 		menu->AddItem(new BMenuItem(sActions[type].locale, msg));
 	}
 

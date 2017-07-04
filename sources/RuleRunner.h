@@ -61,7 +61,6 @@ public:
 status_t	LoadRules(BObjectList<FilerRule>* ruleList);
 status_t	SaveRules(const BObjectList<FilerRule>* ruleList);
 int8		AttributeTestType();
-int8		GetTestType(const char* name);
 void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
 
 #endif	// RULERUNNER_H
