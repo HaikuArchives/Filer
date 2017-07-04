@@ -63,24 +63,32 @@
 */
 
 // The various compare functions used by IsMatch to do the actual comparing
-bool IsNameMatch(const BMessage& test, const entry_ref& ref);
-bool IsTypeMatch(const BMessage& test, const entry_ref& ref);
-bool IsSizeMatch(const BMessage& test, const entry_ref& ref);
-bool IsLocationMatch(const BMessage& test, const entry_ref& ref);
-bool IsModifiedMatch(const BMessage& test, const entry_ref& ref);
-bool IsAttributeMatch(const BMessage& test, const entry_ref& ref);
-bool StringCompare(const BString& from, const BString& to, int8 modetype,
-		const bool& match_case);
+static bool IsNameMatch(const BMessage& test, const entry_ref& ref);
+static bool IsTypeMatch(const BMessage& test, const entry_ref& ref);
+static bool IsSizeMatch(const BMessage& test, const entry_ref& ref);
+static bool IsLocationMatch(const BMessage& test, const entry_ref& ref);
+//bool IsModifiedMatch(const BMessage& test, const entry_ref& ref);
+static bool IsAttributeMatch(const BMessage& test, const entry_ref& ref);
+static bool StringCompare(const BString& from, const BString& to, int8 modetype,
+				const bool& match_case);
 
 // The various action functions used by RunAction to do the heavy lifting
-status_t MoveAction(const BMessage& action, entry_ref& ref);
-status_t CopyAction(const BMessage& action, entry_ref& ref);
-status_t RenameAction(const BMessage& action, entry_ref& ref);
-status_t OpenAction(const BMessage& action, entry_ref& ref);
-status_t ArchiveAction(const BMessage& action, entry_ref& ref);
-status_t CommandAction(const BMessage& action, entry_ref& ref);
-status_t TrashAction(const BMessage& action, entry_ref& ref);
-status_t DeleteAction(const BMessage& action, entry_ref& ref);
+static status_t MoveAction(const BMessage& action, entry_ref& ref);
+static status_t CopyAction(const BMessage& action, entry_ref& ref);
+static status_t RenameAction(const BMessage& action, entry_ref& ref);
+static status_t OpenAction(entry_ref& ref);
+static status_t ArchiveAction(const BMessage& action, entry_ref& ref);
+static status_t CommandAction(const BMessage& action, entry_ref& ref);
+static status_t TrashAction(entry_ref& ref);
+static status_t DeleteAction(entry_ref& ref);
+
+
+// Some convenience functions. Deleting the returned BMessage is the
+// responsibility of the caller
+static BMessage* MakeTest(int8 type, int8 modetype, const char* value,
+					const char* mimeType = NULL, const char* typeName = NULL,
+					const char* attrType = NULL, const char* attrName = NULL);
+static BMessage* MakeAction(int8 type, const char* value);
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -91,13 +99,14 @@ status_t DeleteAction(const BMessage& action, entry_ref& ref);
 
 // Internal variables for all the supported types of tests
 
-static const NamePair sTestTypes[] =
+const NamePair sTestTypes[] =
 {
 	LOCALIZE("Type"),
 	LOCALIZE("Name"),
 	LOCALIZE("Size"),
 	LOCALIZE("Location")
-//	"Last changed"
+//	LOCALIZE("Date"),	//	"Last changed"
+//	LOCALIZE("Attribute")
 };
 static const unsigned nTestTypes = sizeof(sTestTypes) / sizeof(sTestTypes[0]);
 
@@ -105,7 +114,9 @@ enum TestType {
 	TEST_TYPE,
 	TEST_NAME,
 	TEST_SIZE,
-	TEST_LOCATION
+	TEST_LOCATION,
+//	TEST_DATE,	//	"Last changed"
+	TEST_ATTRIBUTE
 };
 
 static const TestType stringTests[] = {
@@ -250,14 +261,14 @@ void
 RuleRunner::GetTestTypes(BMessage& msg)
 {
 	for (uint32 i = 0; i < nTestTypes; i++)
-		msg.AddString("tests", sTestTypes[i].locale);
+		msg.AddInt8("tests", i);
 }
 
 
 status_t
-RuleRunner::GetCompatibleModes(const char* testtype, BMessage& msg)
+RuleRunner::GetCompatibleModes(int8 testtype, BMessage& msg)
 {
-	if (!testtype)
+	if (testtype < 0)
 		return B_ERROR;
 
 	return GetCompatibleModes(GetDataTypeForTest(testtype), msg);
@@ -318,7 +329,7 @@ void
 RuleRunner::GetActions(BMessage& msg)
 {
 	for (uint32 i = 0; i < nActions; i++)
-		msg.AddString("actions", sActions[i].locale);
+		msg.AddInt8("actions", i);
 }
 
 
@@ -339,23 +350,23 @@ RuleRunner::GetEditorTypeForTest(const char* testname)
 
 
 int32
-RuleRunner::GetDataTypeForTest(const char* testname)
+RuleRunner::GetDataTypeForTest(int8 testtype)
 {
-	if (!testname)
+	if (testtype < 0)
 		return TEST_TYPE_NULL;
 
 	uint32 i;
 
 	for (i = 0; i < nStringTests; i++)
-		if (strcmp(testname, sTestTypes[stringTests[i]].locale) == 0)
+		if (testtype == stringTests[i])
 			return TEST_TYPE_STRING;
 
 	for (i = 0; i < nNumberTests; i++)
-		if (strcmp(testname, sTestTypes[numberTests[i]].locale) == 0)
+		if (testtype == numberTests[i])
 			return TEST_TYPE_NUMBER;
 
 	for (i = 0; i < nDateTests; i++)
-		if (strcmp(testname, sTestTypes[dateTests[i]].locale) == 0)
+		if (testtype == dateTests[i])
 			return TEST_TYPE_DATE;
 
 	return TEST_TYPE_NULL;
@@ -393,23 +404,23 @@ RuleRunner::GetDataTypeForMode(int8 modetype)
 bool
 RuleRunner::IsMatch(const BMessage& test, const entry_ref& ref)
 {
-	BString testname;
-	if (test.FindString("name", &testname) != B_OK) {
-		debugger("Couldn't find test name in RuleRunner::IsMatch");
+	int8 testtype;
+	if (test.FindInt8("name", &testtype) != B_OK) {
+		debugger("Couldn't find test type in RuleRunner::IsMatch");
 		return false;
 	}
 
-	if (testname.Compare("Name") == 0)
+	if (testtype == TEST_NAME)
 		return IsNameMatch(test, ref);
-	else if (testname.Compare("Size") == 0)
+	else if (testtype == TEST_SIZE)
 		return IsSizeMatch(test, ref);
-	else if (testname.Compare("Location") == 0)
+	else if (testtype == TEST_LOCATION)
 		return IsLocationMatch(test, ref);
-	else if (testname.Compare("Type") == 0)
+	else if (testtype == TEST_TYPE)
 		return IsTypeMatch(test, ref);
-	else if (testname.Compare("Last changed") == 0)
-		return IsModifiedMatch(test, ref);
-	else if (testname.Compare("Attribute") == 0)
+//	else if (testtype == TEST_DATE)	//	"Last changed"
+//		return IsModifiedMatch(test, ref);
+	else if (testtype == TEST_ATTRIBUTE)
 		return IsAttributeMatch(test, ref);
 
 	return false;
@@ -419,29 +430,29 @@ RuleRunner::IsMatch(const BMessage& test, const entry_ref& ref)
 status_t
 RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 {
-	BString actionname;
-	if (action.FindString("name", &actionname) != B_OK) {
-		debugger("Couldn't find action name in RuleRunner::RunAction");
+	int8 type;
+	if (action.FindInt8("name", &type) != B_OK) {
+		debugger("Couldn't find action type in RuleRunner::RunAction");
 		return B_ERROR;
 	}
 
-	if (actionname.Compare(sActions[ACTION_MOVE].locale) == 0)
+	if (type == ACTION_MOVE)
 		return MoveAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_COPY].locale) == 0)
+	else if (type == ACTION_COPY)
 		return CopyAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_RENAME].locale) == 0)
+	else if (type == ACTION_RENAME)
 		return RenameAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_OPEN].locale) == 0)
-		return OpenAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_ARCHIVE].locale) == 0)
+	else if (type == ACTION_OPEN)
+		return OpenAction(ref);
+	else if (type == ACTION_ARCHIVE)
 		return ArchiveAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_COMMAND].locale) == 0)
+	else if (type == ACTION_COMMAND)
 		return CommandAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_TRASH].locale) == 0)
-		return TrashAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_DELETE].locale) == 0)
-		return DeleteAction(action, ref);
-	else if (actionname.Compare(sActions[ACTION_CONTINUE].locale) == 0)
+	else if (type == ACTION_TRASH)
+		return TrashAction(ref);
+	else if (type == ACTION_DELETE)
+		return DeleteAction(ref);
+	else if (type == ACTION_CONTINUE)
 		return CONTINUE_TESTS;	// arbitrary pos non-B_OK value
 
 	return B_ERROR;
@@ -652,12 +663,14 @@ IsLocationMatch(const BMessage& test, const entry_ref& ref)
 }
 
 
+#if 0
 bool
 IsModifiedMatch(const BMessage& test, const entry_ref& ref)
 {
 	// TODO: Implement using Mr. Peeps! date-parsing code
 	return false;
 }
+#endif
 
 
 bool
@@ -870,7 +883,7 @@ RenameAction(const BMessage& action, entry_ref& ref)
 
 
 status_t
-OpenAction(const BMessage& action, entry_ref& ref)
+OpenAction(entry_ref& ref)
 {
 	entry_ref app;
 	BString appName("");
@@ -957,7 +970,7 @@ CommandAction(const BMessage& action, entry_ref& ref)
 
 
 status_t
-TrashAction(const BMessage& action, entry_ref& ref)
+TrashAction(entry_ref& ref)
 {
 	BPath path;
 	find_directory(B_TRASH_DIRECTORY, &path);
@@ -985,7 +998,7 @@ TrashAction(const BMessage& action, entry_ref& ref)
 
 
 status_t
-DeleteAction(const BMessage& action, entry_ref& ref)
+DeleteAction(entry_ref& ref)
 {
 	BEntry entry(&ref);
 	BPath path(&entry);
@@ -1052,7 +1065,7 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 
 		command = "create table ";
 		command << tablename 
-			<< "(entrytype varchar, testtype varchar, testmode varchar,
+			<< "(entrytype varchar, testtype int, testmode int,
 			testvalue varchar, attrtype varchar, attrtypename varchar,
 			attrpublicname varchar);";
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
@@ -1067,9 +1080,9 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			if (!test)
 				continue;
 
-			int8 modetype;
-			BString name, value, mimeType, typeName, attrType, attrName;
-			test->FindString("name", &name);
+			int8 type, modetype;
+			BString value, mimeType, typeName, attrType, attrName;
+			test->FindInt8("name", &type);
 			test->FindInt8("mode", &modetype);
 			test->FindString("value", &value);
 			test->FindString("mimetype", &mimeType);
@@ -1078,9 +1091,8 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			test->FindString("attrname", &attrName);
 
 			command = "insert into ";
-			command << tablename << " values('test', '"
-				<< EscapeIllegalCharacters(name.String()) << "', " << modetype
-				<< ", '" << EscapeIllegalCharacters(value.String())
+			command << tablename << " values('test', " << type << ", "
+				<< modetype << ", '" << EscapeIllegalCharacters(value.String())
 				<< "', '" << EscapeIllegalCharacters(mimeType.String())
 				<< "', '" << EscapeIllegalCharacters(typeName.String())
 				<< "', '" << EscapeIllegalCharacters(attrName.String())
@@ -1157,7 +1169,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 
 	query.finalize();
 
-	bool translate = false;
+	bool convert = false;
 	if (legacy || !static_cast<App*>(be_app)->GetSupportLocale()) {
 		BLocaleRoster* localeRoster = BLocaleRoster::Default();
 		BMessage message;
@@ -1165,7 +1177,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 		if (status == B_OK) {
 			const char* language = message.GetString("language");
 			if (language != NULL && strcmp(language, "en"))
-				translate = true;
+				convert = true;
 		}
 	}
 
@@ -1185,31 +1197,36 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 
 		while (!query.eof())
 		{
-			BString classname = DeescapeIllegalCharacters(query.getStringField(1));
+			int8 type = 0;
 			int8 modetype = 0;
 			BMessage* test = new BMessage;
 
-			if (translate) {
+			if (convert) {
+				BString classname =
+					DeescapeIllegalCharacters(query.getStringField(1));
+				BString modename =
+					DeescapeIllegalCharacters(query.getStringField(2));
+
 				for (uint32 i = 0; i < nTestTypes; i++)
 					if (strcmp(classname.String(), sTestTypes[i].english) == 0) {
-						classname = sTestTypes[i].locale;
+						type = i;
 						break;
 					}
 
-				BString modename =
-					DeescapeIllegalCharacters(query.getStringField(2));
 				for (uint32 i = 0; i < nModeTypes; i++) {
 					if (strcmp(modename.String(), sModeTypes[i].english) == 0) {
 						modetype = i;
 						break;
 					}
 				}
-			} else
+			} else {
+				type = query.getIntField(1);
 				modetype = query.getIntField(2);
+			}
 
-			test->AddString("name", classname);
+			test->AddInt8("name", type);
 
-			if (classname.ICompare("Attribute") == 0) {
+			if (type == TEST_ATTRIBUTE) {
 				test->AddString("mimetype",
 					DeescapeIllegalCharacters(query.getStringField(4)));
 				test->AddString("typename",
@@ -1237,7 +1254,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			int8 type = 0;
 			BMessage* action = new BMessage;
 
-			if (translate) {
+			if (convert) {
 				BString actionname =
 					DeescapeIllegalCharacters(query.getStringField(1));
 				for (uint32 i = 0; i < nActions; i++)
@@ -1260,62 +1277,17 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 	}
 	db.close();
 
-	return translate ? SaveRules(ruleList) : B_OK;
-}
-
-
-void
-AddDefaultRules(BObjectList<FilerRule>* ruleList)
-{
-	FilerRule* rule = new FilerRule();
-
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_IS,
-		"text/plain"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
-	rule->SetDescription("Store text files in my Documents folder");
-	ruleList->AddItem(rule);
-
-	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_IS,
-		"application/pdf"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
-	rule->SetDescription("Store PDF files in my Documents folder");
-	ruleList->AddItem(rule);
-
-	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_START, "image/"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Pictures"));
-	rule->SetDescription("Store pictures in my Pictures folder");
-	ruleList->AddItem(rule);
-
-	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_START, "video/"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Videos"));
-	rule->SetDescription("Store movie files in my Videos folder");
-	ruleList->AddItem(rule);
-
-	rule = new FilerRule();
-	rule->AddTest(MakeTest(sTestTypes[TEST_TYPE].locale, MODE_END, ".zip"));
-	rule->AddAction(MakeAction(ACTION_COMMAND,
-		"unzip %FULLPATH% -d /boot/home/Desktop"));
-	rule->SetDescription("Extract ZIP files to the Desktop");
-	ruleList->AddItem(rule);
-
-//			rule = new FilerRule();
-//			rule->AddTest(MakeTest("","",""));
-//			rule->AddAction(MakeAction("",""));
-//			rule->SetDescription("");
-//			AddRule(rule);
+	return convert ? SaveRules(ruleList) : B_OK;
 }
 
 
 BMessage*
-MakeTest(const char* name, int8 modetype, const char* value,
+MakeTest(int8 type, int8 modetype, const char* value,
 	const char* mimeType, const char* typeName, const char* attrType, 
 	const char* attrName)
 {
 	BMessage* msg = new BMessage;
-	msg->AddString("name", name);
+	msg->AddInt8("name", type);
 	msg->AddInt8("mode", modetype);
 	msg->AddString("value", value);
 
@@ -1341,4 +1313,69 @@ MakeAction(int8 type, const char* value)
 	msg->AddString("value", value);
 
 	return msg;
+}
+
+
+int8
+AttributeTestType()
+{
+	return TEST_ATTRIBUTE;
+}
+
+
+int8
+GetTestType(const char* name)
+{
+	int8 type = TEST_ATTRIBUTE;
+
+	for (uint32 i = 0; i < nTestTypes; i++)
+		if (strcmp(sTestTypes[i].locale, name) == 0) {
+			type = i;
+			break;
+		}
+
+	return type;
+}
+
+
+void
+AddDefaultRules(BObjectList<FilerRule>* ruleList)
+{
+	FilerRule* rule = new FilerRule();
+
+	rule->AddTest(MakeTest(TEST_TYPE, MODE_IS, "text/plain"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
+	rule->SetDescription("Store text files in my Documents folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(TEST_TYPE, MODE_IS, "application/pdf"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
+	rule->SetDescription("Store PDF files in my Documents folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(TEST_TYPE, MODE_START, "image/"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Pictures"));
+	rule->SetDescription("Store pictures in my Pictures folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(TEST_TYPE, MODE_START, "video/"));
+	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Videos"));
+	rule->SetDescription("Store movie files in my Videos folder");
+	ruleList->AddItem(rule);
+
+	rule = new FilerRule();
+	rule->AddTest(MakeTest(TEST_TYPE, MODE_END, ".zip"));
+	rule->AddAction(MakeAction(ACTION_COMMAND,
+		"unzip %FULLPATH% -d /boot/home/Desktop"));
+	rule->SetDescription("Extract ZIP files to the Desktop");
+	ruleList->AddItem(rule);
+
+//			rule = new FilerRule();
+//			rule->AddTest(MakeTest("","",""));
+//			rule->AddAction(MakeAction("",""));
+//			rule->SetDescription("");
+//			AddRule(rule);
 }

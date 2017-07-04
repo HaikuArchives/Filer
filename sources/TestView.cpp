@@ -62,6 +62,7 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 
 	bool usedefaults = false;
 	int8 modetype;
+	int8 type;
 	if (test) {
 		STRACE(("\nTestView::TestView: test parameter\n"));
 		MSGTRACE(test);
@@ -71,17 +72,17 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 		if (!SetTest(fTest))
 			usedefaults = true;
 
-		BString str;
 		if (fTest->FindInt8("mode", &modetype) == B_OK)
 			SetMode(modetype);
 		else {
-			fTest->FindString("name" ,&str);
+			fTest->FindInt8("name" ,&type);
 			modes.MakeEmpty();
-			RuleRunner::GetCompatibleModes(str.String(), modes);
+			RuleRunner::GetCompatibleModes(type, modes);
 			modes.FindInt8("modes", 0, &modetype);
 			SetMode(modetype);
 		}
 
+		BString str;
 		if (fTest->FindString("value", &str) == B_OK)
 			fValueBox->SetText(str.String());
 	} else
@@ -91,14 +92,13 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 		if (!fTest)
 			fTest = new BMessage;
 
-		BString str;
-		fTestTypes.FindString("tests", 0, &str);
+		fTestTypes.FindInt8("tests", 0, &type);
 
 		BMessage newtest;
-		newtest.AddString("name", str);
+		newtest.AddInt8("name", type);
 
 		modes.MakeEmpty();
-		RuleRunner::GetCompatibleModes(str.String(), modes);
+		RuleRunner::GetCompatibleModes(type, modes);
 		modes.FindInt8("modes", 0, &modetype);
 
 		newtest.AddInt8("mode", modetype);
@@ -229,7 +229,7 @@ TestView::TestMenu() const
 				submenu = AddMenuSorted(menu, attrTypeName);
 
 			msg = new BMessage(MSG_TEST_CHOSEN);
-			msg->AddString("name", "Attribute");
+			msg->AddInt8("name", AttributeTestType());
 			msg->AddString("attrtype", attrName);
 			msg->AddString("attrname", attrPublicName);
 			msg->AddString("mimetype", string);
@@ -244,19 +244,19 @@ TestView::TestMenu() const
 
 	// All this weirdness is to have the "standard"	tests at the top and
 	// the attribute tests at the bottom with a separator in between
-	BString testtype;
+	int8 type;
 	int32 i = 0;
-	while (fTestTypes.FindString("tests", i, &testtype) == B_OK)
+	while (fTestTypes.FindInt8("tests", i, &type) == B_OK)
 		i++;
 
 	i--;
 
 	while (i >= 0)
 	{
-		fTestTypes.FindString("tests", i, &testtype);
+		fTestTypes.FindInt8("tests", i, &type);
 		msg = new BMessage(MSG_TEST_CHOSEN);
-		msg->AddString("name", testtype);
-		menu->AddItem(new BMenuItem(testtype.String(), msg),0);
+		msg->AddInt8("name", type);
+		menu->AddItem(new BMenuItem(sTestTypes[type].locale, msg), 0);
 		i--;
 	}
 
@@ -358,17 +358,19 @@ TestView::SetTest(BMessage* msg)
 
 	BString label;
 
-	fTest->FindString("name", &str);
+	int8 type;
+	fTest->FindInt8("name", &type);
 	int32 testtype;
-	if (str == "Attribute") {
+	if (type == AttributeTestType()) {
+		BString str;
 		fTest->FindString("typename", &str);
 		label = str;
 		fTest->FindString("attrname", &str);
 		label << " : " << str;
 		testtype = TEST_TYPE_STRING;
 	} else {
-		label = str;
-		testtype = RuleRunner::GetDataTypeForTest(label.String());
+		label = sTestTypes[type].locale;
+		testtype = RuleRunner::GetDataTypeForTest(type);
 	}
 
 	fTestField->MenuItem()->SetLabel(label.String());
