@@ -38,8 +38,8 @@ ModeMenu::AddDynamicItem(add_state state)
 	RemoveItems(0, CountItems(), true);
 
 	BMessage modes;
-
-	if (RuleRunner::GetCompatibleModes(label, modes) != B_OK)
+	if (RuleRunner::GetCompatibleModes(GetTestType(label.String()), modes)
+		!= B_OK)
 		return false;
 
 	int8 modetype;

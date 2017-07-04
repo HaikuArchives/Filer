@@ -20,6 +20,7 @@ struct NamePair
 	const char* const locale;
 };
 
+extern const NamePair sTestTypes[];
 extern const NamePair sModeTypes[];
 extern const NamePair sActions[];
 
@@ -42,14 +43,14 @@ public:
 						~RuleRunner();
 
 	static	void		GetTestTypes(BMessage& msg);
-	static	status_t	GetCompatibleModes(const char* testtype, BMessage& msg);
+	static	status_t	GetCompatibleModes(int8 testtype, BMessage& msg);
 	static	status_t	GetCompatibleModes(const int32& type, BMessage& msg);
 	static	void		GetModes(BMessage& msg);
 	static	void		GetActions(BMessage& msg);
 
 //	static	BString		GetEditorTypeForTest(const char* testname);
 
-	static	int32		GetDataTypeForTest(const char* testname);
+	static	int32		GetDataTypeForTest(int8 testtype);
 	static	int32		GetDataTypeForMode(int8 modetype);
 
 			bool		IsMatch(const BMessage& test, const entry_ref& ref);
@@ -59,14 +60,8 @@ public:
 
 status_t	LoadRules(BObjectList<FilerRule>* ruleList);
 status_t	SaveRules(const BObjectList<FilerRule>* ruleList);
+int8		AttributeTestType();
+int8		GetTestType(const char* name);
 void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
-
-
-// Some convenience functions. Deleting the returned BMessage is the
-// responsibility of the caller
-BMessage*	MakeTest(const char* name, int8 modetype, const char* value,
-				const char* mimeType = NULL, const char* typeName = NULL,
-				const char* attrType = NULL, const char* attrName = NULL);
-BMessage*	MakeAction(int8 type, const char* value);
 
 #endif	// RULERUNNER_H

@@ -161,11 +161,11 @@ ActionView::ActionMenu() const
 {
 	BPopUpMenu* menu = new BPopUpMenu("");
 
-	BString name;
-	for (int32 i = 0; fActions.FindString("actions", i, &name) == B_OK; i++) {
+	int8 type;
+	for (int32 i = 0; fActions.FindInt8("actions", i, &type) == B_OK; i++) {
 		BMessage* msg = new BMessage(MSG_ACTION_CHOSEN);
-		msg->AddString("name", name.String());
-		menu->AddItem(new BMenuItem(name.String(), msg));
+		msg->AddInt8("name", type);
+		menu->AddItem(new BMenuItem(sActions[type].locale, msg));
 	}
 
 	return menu;
