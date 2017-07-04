@@ -15,11 +15,12 @@
 #include "RuleRunner.h"
 
 
-ModeMenu::ModeMenu(const BMenuItem* item, const BView* view)
+ModeMenu::ModeMenu(const BMenuItem* item, const TestView* view)
 	:
 	BPopUpMenu(""),
 	fTest(item),
-	fTarget(view)
+	fTarget(view),
+	fDataType(view->GetDataType())
 {
 }
 
@@ -30,16 +31,15 @@ ModeMenu::AddDynamicItem(add_state state)
 	if (state != B_INITIAL_ADD)
 		return false;
 
-	BString label(fTest->Label());
-	if (label == fLabel)
+	int32 dataType = fTarget->GetDataType();
+	if (fDataType == dataType)
 		return false;
 
-	fLabel = label;
+	fDataType = dataType;
 	RemoveItems(0, CountItems(), true);
 
 	BMessage modes;
-	if (RuleRunner::GetCompatibleModes(GetTestType(label.String()), modes)
-		!= B_OK)
+	if (RuleRunner::GetCompatibleModes(fDataType, modes) != B_OK)
 		return false;
 
 	int8 modetype;

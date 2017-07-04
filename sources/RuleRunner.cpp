@@ -351,6 +351,9 @@ RuleRunner::GetEditorTypeForTest(const char* testname)
 int32
 RuleRunner::GetDataTypeForTest(int8 testtype)
 {
+	if (testtype == TEST_ATTRIBUTE)
+		return TEST_TYPE_STRING;
+
 	if (testtype < 0)
 		return TEST_TYPE_NULL;
 
@@ -430,7 +433,7 @@ status_t
 RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 {
 	int8 type;
-	if (action.FindInt8("name", &type) != B_OK) {
+	if (action.FindInt8("type", &type) != B_OK) {
 		debugger("Couldn't find action type in RuleRunner::RunAction");
 		return B_ERROR;
 	}
@@ -1307,21 +1310,6 @@ int8
 AttributeTestType()
 {
 	return TEST_ATTRIBUTE;
-}
-
-
-int8
-GetTestType(const char* name)
-{
-	int8 type = TEST_ATTRIBUTE;
-
-	for (uint32 i = 0; i < nTestTypes; i++)
-		if (strcmp(sTestTypes[i].locale, name) == 0) {
-			type = i;
-			break;
-		}
-
-	return type;
 }
 
 

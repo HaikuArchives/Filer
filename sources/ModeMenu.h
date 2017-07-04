@@ -10,16 +10,17 @@
 #define MODE_MENU_H
 
 #include <PopUpMenu.h>
-#include <String.h>
+
+#include "TestView.h"
 
 class ModeMenu : public BPopUpMenu
 {
-			BString		fLabel;
+			int32		fDataType;
 	const	BMenuItem*	fTest;
-	const	BView*		fTarget;
+	const	TestView*	fTarget;
 
 public:
-			ModeMenu(const BMenuItem* item, const BView* view);
+			ModeMenu(const BMenuItem* item, const TestView* view);
 	bool	AddDynamicItem(add_state state);
 };
 
