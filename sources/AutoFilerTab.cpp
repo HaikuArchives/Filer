@@ -9,6 +9,7 @@
  */
 
 #include <Alert.h>
+#include <Catalog.h>
 #include <ControlLook.h>
 #include <FindDirectory.h>
 #include <LayoutBuilder.h>
@@ -23,10 +24,16 @@
 #include "RefStorage.h"
 #include "TypedRefFilter.h"
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "AutoFilerTab"
+
+static const char* const kStartAutoFiler = B_TRANSLATE("Start AutoFiler");
+static const char* const kStopAutoFiler = B_TRANSLATE("Stop AutoFiler");
+
 
 AutoFilerTab::AutoFilerTab()
 	:
-	BView("AutoFiler", B_SUPPORTS_LAYOUT),
+	BView(B_TRANSLATE("AutoFiler"), B_SUPPORTS_LAYOUT),
 	fDirtySettings(false)
 {
 	_BuildLayout();
@@ -39,8 +46,9 @@ AutoFilerTab::AutoFilerTab()
 	BMessage panelMsg(MSG_FOLDER_CHOSEN);
 	fFilePanel = new BFilePanel(B_OPEN_PANEL, NULL, NULL,
 		B_DIRECTORY_NODE, true, &panelMsg, fRefFilter);
-	fFilePanel->Window()->SetTitle("AutoFiler: Add folders");
-	fFilePanel->SetButtonLabel(B_DEFAULT_BUTTON, "Add");
+	fFilePanel->Window()->SetTitle(B_TRANSLATE("AutoFiler: Add folders"));
+	fFilePanel->SetButtonLabel(B_DEFAULT_BUTTON,
+		B_TRANSLATE_COMMENT("Add", "Used as button in a file panel"));
 
 	fFolderList->MakeFocus();
 	if (fFolderList->CountItems() > 0)
@@ -59,7 +67,7 @@ void
 AutoFilerTab::_BuildLayout()
 {
 	BStringView* folderLabel = new BStringView("folderlabel",
-		"Automatically run Filer on the contents of these folders:");
+		B_TRANSLATE("Automatically run Filer on the contents of these folders:"));
 
 	fFolderList = new BListView("rulelist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW	| B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
@@ -68,10 +76,10 @@ AutoFilerTab::_BuildLayout()
 	fFolderList->SetSelectionMessage(new BMessage(MSG_FOLDER_SELECTED));
 
 	fAutorunBox = new BCheckBox("autorunbox",
-		"Run AutoFiler on system startup",
+		B_TRANSLATE("Run AutoFiler on system startup"),
 		new BMessage(MSG_AUTOFILER_AUTORUN));
 
-	fStartStop = new BButton("startstop", "Start AutoFiler",
+	fStartStop = new BButton("startstop", kStartAutoFiler,
 		new BMessage(MSG_STARTSTOP_AUTOFILER));
 
 	BPath path;
@@ -89,10 +97,10 @@ AutoFilerTab::_BuildLayout()
 	if (autorun)
 		fAutorunBox->SetValue(B_CONTROL_ON);
 	
-	fAddButton = new BButton("addbutton", "Add" B_UTF8_ELLIPSIS,
+	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_SHOW_ADD_PANEL));
 	
-	fRemoveButton = new BButton("removebutton", "Remove",
+	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"),
 		new BMessage(MSG_REMOVE_FOLDER));
 	fRemoveButton->SetEnabled(false);
 
@@ -297,10 +305,10 @@ AutoFilerTab::ToggleAutoFiler()
 		BString command = "hey %app% quit";
 		command.ReplaceFirst("%app%", kAutoFilerSignature);
 		system(command.String());
-		fStartStop->SetLabel("Start AutoFiler");
+		fStartStop->SetLabel(kStartAutoFiler);
 	} else {
 		be_roster->Launch(kAutoFilerSignature);
-		fStartStop->SetLabel("Stop AutoFiler");
+		fStartStop->SetLabel(kStopAutoFiler);
 	}
 }
 
@@ -309,9 +317,9 @@ void
 AutoFilerTab::UpdateAutoFilerLabel()
 {
 	if (be_roster->IsRunning(kAutoFilerSignature))
-		fStartStop->SetLabel("Stop AutoFiler");
+		fStartStop->SetLabel(kStopAutoFiler);
 	else
-		fStartStop->SetLabel("Start AutoFiler");
+		fStartStop->SetLabel(kStartAutoFiler);
 }
 
 

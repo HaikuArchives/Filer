@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#define MSG_TEXT_CHANGED 'txtc'
+
 static property_info sProperties[] = {
 	{ "CharacterLimit", { B_GET_PROPERTY, 0 }, { B_DIRECT_SPECIFIER, 0 },
 		"Returns the maximum number of characters "
@@ -110,6 +112,10 @@ AutoTextControl::AttachedToWindow()
 	BTextControl::AttachedToWindow();
 	if (fFilter)
 		Window()->AddCommonFilter(fFilter);
+
+	MarkAsInvalid(strlen(Text()) == 0);
+	SetModificationMessage(new BMessage(MSG_TEXT_CHANGED));
+	SetTarget(this);
 }
 
 
@@ -131,8 +137,10 @@ AutoTextControl::MessageReceived(BMessage* msg)
 		if (msg->FindRef("refs", &r) == B_OK)
 			SetText(BPath(&r).Path());
 		Invoke();
-	}
-	else BTextControl::MessageReceived(msg);
+	} else if (msg->what == MSG_TEXT_CHANGED)
+		MarkAsInvalid(strlen(Text()) == 0);
+	else
+		BTextControl::MessageReceived(msg);
 }
 
 

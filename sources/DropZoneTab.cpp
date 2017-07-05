@@ -6,6 +6,7 @@
  *	Humdinger, humdingerb@gmail.com
  */
 
+#include <Catalog.h>
 #include <ControlLook.h>
 #include <Dragger.h>
 #include <Font.h>
@@ -18,14 +19,25 @@
 
 #include "DropZoneTab.h"
 #include "FilerDefs.h"
+#include "HelpTab.h"
 #include "main.h"
 #include "ReplicantWindow.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "DropZoneTab"
 
 void
 DropZone::_Init()
 {
-	fLabel1 = new BStringView("label1", " Filer ");
-	fLabel2 = new BStringView("label2", " Dropzone ");
+	BString label = " ";
+	label += B_TRANSLATE("Filer");
+	label += ' ';
+	fLabel1 = new BStringView("label1", label);
+
+	label = ' ';
+	label += B_TRANSLATE("Dropzone");
+	label += ' ';
+	fLabel2 = new BStringView("label2", label);
 
 	BFont font;
 	fLabel1->GetFont(&font);
@@ -46,7 +58,7 @@ DropZone::_Init()
 
 DropZone::DropZone(bool replicatable)
 	:
-	BView("Filer dropzone", B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE),
+	BView(B_TRANSLATE("Filer dropzone"), B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE),
 	fReplicated(false)
 {
 	SetViewColor(B_TRANSPARENT_COLOR);
@@ -164,15 +176,10 @@ DropZone::MessageReceived(BMessage* msg)
 		}
 		case B_ABOUT_REQUESTED:
 		{
-			BAboutWindow* about = new BAboutWindow("Filer", kFilerSignature);
-			about->AddDescription(
-				"Filer is an automatic file organizer. It takes the "
-				"files it's opened with or that are dropped on it and moves, "
-				"renames, copies or does all sorts of other things with them "
-				"according to rules created by the user.");
-			about->AddCopyright(2008, "DarkWyrm");
-			about->AddCopyright(2016, "Humdinger, Pete Goodeve");
-			about->AddCopyright(2017, "Owen Pan");
+			BAboutWindow* about = new BAboutWindow(kFilerName, kFilerSignature);
+			about->AddDescription(kFilerInfo);
+			for (int32 i = 0; i < nCopyrights; i++)
+				about->AddCopyright(Copyrights[i].year, Copyrights[i].author);
 			about->Show();
 		}
 		default:
@@ -206,7 +213,7 @@ DropZone::ShowPopUpMenu(BPoint screen)
 
 	BPopUpMenu* menu = new BPopUpMenu("PopUpMenu", this);
 
-	BMenuItem* item = new BMenuItem("Open Filer" B_UTF8_ELLIPSIS,
+	BMenuItem* item = new BMenuItem(B_TRANSLATE("Open Filer" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_OPEN_FILER));
 	menu->AddItem(item);
 
@@ -217,15 +224,15 @@ DropZone::ShowPopUpMenu(BPoint screen)
 
 DropZoneTab::DropZoneTab()
 	:
-	BView("Dropzone", B_SUPPORTS_LAYOUT)
+	BView(B_TRANSLATE("Dropzone"), B_SUPPORTS_LAYOUT)
 {
 	BStringView* zoneLabel = new BStringView("zonelabel",
-		"Drag and drop the files to be processed below.");
+		B_TRANSLATE("Drag and drop the files to be processed below."));
 	zoneLabel->SetAlignment(B_ALIGN_CENTER);
 	fDropzone = new DropZone(false);
 
 	fRepliButton = new BButton("replibutton",
-		"Replicate dropzone" B_UTF8_ELLIPSIS, new BMessage(MSG_REPLICATE));
+		B_TRANSLATE("Replicate dropzone" B_UTF8_ELLIPSIS), new BMessage(MSG_REPLICATE));
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)

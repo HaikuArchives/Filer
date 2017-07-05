@@ -9,6 +9,7 @@
  */
 #include <Alert.h>
 #include <Application.h>
+#include <Catalog.h>
 #include <ControlLook.h>
 #include <LayoutBuilder.h>
 #include <Messenger.h>
@@ -23,13 +24,15 @@
 #include "RuleRunner.h"
 #include "RuleTab.h"
 
-static const char* const kEnable = "Enable";
-static const char* const kDisable = "Disable";
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "RuleTab"
+
+static const char* const kDisable = B_TRANSLATE("Disable");
 
 
 RuleTab::RuleTab()
 	:
-	BView("Rules", B_SUPPORTS_LAYOUT)
+	BView(B_TRANSLATE("Rules"), B_SUPPORTS_LAYOUT)
 {
 	_BuildLayout();
 
@@ -38,10 +41,10 @@ RuleTab::RuleTab()
 
 	if (fRuleList->CountItems() == 0) {
 		BAlert* alert = new BAlert("Filer",
-			"It appears that there aren't any rules for "
+			B_TRANSLATE("It appears that there aren't any rules for "
 			"organizing files. Would you like Filer to "
-			"add some basic ones for you?",
-			"No", "Yes");
+			"add some basic ones for you?"),
+			B_TRANSLATE("Cancel"), B_TRANSLATE("Add rules"));
 
 		if (alert->Go() == 1) {
 			AddDefaultRules(fRuleList);
@@ -68,7 +71,7 @@ void
 RuleTab::_BuildLayout()
 {
 	fMatchBox = new BCheckBox("matchoncebox",
-		"Apply only the first matching rule",
+		B_TRANSLATE("Apply only the first matching rule"),
 		new BMessage(MSG_MATCH_ONCE));
 
 	fRuleItemList = new BListView("rulelist", B_SINGLE_SELECTION_LIST,
@@ -79,25 +82,26 @@ RuleTab::_BuildLayout()
 	fRuleItemList->SetSelectionMessage(new BMessage(MSG_RULE_SELECTED));
 	fRuleItemList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_WINDOW));
 	
-	fAddButton = new BButton("addbutton", "Add" B_UTF8_ELLIPSIS,
+	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_SHOW_ADD_WINDOW));
 
-	fEditButton = new BButton("editbutton", "Edit" B_UTF8_ELLIPSIS,
+	fEditButton = new BButton("editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_SHOW_EDIT_WINDOW));
 	fEditButton->SetEnabled(false);
 
-	fDisableButton = new BButton("disablebutton", kDisable, new BMessage(MSG_DISABLE_RULE));
+	fDisableButton = new BButton("disablebutton", kDisable,
+		new BMessage(MSG_DISABLE_RULE));
 	fDisableButton->SetEnabled(false);
 
-	fRemoveButton = new BButton("removebutton", "Remove",
+	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"),
 		new BMessage(MSG_REMOVE_RULE));
 	fRemoveButton->SetEnabled(false);
 
-	fMoveUpButton = new BButton("moveupbutton", "Move up",
+	fMoveUpButton = new BButton("moveupbutton", B_TRANSLATE("Move up"),
 		new BMessage(MSG_MOVE_RULE_UP));
 	fMoveUpButton->SetEnabled(false);
 	
-	fMoveDownButton = new BButton("movedownbutton", "Move down",
+	fMoveDownButton = new BButton("movedownbutton", B_TRANSLATE("Move down"),
 		new BMessage(MSG_MOVE_RULE_DOWN));
 	fMoveDownButton->SetEnabled(false);
 
@@ -209,7 +213,7 @@ RuleTab::MessageReceived(BMessage* message)
 			if (message->FindPointer("item", (void**)&rule) == B_OK)
 			{
 				int64 id;
-				if (message->FindInt64("id",&id) != B_OK)
+				if (message->FindInt64("id", &id) != B_OK)
 					debugger("Couldn't find update ID");
 
 				for (int32 i = 0; i < fRuleList->CountItems(); i++)
@@ -286,7 +290,8 @@ RuleTab::UpdateButtons()
 		fDisableButton->SetLabel(kDisable);
 	} else {
 		fDisableButton->SetEnabled(true);
-		fDisableButton->SetLabel(fRuleList->ItemAt(selection)->Disabled() ? kEnable : kDisable);
+		fDisableButton->SetLabel(fRuleList->ItemAt(selection)->Disabled() ?
+			B_TRANSLATE("Enable") : kDisable);
 	}
 }
 

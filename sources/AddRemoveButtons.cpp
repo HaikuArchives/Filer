@@ -9,9 +9,13 @@
 
 #include "AddRemoveButtons.h"
 
+#include <Catalog.h>
 #include <LayoutBuilder.h>
 
 #include "FilerDefs.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "AddRemoveButtons"
 
 
 AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target)
@@ -42,8 +46,8 @@ AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target)
 		.Add(fAdd)
 		.End();
 
-	fAdd->SetToolTip("Add below");
-	fRemove->SetToolTip("Remove");
+	fAdd->SetToolTip(B_TRANSLATE("Add below"));
+	fRemove->SetToolTip(B_TRANSLATE("Remove"));
 }
 
 

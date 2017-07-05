@@ -1,8 +1,52 @@
-1	English	application/x-vnd.dw-Filer	2164702911
-Add to archive…	RuleRunner		Add to archive…
+1	English	application/x-vnd.dw-Filer	3371187716
+Add below	AddRemoveButtons		Add below
+Remove	AddRemoveButtons		Remove
+Add	AutoFilerTab		Add
+Add…	AutoFilerTab		Add…
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Add folders
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatically run Filer on the contents of these folders:
+Remove	AutoFilerTab		Remove
+Run AutoFiler on system startup	AutoFilerTab		Run AutoFiler on system startup
+Start AutoFiler	AutoFilerTab		Start AutoFiler
+Stop AutoFiler	AutoFilerTab		Stop AutoFiler
+Do this for all files	ConflictWindow		Do this for all files
+Filer: Conflict	ConflictWindow		Filer: Conflict
+Replace	ConflictWindow		Replace
+Skip	ConflictWindow		Skip
+%file% already exists.	ConflictWindow	Don't translate the variable %file%	%file% already exists.
+ Dropzone 	DropZoneTab		 Dropzone 
+ Filer 	DropZoneTab		 Filer 
+Drag and drop the files to be processed below.	DropZoneTab		Drag and drop the files to be processed below.
+Dropzone	DropZoneTab		Dropzone
+Filer dropzone	DropZoneTab		Filer dropzone
+Open Filer…	DropZoneTab		Open Filer…
+Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Error	FSUtils		Error
+Replace file	FSUtils		Replace file
+Skip file	FSUtils		Skip file
+Stop	FSUtils		Stop
+%name% already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	%name% already exists. Do you want to replace it?
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
+Help	HelpTab		Help
+Help on rules	HelpTab		Help on rules
+User documentation	HelpTab		User documentation
+Resize	ReplicantWindow		Resize
+Add rule	RuleEditWindow		Add rule
+Cancel	RuleEditWindow		Cancel
+Description: 	RuleEditWindow		Description: 
+Do	RuleEditWindow		Do
+Edit rule	RuleEditWindow		Edit rule
+Help…	RuleEditWindow		Help…
+OK	RuleEditWindow		OK
+When	RuleEditWindow		When
+You need to add a description if you want to add this rule to the list.	RuleEditWindow		You need to add a description if you want to add this rule to the list.
+Add to archive	RuleRunner		Add to archive
 contains	RuleRunner		contains
 Continue	RuleRunner		Continue
-Copy to folder…	RuleRunner		Copy to folder…
+Copy to folder	RuleRunner		Copy to folder
 Delete	RuleRunner		Delete
 does not contain	RuleRunner		does not contain
 ends with	RuleRunner		ends with
@@ -15,13 +59,25 @@ is less than	RuleRunner		is less than
 is more than	RuleRunner		is more than
 is not	RuleRunner		is not
 Location	RuleRunner		Location
-Move to folder…	RuleRunner		Move to folder…
+Move to folder	RuleRunner		Move to folder
 Move to Trash	RuleRunner		Move to Trash
 Name	RuleRunner		Name
 Open	RuleRunner		Open
-Rename to…	RuleRunner		Rename to…
-Shell command…	RuleRunner		Shell command…
+Rename to	RuleRunner		Rename to
+Shell command	RuleRunner		Shell command
 Size	RuleRunner		Size
 starts with	RuleRunner		starts with
 Type	RuleRunner		Type
+Add rules	RuleTab		Add rules
+Add…	RuleTab		Add…
+Apply only the first matching rule	RuleTab		Apply only the first matching rule
+Cancel	RuleTab		Cancel
+Disable	RuleTab		Disable
+Edit…	RuleTab		Edit…
+Enable	RuleTab		Enable
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?
+Move down	RuleTab		Move down
+Move up	RuleTab		Move up
+Remove	RuleTab		Remove
+Rules	RuleTab		Rules
 Filer	System name		Filer

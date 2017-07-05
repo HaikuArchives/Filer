@@ -146,7 +146,7 @@ ActionView::SetAction(int8 type)
 	BString name(sActions[type].locale);
 	fActionField->MenuItem()->SetLabel(name);
 
-	if (name.FindFirst("…") >= 0) {
+	if (ActionHasTarget(type)) {
 		if (fValueBox->IsHidden())
 			fValueBox->Show();
 	} else {
