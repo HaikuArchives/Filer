@@ -11,13 +11,17 @@
 
 #include <Alert.h>
 #include <Application.h>
+#include <Catalog.h>
 
 #include "FilerDefs.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "RuleEditWindow"
 
 
 RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	:
-	BWindow(BRect(0, 0, 400, 0), "Edit rule", B_TITLED_WINDOW,
+	BWindow(BRect(0, 0, 400, 0), B_TRANSLATE("Edit rule"), B_TITLED_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE | B_AUTO_UPDATE_SIZE_LIMITS),
 	fTestView(NULL),
 	fActionView(NULL),
@@ -27,29 +31,31 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	if (rule)
 		fOriginalID = rule->GetID();
 	else
-		SetTitle("Add rule");
+		SetTitle(B_TRANSLATE("Add rule"));
 
 	// Description
-	fDescriptionBox = new AutoTextControl("description", "Description: ", NULL,
-		new BMessage(MSG_NEW_DESCRIPTION));
+	fDescriptionBox = new AutoTextControl("description",
+		B_TRANSLATE("Description: "), NULL, new BMessage(MSG_NEW_DESCRIPTION));
 
 	if (rule)
 		fDescriptionBox->SetText(rule->GetDescription());
 
 	// Set up the tests group and associated buttons
 	fTestGroup = new BBox("whengroup");
-	fTestGroup->SetLabel("When");
+	fTestGroup->SetLabel(B_TRANSLATE("When"));
 
 	// Set up the actions group and associated buttons
 	fActionGroup = new BBox("dogroup");
-	fActionGroup->SetLabel("Do");
+	fActionGroup->SetLabel(B_TRANSLATE("Do"));
 
-	fOK = new BButton("okbutton", "OK", new BMessage(MSG_OK));
+	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(MSG_OK));
 	// calling AddChild later to ensure proper keyboard navigation
 
-	fCancel = new BButton("cancelbutton", "Cancel", new BMessage(MSG_CANCEL));
+	fCancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"),
+		new BMessage(MSG_CANCEL));
 
-	fHelp = new BButton("helpbutton", "Help…", new BMessage(MSG_HELP));
+	fHelp = new BButton("helpbutton", B_TRANSLATE("Help…"),
+		new BMessage(MSG_HELP));
 	fHelp->SetTarget(be_app);
 
 	fOK->MakeDefault(true);
@@ -108,8 +114,8 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 		{
 			if (strlen(fDescriptionBox->Text()) < 1) {
 				BAlert* alert = new BAlert("Filer",
-					"You need to add a description if you want to add this "
-					"rule to the list.", "OK");
+					B_TRANSLATE("You need to add a description if you want to "
+					"add this rule to the list."), B_TRANSLATE("OK"));
 				alert->Go();
 				fDescriptionBox->MakeFocus(true);
 				break;

@@ -11,10 +11,14 @@
 #include "ConflictWindow.h"
 
 #include <Button.h>
+#include <Catalog.h>
 #include <ControlLook.h>
 #include <LayoutBuilder.h>
 #include <String.h>
 #include <StringView.h>
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ConflictWindow"
 
 static const unsigned kReplace = 'RPLC';
 static const unsigned kSkip = 'SKIP';
@@ -22,20 +26,24 @@ static const unsigned kSkip = 'SKIP';
 
 ConflictWindow::ConflictWindow(const char* file)
 	:
-	BWindow(BRect(0, 0, 0, 0), "Filer: Conflict", B_FLOATING_WINDOW_LOOK, B_FLOATING_ALL_WINDOW_FEEL,
-		B_NOT_CLOSABLE | B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_AVOID_FOCUS | B_AUTO_UPDATE_SIZE_LIMITS),
-	fDoAll(new BCheckBox("", "Do this for all files", NULL)),
+	BWindow(BRect(0, 0, 0, 0), B_TRANSLATE("Filer: Conflict"),
+		B_FLOATING_WINDOW_LOOK, B_FLOATING_ALL_WINDOW_FEEL,
+		B_NOT_CLOSABLE | B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_AVOID_FOCUS |
+		B_AUTO_UPDATE_SIZE_LIMITS),
+	fDoAll(new BCheckBox("", B_TRANSLATE("Do this for all files"), NULL)),
 	fReplace(false),
 	fSem(create_sem(0, ""))
 {
 	const float spacing = be_control_look->DefaultItemSpacing();
 
-	BString text(file);
-	text += " already exists.";
+	BString text(B_TRANSLATE_COMMENT("The file '%file%' already exists.",
+		"Don't translate the variable %file%"));
+	text.ReplaceAll("%file%", file);
 
 	BStringView* info = new BStringView("", text.String());
-	BButton* replace = new BButton("", "Replace", new BMessage(kReplace));
-	BButton* skip = new BButton("", "Skip", new BMessage(kSkip));
+	BButton* replace = new BButton("", B_TRANSLATE("Replace"),
+		new BMessage(kReplace));
+	BButton* skip = new BButton("", B_TRANSLATE("Skip"), new BMessage(kSkip));
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL, spacing)
 		.SetInsets(spacing, spacing, spacing, spacing)

@@ -6,6 +6,7 @@
  *	Humdinger, humdingerb@gmail.com
  */
 
+#include <Catalog.h>
 #include <ControlLook.h>
 #include <IconUtils.h>
 #include <LayoutBuilder.h>
@@ -14,6 +15,39 @@
 #include "FilerDefs.h"
 #include "HelpTab.h"
 #include "main.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "HelpTab"
+
+const char* const kFilerName = B_TRANSLATE("Filer");
+const char* const kFilerInfo = B_TRANSLATE("Filer is an automatic file "
+	"organizer. It takes the files it's opened with or that are dropped on it "
+	"and moves, renames, copies or does all sorts of other things with them "
+	"according to rules created by the user.");
+
+const YearAuthor Copyrights[] = {
+	2008, "DarkWyrm",
+	2016, "Humdinger, Pete Goodeve",
+	2017, "Owen Pan"
+};
+const unsigned nCopyrights = sizeof(Copyrights) / sizeof(Copyrights[0]);
+
+static const char* const kCopyright = B_TRANSLATE("Copyright");
+
+
+static const char*
+makeCopyright(int index)
+{
+	BString copyright(kCopyright);
+
+	copyright += ' ';
+	copyright << Copyrights[index].year;
+	copyright += ", ";
+	copyright += Copyrights[index].author;
+
+	return copyright.String();
+}
+
 
 IconView::IconView()
 	:
@@ -96,13 +130,13 @@ IconView::GetIcon()
 
 HelpTab::HelpTab()
 	:
-	BView("Help", B_SUPPORTS_LAYOUT)
+	BView(B_TRANSLATE("Help"), B_SUPPORTS_LAYOUT)
 {
 	// Icon
 	fIconView = new IconView();
 
 	// About info
-	fName = new BStringView("name", "Filer");
+	fName = new BStringView("name", kFilerName);
 	BFont font;
 	fName->GetFont(&font);
 	font.SetFace(B_BOLD_FACE);
@@ -118,10 +152,10 @@ HelpTab::HelpTab()
 	fVersion->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
 		| B_FONT_FLAGS);	
 	fVersion->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
-	
-	fCopyright1 = new BStringView("copy1", "Copyright 2008, DarkWyrm");
-	fCopyright2 = new BStringView("copy2", "Copyright 2016, Humdinger, Pete Goodeve");
-	fCopyright3 = new BStringView("copy3", "Copyright 2017, Owen Pan");
+
+	fCopyright1 = new BStringView("copy1", makeCopyright(0));
+	fCopyright2 = new BStringView("copy2", makeCopyright(1));
+	fCopyright3 = new BStringView("copy3", makeCopyright(2));
 	fCopyright1->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
 		| B_FONT_FLAGS);
 	fCopyright2->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
@@ -137,10 +171,7 @@ HelpTab::HelpTab()
 	fInfo->MakeEditable(false);
 	fInfo->SetWordWrap(true);
 	fInfo->SetStylable(true);
-	fInfo->SetText("Filer is an automatic file organizer. It takes the "
-		"files it's opened with or that are dropped on it and moves, "
-		"renames, copies or does all sorts of other things with them "
-		"according to rules created by the user.");
+	fInfo->SetText(kFilerInfo);
 
 	// work-around for misbehaving BTextView: the other GUI elements treat it
 	// as it were only one line high.
@@ -151,11 +182,11 @@ HelpTab::HelpTab()
 	fInfo->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 
 	// Buttons
-	fHelpButton = new BButton("help", "Help on rules",
+	fHelpButton = new BButton("help", B_TRANSLATE("Help on rules"),
 		new BMessage(MSG_HELP));
 	fHelpButton->SetTarget(be_app);
 
-	fDocsButton = new BButton("docs", "User documentation",
+	fDocsButton = new BButton("docs", B_TRANSLATE("User documentation"),
 		new BMessage(MSG_DOCS));
 	fDocsButton->SetTarget(be_app);
 

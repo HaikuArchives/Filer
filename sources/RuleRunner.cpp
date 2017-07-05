@@ -217,18 +217,18 @@ static const unsigned nDateModes = sizeof(dateModes) / sizeof(dateModes[0]);
 
 const NamePair sActions[] =
 {
-	LOCALIZE("Move to folder…"),
-	LOCALIZE("Copy to folder…"),
-	LOCALIZE("Rename to…"),
+	LOCALIZE("Move to folder"),
+	LOCALIZE("Copy to folder"),
+	LOCALIZE("Rename to"),
 	LOCALIZE("Open"),
-	LOCALIZE("Add to archive…"),
+	LOCALIZE("Add to archive"),
 	LOCALIZE("Move to Trash"),
 	LOCALIZE("Delete"),
-	LOCALIZE("Shell command…"),
+	LOCALIZE("Shell command"),
 	LOCALIZE("Continue")
 	// Future expansion
 //	"Shred it",
-//	"E-mail it to…",
+//	"E-mail it to",
 //	"Make a Deskbar link",
 };
 static const unsigned nActions = sizeof(sActions) / sizeof(sActions[0]);
@@ -1248,7 +1248,8 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 				BString actionname =
 					DeescapeIllegalCharacters(query.getStringField(1));
 				for (uint32 i = 0; i < nActions; i++)
-					if (strcmp(actionname.String(), sActions[i].english) == 0) {
+					if (strcmp(actionname.RemoveLast(B_UTF8_ELLIPSIS).String(),
+						sActions[i].english) == 0) {
 						type = i;
 						break;
 					}
@@ -1310,6 +1311,21 @@ int8
 AttributeTestType()
 {
 	return TEST_ATTRIBUTE;
+}
+
+
+bool
+ActionHasTarget(int8 type)
+{
+	switch (type) {
+		case ACTION_OPEN:
+		case ACTION_TRASH:
+		case ACTION_DELETE:
+		case ACTION_CONTINUE:
+			return false;
+	}
+
+	return true;
 }
 
 

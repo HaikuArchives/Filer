@@ -15,6 +15,16 @@
 #include <TextView.h>
 #include <View.h>
 
+struct YearAuthor {
+	unsigned			year;
+	const char* const	author;
+};
+
+extern const YearAuthor		Copyrights[];
+extern const unsigned		nCopyrights;
+extern const char* const	kFilerName;
+extern const char* const	kFilerInfo;
+
 class IconView : public BView {
 public:
 						IconView();

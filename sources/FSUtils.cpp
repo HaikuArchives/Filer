@@ -5,6 +5,7 @@
 */
 
 #include <Alert.h>
+#include <Catalog.h>
 #include <Directory.h>
 #include <Entry.h>
 #include <Errors.h>
@@ -23,6 +24,9 @@
 #include "FSUtils.h"
 
 #define COPY_BUFFER_SIZE 1024000
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "FSUtils"
 
 status_t CheckCopiable(BEntry* src, BEntry* dest)
 {
@@ -77,12 +81,13 @@ status_t CheckCopiable(BEntry* src, BEntry* dest)
 		// We have an existing file, so query the user what to do.
 		status_t returncode;
 
-		newpath = "The file ";
-		newpath += name;
-		newpath += " exists. Do you want to replace it?";
+		newpath = B_TRANSLATE_COMMENT("The file '%name%' already exists. Do you"
+			" want to replace it?", "Don't translate the variable %name%");
+		newpath.ReplaceAll("%name%", name);
 
-		BAlert* alert = new BAlert("Error", newpath.String(), "Replace file",
-			"Skip file", "Stop");
+		BAlert* alert = new BAlert(B_TRANSLATE("Error"), newpath.String(),
+			B_TRANSLATE("Replace file"), B_TRANSLATE("Skip file"),
+			B_TRANSLATE("Abort"));
 		returncode = alert->Go();
 		switch (returncode)
 		{

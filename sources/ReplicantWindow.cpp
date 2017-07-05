@@ -7,17 +7,22 @@
  */
 
 
+#include <Catalog.h>
 #include <ControlLook.h>
 #include <LayoutBuilder.h>
 
 #include "DropZoneTab.h"
 #include "ReplicantWindow.h"
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ReplicantWindow"
+
 
 ReplicantWindow::ReplicantWindow(BRect frame)
 	:
-	BWindow(BRect(0, 0, 120, 100), ("Resize"),
-		B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
+	BWindow(BRect(0, 0, 120, 100), NULL,
+	B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
+	B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	frame.OffsetBy(290.0, 130.0);
 	MoveTo(frame.LeftTop());
