@@ -23,6 +23,8 @@ public:
 
 //	FilerRule*	Rule();
 
+	void		UpdateEmptyCount(bool increment);
+
 	void		AppendTest(BMessage* test);
 	void		RemoveTest();
 
@@ -45,6 +47,8 @@ private:
 
 	TestView*		fTestView;
 	ActionView*		fActionView;
+
+	int32			fEmptyCount;
 
 	int64			fOriginalID;
 	BHandler*		fCaller;

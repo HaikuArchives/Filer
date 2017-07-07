@@ -12,6 +12,7 @@
 #include <LayoutBuilder.h>
 
 #include "FilerDefs.h"
+#include "RuleEditWindow.h"
 #include "RuleRunner.h"
 
 
@@ -109,8 +110,14 @@ ActionView::MessageReceived(BMessage* msg)
 		case MSG_ACTION_CHOSEN:
 		{
 			int8 type;
-			if (msg->FindInt8("type", &type) == B_OK)
+			if (msg->FindInt8("type", &type) == B_OK) {
+				bool wasHidden = fValueBox->IsHidden();
 				SetAction(type);
+				bool isHidden = fValueBox->IsHidden();
+				if (wasHidden != isHidden && strlen(fValueBox->Text()) == 0)
+					static_cast<RuleEditWindow*>(Window())->
+						UpdateEmptyCount(wasHidden && !isHidden);
+			}
 			break;
 		}
 		default:
