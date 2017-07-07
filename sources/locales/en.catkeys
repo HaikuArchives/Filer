@@ -1,7 +1,6 @@
-1	English	application/x-vnd.dw-Filer	3371187716
+1	English	application/x-vnd.dw-Filer	1115724859
 Add below	AddRemoveButtons		Add below
 Remove	AddRemoveButtons		Remove
-Add	AutoFilerTab		Add
 Add…	AutoFilerTab		Add…
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Add folders
@@ -10,30 +9,29 @@ Remove	AutoFilerTab		Remove
 Run AutoFiler on system startup	AutoFilerTab		Run AutoFiler on system startup
 Start AutoFiler	AutoFilerTab		Start AutoFiler
 Stop AutoFiler	AutoFilerTab		Stop AutoFiler
+Add	AutoFilerTab	Used as button in a file panel	Add
 Do this for all files	ConflictWindow		Do this for all files
 Filer: Conflict	ConflictWindow		Filer: Conflict
 Replace	ConflictWindow		Replace
 Skip	ConflictWindow		Skip
-%file% already exists.	ConflictWindow	Don't translate the variable %file%	%file% already exists.
- Dropzone 	DropZoneTab		 Dropzone 
- Filer 	DropZoneTab		 Filer 
+The file '%file%' already exists.	ConflictWindow	Don't translate the variable %file%	The file '%file%' already exists.
 Drag and drop the files to be processed below.	DropZoneTab		Drag and drop the files to be processed below.
 Dropzone	DropZoneTab		Dropzone
+Filer	DropZoneTab		Filer
 Filer dropzone	DropZoneTab		Filer dropzone
 Open Filer…	DropZoneTab		Open Filer…
 Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Abort	FSUtils		Abort
 Error	FSUtils		Error
 Replace file	FSUtils		Replace file
 Skip file	FSUtils		Skip file
-Stop	FSUtils		Stop
-%name% already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	%name% already exists. Do you want to replace it?
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	The file '%name%' already exists. Do you want to replace it?
 Copyright	HelpTab		Copyright
 Filer	HelpTab		Filer
 Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
 Help	HelpTab		Help
 Help on rules	HelpTab		Help on rules
 User documentation	HelpTab		User documentation
-Resize	ReplicantWindow		Resize
 Add rule	RuleEditWindow		Add rule
 Cancel	RuleEditWindow		Cancel
 Description: 	RuleEditWindow		Description: 
@@ -42,7 +40,6 @@ Edit rule	RuleEditWindow		Edit rule
 Help…	RuleEditWindow		Help…
 OK	RuleEditWindow		OK
 When	RuleEditWindow		When
-You need to add a description if you want to add this rule to the list.	RuleEditWindow		You need to add a description if you want to add this rule to the list.
 Add to archive	RuleRunner		Add to archive
 contains	RuleRunner		contains
 Continue	RuleRunner		Continue

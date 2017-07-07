@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include "RuleEditWindow.h"
+
 #define MSG_TEXT_CHANGED 'txtc'
 
 static property_info sProperties[] = {
@@ -37,6 +39,7 @@ AutoTextControl::AutoTextControl(const char* name, const char* label,
 	const char* text, BMessage* msg, uint32 flags)
 	:
 	BTextControl(name, label, text, msg, flags),
+	fEmpty(false),
  	fFilter(NULL),
  	fCharLimit(0)
 {
@@ -113,7 +116,12 @@ AutoTextControl::AttachedToWindow()
 	if (fFilter)
 		Window()->AddCommonFilter(fFilter);
 
-	MarkAsInvalid(strlen(Text()) == 0);
+	if (strlen(Text()) == 0) {
+		fEmpty = true;
+		MarkAsInvalid(true);
+		static_cast<RuleEditWindow*>(Window())->UpdateEmptyCount(true);
+	}
+
 	SetModificationMessage(new BMessage(MSG_TEXT_CHANGED));
 	SetTarget(this);
 }
@@ -124,6 +132,9 @@ AutoTextControl::DetachedFromWindow()
 {
 	if (fFilter)
 		Window()->RemoveCommonFilter(fFilter);
+
+	if (strlen(Text()) == 0)
+		static_cast<RuleEditWindow*>(Window())->UpdateEmptyCount(false);
 
 	BTextControl::DetachedFromWindow();
 }
@@ -137,9 +148,14 @@ AutoTextControl::MessageReceived(BMessage* msg)
 		if (msg->FindRef("refs", &r) == B_OK)
 			SetText(BPath(&r).Path());
 		Invoke();
-	} else if (msg->what == MSG_TEXT_CHANGED)
-		MarkAsInvalid(strlen(Text()) == 0);
-	else
+	} else if (msg->what == MSG_TEXT_CHANGED) {
+			bool empty = strlen(Text()) == 0;
+			if (fEmpty != empty) {
+				fEmpty = empty;
+				MarkAsInvalid(empty);
+				static_cast<RuleEditWindow*>(Window())->UpdateEmptyCount(empty);
+			}
+	} else
 		BTextControl::MessageReceived(msg);
 }
 

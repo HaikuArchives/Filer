@@ -25,6 +25,7 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 		B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE | B_AUTO_UPDATE_SIZE_LIMITS),
 	fTestView(NULL),
 	fActionView(NULL),
+	fEmptyCount(0),
 	fOriginalID(-1),
 	fCaller(caller)
 {
@@ -100,6 +101,9 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 
 	fDescriptionBox->MakeFocus();
 
+	if (fEmptyCount > 0)
+		fOK->SetEnabled(false);
+
 	CenterOnScreen();
 	Show();
 }
@@ -111,52 +115,41 @@ RuleEditWindow::MessageReceived(BMessage* msg)
 	switch (msg->what)
 	{
 		case MSG_OK:
-		{
-			if (strlen(fDescriptionBox->Text()) < 1) {
-				BAlert* alert = new BAlert("Filer",
-					B_TRANSLATE("You need to add a description if you want to "
-					"add this rule to the list."), B_TRANSLATE("OK"));
-				alert->Go();
-				fDescriptionBox->MakeFocus(true);
-				break;
-			}
-
 			SendRuleMessage();
-			PostMessage(B_QUIT_REQUESTED);
-			break;
-		}
 		case MSG_CANCEL:
-		{
 			PostMessage(B_QUIT_REQUESTED);
 			break;
-		}
 		case MSG_ADD_TEST:
-		{
 			msg->FindPointer(kPointer, (void**) &fTestView);
 			AppendTest(NULL);
 			break;
-		}
 		case MSG_REMOVE_TEST:
-		{
 			msg->FindPointer(kPointer, (void**) &fTestView);
 			RemoveTest();
 			break;
-		}
 		case MSG_ADD_ACTION:
-		{
 			msg->FindPointer(kPointer, (void**) &fActionView);
 			AppendAction(NULL);
 			break;
-		}
 		case MSG_REMOVE_ACTION:
-		{
 			msg->FindPointer(kPointer, (void**) &fActionView);
 			RemoveAction();
 			break;
-		}
 		default:
 			BWindow::MessageReceived(msg);
 	}
+}
+
+
+void
+RuleEditWindow::UpdateEmptyCount(bool increment)
+{
+	if (increment)
+		fEmptyCount++;
+	else
+		fEmptyCount--;
+
+	fOK->SetEnabled(fEmptyCount == 0);
 }
 
 

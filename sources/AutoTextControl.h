@@ -57,6 +57,7 @@ private:
 	
 	AutoTextControlFilter*	fFilter;
 	uint32					fCharLimit;
+	bool					fEmpty;
 };
 
 /*
