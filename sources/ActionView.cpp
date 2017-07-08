@@ -18,8 +18,7 @@
 
 ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 	:
-	BView(name, flags | B_FRAME_EVENTS),
- 	fAction(NULL)
+	BView(name, flags | B_FRAME_EVENTS)
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 
@@ -39,36 +38,16 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 		.Add(fAddRemoveButtons)
 		.End();
 
-	bool usedefaults = false;
-	if (action) {
-		fAction = new BMessage(*action);
+	fValueBox->SetText("");
 
-		int8 type;
-		if (fAction->FindInt8("type", &type) == B_OK)
-			SetAction(type);
-		else
-			usedefaults = true;
-
+	if (action != NULL && action->FindInt8("type", &fType) == B_OK) {
 		BString str;
-		if (!usedefaults && fAction->FindString("value", &str) == B_OK)
+		if (action->FindString("value", &str) == B_OK)
 			fValueBox->SetText(str.String());
-		else
-			usedefaults = true;
-	} else
-		usedefaults = true;
+	} else if (fActions.FindInt8("actions", 0, &fType) != B_OK)
+		fType = 0;
 
-	if (usedefaults) {
-		if (!fAction)
-			fAction = new BMessage;
-
-		int8 type;
-		if (fActions.FindInt8("actions", 0, &type) == B_OK)
-			SetAction(type);
-		else
-			SetAction(0);
-
-		fValueBox->SetText("");
-	}
+	SetAction();
 
 	BString toolTip(
 		"\%FILENAME\%\t\tFull file name\n"
@@ -90,7 +69,6 @@ ActionView::~ActionView()
 	delete fActionField;
 	delete fValueBox;
 	delete fAddRemoveButtons;
-	delete fAction;
 }
 
 
@@ -111,8 +89,9 @@ ActionView::MessageReceived(BMessage* msg)
 		{
 			int8 type;
 			if (msg->FindInt8("type", &type) == B_OK) {
+				fType = type;
 				bool wasHidden = fValueBox->IsHidden();
-				SetAction(type);
+				SetAction();
 				bool isHidden = fValueBox->IsHidden();
 				if (wasHidden != isHidden && strlen(fValueBox->Text()) == 0)
 					static_cast<RuleEditWindow*>(Window())->
@@ -121,9 +100,7 @@ ActionView::MessageReceived(BMessage* msg)
 			break;
 		}
 		default:
-		{
 			BView::MessageReceived(msg);
-		}
 	}
 }
 
@@ -131,35 +108,25 @@ ActionView::MessageReceived(BMessage* msg)
 BMessage*
 ActionView::GetAction() const
 {
-	BString str;
-	if (fAction->FindString("value", &str) == B_OK)
-		fAction->ReplaceString("value", fValueBox->Text());
-	else
-		fAction->AddString("value", fValueBox->Text());
+	BMessage* action = new BMessage;
 
-	return fAction;
+	action->AddInt8("type", fType);
+	action->AddString("value", fValueBox->Text());
+
+	return action;
 }
 
 
 void
-ActionView::SetAction(int8 type)
+ActionView::SetAction()
 {
-	int8 tmpType;
-	if (fAction->FindInt8("type", &tmpType) == B_OK)
-		fAction->ReplaceInt8("type", type);
-	else
-		fAction->AddInt8("type", type);
+	fActionField->MenuItem()->SetLabel(sActions[fType].locale);
 
-	BString name(sActions[type].locale);
-	fActionField->MenuItem()->SetLabel(name);
-
-	if (ActionHasTarget(type)) {
+	if (ActionHasTarget(fType)) {
 		if (fValueBox->IsHidden())
 			fValueBox->Show();
-	} else {
-		if (!fValueBox->IsHidden())
+	} else if (!fValueBox->IsHidden())
 			fValueBox->Hide();
-	}
 }
 
 

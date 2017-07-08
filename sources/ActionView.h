@@ -30,14 +30,14 @@ public:
 
 private:
 	BPopUpMenu*		ActionMenu() const;
-	void			SetAction(int8 type);
-	
+	void			SetAction();
+
 	BMenuField*		fActionField;
-	
+
 	AutoTextControl*	fValueBox;
 	AddRemoveButtons*	fAddRemoveButtons;
-	
-	BMessage*		fAction;
+
+	int8			fType;
 	BMessage		fActions;
 };
 
