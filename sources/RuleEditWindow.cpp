@@ -233,7 +233,7 @@ RuleEditWindow::SendRuleMessage()
 	for (int32 i = 0; i < fActionList.CountItems(); i++)
 	{
 		ActionView* view = (ActionView*)fActionList.ItemAt(i);
-		rule->AddAction(new BMessage(*view->GetAction()));
+		rule->AddAction(view->GetAction());
 	}
 
 	BMessage msg;
