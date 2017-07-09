@@ -18,6 +18,7 @@
 #include <ctype.h>
 
 #include "RuleEditWindow.h"
+#include "RuleRunner.h"
 
 #define MSG_TEXT_CHANGED 'txtc'
 
@@ -144,17 +145,33 @@ void
 AutoTextControl::MessageReceived(BMessage* msg)
 {
 	if (msg->WasDropped()) {
-		entry_ref r;
-		if (msg->FindRef("refs", &r) == B_OK)
-			SetText(BPath(&r).Path());
-		Invoke();
+		entry_ref ref;
+		if (msg->FindRef("refs", &ref) != B_OK)
+			return;
+
+		int8 type;
+		TestView* testView = dynamic_cast<TestView*>(Parent());
+		bool isTest = testView != NULL;
+		if (isTest)
+			type = testView->GetType();
+		else {
+			ActionView* view = dynamic_cast<ActionView*>(Parent());
+			if (view == NULL)
+				return;
+
+			type = view->GetType();
+		}
+
+		BString text;
+		if (SetTextForType(text, type, ref, isTest))
+			SetText(text.String());
 	} else if (msg->what == MSG_TEXT_CHANGED) {
-			bool empty = strlen(Text()) == 0;
-			if (fEmpty != empty) {
-				fEmpty = empty;
-				MarkAsInvalid(empty);
-				static_cast<RuleEditWindow*>(Window())->UpdateEmptyCount(empty);
-			}
+		bool empty = strlen(Text()) == 0;
+		if (fEmpty != empty) {
+			fEmpty = empty;
+			MarkAsInvalid(empty);
+			static_cast<RuleEditWindow*>(Window())->UpdateEmptyCount(empty);
+		}
 	} else
 		BTextControl::MessageReceived(msg);
 }

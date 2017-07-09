@@ -24,6 +24,7 @@ public:
 	void			MessageReceived(BMessage* msg);
 
 	BMessage*		GetAction() const;
+	int8			GetType() const { return fType; }
 
 	void			SetRemoveEnabled(bool isEnabled)
 						{ fAddRemoveButtons->SetRemoveEnabled(isEnabled); }

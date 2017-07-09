@@ -24,6 +24,7 @@ public:
 	void		MessageReceived(BMessage* msg);
 
 	BMessage*	GetTest() const;
+	int8		GetType() const { return fType; }
 	int32		GetDataType() const { return fDataType; }
 
 	void		SetRemoveEnabled(bool isEnabled)
@@ -47,6 +48,7 @@ private:
 	BMessage*	fTest;
 	BMessage	fTestTypes;
 
+	int8		fType;
 	int32		fDataType;
 };
 
