@@ -13,6 +13,7 @@
 #include <Entry.h>
 #include <FindDirectory.h>
 #include <Mime.h>
+#include <NodeInfo.h>
 #include <Path.h>
 #include <Roster.h>
 
@@ -793,7 +794,7 @@ MoveOrCopy(const BMessage& action, entry_ref& ref, bool move)
 	if (status != B_OK)
 		return B_ERROR;
 
-	App* app = (App *) be_app;
+	App* app = static_cast<App*>(be_app);
 	bool doAll = app->DoAll();
 	bool replace = app->Replace();
 
@@ -936,7 +937,7 @@ ArchiveAction(const BMessage& action, entry_ref& ref)
 	parentstr.ReplaceLast(path.Leaf(),"");
 
 	BString command = "";
-	command << "cd '" << parentstr << "'; zip -9 -u -r '" << value << "' '"
+	command << "cd '" << parentstr << "'; zip -9 -u -r -y '" << value << "' '"
 		<< path.Leaf() << "'";
 
 	int result = system(command.String());
@@ -1326,6 +1327,98 @@ ActionHasTarget(int8 type)
 	}
 
 	return true;
+}
+
+
+static bool
+getDirectoryPath(BString& str, const entry_ref& ref)
+{
+	BEntry entry(&ref);
+	if (entry.InitCheck() != B_OK)
+		return false;
+
+	if (!entry.IsDirectory() && entry.GetParent(&entry) != B_OK)
+		return false;
+
+	BPath path(&entry);
+	if (path.InitCheck() != B_OK)
+		return false;
+
+	str = path.Path();
+	return true;
+}
+
+
+bool
+SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
+{
+	if (isTest)
+		switch (type) {
+			case TEST_TYPE:
+			{
+				BNode node(&ref);
+				if (node.InitCheck() != B_OK)
+					return false;
+
+				BNodeInfo nodeInfo(&node);
+				if (nodeInfo.InitCheck() != B_OK)
+					return false;
+
+				char mimeType[B_MIME_TYPE_LENGTH];
+				if (nodeInfo.GetType(mimeType) != B_OK)
+					return false;
+
+				text = mimeType;
+				return true;
+			}
+			case TEST_NAME:
+				text = ref.name;
+				return true;
+			case TEST_SIZE:
+			{
+				BEntry entry(&ref);
+				if (entry.InitCheck() != B_OK || !entry.IsFile())
+					return false;
+
+				off_t size;
+				if (entry.GetSize(&size) != B_OK)
+					return false;
+
+				text = "";
+				text << size;
+				return true;
+			}
+			case TEST_LOCATION:
+				return getDirectoryPath(text, ref);
+			default:
+				return false;
+		}
+	else
+		switch (type) {
+			case ACTION_MOVE:
+			case ACTION_COPY:
+				return getDirectoryPath(text, ref);
+			case ACTION_RENAME:
+				text = ref.name;
+				return true;
+			case ACTION_COMMAND:
+			{
+				BEntry entry(&ref);
+				if (entry.InitCheck() != B_OK || !entry.IsFile())
+					return false;
+			}
+			case ACTION_ARCHIVE:
+			{
+				BPath path(&ref);
+				if (path.InitCheck() != B_OK)
+					return false;
+
+				text = path.Path();
+				return true;
+			}
+			default:
+				return false;
+		}
 }
 
 

@@ -62,6 +62,8 @@ status_t	LoadRules(BObjectList<FilerRule>* ruleList);
 status_t	SaveRules(const BObjectList<FilerRule>* ruleList);
 int8		AttributeTestType();
 bool		ActionHasTarget(int8 type);
+bool		SetTextForType(BString& text, int8 type, const entry_ref& ref,
+				bool isTest);
 void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
 
 #endif	// RULERUNNER_H

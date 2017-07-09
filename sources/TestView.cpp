@@ -63,7 +63,6 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 
 	bool usedefaults = false;
 	int8 modetype;
-	int8 type;
 	if (test) {
 		STRACE(("\nTestView::TestView: test parameter\n"));
 		MSGTRACE(test);
@@ -76,9 +75,9 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 		if (fTest->FindInt8("mode", &modetype) == B_OK)
 			SetMode(modetype);
 		else {
-			fTest->FindInt8("name" ,&type);
+			fTest->FindInt8("name" ,&fType);
 			modes.MakeEmpty();
-			RuleRunner::GetCompatibleModes(type, modes);
+			RuleRunner::GetCompatibleModes(fType, modes);
 			modes.FindInt8("modes", 0, &modetype);
 			SetMode(modetype);
 		}
@@ -93,13 +92,13 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 		if (!fTest)
 			fTest = new BMessage;
 
-		fTestTypes.FindInt8("tests", 0, &type);
+		fTestTypes.FindInt8("tests", 0, &fType);
 
 		BMessage newtest;
-		newtest.AddInt8("name", type);
+		newtest.AddInt8("name", fType);
 
 		modes.MakeEmpty();
-		RuleRunner::GetCompatibleModes(type, modes);
+		RuleRunner::GetCompatibleModes(fType, modes);
 		modes.FindInt8("modes", 0, &modetype);
 
 		newtest.AddInt8("mode", modetype);
@@ -359,18 +358,17 @@ TestView::SetTest(BMessage* msg)
 
 	BString label;
 
-	int8 type;
-	fTest->FindInt8("name", &type);
-	if (type == AttributeTestType()) {
+	fTest->FindInt8("name", &fType);
+	if (fType == AttributeTestType()) {
 		BString str;
 		fTest->FindString("typename", &str);
 		label = str;
 		fTest->FindString("attrname", &str);
 		label << " : " << str;
 	} else
-		label = sTestTypes[type].locale;
+		label = sTestTypes[fType].locale;
 
-	fDataType = RuleRunner::GetDataTypeForTest(type);
+	fDataType = RuleRunner::GetDataTypeForTest(fType);
 	fTestField->MenuItem()->SetLabel(label.String());
 
 	// Now that the test button has been updated, make sure that the mode currently
