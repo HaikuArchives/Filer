@@ -117,7 +117,7 @@ AutoTextControl::AttachedToWindow()
 	if (fFilter)
 		Window()->AddCommonFilter(fFilter);
 
-	if (strlen(Text()) == 0) {
+	if (IsEmptyAfterTrim(Text())) {
 		fEmpty = true;
 		MarkAsInvalid(true);
 		static_cast<RuleEditWindow*>(Window())->UpdateEmptyCount(true);
@@ -134,7 +134,7 @@ AutoTextControl::DetachedFromWindow()
 	if (fFilter)
 		Window()->RemoveCommonFilter(fFilter);
 
-	if (strlen(Text()) == 0)
+	if (IsEmptyAfterTrim(Text()))
 		static_cast<RuleEditWindow*>(Window())->UpdateEmptyCount(false);
 
 	BTextControl::DetachedFromWindow();
@@ -166,7 +166,7 @@ AutoTextControl::MessageReceived(BMessage* msg)
 		if (SetTextForType(text, type, ref, isTest))
 			SetText(text.String());
 	} else if (msg->what == MSG_TEXT_CHANGED) {
-		bool empty = strlen(Text()) == 0;
+		bool empty = IsEmptyAfterTrim(Text());
 		if (fEmpty != empty) {
 			fEmpty = empty;
 			MarkAsInvalid(empty);
@@ -262,4 +262,13 @@ AutoTextControlFilter::KeyFilter(const int32& rawchar, const int32& mod)
 		fBox->Invoke();
 
 	return B_DISPATCH_MESSAGE;
+}
+
+
+bool
+IsEmptyAfterTrim(const char* s)
+{
+	BString str(s);
+
+	return str.Trim().IsEmpty();
 }

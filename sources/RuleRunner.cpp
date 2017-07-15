@@ -349,61 +349,6 @@ RuleRunner::GetEditorTypeForTest(const char* testname)
 #endif
 
 
-int32
-RuleRunner::GetDataTypeForTest(int8 testtype)
-{
-	if (testtype == TEST_ATTRIBUTE)
-		return TEST_TYPE_STRING;
-
-	if (testtype < 0)
-		return TEST_TYPE_NULL;
-
-	uint32 i;
-
-	for (i = 0; i < nStringTests; i++)
-		if (testtype == stringTests[i])
-			return TEST_TYPE_STRING;
-
-	for (i = 0; i < nNumberTests; i++)
-		if (testtype == numberTests[i])
-			return TEST_TYPE_NUMBER;
-
-	for (i = 0; i < nDateTests; i++)
-		if (testtype == dateTests[i])
-			return TEST_TYPE_DATE;
-
-	return TEST_TYPE_NULL;
-}
-
-
-int32
-RuleRunner::GetDataTypeForMode(int8 modetype)
-{
-	if (modetype < 0)
-		return TEST_TYPE_NULL;
-
-	uint32 i;
-
-	for (i = 0; i < nStringModes; i++)
-		if (modetype == stringModes[i])
-			return TEST_TYPE_STRING;
-
-	for (i = 0; i < nNumberModes; i++)
-		if (modetype == numberModes[i])
-			return TEST_TYPE_NUMBER;
-
-	for (i = 0; i < nDateModes; i++)
-		if (modetype == dateModes[i])
-			return TEST_TYPE_DATE;
-
-	for (i = 0; i < nAnyModes; i++)
-		if (modetype == anyModes[i])
-			return TEST_TYPE_ANY;
-
-	return TEST_TYPE_NULL;
-}
-
-
 bool
 RuleRunner::IsMatch(const BMessage& test, const entry_ref& ref)
 {
@@ -942,9 +887,22 @@ ArchiveAction(const BMessage& action, entry_ref& ref)
 		return status;
 	value = ProcessPatterns(value.String(), ref);
 
+	if (value.IsEmpty()) {
+		printf("\tCouldn't create archive\n\t\tEmpty archive name\n");
+		return B_OK;
+	}
+
 	BPath path(&ref);
 	BString parentstr = path.Path();
 	parentstr.ReplaceLast(path.Leaf(),"");
+
+	if (value[value.Length() - 1] == '/')
+		value += path.Leaf();
+	else {
+		BEntry entry(value);
+		if (entry.InitCheck() == B_OK && entry.IsDirectory())
+			value << '/' << path.Leaf();
+	}
 
 	BString command = "";
 	command << "cd '" << parentstr << "'; zip -9 -u -r -y '" << value << "' '"
@@ -1024,6 +982,61 @@ DeleteAction(entry_ref& ref)
 			path.Path(), strerror(status));
 	}
 	return status;
+}
+
+
+int32
+GetDataTypeForTest(int8 testtype)
+{
+	if (testtype == TEST_ATTRIBUTE)
+		return TEST_TYPE_STRING;
+
+	if (testtype < 0)
+		return TEST_TYPE_NULL;
+
+	uint32 i;
+
+	for (i = 0; i < nStringTests; i++)
+		if (testtype == stringTests[i])
+			return TEST_TYPE_STRING;
+
+	for (i = 0; i < nNumberTests; i++)
+		if (testtype == numberTests[i])
+			return TEST_TYPE_NUMBER;
+
+	for (i = 0; i < nDateTests; i++)
+		if (testtype == dateTests[i])
+			return TEST_TYPE_DATE;
+
+	return TEST_TYPE_NULL;
+}
+
+
+int32
+GetDataTypeForMode(int8 modetype)
+{
+	if (modetype < 0)
+		return TEST_TYPE_NULL;
+
+	uint32 i;
+
+	for (i = 0; i < nStringModes; i++)
+		if (modetype == stringModes[i])
+			return TEST_TYPE_STRING;
+
+	for (i = 0; i < nNumberModes; i++)
+		if (modetype == numberModes[i])
+			return TEST_TYPE_NUMBER;
+
+	for (i = 0; i < nDateModes; i++)
+		if (modetype == dateModes[i])
+			return TEST_TYPE_DATE;
+
+	for (i = 0; i < nAnyModes; i++)
+		if (modetype == anyModes[i])
+			return TEST_TYPE_ANY;
+
+	return TEST_TYPE_NULL;
 }
 
 

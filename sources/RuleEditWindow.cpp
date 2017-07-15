@@ -221,8 +221,9 @@ void
 RuleEditWindow::SendRuleMessage()
 {
 	FilerRule* rule = new FilerRule;
+	BString str(fDescriptionBox->Text());
 
-	rule->SetDescription(fDescriptionBox->Text());
+	rule->SetDescription(str.Trim());
 
 	for (int32 i = 0; i < fTestList.CountItems(); i++)
 	{
