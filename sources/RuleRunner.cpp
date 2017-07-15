@@ -598,33 +598,43 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 		return false;
 	}
 
-	off_t fromsize = atoll(value.String());
-
 	BFile file(&ref, B_READ_ONLY);
 	if (file.InitCheck() != B_OK)
 		return false;
 
-	off_t tosize;
-	file.GetSize(&tosize);
+	off_t fileSize;
+	file.GetSize(&fileSize);
 	file.Unset();
 
-	bool result = false;
+	off_t size = atoll(value.String());
 
-	if (modetype == MODE_IS)
-		result = (fromsize == tosize);
-	else if (modetype == MODE_NOT)
-		result = (fromsize != tosize);
-	else if (modetype == MODE_MORE)
-		result = (fromsize > tosize);
-	else if (modetype == MODE_LESS)
-		result = (fromsize < tosize);
-	else if (modetype == MODE_LEAST)
-		result = (fromsize >= tosize);
-	else if (modetype == MODE_MOST)
-		result = (fromsize <= tosize);
+	bool result;
+
+	switch (modetype) {
+		case MODE_IS:
+			result = fileSize == size;
+			break;
+		case MODE_NOT:
+			result = fileSize != size;
+			break;
+		case MODE_MORE:
+			result = fileSize > size;
+			break;
+		case MODE_LESS:
+			result = fileSize < size;
+			break;
+		case MODE_LEAST:
+			result = fileSize >= size;
+			break;
+		case MODE_MOST:
+			result = fileSize <= size;
+			break;
+		default:
+			result = false;
+	}
 
 	printf("\tSize test: %s %s %lld - %s\n", ref.name,
-		sModeTypes[modetype].locale, tosize, result ? "MATCH" : "NO MATCH");
+		sModeTypes[modetype].locale, fileSize, result ? "MATCH" : "NO MATCH");
 
 	return result;
 }
