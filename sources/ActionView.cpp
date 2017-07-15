@@ -93,7 +93,8 @@ ActionView::MessageReceived(BMessage* msg)
 				bool wasHidden = fValueBox->IsHidden();
 				SetAction();
 				bool isHidden = fValueBox->IsHidden();
-				if (wasHidden != isHidden && strlen(fValueBox->Text()) == 0)
+				if (wasHidden != isHidden
+					&& IsEmptyAfterTrim(fValueBox->Text()))
 					static_cast<RuleEditWindow*>(Window())->
 						UpdateEmptyCount(wasHidden && !isHidden);
 			}
@@ -109,9 +110,10 @@ BMessage*
 ActionView::GetAction() const
 {
 	BMessage* action = new BMessage;
+	BString str(fValueBox->Text());
 
 	action->AddInt8("type", fType);
-	action->AddString("value", fValueBox->Text());
+	action->AddString("value", str.Trim());
 
 	return action;
 }

@@ -167,11 +167,14 @@ TestView::MessageReceived(BMessage* msg)
 BMessage*
 TestView::GetTest() const
 {
-	BString str;
-	if (fTest->FindString("value", &str) == B_OK)
-		fTest->ReplaceString("value", fValueBox->Text());
+	BString str(fValueBox->Text());
+	str.Trim();
+
+	BString tmpstr;
+	if (fTest->FindString("value", &tmpstr) == B_OK)
+		fTest->ReplaceString("value", str);
 	else
-		fTest->AddString("value", fValueBox->Text());
+		fTest->AddString("value", str);
 
 	return fTest;
 }
@@ -368,12 +371,12 @@ TestView::SetTest(BMessage* msg)
 	} else
 		label = sTestTypes[fType].locale;
 
-	fDataType = RuleRunner::GetDataTypeForTest(fType);
+	fDataType = GetDataTypeForTest(fType);
 	fTestField->MenuItem()->SetLabel(label.String());
 
 	// Now that the test button has been updated, make sure that the mode currently
 	// set is supported by the current test
-	int32 datatype = RuleRunner::GetDataTypeForMode(modetype);
+	int32 datatype = GetDataTypeForMode(modetype);
 	if (fDataType != datatype && datatype != TEST_TYPE_ANY) {
 		STRACE(("Modes not compatible, refreshing.\n"));
 		// Not compatible, so reset the mode to something compatible

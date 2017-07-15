@@ -84,4 +84,6 @@ private:
 			BMessage*			fCurrentMessage;
 };
 
+bool IsEmptyAfterTrim(const char* s);
+
 #endif	// AUTO_TEXT_CONTROL_H

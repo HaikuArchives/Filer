@@ -50,14 +50,13 @@ public:
 
 //	static	BString		GetEditorTypeForTest(const char* testname);
 
-	static	int32		GetDataTypeForTest(int8 testtype);
-	static	int32		GetDataTypeForMode(int8 modetype);
-
 			bool		IsMatch(const BMessage& test, const entry_ref& ref);
 			status_t	RunAction(const BMessage& test, entry_ref& ref);
 			status_t	RunRule(FilerRule* rule, entry_ref& ref);
 };
 
+int32		GetDataTypeForTest(int8 testtype);
+int32		GetDataTypeForMode(int8 modetype);
 status_t	LoadRules(BObjectList<FilerRule>* ruleList);
 status_t	SaveRules(const BObjectList<FilerRule>* ruleList);
 int8		AttributeTestType();
