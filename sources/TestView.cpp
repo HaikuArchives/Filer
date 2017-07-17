@@ -32,9 +32,7 @@ extern BMessage gArchivedTypeMenu;
 
 TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	:
-	BView(name, flags),
-	fTest(NULL),
-	fDataType(TEST_TYPE_NULL)
+	BView(name, flags)
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 
@@ -48,6 +46,14 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	fModeField = new BMenuField(NULL,
 		new ModeMenu(fTestField->MenuItem(), this));
 
+	BPopUpMenu* menu = new BPopUpMenu("");
+	for (int32 i = 0; i < nSizeUnits; i++) {
+		BMessage* msg = new BMessage(MSG_UNIT_CHOSEN);
+		msg->AddInt8("unit", i);
+		menu->AddItem(new BMenuItem(sSizeUnits[i], msg));
+	}
+	fUnitField = new BMenuField(NULL, menu);
+
 	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
 
@@ -57,56 +63,39 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_HALF_ITEM_SPACING)
 		.Add(fTestField, 0)
 		.Add(fModeField, 0)
-		.Add(fValueBox)
+		.AddGroup(B_HORIZONTAL, 0)
+			.Add(fValueBox)
+			.Add(fUnitField, 0)
+			.End()
 		.Add(fAddRemoveButtons)
 		.End();
 
-	bool usedefaults = false;
-	int8 modetype;
-	if (test) {
+	if (test != NULL) {
 		STRACE(("\nTestView::TestView: test parameter\n"));
 		MSGTRACE(test);
 
-		fTest = new BMessage(*test);
+		test->FindInt8("name" ,&fType);
+		FindAttribute(test);
 
-		if (!SetTest(fTest))
-			usedefaults = true;
-
-		if (fTest->FindInt8("mode", &modetype) == B_OK)
-			SetMode(modetype);
-		else {
-			fTest->FindInt8("name" ,&fType);
-			modes.MakeEmpty();
-			RuleRunner::GetCompatibleModes(fType, modes);
-			modes.FindInt8("modes", 0, &modetype);
-			SetMode(modetype);
-		}
+		test->FindInt8("mode", &fMode);
+		test->FindInt8("unit", &fUnit);
 
 		BString str;
-		if (fTest->FindString("value", &str) == B_OK)
+		if (test->FindString("value", &str) == B_OK)
 			fValueBox->SetText(str.String());
-	} else
-		usedefaults = true;
-
-	if (usedefaults) {
-		if (!fTest)
-			fTest = new BMessage;
-
+	} else {
 		fTestTypes.FindInt8("tests", 0, &fType);
-
-		BMessage newtest;
-		newtest.AddInt8("name", fType);
 
 		modes.MakeEmpty();
 		RuleRunner::GetCompatibleModes(fType, modes);
-		modes.FindInt8("modes", 0, &modetype);
+		modes.FindInt8("modes", 0, &fMode);
 
-		newtest.AddInt8("mode", modetype);
-		newtest.AddString("value", "");
-
-		SetTest(&newtest);
-		SetMode(modetype);
+		fUnit = 0;
 	}
+
+	SetMode();
+	SetUnit();
+	SetTest();
 }
 
 
@@ -115,8 +104,8 @@ TestView::~TestView()
 	delete fTestField;
 	delete fModeField;
 	delete fValueBox;
+	delete fUnitField;
 	delete fAddRemoveButtons;
-	delete fTest;
 }
 
 
@@ -133,6 +122,7 @@ TestView::AttachedToWindow()
 			item->Submenu()->SetTargetForItems(this);
 	}
 
+	fUnitField->Menu()->SetTargetForItems(this);
 	fValueBox->SetTarget(this);
 }
 
@@ -144,39 +134,64 @@ TestView::MessageReceived(BMessage* msg)
 	{
 		case MSG_TEST_CHOSEN:
 		{
-			SetTest(msg);
+			int8 type;
+			if (msg->FindInt8("name", &type) == B_OK) {
+				fType = type;
+				FindAttribute(msg);
+				SetTest();
+			}
 			break;
 		}
 		case MSG_MODE_CHOSEN:
 		{
-			int8 modetype;
-			if (msg->FindInt8("mode", &modetype) == B_OK)
-				SetMode(modetype);
+			int8 mode;
+			if (msg->FindInt8("mode", &mode) == B_OK && fMode != mode) {
+				fMode = mode;
+				SetMode();
+			}
+			break;
+		}
+		case MSG_UNIT_CHOSEN:
+		{
+			int8 unit;
+			if (msg->FindInt8("unit", &unit) == B_OK && fUnit != unit) {
+				fUnit = unit;
+				SetUnit();
+			}
 			break;
 		}
 		default:
-		{
 			BView::MessageReceived(msg);
-			break;
-		}
 	}
+}
 
+
+static void
+addAttribute(BMessage* msg, const BString& attrtype, const BString& attrname,
+	const BString& mimetype, const BString& mimename)
+{
+	msg->AddString("attrtype", attrtype);
+	msg->AddString("attrname", attrname);
+	msg->AddString("mimetype", mimetype);
+	msg->AddString("typename", mimename);
 }
 
 
 BMessage*
 TestView::GetTest() const
 {
+	BMessage* test = new BMessage;
 	BString str(fValueBox->Text());
-	str.Trim();
 
-	BString tmpstr;
-	if (fTest->FindString("value", &tmpstr) == B_OK)
-		fTest->ReplaceString("value", str);
-	else
-		fTest->AddString("value", str);
+	test->AddInt8("name", fType);
+	test->AddInt8("mode", fMode);
+	test->AddInt8("unit", fUnit);
+	test->AddString("value", str.Trim());
 
-	return fTest;
+	if (fType == AttributeTestType())
+		addAttribute(test, fAttrType, fAttrName, fMimeType, fTypeName);
+
+	return test;
 }
 
 
@@ -233,10 +248,7 @@ TestView::TestMenu() const
 
 			msg = new BMessage(MSG_TEST_CHOSEN);
 			msg->AddInt8("name", AttributeTestType());
-			msg->AddString("attrtype", attrName);
-			msg->AddString("attrname", attrPublicName);
-			msg->AddString("mimetype", string);
-			msg->AddString("typename", attrTypeName);
+			addAttribute(msg, attrName, attrPublicName, string, attrTypeName);
 			submenu->AddItem(new BMenuItem(attrPublicName.String(), msg));
 
 			infoindex++;
@@ -321,91 +333,74 @@ TestView::GetMenu(BMenu* parent, const char* name) const
 }
 
 
-bool
-TestView::SetTest(BMessage* msg)
+void
+TestView::SetTest()
 {
 	STRACE(("\nTestView::SetTest\n"));
-	if (!msg)
-		return false;
-
-	MSGTRACE(msg);
-
-	// The easy way to update fTest is just copy the whole thing and update
-	// the mode and value from the controls. This saves some conditionals when
-	// dealing with attribute tests. The fields sent by the menu items (and passed
-	// to this function) are the exact same as what is needed by RuleRunner's test
-	// code.
-	// There is one catch, however. The message passed here will NOT have the mode
-	// or value, so we need to save them and copy them over
-
-	int8 modetype;
-	BString str;
-
-	fTest->FindInt8("mode", &modetype);
-
-	if (fTest != msg) {
-		BString value;
-
-		fTest->FindString("value", &value);
-		*fTest = *msg;
-
-		fTest->what = 0;
-
-		int8 tmpType;
-		if (fTest->FindInt8("mode", &tmpType) != B_OK)
-			fTest->AddInt8("mode", modetype);
-
-		if (fTest->FindString("value", &str) != B_OK)
-			fTest->AddString("value", value);
-	}
 
 	BString label;
-
-	fTest->FindInt8("name", &fType);
-	if (fType == AttributeTestType()) {
-		BString str;
-		fTest->FindString("typename", &str);
-		label = str;
-		fTest->FindString("attrname", &str);
-		label << " : " << str;
-	} else
+	if (fType == AttributeTestType())
+		label << fTypeName << " : " << fAttrName;
+	else
 		label = sTestTypes[fType].locale;
 
-	fDataType = GetDataTypeForTest(fType);
 	fTestField->MenuItem()->SetLabel(label.String());
+	fDataType = GetDataTypeForTest(fType);
 
 	// Now that the test button has been updated, make sure that the mode currently
 	// set is supported by the current test
-	int32 datatype = GetDataTypeForMode(modetype);
-	if (fDataType != datatype && datatype != TEST_TYPE_ANY) {
+	int32 datatype = GetDataTypeForMode(fMode);
+	if (datatype != fDataType && datatype != TEST_TYPE_ANY) {
 		STRACE(("Modes not compatible, refreshing.\n"));
 		// Not compatible, so reset the mode to something compatible
 		BMessage modes;
 		RuleRunner::GetCompatibleModes(fDataType, modes);
 
-		modes.FindInt8("modes", 0, &modetype);
-		SetMode(modetype);
+		modes.FindInt8("modes", 0, &fMode);
+		SetMode();
 	}
 	STRACE(("-------------------------\n"));
 
-	return true;
+	if (fDataType == TEST_TYPE_NUMBER) {
+		if (fUnitField->IsHidden())
+			fUnitField->Show();
+	} else if (!fUnitField->IsHidden())
+			fUnitField->Hide();
 }
 
 
 void
-TestView::SetMode(int8 modetype)
+TestView::SetMode()
 {
-	if (modetype < 0)
-		return;
+	fModeField->MenuItem()->SetLabel(sModeTypes[fMode].locale);
+}
 
-	// This function assumes that the string passed to it is valid
-	// for the test type
-	int8 tmpType;
-	if (fTest->FindInt8("mode", &tmpType) == B_OK)
-		fTest->ReplaceInt8("mode", modetype);
-	else
-		fTest->AddInt8("mode", modetype);
-	fModeField->MenuItem()->SetLabel(sModeTypes[modetype].locale);
+
+void
+TestView::SetUnit()
+{
+	fUnitField->MenuItem()->SetLabel(sSizeUnits[fUnit]);
+}
+
+
+void TestView::ResetUnit()
+{
+	if (fUnit != 0) {
+		fUnit = 0;
+		SetUnit();
+	}
+}
+
+
+void
+TestView::FindAttribute(const BMessage* msg)
+{
+	if (fType == AttributeTestType()) {
+		msg->FindString("attrtype", &fAttrType);
+		msg->FindString("attrname", &fAttrName);
+		msg->FindString("mimetype", &fMimeType);
+		msg->FindString("typename", &fTypeName);
+	}
 }
 
 

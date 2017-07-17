@@ -213,11 +213,26 @@ static const ModeType dateModes[] = {
 };
 static const unsigned nDateModes = sizeof(dateModes) / sizeof(dateModes[0]);
 
+const char* const sSizeUnits[] = {
+	B_TRANSLATE("bytes"),
+	B_TRANSLATE("KiB"),
+	B_TRANSLATE("MiB"),
+	B_TRANSLATE("GiB"),
+	B_TRANSLATE("TiB")
+};
+const unsigned nSizeUnits = sizeof(sSizeUnits) / sizeof(sSizeUnits[0]);
+
+enum {
+	SIZE_BT,
+	SIZE_KB,
+	SIZE_MB,
+	SIZE_GB,
+	SIZE_TB
+};
 
 // Internal variable for all the supported types of actions
 
-const NamePair sActions[] =
-{
+const NamePair sActions[] = {
 	LOCALIZE("Move to folder"),
 	LOCALIZE("Copy to folder"),
 	LOCALIZE("Rename to"),
@@ -533,13 +548,19 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 {
 	BString value;
 	if (test.FindString("value", &value) != B_OK) {
-		debugger("Couldn't get value in IsTypeMatch");
+		debugger("Couldn't get value in IsSizeMatch");
+		return false;
+	}
+
+	int8 unit;
+	if (test.FindInt8("unit", &unit) != B_OK) {
+		debugger("Couldn't get unit in IsSizeMatch");
 		return false;
 	}
 
 	int8 modetype;
 	if (test.FindInt8("mode", &modetype) != B_OK) {
-		debugger("Couldn't get mode in IsTypeMatch");
+		debugger("Couldn't get mode in IsSizeMatch");
 		return false;
 	}
 
@@ -552,6 +573,8 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 	file.Unset();
 
 	off_t size = atoll(value.String());
+	for (int32 i = 0; i < unit; i++)
+		size <<= 10;
 
 	bool result;
 
@@ -579,7 +602,7 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 	}
 
 	printf("\tSize test: %s %s %lld - %s\n", ref.name,
-		sModeTypes[modetype].locale, fileSize, result ? "MATCH" : "NO MATCH");
+		sModeTypes[modetype].locale, size, result ? "MATCH" : "NO MATCH");
 
 	return result;
 }
@@ -896,8 +919,11 @@ ArchiveAction(const BMessage& action, entry_ref& ref)
 	BString parentstr = path.Path();
 	parentstr.ReplaceLast(path.Leaf(),"");
 
-	if (value[value.Length() - 1] == '/')
+	if (value.EndsWith("/"))
 		value += path.Leaf();
+	else if (value == "." || value == ".."
+		|| value.EndsWith("/.") || value.EndsWith("/.."))
+		value << '/' << path.Leaf();
 	else {
 		BEntry entry(value);
 		if (entry.InitCheck() == B_OK && entry.IsDirectory())
@@ -1090,10 +1116,10 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 		BString tablename(EscapeIllegalCharacters(rule->GetDescription()));
 
 		command = "create table ";
-		command << tablename 
+		command << tablename
 			<< "(entrytype varchar, testtype int, testmode int,
 			testvalue varchar, attrtype varchar, attrtypename varchar,
-			attrpublicname varchar);";
+			attrpublicname varchar, sizeunit int);";
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 
 		command = "insert into RuleList values(";
@@ -1106,15 +1132,20 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			if (!test)
 				continue;
 
+			BString value, mimeType, typeName, attrName;
 			int8 type, modetype;
-			BString value, mimeType, typeName, attrType, attrName;
+			type = modetype = 0;
+
 			test->FindInt8("name", &type);
 			test->FindInt8("mode", &modetype);
 			test->FindString("value", &value);
 			test->FindString("mimetype", &mimeType);
 			test->FindString("typename", &typeName);
-			test->FindString("attrtype", &attrType);
 			test->FindString("attrname", &attrName);
+
+			int8 unit;
+			if (type != TEST_SIZE || test->FindInt8("unit", &unit) != B_OK)
+				unit = SIZE_BT;
 
 			command = "insert into ";
 			command << tablename << " values('test', " << type << ", "
@@ -1122,7 +1153,7 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 				<< "', '" << EscapeIllegalCharacters(mimeType.String())
 				<< "', '" << EscapeIllegalCharacters(typeName.String())
 				<< "', '" << EscapeIllegalCharacters(attrName.String())
-				<< "');";
+				<< "', " << unit << ");";
 
 			DBCommand(db, command.String(), "RuleTab::SaveRules:save test");
 		}
@@ -1141,7 +1172,7 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			command = "insert into ";
 			command << tablename << " values('action', " << type << ", '"
 				<< "', '" << EscapeIllegalCharacters(value.String())
-				<< "', '', '', '');";
+				<< "', '', '', '', '');";
 			DBCommand(db, command.String(), "RuleTab::SaveRules:save action");
 		}
 	}
@@ -1211,9 +1242,9 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 
 		while (!query.eof())
 		{
-			int8 type = 0;
-			int8 modetype = 0;
 			BMessage* test = new BMessage;
+			int8 type, modetype, unit;
+			type = modetype = unit = 0;
 
 			if (legacy) {
 				BString classname =
@@ -1236,6 +1267,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			} else {
 				type = query.getIntField(1);
 				modetype = query.getIntField(2);
+				unit = query.getIntField(7);
 			}
 
 			test->AddInt8("name", type);
@@ -1250,6 +1282,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			}
 
 			test->AddInt8("mode", modetype);
+			test->AddInt8("unit", query.getIntField(7));
 			test->AddString("value",
 				DeescapeIllegalCharacters(query.getStringField(3)).String());
 

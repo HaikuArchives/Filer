@@ -228,7 +228,7 @@ RuleEditWindow::SendRuleMessage()
 	for (int32 i = 0; i < fTestList.CountItems(); i++)
 	{
 		TestView* view = (TestView*)fTestList.ItemAt(i);
-		rule->AddTest(new BMessage(*view->GetTest()));
+		rule->AddTest(view->GetTest());
 	}
 
 	for (int32 i = 0; i < fActionList.CountItems(); i++)

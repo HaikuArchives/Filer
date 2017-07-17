@@ -61,6 +61,7 @@ static const char	kSettingsFile[] = "Filer_settings";
 
 #define MSG_TEST_CHOSEN			'tsch'
 #define MSG_MODE_CHOSEN			'mdch'
+#define MSG_UNIT_CHOSEN			'utch'
 #define MSG_SHOW_TEST_MENU		'shtm'
 #define MSG_SHOW_MODE_MENU		'shmm'
 
