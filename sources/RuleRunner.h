@@ -24,6 +24,9 @@ extern const NamePair sTestTypes[];
 extern const NamePair sModeTypes[];
 extern const NamePair sActions[];
 
+extern const char* const sSizeUnits[];
+extern const unsigned nSizeUnits;
+
 enum
 {
 	TEST_TYPE_NULL = 0,

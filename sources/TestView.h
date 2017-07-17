@@ -9,6 +9,7 @@
 
 #include <MenuField.h>
 #include <PopUpMenu.h>
+#include <String.h>
 
 #include "AddRemoveButtons.h"
 #include "AutoTextControl.h"
@@ -27,13 +28,16 @@ public:
 	int8		GetType() const { return fType; }
 	int32		GetDataType() const { return fDataType; }
 
+	void		ResetUnit();
 	void		SetRemoveEnabled(bool isEnabled)
 					{ fAddRemoveButtons->SetRemoveEnabled(isEnabled); }
 
 private:
 	BPopUpMenu*	TestMenu() const;
-	bool		SetTest(BMessage* msg);
-	void		SetMode(int8 modetype);
+	void		SetTest();
+	void		SetMode();
+	void		SetUnit();
+	void		FindAttribute(const BMessage* msg);
 	const char*	GetValue();
 
 	BMenu*		AddMenuSorted(BMenu* parent, const char* name) const;
@@ -41,15 +45,22 @@ private:
 
 	BMenuField*	fTestField;
 	BMenuField*	fModeField;
+	BMenuField*	fUnitField;
 
 	AutoTextControl*	fValueBox;
 	AddRemoveButtons*	fAddRemoveButtons;
 
-	BMessage*	fTest;
 	BMessage	fTestTypes;
 
 	int8		fType;
+	int8		fMode;
+	int8		fUnit;
 	int32		fDataType;
+
+	BString		fAttrType;
+	BString		fAttrName;
+	BString		fMimeType;
+	BString		fTypeName;
 };
 
 #endif	// TESTVIEW_H

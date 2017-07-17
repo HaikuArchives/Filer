@@ -163,8 +163,12 @@ AutoTextControl::MessageReceived(BMessage* msg)
 		}
 
 		BString text;
-		if (SetTextForType(text, type, ref, isTest))
+		if (SetTextForType(text, type, ref, isTest)) {
 			SetText(text.String());
+
+			if (isTest && testView->GetDataType() == TEST_TYPE_NUMBER)
+				testView->ResetUnit();
+		}
 	} else if (msg->what == MSG_TEXT_CHANGED) {
 		bool empty = IsEmptyAfterTrim(Text());
 		if (fEmpty != empty) {
