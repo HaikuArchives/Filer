@@ -362,10 +362,14 @@ TestView::SetTest()
 	STRACE(("-------------------------\n"));
 
 	if (fDataType == TEST_TYPE_NUMBER) {
+		fValueBox->OnlyAllowDigits(true);
 		if (fUnitField->IsHidden())
 			fUnitField->Show();
-	} else if (!fUnitField->IsHidden())
+	} else {
+		fValueBox->OnlyAllowDigits(false);
+		if (!fUnitField->IsHidden())
 			fUnitField->Hide();
+	}
 }
 
 

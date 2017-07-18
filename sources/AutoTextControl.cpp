@@ -41,6 +41,7 @@ AutoTextControl::AutoTextControl(const char* name, const char* label,
 	:
 	BTextControl(name, label, text, msg, flags),
 	fEmpty(false),
+	fOnlyDigits(false),
  	fFilter(NULL),
  	fCharLimit(0)
 {
@@ -192,6 +193,25 @@ uint32
 AutoTextControl::GetCharacterLimit(const uint32& limit)
 {
 	return fCharLimit;
+}
+
+
+void
+AutoTextControl::OnlyAllowDigits(bool turnOn)
+{
+	if (fOnlyDigits == turnOn)
+		return;
+
+	fOnlyDigits = turnOn;
+	BTextView* view = TextView();
+	void (BTextView::*f)(uint32 byte) = turnOn ? &BTextView::DisallowChar
+												: &BTextView::AllowChar;
+
+	for (uint32 i = 0; i < '0'; i++)
+		(view->*f)(i);
+
+	for (uint32 i = '9' + 1; i < 256; i++)
+		(view->*f)(i);
 }
 
 

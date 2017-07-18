@@ -51,6 +51,8 @@ public:
 	
 			void	SetCharacterLimit(const uint32& limit);
 			uint32	GetCharacterLimit(const uint32& limit);
+
+			void	OnlyAllowDigits(bool turnOn);
 	
 private:
 	friend AutoTextControlFilter;
@@ -58,6 +60,7 @@ private:
 	AutoTextControlFilter*	fFilter;
 	uint32					fCharLimit;
 	bool					fEmpty;
+	bool					fOnlyDigits;
 };
 
 /*
