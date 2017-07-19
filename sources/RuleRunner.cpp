@@ -1267,7 +1267,9 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			} else {
 				type = query.getIntField(1);
 				modetype = query.getIntField(2);
-				unit = query.getIntField(7);
+
+				if (query.numFields() == 8)
+					unit = query.getIntField(7);
 			}
 
 			test->AddInt8("name", type);
@@ -1282,7 +1284,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			}
 
 			test->AddInt8("mode", modetype);
-			test->AddInt8("unit", query.getIntField(7));
+			test->AddInt8("unit", unit);
 			test->AddString("value",
 				DeescapeIllegalCharacters(query.getStringField(3)).String());
 
