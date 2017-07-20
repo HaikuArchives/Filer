@@ -572,9 +572,11 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 	file.GetSize(&fileSize);
 	file.Unset();
 
-	off_t size = atoll(value.String());
+	double sz = strtod(value.String(), NULL);
 	for (int32 i = 0; i < unit; i++)
-		size <<= 10;
+		sz *= 1024;
+
+	off_t size = static_cast<off_t>(round(sz));
 
 	bool result;
 

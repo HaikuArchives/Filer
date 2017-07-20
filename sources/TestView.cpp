@@ -94,7 +94,6 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	}
 
 	SetMode();
-	SetUnit();
 	SetTest();
 }
 
@@ -363,10 +362,13 @@ TestView::SetTest()
 
 	if (fDataType == TEST_TYPE_NUMBER) {
 		fValueBox->OnlyAllowDigits(true);
+		SetUnit();
+
 		if (fUnitField->IsHidden())
 			fUnitField->Show();
 	} else {
 		fValueBox->OnlyAllowDigits(false);
+
 		if (!fUnitField->IsHidden())
 			fUnitField->Hide();
 	}
@@ -384,6 +386,14 @@ void
 TestView::SetUnit()
 {
 	fUnitField->MenuItem()->SetLabel(sSizeUnits[fUnit]);
+
+	const char dot = '.';
+	BTextView* view = fValueBox->TextView();
+
+	if (fUnit > 0)
+		view->AllowChar(dot);
+	else
+		view->DisallowChar(dot);
 }
 
 
