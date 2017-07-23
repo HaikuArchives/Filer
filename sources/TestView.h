@@ -55,13 +55,14 @@ private:
 	int8		fType;
 	int8		fMode;
 	int8		fUnit;
-	char		fDecimalMark;
 	int32		fDataType;
 
 	BString		fAttrType;
 	BString		fAttrName;
 	BString		fMimeType;
 	BString		fTypeName;
+
+	const char	fDecimalMark;
 };
 
 #endif	// TESTVIEW_H

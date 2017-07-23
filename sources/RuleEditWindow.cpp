@@ -21,7 +21,7 @@
 
 RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	:
-	BWindow(BRect(0, 0, 400, 0), B_TRANSLATE("Edit rule"), B_TITLED_WINDOW,
+	BWindow(BRect(0, 0, 420, 0), B_TRANSLATE("Edit rule"), B_TITLED_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE | B_AUTO_UPDATE_SIZE_LIMITS),
 	fTestView(NULL),
 	fActionView(NULL),

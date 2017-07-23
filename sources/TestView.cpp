@@ -60,7 +60,7 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	fValueBox->SetDivider(0);
 
 	fAddRemoveButtons = new AddRemoveButtons(MSG_ADD_TEST, MSG_REMOVE_TEST,
-		this);
+		this, fValueBox->Bounds().Height());
 
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_HALF_ITEM_SPACING)
 		.Add(fTestField, 0)
@@ -69,6 +69,7 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 			.Add(fValueBox)
 			.Add(fUnitField, 0)
 			.End()
+		.AddStrut(0)
 		.Add(fAddRemoveButtons)
 		.End();
 
@@ -85,7 +86,8 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 
 		BString str;
 		if (test->FindString("value", &str) == B_OK) {
-			if (fDataType == TEST_TYPE_NUMBER && fUnit > 0)
+			if (fDataType == TEST_TYPE_NUMBER && fUnit > 0
+				&& fDecimalMark != '.')
 				str.ReplaceAll('.', fDecimalMark);
 
 			fValueBox->SetText(str.String());
@@ -190,7 +192,7 @@ TestView::GetTest() const
 	BString str(fValueBox->Text());
 
 	str.Trim();
-	if (fDataType == TEST_TYPE_NUMBER && fUnit > 0)
+	if (fDataType == TEST_TYPE_NUMBER && fUnit > 0 && fDecimalMark != '.')
 		str.ReplaceAll(fDecimalMark, '.');
 
 	test->AddInt8("name", fType);

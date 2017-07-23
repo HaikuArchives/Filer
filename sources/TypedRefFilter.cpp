@@ -60,11 +60,8 @@ TypedRefFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* st,
 		return false;
 
 	// An empty file type means any file type
-	if (fFileType.Length() < 1)
+	if (fFileType.IsEmpty())
 		return true;
 
-	if (fFileType == filetype)
-		return true;
-
-	return false;
+	return S_ISDIR(st->st_mode) || fFileType == filetype;
 }

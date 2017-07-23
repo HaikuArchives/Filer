@@ -56,7 +56,8 @@ static const char	kSettingsFile[] = "Filer_settings";
 #define MSG_FOLDER_CHOSEN		'flch'
 #define MSG_REFRESH_FOLDERS		'flrf'
 
-#define MSG_ACTION_CHOSEN		'tsch'
+#define MSG_ACTION_CHOSEN		'acch'
+#define MSG_ACTION_PANEL		'acpn'
 #define MSG_SHOW_ACTION_MENU	'sham'
 
 #define MSG_TEST_CHOSEN			'tsch'

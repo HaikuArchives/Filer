@@ -22,18 +22,31 @@ struct NamePair
 
 extern const NamePair sTestTypes[];
 extern const NamePair sModeTypes[];
+
 extern const NamePair sActions[];
+extern const unsigned nActions;
 
 extern const char* const sSizeUnits[];
 extern const unsigned nSizeUnits;
 
-enum
-{
+enum {
 	TEST_TYPE_NULL = 0,
 	TEST_TYPE_STRING,
 	TEST_TYPE_NUMBER,
 	TEST_TYPE_DATE,
 	TEST_TYPE_ANY
+};
+
+enum {
+	ACTION_MOVE,
+	ACTION_COPY,
+	ACTION_RENAME,
+	ACTION_OPEN,
+	ACTION_ARCHIVE,
+	ACTION_TRASH,
+	ACTION_DELETE,
+	ACTION_COMMAND,
+	ACTION_CONTINUE
 };
 
 // Pos-non-zero status value to specify checking more rules after match
