@@ -55,6 +55,7 @@ private:
 	int8		fType;
 	int8		fMode;
 	int8		fUnit;
+	char		fDecimalMark;
 	int32		fDataType;
 
 	BString		fAttrType;

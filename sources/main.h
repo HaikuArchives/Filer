@@ -33,6 +33,7 @@ public:
 	void			SetupTypeMenu();
 	void			ShowHTML(const char* docfile);
 	void			FileRef(entry_ref ref);
+	char			GetDecimalMark() { return fDecimalMark; }
 
 	bool			GetMatchSetting() const { return fMatchSetting; }
 	void			ToggleMatchSetting() { fMatchSetting = !fMatchSetting; }
@@ -48,9 +49,11 @@ private:
 	void			LoadRuleSettings();
 //	void			SaveRuleSettings();
 	void			ProcessFiles();
+	void			SetDecimalMark();
 
 	MainWindow*		fMainWin;
-	
+
+	char			fDecimalMark;
 	bool			fQuitRequested;
 	bool 			fMatchSetting;
 
