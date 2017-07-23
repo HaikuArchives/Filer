@@ -124,12 +124,14 @@ static const TestType stringTests[] = {
 	TEST_NAME,
 	TEST_LOCATION
 };
-static const unsigned nStringTests = sizeof(stringTests) / sizeof(stringTests[0]);
+static const unsigned
+nStringTests = sizeof(stringTests) / sizeof(stringTests[0]);
 
 static const TestType numberTests[] = {
 	TEST_SIZE
 };
-static const unsigned nNumberTests = sizeof(numberTests) / sizeof(numberTests[0]);
+static const unsigned
+nNumberTests = sizeof(numberTests) / sizeof(numberTests[0]);
 
 static const TestType dateTests[] = {
 //	"Last changed"
@@ -197,7 +199,8 @@ static const ModeType stringModes[] = {
 	MODE_CONTAIN,
 	MODE_EXCLUDE
 };
-static const unsigned nStringModes = sizeof(stringModes) / sizeof(stringModes[0]);
+static const unsigned
+nStringModes = sizeof(stringModes) / sizeof(stringModes[0]);
 
 static const ModeType numberModes[] = {
 	MODE_MORE,
@@ -205,7 +208,8 @@ static const ModeType numberModes[] = {
 	MODE_LEAST,
 	MODE_MOST
 };
-static const unsigned nNumberModes = sizeof(numberModes) / sizeof(numberModes[0]);
+static const unsigned
+nNumberModes = sizeof(numberModes) / sizeof(numberModes[0]);
 
 static const ModeType dateModes[] = {
 	MODE_BEFORE,
@@ -247,19 +251,7 @@ const NamePair sActions[] = {
 //	"E-mail it to",
 //	"Make a Deskbar link",
 };
-static const unsigned nActions = sizeof(sActions) / sizeof(sActions[0]);
-
-enum {
-	ACTION_MOVE,
-	ACTION_COPY,
-	ACTION_RENAME,
-	ACTION_OPEN,
-	ACTION_ARCHIVE,
-	ACTION_TRASH,
-	ACTION_DELETE,
-	ACTION_COMMAND,
-	ACTION_CONTINUE
-};
+const unsigned nActions = sizeof(sActions) / sizeof(sActions[0]);
 
 
 RuleRunner::RuleRunner()
@@ -572,7 +564,7 @@ IsSizeMatch(const BMessage& test, const entry_ref& ref)
 	file.GetSize(&fileSize);
 	file.Unset();
 
-	double sz = strtod(value.String(), NULL);
+	double sz = atof(value.String());
 	for (int32 i = 0; i < unit; i++)
 		sz *= 1024;
 

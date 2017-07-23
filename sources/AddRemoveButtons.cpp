@@ -18,12 +18,13 @@
 #define B_TRANSLATION_CONTEXT "AddRemoveButtons"
 
 
-AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target)
+AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target,
+	float height)
 	:
 	BView(NULL, B_WILL_DRAW)
 {
 	fAdd = new BButton("+");
-	fRemove = new BButton("-");
+	fRemove = new BButton("\xE2\x80\x93");
 
 	BMessage* msg = new BMessage(add);
 	msg->AddPointer(kPointer, target);
@@ -33,11 +34,7 @@ AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target)
 	msg->AddPointer(kPointer, target);
 	fRemove->SetMessage(msg);
 
-	BFont font;
-	GetFont(&font);
-	float width = font.StringWidth("+-") * 2;
-	BSize size(width, width);
-
+	BSize size(height, height);
 	fAdd->SetExplicitSize(size);
 	fRemove->SetExplicitSize(size);
 
