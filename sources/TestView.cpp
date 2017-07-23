@@ -13,6 +13,7 @@
 #include <Mime.h>
 
 #include "FilerDefs.h"
+#include "main.h"
 #include "ModeMenu.h"
 #include "RuleRunner.h"
 
@@ -32,7 +33,8 @@ extern BMessage gArchivedTypeMenu;
 
 TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	:
-	BView(name, flags)
+	BView(name, flags),
+	fDecimalMark(static_cast<App*>(be_app)->GetDecimalMark())
 {
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 
@@ -76,13 +78,18 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 
 		test->FindInt8("name" ,&fType);
 		FindAttribute(test);
+		fDataType = GetDataTypeForTest(fType);
 
 		test->FindInt8("mode", &fMode);
 		test->FindInt8("unit", &fUnit);
 
 		BString str;
-		if (test->FindString("value", &str) == B_OK)
+		if (test->FindString("value", &str) == B_OK) {
+			if (fDataType == TEST_TYPE_NUMBER && fUnit > 0)
+				str.ReplaceAll('.', fDecimalMark);
+
 			fValueBox->SetText(str.String());
+		}
 	} else {
 		fTestTypes.FindInt8("tests", 0, &fType);
 
@@ -181,6 +188,10 @@ TestView::GetTest() const
 {
 	BMessage* test = new BMessage;
 	BString str(fValueBox->Text());
+
+	str.Trim();
+	if (fDataType == TEST_TYPE_NUMBER && fUnit > 0)
+		str.ReplaceAll(fDecimalMark, '.');
 
 	test->AddInt8("name", fType);
 	test->AddInt8("mode", fMode);
@@ -387,13 +398,12 @@ TestView::SetUnit()
 {
 	fUnitField->MenuItem()->SetLabel(sSizeUnits[fUnit]);
 
-	const char dot = '.';
 	BTextView* view = fValueBox->TextView();
 
 	if (fUnit > 0)
-		view->AllowChar(dot);
+		view->AllowChar(fDecimalMark);
 	else
-		view->DisallowChar(dot);
+		view->DisallowChar(fDecimalMark);
 }
 
 

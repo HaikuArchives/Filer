@@ -12,6 +12,7 @@
 #include <FindDirectory.h>
 #include <MenuItem.h>
 #include <Mime.h>
+#include <NumberFormat.h>
 #include <Path.h>
 #include <PopUpMenu.h>
 #include <Roster.h>
@@ -171,7 +172,19 @@ App::ReadyToRun()
 	} else {
 		fMainWin = new MainWindow();
 		fMainWin->Show();
+		SetDecimalMark();
 	}
+}
+
+
+void
+App::SetDecimalMark()
+{
+	BString str;
+	BNumberFormat fmt;
+	fmt.Format(str, 0.9);
+
+	fDecimalMark = str.Length() == 3 ? str[1] : '.';
 }
 
 
