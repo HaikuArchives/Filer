@@ -53,6 +53,10 @@ bool
 TypedRefFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* st,
 	const char* filetype)
 {
+	 if (filetype == NULL || *filetype == '\0'
+		|| strcmp(filetype, "application/octet-stream") == 0)
+		return true;
+
 	// it does not match the entry filter, then we automatically kick back a false
 	if ( !( ((B_DIRECTORY_NODE & NodeType()) && S_ISDIR(st->st_mode))
 		|| ((B_FILE_NODE & NodeType()) && S_ISREG(st->st_mode))
