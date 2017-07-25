@@ -53,3 +53,11 @@ AddRemoveButtons::~AddRemoveButtons()
 	delete fAdd;
 	delete fRemove;
 }
+
+
+void
+AddRemoveButtons::SetTarget(const BView* target)
+{
+	fAdd->SetTarget(target);
+	fRemove->SetTarget(target);
+}
