@@ -149,7 +149,7 @@ ActionView::MessageReceived(BMessage* msg)
 		{
 			BFilePanel*& panel = fFilePanels[fType];
 			if (panel == NULL) {
-				char* filetype;
+				const char* filetype;
 				switch (fType) {
 					case ACTION_ARCHIVE:
 						filetype = "application/zip";

@@ -14,6 +14,7 @@
 #include <ListView.h>
 #include <View.h>
 
+#include "AddRemoveButtons.h"
 #include "ObjectList.h"
 
 class RuleItem;
@@ -39,12 +40,12 @@ private:
 
 	BCheckBox*		fMatchBox;
 
-	BButton*		fAddButton;
 	BButton*		fEditButton;
 	BButton*		fDisableButton;
-	BButton*		fRemoveButton;
 	BButton*		fMoveUpButton;
 	BButton*		fMoveDownButton;
+
+	AddRemoveButtons*	fAddRemoveButtons;
 
 	BListView*		fRuleItemList;
 	BScrollView*	fScrollView;

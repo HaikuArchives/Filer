@@ -64,6 +64,13 @@ RuleTab::RuleTab()
 RuleTab::~RuleTab()
 {
 	delete fRuleList;
+	delete fRuleItemList;
+	delete fScrollView;
+
+	delete fMatchBox;
+	delete fEditButton;
+	delete fDisableButton;
+	delete fAddRemoveButtons;
 }
 
 
@@ -82,9 +89,6 @@ RuleTab::_BuildLayout()
 	fRuleItemList->SetSelectionMessage(new BMessage(MSG_RULE_SELECTED));
 	fRuleItemList->SetInvocationMessage(new BMessage(MSG_SHOW_EDIT_WINDOW));
 	
-	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS),
-		new BMessage(MSG_SHOW_ADD_WINDOW));
-
 	fEditButton = new BButton("editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_SHOW_EDIT_WINDOW));
 	fEditButton->SetEnabled(false);
@@ -93,9 +97,12 @@ RuleTab::_BuildLayout()
 		new BMessage(MSG_DISABLE_RULE));
 	fDisableButton->SetEnabled(false);
 
-	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"),
-		new BMessage(MSG_REMOVE_RULE));
-	fRemoveButton->SetEnabled(false);
+	float height;
+	fEditButton->GetPreferredSize(NULL, &height);
+
+	fAddRemoveButtons = new AddRemoveButtons(MSG_SHOW_ADD_WINDOW,
+		MSG_REMOVE_RULE, this, height);
+	fAddRemoveButtons->SetRemoveEnabled(false);
 
 	fMoveUpButton = new BButton("moveupbutton", B_TRANSLATE("Move up"),
 		new BMessage(MSG_MOVE_RULE_UP));
@@ -120,10 +127,9 @@ RuleTab::_BuildLayout()
 				.End()
 			.End()
 			.AddGroup(B_VERTICAL)
-				.Add(fAddButton)
 				.Add(fEditButton)
 				.Add(fDisableButton)
-				.Add(fRemoveButton)
+				.Add(fAddRemoveButtons)
 				.AddGlue()
 			.End()
 		.End();
@@ -134,10 +140,9 @@ void
 RuleTab::AttachedToWindow()
 {
 	fMatchBox->SetTarget(Looper());
-	fAddButton->SetTarget(this);
 	fEditButton->SetTarget(this);
 	fDisableButton->SetTarget(this);
-	fRemoveButton->SetTarget(this);
+	fAddRemoveButtons->SetTarget(this);
 	fMoveUpButton->SetTarget(this);
 	fMoveDownButton->SetTarget(this);
 	fRuleItemList->SetTarget(this);
@@ -281,7 +286,7 @@ RuleTab::UpdateButtons()
 		count = -1;
 
 	fEditButton->SetEnabled((count >= 0) ? true : false);
-	fRemoveButton->SetEnabled((count >= 0) ? true : false);
+	fAddRemoveButtons->SetRemoveEnabled((count >= 0) ? true : false);
 	fMoveUpButton->SetEnabled((count > 1 && selection > 0) ? true : false);
 	fMoveDownButton->SetEnabled((count > 1 && selection < count - 1) ? true : false);
 

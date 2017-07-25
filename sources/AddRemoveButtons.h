@@ -17,9 +17,11 @@ class AddRemoveButtons : public BView
 	BButton*	fRemove;
 
 public:
-			AddRemoveButtons(uint32 add, uint32 remove, BView* target, float height);
+			AddRemoveButtons(uint32 add, uint32 remove, BView* target,
+				float height);
 			~AddRemoveButtons();
 
+	void	SetTarget(const BView* target);
 	void	SetRemoveEnabled(bool isEnabled) { fRemove->SetEnabled(isEnabled); }
 };
 
