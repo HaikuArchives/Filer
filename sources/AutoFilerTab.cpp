@@ -96,13 +96,20 @@ AutoFilerTab::_BuildLayout()
 	}
 	if (autorun)
 		fAutorunBox->SetValue(B_CONTROL_ON);
-	
-	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS),
+
+	fAddButton = new BButton("addbutton", "+",
 		new BMessage(MSG_SHOW_ADD_PANEL));
-	
-	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"),
+
+	fRemoveButton = new BButton("removebutton", kEnDash,
 		new BMessage(MSG_REMOVE_FOLDER));
 	fRemoveButton->SetEnabled(false);
+
+	float height;
+	fStartStop->GetPreferredSize(NULL, &height);
+
+	BSize size(height, height);
+	fAddButton->SetExplicitSize(size);
+	fRemoveButton->SetExplicitSize(size);
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_DEFAULT_SPACING)
@@ -112,17 +119,22 @@ AutoFilerTab::_BuildLayout()
 				.Add(fAutorunBox)
 				.Add(new BSeparatorView(B_VERTICAL))
 				.Add(fStartStop)
-			.End()
+				.End()
 			.Add(new BSeparatorView(B_HORIZONTAL))
 			.Add(folderLabel)
-			.Add(fScrollView)
 			.AddGroup(B_HORIZONTAL)
-				.AddGlue()
-				.Add(fAddButton)
-				.Add(fRemoveButton)
-				.AddGlue()
+				.Add(fScrollView)
+				.AddGroup(B_VERTICAL)
+					.Add(fAddButton)
+					.Add(fRemoveButton)
+					.AddGlue()
+					.End()
+				.End()
 			.End()
 		.End();
+
+	fAddButton->SetToolTip(B_TRANSLATE("Add"));
+	fRemoveButton->SetToolTip(B_TRANSLATE("Remove"));
 }
 
 

@@ -19,12 +19,12 @@
 
 
 AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target,
-	float height)
+	float height, const char* addLabel)
 	:
 	BView(NULL, B_WILL_DRAW)
 {
 	fAdd = new BButton("+");
-	fRemove = new BButton("\xE2\x80\x93");
+	fRemove = new BButton(kEnDash);
 
 	BMessage* msg = new BMessage(add);
 	msg->AddPointer(kPointer, target);
@@ -43,7 +43,7 @@ AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target,
 		.Add(fAdd)
 		.End();
 
-	fAdd->SetToolTip(B_TRANSLATE("Add below"));
+	fAdd->SetToolTip(B_TRANSLATE(addLabel));
 	fRemove->SetToolTip(B_TRANSLATE("Remove"));
 }
 
