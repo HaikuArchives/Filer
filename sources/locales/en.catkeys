@@ -1,11 +1,12 @@
-1	English	application/x-vnd.dw-Filer	1115724859
-Add below	AddRemoveButtons		Add below
-Remove	AddRemoveButtons		Remove
-Add…	AutoFilerTab		Add…
+1	English	application/x-vnd.dw-Filer	1186486884
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file
+Add rule	AddRemoveButtons		Add rule
+Remove rule	AddRemoveButtons		Remove rule
+Add folder	AutoFilerTab		Add folder
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Add folders
 Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatically run Filer on the contents of these folders:
-Remove	AutoFilerTab		Remove
+Remove folder	AutoFilerTab		Remove folder
 Run AutoFiler on system startup	AutoFilerTab		Run AutoFiler on system startup
 Start AutoFiler	AutoFilerTab		Start AutoFiler
 Stop AutoFiler	AutoFilerTab		Stop AutoFiler
@@ -34,19 +35,21 @@ Help on rules	HelpTab		Help on rules
 User documentation	HelpTab		User documentation
 Add rule	RuleEditWindow		Add rule
 Cancel	RuleEditWindow		Cancel
-Description: 	RuleEditWindow		Description: 
+Description:	RuleEditWindow		Description:
 Do	RuleEditWindow		Do
 Edit rule	RuleEditWindow		Edit rule
 Help…	RuleEditWindow		Help…
 OK	RuleEditWindow		OK
 When	RuleEditWindow		When
 Add to archive	RuleRunner		Add to archive
+bytes	RuleRunner		bytes
 contains	RuleRunner		contains
 Continue	RuleRunner		Continue
 Copy to folder	RuleRunner		Copy to folder
 Delete	RuleRunner		Delete
 does not contain	RuleRunner		does not contain
 ends with	RuleRunner		ends with
+GiB	RuleRunner		GiB
 is	RuleRunner		is
 is after	RuleRunner		is after
 is at least	RuleRunner		is at least
@@ -55,7 +58,9 @@ is before	RuleRunner		is before
 is less than	RuleRunner		is less than
 is more than	RuleRunner		is more than
 is not	RuleRunner		is not
+KiB	RuleRunner		KiB
 Location	RuleRunner		Location
+MiB	RuleRunner		MiB
 Move to folder	RuleRunner		Move to folder
 Move to Trash	RuleRunner		Move to Trash
 Name	RuleRunner		Name
@@ -64,9 +69,9 @@ Rename to	RuleRunner		Rename to
 Shell command	RuleRunner		Shell command
 Size	RuleRunner		Size
 starts with	RuleRunner		starts with
+TiB	RuleRunner		TiB
 Type	RuleRunner		Type
 Add rules	RuleTab		Add rules
-Add…	RuleTab		Add…
 Apply only the first matching rule	RuleTab		Apply only the first matching rule
 Cancel	RuleTab		Cancel
 Disable	RuleTab		Disable
@@ -75,6 +80,5 @@ Enable	RuleTab		Enable
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?
 Move down	RuleTab		Move down
 Move up	RuleTab		Move up
-Remove	RuleTab		Remove
 Rules	RuleTab		Rules
 Filer	System name		Filer

@@ -43,8 +43,8 @@ AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target,
 		.Add(fAdd)
 		.End();
 
-	fAdd->SetToolTip(B_TRANSLATE(addLabel));
-	fRemove->SetToolTip(B_TRANSLATE("Remove"));
+	fAdd->SetToolTip(B_TRANSLATE("Add rule"));
+	fRemove->SetToolTip(B_TRANSLATE("Remove rule"));
 }
 
 

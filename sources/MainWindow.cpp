@@ -16,6 +16,9 @@
 #include "main.h"
 #include "MainWindow.h"
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "MainWindow"
+
 
 MainWindow::MainWindow()
 	:

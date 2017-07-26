@@ -10,6 +10,7 @@
 #include "ActionView.h"
 
 #include <Application.h>
+#include <Catalog.h>
 #include <IconUtils.h>
 #include <LayoutBuilder.h>
 #include <Path.h>
@@ -18,6 +19,9 @@
 #include "FilerDefs.h"
 #include "RuleEditWindow.h"
 #include "RuleRunner.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ActionView"
 
 
 ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
@@ -76,7 +80,7 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 
 	SetAction();
 
-	BString toolTip(
+	BString toolTip(B_TRANSLATE_COMMENT(
 		"\%FILENAME\%\t\tFull file name\n"
 		"\%EXTENSION\%\tJust the extension\n"
 		"\%BASENAME\%\tFile name without extension\n"
@@ -86,7 +90,8 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 		"\%EURODATE\%\t\tCurrent date in the format DD-MM-YYYY\n"
 		"\%REVERSEDATE\%\tCurrent date in the format YYYY-MM-DD\n"
 		"\%TIME\%\t\t\tCurrent time using 24-hour time\n"
-		"\%ATTR:xxxx\%\t\tAn extended attribute of the file");
+		"\%ATTR:xxxx\%\t\tAn extended attribute of the file",
+		"Tooltip, do not translate the %variables%"));
 	fValueBox->SetToolTip(toolTip.String());
 }
 

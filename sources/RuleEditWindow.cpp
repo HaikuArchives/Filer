@@ -36,7 +36,7 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 
 	// Description
 	fDescriptionBox = new AutoTextControl("description",
-		B_TRANSLATE("Description: "), NULL, new BMessage(MSG_NEW_DESCRIPTION));
+		B_TRANSLATE("Description:"), NULL, new BMessage(MSG_NEW_DESCRIPTION));
 
 	if (rule)
 		fDescriptionBox->SetText(rule->GetDescription());
@@ -55,7 +55,7 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	fCancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"),
 		new BMessage(MSG_CANCEL));
 
-	fHelp = new BButton("helpbutton", B_TRANSLATE("Help…"),
+	fHelp = new BButton("helpbutton", B_TRANSLATE("Help" B_UTF8_ELLIPSIS),
 		new BMessage(MSG_HELP));
 	fHelp->SetTarget(be_app);
 

@@ -133,8 +133,8 @@ AutoFilerTab::_BuildLayout()
 			.End()
 		.End();
 
-	fAddButton->SetToolTip(B_TRANSLATE("Add"));
-	fRemoveButton->SetToolTip(B_TRANSLATE("Remove"));
+	fAddButton->SetToolTip(B_TRANSLATE("Add folder"));
+	fRemoveButton->SetToolTip(B_TRANSLATE("Remove folder"));
 }
 
 
