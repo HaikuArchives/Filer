@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
 <head>
 <!-- 
- * Copyright 2016
+ * Copyright 2016-2017
  * Distributed under the terms of the MIT License.
  *
  * Authors:
@@ -123,10 +123,11 @@ ul {
 </head>
 <body>
 <div align = "center">
-<img src="./images/filer_icon_64.png" alt="Filer icon" />
+<a href="https://github.com/HaikuArchives/Filer">
+<img src="./images/filer_icon_64.png" alt="Filer icon" /></a>
 <p><span style="font-size: 1.5em; font-weight:bold">Filer's Rule-Making Reference</span></p>
 <hr />
-<p id="index"><a href="#rule-conditions">Rule Conditions</a> &mdash; <a href="#rule-actions">Rule Actions</a> &mdash; <a href="#substitutions">Substitutions</a><br /><a href="#common-attributes">Common Attribute Names</a> &mdash; <a href="#examples">Example Rules</a></p>
+<p id="index"><a href="#rule-conditions">Rule Conditions</a> — <a href="#rule-actions">Rule Actions</a> — <a href="#substitutions">Substitutions</a><br /><a href="#common-attributes">Common Attribute Names</a> — <a href="#examples">Example Rules</a></p>
 </div>
 <hr />
 <p><br /></p>
@@ -144,14 +145,20 @@ To really get power out of it, you'll want to read the information below, though
 <a id="rule-actions" name="rule-actions">Rule Actions</a></h2>
 <p>If the conditions are met, the Filer will perform a series of actions that you choose. Actions can be chained together, such as renaming a file and then moving it to another folder.</p>
 <table>
-<tr><td class="onelinetop"><span class="key">Move to folder…</span></td><td width="10"></td><td>Move a file to the folder entered in the text field.</td></tr>
-<tr><td class="onelinetop"><span class="key">Copy to folder…</span></td><td></td><td>Copy a file to the folder entered in the text field.</td></tr>
-<tr><td class="onelinetop"><span class="key">Rename  to…</span></td><td></td><td>Rename the file.</td></tr>
+<tr><td class="onelinetop"><span class="key">Move to folder</span></td><td width="10"></td><td>Move a file to the folder entered in the text field.</td></tr>
+<tr><td class="onelinetop"><span class="key">Copy to folder</span></td><td></td><td>Copy a file to the folder entered in the text field.</td></tr>
+<tr><td class="onelinetop"><span class="key">Rename  to</span></td><td></td><td>Rename the file.</td></tr>
 <tr><td class="onelinetop"><span class="key">Open</span></td><td></td><td>Open the file with its preferred application.</td></tr>
-<tr><td class="onelinetop"><span class="key">Add to archive…</span></td><td></td><td>Adds the file to a ZIP archive.</td></tr>
+<tr><td class="onelinetop"><span class="key">Add to archive</span></td><td></td><td>Adds the file to a ZIP archive. You can specify:
+<ul>
+<li>an existing folder: The archive will be created in that folder and is named like the file with an added '.zip' suffix.</li>
+<li>an archive file name: The file will be added to that archive.</li>
+</ul>
+<p>If an archive already exists, the file will be added to it (replacing a similarly named file in the archive, if it's newer).<br />
+The used commandline is <tt>zip -9yur</tt>.</p></td></tr>
 <tr><td class="onelinetop"><span class="key">Move to Trash</span></td><td></td><td>Puts the file into the Trash.</td></tr>
 <tr><td class="onelinetop"><span class="key">Delete</span></td><td></td><td>By-passes the Trash and removes the file directly.</td></tr>
-<tr><td class="onelinetop"><span class="key">Shell command…</span></td><td></td><td>Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more shell command actions or a script, because the following actions/rules can't keep track of these changes.</td></tr>
+<tr><td class="onelinetop"><span class="key">Shell command</span></td><td></td><td>Run a command just as if you typed it into a Terminal. Substitutions (see below) are performed before the command is executed. This can make the Filer automatically do all sorts of things it couldn't do otherwise. If you move or rename the file this way, you'll need to do everything else with more shell command actions or a script, because the following actions/rules can't keep track of these changes.</td></tr>
 <tr><td class="onelinetop"><span class="key">Continue</span></td><td></td><td>If you've set <span class="menu">Apply only the first matching rule</span> in the rules settings, this "<i>Continue</i>" will override it, and the matching of rules will continue anyway.</td></tr>
 </table>
 
@@ -167,7 +174,7 @@ To really get power out of it, you'll want to read the information below, though
 <tr><td class="onelinetop">%FULLPATH%</td><td></td><td>Full location of the file, such as <span class="path">/boot/home/config/MyFavoriteSong.mp3</span>. You'll need this for "Shell command" actions.</td></tr>
 <tr><td class="onelinetop">%DATE%</td><td></td><td>Current date in the format MM-DD-YYYY.</td></tr>
 <tr><td class="onelinetop">%EURODATE%</td><td></td><td>Current date in the format DD-MM-YYYY.</td></tr>
-<tr><td class="onelinetop">%REVERSEDATE%</td><td></td><td>Current date in the format YYYY-MM-DD. This is often useful for file archives or for pictures.</td></tr>
+<tr><td class="onelinetop">%REVERSEDATE%</td><td></td><td>Current date in the format YYYY-MM-DD (international standard <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>). This is often useful for file archives or for pictures.</td></tr>
 <tr><td class="onelinetop">%TIME%</td><td></td><td>Current time using 24-hour time.</td></tr>
 <tr><td class="onelinetop">%ATTR:xxxx%</td><td></td><td>An extended attribute of the file. The technical name for the attribute is put between the colon and the second %. At this point, unfortunately, the case-sensitive, technical name of the attribute must be used. For example, an e-mail address attribute is META:email. This can be found in the FileTypes preferences application by choosing the type of file it is normally found on and double-clicking on it in the "Extra attributes" box. In the window that appears, it will be in the box marked "Internal name".</td></tr>
 </table>
@@ -175,7 +182,7 @@ To really get power out of it, you'll want to read the information below, though
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="common-attributes" name="common-attributes">Common Attributes</a></h2>
-<p>Here's a list of some common attibutes. Consult the FileTypes preferences if you look for the attribute name of a specific file type.</p>
+<p>Here's a list of some common attributes. Consult the FileTypes preferences if you look for the attribute name of a specific file type.</p>
 <table>
 <tr><td></td><td width="10"></td><td><b>Attribute name</b></td></tr>
 <tr><td>E-mail address</td><td></td><td>MAIL:email</td></tr>
@@ -198,29 +205,29 @@ To really get power out of it, you'll want to read the information below, though
 <p>Move all e-mails on the MyAccount account to its own folder in the mail folder:</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Email:Account</span></td><td width="10"></td><td><span class="key">is</span></td><td width="10"></td><td>MyAccount</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Move to folder…</span></td><td width="10"></td><td colspan="3">/boot/home/mail/MyAccount</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Move to folder</span></td><td width="10"></td><td colspan="3">/boot/home/mail/MyAccount</td></tr>
 </table>
 </li><li>
-<p>Sort JPEG photos by date into their own folder in /boot/home/Pictures:</p>
+<p>Sort JPEG photos by date into their own folder in <span class="path">/boot/home/Pictures</span>:</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Type</span></td><td width="10"></td><td><span class="key">is</span></td><td width="10"></td><td>image/jpeg</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Rename to…</span></td><td width="10"></td><td colspan="3">Photo %TIME%.jpg</td></tr>
-<tr><td></td><td width="10"></td><td><span class="key">Move to folder…</span></td><td width="10"></td><td colspan="3">/boot/home/Pictures/%DATE%</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td><span class="key">Rename to</span></td><td width="10"></td><td colspan="3">Photo %TIME%.jpg</td></tr>
+<tr><td></td><td width="10"></td><td class="onelinetop"><span class="key">Move to folder</span></td><td width="10"></td><td colspan="3">/boot/home/Pictures/%DATE%</td></tr>
 </table>
 </li><li>
-<p>Make sure that MP3s have searchable attributes using Axel Dörfler's excellent id3attr program, rename them to "ArtistName - SongName.mp3", and sort them in the /boot/home/music folder by the artist's name. This would make importing an MP3 collection from somewhere else very easy.</p>
+<p>Make sure that MP3s have searchable attributes using Axel Dörfler's excellent <tt>id3attr</tt> program, rename them to "ArtistName - SongName.mp3", and sort them in the <span class="path">/boot/home/Music</span> folder by the artist's name. This would make importing an MP3 collection from somewhere else very easy.</p>
 <p><b>Note when using shell commands:</b> Take care to 'escape' the variable, here <tt>'%FULLPATH%'</tt>. The inverted commas make sure spaces and other special characters don't spoil the fun.</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.mp3</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command…</span></td><td width="10"></td><td colspan="3">id3attr '%FULLPATH%'</td></tr>
-<tr><td></td><td width="10"></td><td><span class="key">Rename  to…</span></td><td width="10"></td><td class="onelinetop" colspan="3">%ATTR:Audio:Artist% - %ATTR:Audio:Title%.mp3</td></tr>
-<tr><td></td><td width="10"></td><td><span class="key">Move to folder…</span></td><td width="10"></td><td colspan="3">/boot/home/music/%ATTR:Audio:Artist%</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command</span></td><td width="10"></td><td colspan="3">id3attr '%FULLPATH%'</td></tr>
+<tr><td></td><td width="10"></td><td><span class="key">Rename to</span></td><td width="10"></td><td class="onelinetop" colspan="3">%ATTR:Audio:Artist% - %ATTR:Audio:Title%.mp3</td></tr>
+<tr><td></td><td width="10"></td><td class="onelinetop"><span class="key">Move to folder</span></td><td width="10"></td><td colspan="3">/boot/home/Music/%ATTR:Audio:Artist%</td></tr>
 </table>
 </li><li>
 <p>Extract Zip archives to the Desktop and dump them into the Trash for later disposal. Again, mind the 'escaped' variable '%FULLPATH%' in the shell command!</p>
 <table>
 <tr><td><i>When:</i></td><td width="10"></td><td><span class="key">Name</span></td><td width="10"></td><td class="onelinetop" width="20"><span class="key">ends with</span></td><td width="10"></td><td>.zip</td></tr>
-<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command…</span></td><td width="10"></td><td class="onelinetop" colspan="3">unzip '%FULLPATH%' -d boot/home/Desktop</td></tr>
+<tr><td><i>Do:</i></td><td width="10"></td><td class="onelinetop"><span class="key">Shell command</span></td><td width="10"></td><td class="onelinetop" colspan="3">unzip '%FULLPATH%' -d boot/home/Desktop</td></tr>
 <tr><td></td><td width="10"></td><td colspan="6"><span class="key">Move to Trash</span></td></tr>
 </table>
 </li>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
 <head>
 <!-- 
- * Copyright 2016
+ * Copyright 2016-2017
  * Distributed under the terms of the MIT License.
  *
  * Authors:
@@ -125,10 +125,11 @@ ul {
 </head>
 <body>
 <div align = "center">
-<img src="./images/filer_icon_64.png" alt="Filer icon" />
+<a href="https://github.com/HaikuArchives/Filer">
+<img src="./images/filer_icon_64.png" alt="Filer icon" /></a>
 <p><span style="font-size: 1.5em; font-weight:bold">Filer's User Documentation</span></p>
 <hr />
-<p id="index"><a href="#usage">Usage</a> &mdash; <a href="#dropzone">Dropzone</a> &mdash; <a href="#rules">Rules</a> &mdash; <a href="#autofiler">AutoFiler</a> &mdash; <a href="#help">Help</a> &mdash; <a href="#history">History</a></p>
+<p id="index"><a href="#usage">Usage</a> — <a href="#dropzone">Dropzone</a> — <a href="#rules">Rules</a> — <a href="#autofiler">AutoFiler</a> — <a href="#help">Help</a> — <a href="#history">History</a></p>
 </div>
 <hr />
 <p><br /></p>
@@ -138,7 +139,7 @@ ul {
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="usage" name="usage">Usage</a></h2>
-<p>When started for the first time, you are asked if you'd like to have a few example rules by default. You can edit them to your needs or remove them altogether at any time. All settings are saved in <tt>~/config/settings/Filer/</tt>.</p>
+<p>When started for the first time, you are asked if you'd like to have a few example rules by default. You can edit them to your needs or remove them altogether at any time. All settings and rules are saved in <span class="path">~/config/settings/Filer/</span>.</p>
 <p>Once you have created some rules, using <i>Filer</i> to process files accordingly is very simple. There are basically four ways:</p>
 <ol>
 <li>From a Terminal, simply type "<tt>Filer</tt>" followed by the files you want processed.</li>
@@ -147,6 +148,12 @@ ul {
 <li>Open Filer, select the files to process and drag&amp;drop them onto the "Dropzone". The Dropzone can also be embedded into the Desktop as a Replicant.</li>
 </ol>
 <p>…or have <i>AutoFiler</i> monitor specific folders to automatically process their incoming files according to Filer's rules.</p>
+<p>If <i>Filer</i> (or <i>AutoFiler</i> for that matter) encounters a conflict when moving or copying a file, i.e. there's already a file with that same name at the destination, a conflict window is shown (here about a file named 'Symbols'):</p>
+<div align="center">
+<img src="./images/conflict.png" alt="Conflict: FIle already exists" />
+</div>
+<p>You can either <span class="button">Skip</span> the move/copy of the file or <span class="button">Replace</span> the existing file. In case there are similar conflicts for the rest of the currently running Filer job, you can decide to <span class="button">Do this for all files</span> by ticking the checkbox before making your decision.<br />
+Note, the state of the checkbox is only valid for the current Filer job. If <i>Filer</i> (or <i>AutoFiler</i>) is triggered at some later time and a conflict with an existing file occurs again, you are once more presented with this conflict window.</p>
 <p>Filer's interface is divided into four tabs: Dropzone, Rules, AutoFiler and Help.</p>
 
 <h2>
@@ -167,15 +174,16 @@ If you drag files from another partition onto a replicated Dropzone, you'll end 
 <div align="center">
 <img src="./images/filer_ruleslist.png" alt="Filer's rules" />
 </div>
-<p>The second tab shows the list of organization rules. Every dropped file is being tested against &ndash; and if its type etc. matches, processed  by &ndash; each rule, top to bottom.</p>
+<p>The second tab shows the list of organization rules. Every dropped file is being tested against — and if its type etc. matches, processed  by — each rule, top to bottom.</p>
 <p>You can opt to <span class="menu">Apply only the first matching rule</span> if you prefer that. Filer will then stop trying to match rules to a file after it found one. (A rule can override that by adding a <span class="menu">Continue</span> in its "Do" block. See the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> for more info.)</p>
-<p>You can arrange the rules with the <span class="button">Move up/down</span> buttons and <span class="button">Add…</span>, <span class="button">Edit…</span> and <span class="button">Remove</span> them.<br />
-Here's the window that opens to edit a rule, which is similar to the one for adding a rule:</p>
+<p>You arrange the order of rules with the <span class="button">Move up/down</span> buttons. You can <span class="button">Edit…</span> and <span class="button">Disable</span> rules and add/remove a rule with the <span class="button">+</span> and <span class="button">-</span> buttons.</p>
+<p>Here's the window that opens to edit a rule, which is similar to the one for adding a rule:</p>
 <div align="center">
 <img src="./images/filer_edit_rule.png" alt="Editing a rule" /></div>
-<p>A rule needs three items: A <span class="menu">Description</span>, the condition <span class="menu">When</span> it is applied, and what action to <span class="menu">Do</span>.</p>
-<p>Click on the buttons in the "When" and "Do" boxes to explore the various options to construct the right condition and what action will be taken. You can add several conditions which will <i>all</i> have to be met to trigger the action. If you add several actions in the "Do" box, be aware that they are executed in order, from top to bottom.<br />
-Conveniently, the text boxes support drag&amp;dropping of a file or folder.</p>
+<p>A rule needs three things: A <span class="menu">Description</span>, the condition <span class="menu">When</span> it is applied, and what action to <span class="menu">Do</span>.</p>
+<p>Click on the pop-up menus in the "When" and "Do" boxes to explore the various options to construct the right condition and what action will be taken. You can add several conditions which will <i>all</i> have to be met to trigger the action. If you add several actions in the "Do" box, be aware that they are executed in order, from top to bottom.<br />
+You add or remove a condition or action with its <span class="button">+</span> or <span class="button">-</span> buttons.</p>
+<p>Conveniently, the text boxes support drag&amp;dropping of a file or folder. You can also click the folder icon which will open a file panel to navigate to your target. Depending on the kind of condition or action, the path, size, or file type etc. will be inserted.</p>
 <p>Please read the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> (also available from the <span class="button">Help…</span> button) for more information on the various possibilities.</p>
 
 <h2>
@@ -186,8 +194,8 @@ Conveniently, the text boxes support drag&amp;dropping of a file or folder.</p>
 <img src="./images/autofiler_settings.png" alt="AutoFiler settings" />
 </div>
 
-<p>The <i>AutoFiler</i> itself is a background application. You can activate the checkbox at the top to automatically <span class="menu">Run AutoFiler on system startup</span>. The button to beside it lets you start/stop it manually.</p>
-<p>You can <span class="button">Add…</span>, <span class="button">Edit…</span> and <span class="button">Remove</span> the folders that <i>AutoFiler</i> will monitor for incoming files. One or more folders are quickly added via drag&amp;drop.</p>
+<p>The <i>AutoFiler</i> itself is a background application. You can activate the checkbox at the top to automatically <span class="menu">Run AutoFiler on system startup</span>. The button beside it lets you start/stop it manually.</p>
+<p>With the <span class="button">+</span> and <span class="button">-</span> buttons, you can add and remove the folders that <i>AutoFiler</i> will monitor for incoming files. One or more folders are quickly added via drag&amp;drop.</p>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
@@ -196,16 +204,31 @@ Conveniently, the text boxes support drag&amp;dropping of a file or folder.</p>
 <img src="./images/help.png" alt="The help tab" />
 </div>
 <p>The last tab shows some information about <i>Filer</i> and offers two quick links to <span class="button">Help on rules</span> and the <span class="button">User documentation</span>.</p>
+<p>Please report bugs or create feature requests at <a href="https://github.com/HaikuArchives/Filer/issues">Filer's issue tracker at GitHub</a>.</p>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="history" name="history">History</a></h2>
-<p><b>1.0.0</b> - <i>2008:</i></p>
+<p><b>1.2.0</b> - <i>2017</i></p>
 <ul>
-<li>Initial release.</li>
+<li>Show a dialog if a similarly named file already exists at the destination.</li>
+<li>Bugfix to make the AutoFiler settings more robust with regard to changes of mounted volumes.</li>
+<li>Rules: Rules can be temporarily disabled.</li>
+<li>Rules: Changed button layout.</li>
+<li>Rules: Fixed reversed logic and resetting condition of size test.</li>
+<li>Rules: Added unit menu for user friendly size input.</li>
+<li>Rules: Improved "Add to archive" action.</li>
+<li>Rules, add/edit: Improved layout.</li>
+<li>Rules, add/edit: Improved drag&amp;drop.</li>
+<li>Rules, add/edit: Added folder icon to open a file dialog.</li>
+<li>Ruled, add/edit: tests/actions can now be inserted or removed, with +/- on every row.</li>
+<li>AutoFiler: Remove not needed "Edit" button for monitored paths.</li>
+<li>AutoFiler: Sort monitored paths alphabetically.</li>
+<li>AutoFiler: Multiple folders can now be added at once.</li>
+<li>Complete localization.</li>
+<li>Bugfixes and enhancements.</li>
 </ul>
-
-<p><b>1.1.0</b> - <i>14-05-2016</i></p>
+<p><b>1.1.0</b> - <i>2016-05-14</i></p>
 <ul>
 <li>A new GUI that integrates Filer and AutoFiler settings.</li>
 <li>Change to the action names, rule settings have to be created anew.</li>
@@ -215,6 +238,10 @@ Conveniently, the text boxes support drag&amp;dropping of a file or folder.</p>
 <li>Add a dropzone and make it replicatable.</li>
 <li>Add an option to stop matching rules after the first match was found (idea and code by Pete Goodeve).</li>
 <li>Add user documentation.</li>
+</ul>
+<p><b>1.0.0</b> - <i>2008</i></p>
+<ul>
+<li>Initial release.</li>
 </ul>
 </body>
 </html>
