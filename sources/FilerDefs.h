@@ -12,6 +12,7 @@
 static const char*	kDoAll = "all";
 static const char*	kReplace = "rpl";
 static const char*	kPointer = "ptr";
+static const char*	kEnDash = "\xE2\x80\x93";
 static const char*	kFilerSignature = "application/x-vnd.dw-Filer";
 static const char*	kAutoFilerSignature = "application/x-vnd.dw-AutoFiler";
 static const char	kSettingsFolder[] = "Filer";

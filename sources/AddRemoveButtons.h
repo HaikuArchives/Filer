@@ -18,7 +18,7 @@ class AddRemoveButtons : public BView
 
 public:
 			AddRemoveButtons(uint32 add, uint32 remove, BView* target,
-				float height);
+				float height, const char* addLabel = "Add below");
 			~AddRemoveButtons();
 
 	void	SetTarget(const BView* target);
