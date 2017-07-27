@@ -9,7 +9,6 @@
 
 #include "AddRemoveButtons.h"
 
-#include <Catalog.h>
 #include <LayoutBuilder.h>
 
 #include "FilerDefs.h"
@@ -19,7 +18,7 @@
 
 
 AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target,
-	float height, const char* addLabel)
+	float height, float spacing, const char* addLabel, const char* removeLabel)
 	:
 	BView(NULL, B_WILL_DRAW)
 {
@@ -38,13 +37,13 @@ AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target,
 	fAdd->SetExplicitSize(size);
 	fRemove->SetExplicitSize(size);
 
-	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, spacing)
 		.Add(fRemove)
 		.Add(fAdd)
 		.End();
 
-	fAdd->SetToolTip(B_TRANSLATE("Add rule"));
-	fRemove->SetToolTip(B_TRANSLATE("Remove rule"));
+	fAdd->SetToolTip(B_TRANSLATE(addLabel));
+	fRemove->SetToolTip(B_TRANSLATE(removeLabel));
 }
 
 

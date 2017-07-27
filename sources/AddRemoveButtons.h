@@ -10,6 +10,10 @@
 #define ADD_REMOVE_BUTTONS_H
 
 #include <Button.h>
+#include <Catalog.h>
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT AddRemoveButtons
 
 class AddRemoveButtons : public BView
 {
@@ -18,7 +22,9 @@ class AddRemoveButtons : public BView
 
 public:
 			AddRemoveButtons(uint32 add, uint32 remove, BView* target,
-				float height, const char* addLabel = "Add below");
+				float height, float spacing = 0,
+				const char* addLabel = B_TRANSLATE_MARK("Add"),
+				const char* removeLabel = B_TRANSLATE_MARK("Remove"));
 			~AddRemoveButtons();
 
 	void	SetTarget(const BView* target);
