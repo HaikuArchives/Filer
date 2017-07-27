@@ -9,12 +9,9 @@
 
 #include "ActionView.h"
 
-#include <Application.h>
 #include <Catalog.h>
-#include <IconUtils.h>
 #include <LayoutBuilder.h>
 #include <Path.h>
-#include <Resources.h>
 
 #include "FilerDefs.h"
 #include "RuleEditWindow.h"
@@ -32,37 +29,20 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 
 	RuleRunner::GetActions(fActions);
 
-	fFilePanels = new BFilePanel*[nActions];
-	fRefFilters = new TypedRefFilter*[nActions];
-	for (int32 i = 0; i < nActions; i++) {
-		fFilePanels[i] = NULL;
-		fRefFilters[i] = NULL;
-	}
-
 	fActionField = new BMenuField(NULL, ActionMenu());
-	fIconButton = new BButton(NULL, new BMessage(MSG_ACTION_PANEL));
 
 	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
 
-	size_t size;
-	const uint8* data = static_cast<const uint8*>(BApplication::AppResources()->
-							LoadResource(B_VECTOR_ICON_TYPE, 1, &size));
-
-	const float boxHeight = fValueBox->Bounds().Height();
-	const float height = boxHeight - 12;
-	fIcon = new BBitmap(BRect(0, 0, height, height), 0, B_RGBA32);
-
-	BIconUtils::GetVectorIcon(data, size, fIcon);
-	fIconButton->SetIcon(fIcon);
-
+	const float height = fValueBox->Bounds().Height();
+	fPanelButton = new PanelButton(MSG_ACTION_PANEL, nActions, height);
 	fAddRemoveButtons = new AddRemoveButtons(MSG_ADD_ACTION, MSG_REMOVE_ACTION,
-		this, boxHeight);
+		this, height);
 
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_HALF_ITEM_SPACING)
 		.Add(fActionField, 0)
 		.AddGroup(B_HORIZONTAL, 0)
-			.Add(fIconButton, 0)
+			.Add(fPanelButton, 0)
 			.Add(fValueBox)
 			.End()
 		.AddStrut(0)
@@ -98,16 +78,8 @@ ActionView::ActionView(const char* name, BMessage* action, const int32& flags)
 
 ActionView::~ActionView()
 {
-	for (int32 i = 0; i < nActions; i++) {
-		delete fFilePanels[i];
-		delete fRefFilters[i];
-	}
-	delete[] fFilePanels;
-	delete[] fRefFilters;
-
 	delete fActionField;
-	delete fIcon;
-	delete fIconButton;
+	delete fPanelButton;
 	delete fValueBox;
 	delete fAddRemoveButtons;
 }
@@ -117,7 +89,7 @@ void
 ActionView::AttachedToWindow()
 {
 	fActionField->Menu()->SetTargetForItems(this);
-	fIconButton->SetTarget(this);
+	fPanelButton->SetTarget(this);
 	fValueBox->SetTarget(this);
 }
 
@@ -152,38 +124,30 @@ ActionView::MessageReceived(BMessage* msg)
 		}
 		case MSG_ACTION_PANEL:
 		{
-			BFilePanel*& panel = fFilePanels[fType];
-			if (panel == NULL) {
-				const char* filetype;
+			if (!fPanelButton->PanelExists(fType)) {
+				const char* fileType;
 				switch (fType) {
 					case ACTION_ARCHIVE:
-						filetype = "application/zip";
+						fileType = "application/zip";
 						break;
 					case ACTION_COMMAND:
-						filetype = "text/plain";
+						fileType = "text/plain";
 						break;
 					default:
-						filetype = "";
+						fileType = "";
 				}
 
-				uint32 flags = B_DIRECTORY_NODE;
+				uint32 flavors = B_DIRECTORY_NODE;
 				if (fType == ACTION_RENAME || fType == ACTION_ARCHIVE
 					|| fType == ACTION_COMMAND)
-					flags |= B_FILE_NODE;
+					flavors |= B_FILE_NODE;
 
-				TypedRefFilter*& filter = fRefFilters[fType];
-				filter = new TypedRefFilter(filetype, flags);
-
-				if (fType == ACTION_RENAME || fType == ACTION_COMMAND)
-					flags = B_FILE_NODE;
-
-				BMessenger msgr(this);
-				panel = new BFilePanel(B_OPEN_PANEL, &msgr, NULL, flags, false,
-					NULL, filter);
-				panel->Window()->SetTitle(sActions[fType].locale);
+				fPanelButton->CreatePanel(fType, this, flavors, fileType,
+					fType == ACTION_RENAME || fType == ACTION_COMMAND
+						? B_FILE_NODE : flavors, sActions);
 			}
 
-			panel->Show();
+			fPanelButton->ShowPanel(fType);
 			break;
 		}
 		default:
@@ -223,7 +187,7 @@ ActionView::SetAction()
 
 	bool show = ActionHasTarget(fType);
 	setVisibility(fValueBox, show);
-	setVisibility(fIconButton, show);
+	setVisibility(fPanelButton, show);
 }
 
 
