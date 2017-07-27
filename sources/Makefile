@@ -32,7 +32,7 @@ SRCS = AutoFilerTab.cpp FilerRule.cpp FSUtils.cpp main.cpp PatternProcessor.cpp 
 	RuleRunner.cpp ActionView.cpp AutoTextControl.cpp CppSQLite3.cpp Database.cpp \
 	DropZoneTab.cpp HelpTab.cpp MainWindow.cpp RefStorage.cpp ReplicantWindow.cpp \
 	RuleEditWindow.cpp RuleItem.cpp RuleTab.cpp TypedRefFilter.cpp TestView.cpp \
-	ConflictWindow.cpp ModeMenu.cpp AddRemoveButtons.cpp
+	ConflictWindow.cpp ModeMenu.cpp AddRemoveButtons.cpp PanelButton.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.

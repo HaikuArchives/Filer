@@ -7,14 +7,12 @@
 #ifndef ACTIONVIEW_H
 #define ACTIONVIEW_H
 
-#include <Bitmap.h>
-#include <FilePanel.h>
 #include <MenuField.h>
 #include <PopUpMenu.h>
 
 #include "AddRemoveButtons.h"
 #include "AutoTextControl.h"
-#include "TypedRefFilter.h"
+#include "PanelButton.h"
 
 class ActionView : public BView
 {
@@ -37,11 +35,7 @@ private:
 	void			SetAction();
 
 	BMenuField*		fActionField;
-	BButton*		fIconButton;
-	BBitmap*		fIcon;
-
-	BFilePanel**		fFilePanels;
-	TypedRefFilter**	fRefFilters;
+	PanelButton*	fPanelButton;
 
 	AutoTextControl*	fValueBox;
 	AddRemoveButtons*	fAddRemoveButtons;
