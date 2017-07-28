@@ -17,7 +17,8 @@
 class RuleEditWindow : public BWindow
 {
 public:
-				RuleEditWindow(FilerRule* rule, BHandler* caller);
+				RuleEditWindow(BRect frame, FilerRule* rule, BHandler* caller);
+	virtual		~RuleEditWindow();
 
 	void		MessageReceived(BMessage* msg);
 

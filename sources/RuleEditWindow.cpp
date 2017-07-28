@@ -15,13 +15,14 @@
 
 #include "FilerDefs.h"
 
+
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "RuleEditWindow"
 
 
-RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
+RuleEditWindow::RuleEditWindow(BRect frame, FilerRule* rule, BHandler* caller)
 	:
-	BWindow(BRect(0, 0, 420, 0), B_TRANSLATE("Edit rule"), B_TITLED_WINDOW,
+	BWindow(frame, B_TRANSLATE("Edit rule"), B_TITLED_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE | B_AUTO_UPDATE_SIZE_LIMITS),
 	fTestView(NULL),
 	fActionView(NULL),
@@ -104,8 +105,25 @@ RuleEditWindow::RuleEditWindow(FilerRule* rule, BHandler* caller)
 	if (fEmptyCount > 0)
 		fOK->SetEnabled(false);
 
-	CenterOnScreen();
 	Show();
+
+	BRect frame = Frame();
+	if (frame.left == -1.0) {
+		CenterOnScreen();
+		ResizeTo(450.0, frame.Height());
+	}
+}
+
+
+RuleEditWindow::~RuleEditWindow()
+{
+	BRect pos = Frame();
+
+	BMessage msg;
+	msg.what = MSG_RULE_WINDOW_POS;
+	msg.AddRect("rulepos", pos);
+
+	fCaller->Looper()->PostMessage(&msg);
 }
 
 

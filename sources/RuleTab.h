@@ -28,6 +28,7 @@ public:
 
 	virtual void	AttachedToWindow();
 	void			MessageReceived(BMessage* message);
+	void			UpdateRuleWindowPos(BRect pos);
 	
 private:
 	void			_BuildLayout();
@@ -50,6 +51,7 @@ private:
 	BListView*		fRuleItemList;
 	BScrollView*	fScrollView;
 	bool			fChanges;
+	BRect			fRulePos;
 };
 
 

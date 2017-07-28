@@ -25,9 +25,9 @@ MainWindow::MainWindow()
 	BWindow(BRect(), B_TRANSLATE_SYSTEM_NAME("Filer"),
 		B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	_BuildLayout();
-
 	LoadSettings();
+
+	_BuildLayout();
 
 	MoveTo(fPosition.left, fPosition.top);
 	ResizeTo(fPosition.Width(), fPosition.Height());
@@ -71,6 +71,7 @@ MainWindow::_BuildLayout()
 
 	fDropZone = new DropZoneTab();
 	fRules = new RuleTab();
+	fRules->UpdateRuleWindowPos(fRuleWindowPos);
 	fAutoFiler = new AutoFilerTab();
 	fHelp = new HelpTab();
 
@@ -103,6 +104,13 @@ MainWindow::MessageReceived(BMessage* msg)
 			SaveSettings();
 			break;
 		}
+		case MSG_RULE_WINDOW_POS:
+		{
+			msg->FindRect("rulepos", &fRuleWindowPos);
+			fRules->UpdateRuleWindowPos(fRuleWindowPos);
+
+			break;
+		}
 		default:
 		{
 			BWindow::MessageReceived(msg);
@@ -116,6 +124,7 @@ void
 MainWindow::LoadSettings()
 {
 	fPosition.Set(-1, -1, -1, -1);
+	fRuleWindowPos.Set(-1, -1, -1, -1);
 	fTabSelection = 0;
 
 	BPath path;
@@ -132,6 +141,8 @@ MainWindow::LoadSettings()
 					fPosition.Set(-1, -1, -1, -1);
 				if (msg.FindInt32("tab", &fTabSelection) != B_OK)
 					fTabSelection = 0;
+				if (msg.FindRect("rulepos", &fRuleWindowPos) != B_OK)
+					fRuleWindowPos.Set(-1, -1, -1, -1);
 			}
 		}
 	}
@@ -167,6 +178,7 @@ MainWindow::SaveSettings()
 			msg.AddRect("pos", pos);
 			msg.AddInt32("tab", tab);
 			msg.AddBool("match", match);
+			msg.AddRect("rulepos", fRuleWindowPos);
 			msg.Flatten(&file);
 		}
 	}

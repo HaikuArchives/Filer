@@ -44,6 +44,7 @@ public:
 	void			Replace(bool replace) { fReplace = replace; }
 
 	BObjectList<FilerRule>*	GetRuleList() const { return fRuleList; }
+	MainWindow*		fMainWin;
 
 private:
 	void			LoadRuleSettings();
@@ -51,7 +52,6 @@ private:
 	void			ProcessFiles();
 	void			SetDecimalMark();
 
-	MainWindow*		fMainWin;
 
 	char			fDecimalMark;
 	bool			fQuitRequested;

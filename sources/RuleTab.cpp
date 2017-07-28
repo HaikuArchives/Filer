@@ -34,6 +34,7 @@ RuleTab::RuleTab()
 	:
 	BView(B_TRANSLATE("Rules"), B_SUPPORTS_LAYOUT)
 {
+	fRulePos.Set(-1, -1, -1, -1);
 	_BuildLayout();
 
 	fRuleList = new BObjectList<FilerRule>(20, true);
@@ -165,7 +166,7 @@ RuleTab::MessageReceived(BMessage* message)
 	{
 		case MSG_SHOW_ADD_WINDOW:
 		{
-			RuleEditWindow* rulewin = new RuleEditWindow(NULL, this);
+			RuleEditWindow* rulewin = new RuleEditWindow(fRulePos, NULL, this);
 			break;
 		}
 		case MSG_SHOW_EDIT_WINDOW:
@@ -173,7 +174,7 @@ RuleTab::MessageReceived(BMessage* message)
 			FilerRule* rule = fRuleList->ItemAt(
 				fRuleItemList->CurrentSelection());
 
-			RuleEditWindow* rulewin = new RuleEditWindow(rule, this);
+			RuleEditWindow* rulewin = new RuleEditWindow(fRulePos, rule, this);
 			break;
 		}
 		case MSG_ADD_RULE:
@@ -298,6 +299,13 @@ RuleTab::UpdateButtons()
 		fDisableButton->SetLabel(fRuleList->ItemAt(selection)->Disabled() ?
 			B_TRANSLATE("Enable") : kDisable);
 	}
+}
+
+
+void
+RuleTab::UpdateRuleWindowPos(BRect pos)
+{
+	fRulePos = pos;
 }
 
 

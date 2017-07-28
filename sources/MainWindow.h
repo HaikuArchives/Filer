@@ -41,6 +41,7 @@ private:
 	void			SaveSettings();
 
 	BRect			fPosition;
+	BRect			fRuleWindowPos;
 	int32			fTabSelection;
 
 	BTabView*		fTabView;
