@@ -13,6 +13,7 @@
 
 #include "AddRemoveButtons.h"
 #include "AutoTextControl.h"
+#include "PanelButton.h"
 
 class TestView : public BView
 {
@@ -47,6 +48,7 @@ private:
 	BMenuField*	fModeField;
 	BMenuField*	fUnitField;
 
+	PanelButton*		fPanelButton;
 	AutoTextControl*	fValueBox;
 	AddRemoveButtons*	fAddRemoveButtons;
 

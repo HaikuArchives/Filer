@@ -30,6 +30,8 @@ public:
 	void			SetRemoveEnabled(bool isEnabled)
 						{ fAddRemoveButtons->SetRemoveEnabled(isEnabled); }
 
+	static void		SetVisibility(BView* view, bool show);
+
 private:
 	BPopUpMenu*		ActionMenu() const;
 	void			SetAction();
