@@ -33,6 +33,10 @@ extern BMessage gArchivedTypeMenu;
 #endif
 
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TestView"
+
+
 TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	:
 	BView(name, flags),
@@ -199,9 +203,22 @@ TestView::MessageReceived(BMessage* msg)
 				if (fType != TEST_LOCATION)
 					flavors |= B_FILE_NODE;
 
+				BString title;
+
+				if (fType == TEST_LOCATION)
+					title = B_TRANSLATE_COMMENT("Choose folder for %s%",
+						"Don't translate %s%; "
+						"it's the test for 'Type/Name/Size/Location'");
+				else
+					title = B_TRANSLATE_COMMENT("Choose file for %s%",
+						"Don't translate %s%; "
+						"it's the test for 'Type/Name/Size/Location'");
+
+				title.ReplaceFirst("%s%", sTestTypes[fType].locale);
+
 				fPanelButton->CreatePanel(fType, this,
 					fType == TEST_LOCATION ? flavors : B_FILE_NODE,
-					"", flavors, sTestTypes);
+					"", flavors, title);
 			}
 
 			fPanelButton->ShowPanel(fType);

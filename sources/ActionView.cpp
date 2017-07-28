@@ -143,7 +143,8 @@ ActionView::MessageReceived(BMessage* msg)
 
 				fPanelButton->CreatePanel(fType, this,
 					fType == ACTION_RENAME || fType == ACTION_COMMAND
-						? B_FILE_NODE : flavors, fileType, flavors, sActions);
+						? B_FILE_NODE : flavors, fileType, flavors,
+					sActions[fType].locale);
 			}
 
 			fPanelButton->ShowPanel(fType);
