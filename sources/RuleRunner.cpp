@@ -108,16 +108,7 @@ const NamePair sTestTypes[] =
 //	LOCALIZE("Date"),	//	"Last changed"
 //	LOCALIZE("Attribute")
 };
-static const unsigned nTestTypes = sizeof(sTestTypes) / sizeof(sTestTypes[0]);
-
-enum TestType {
-	TEST_TYPE,
-	TEST_NAME,
-	TEST_SIZE,
-	TEST_LOCATION,
-//	TEST_DATE,	//	"Last changed"
-	TEST_ATTRIBUTE
-};
+const unsigned nTestTypes = sizeof(sTestTypes) / sizeof(sTestTypes[0]);
 
 static const TestType stringTests[] = {
 	TEST_TYPE,
@@ -1383,7 +1374,7 @@ ActionHasTarget(int8 type)
 
 
 static bool
-getDirectoryPath(BString& str, const entry_ref& ref)
+GetDirectoryPath(BString& str, const entry_ref& ref)
 {
 	BEntry entry(&ref);
 	if (entry.InitCheck() != B_OK)
@@ -1407,41 +1398,14 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 	if (isTest)
 		switch (type) {
 			case TEST_TYPE:
-			{
-				BNode node(&ref);
-				if (node.InitCheck() != B_OK)
-					return false;
-
-				BNodeInfo nodeInfo(&node);
-				if (nodeInfo.InitCheck() != B_OK)
-					return false;
-
-				char mimeType[B_MIME_TYPE_LENGTH];
-				if (nodeInfo.GetType(mimeType) != B_OK)
-					return false;
-
-				text = mimeType;
-				return true;
-			}
+				return SetTextForMime(text, ref);
 			case TEST_NAME:
 				text = ref.name;
 				return true;
 			case TEST_SIZE:
-			{
-				BEntry entry(&ref);
-				if (entry.InitCheck() != B_OK || !entry.IsFile())
-					return false;
-
-				off_t size;
-				if (entry.GetSize(&size) != B_OK)
-					return false;
-
-				text = "";
-				text << size;
-				return true;
-			}
+				return SetTextForSize(text, ref);
 			case TEST_LOCATION:
-				return getDirectoryPath(text, ref);
+				return GetDirectoryPath(text, ref);
 			default:
 				return false;
 		}
@@ -1449,7 +1413,7 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 		switch (type) {
 			case ACTION_MOVE:
 			case ACTION_COPY:
-				return getDirectoryPath(text, ref);
+				return GetDirectoryPath(text, ref);
 			case ACTION_RENAME:
 				text = ref.name;
 				return true;
@@ -1471,6 +1435,43 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 			default:
 				return false;
 		}
+}
+
+
+bool
+SetTextForMime(BString& text, const entry_ref& ref)
+{
+	BNode node(&ref);
+	if (node.InitCheck() != B_OK)
+		return false;
+
+	BNodeInfo nodeInfo(&node);
+	if (nodeInfo.InitCheck() != B_OK)
+		return false;
+
+	char mimeType[B_MIME_TYPE_LENGTH];
+	if (nodeInfo.GetType(mimeType) != B_OK)
+		return false;
+
+	text = mimeType;
+	return true;
+}
+
+
+bool
+SetTextForSize(BString& text, const entry_ref& ref)
+{
+	BEntry entry(&ref);
+	if (entry.InitCheck() != B_OK || !entry.IsFile())
+		return false;
+
+	off_t size;
+	if (entry.GetSize(&size) != B_OK)
+		return false;
+
+	text = "";
+	text << size;
+	return true;
 }
 
 

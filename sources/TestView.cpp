@@ -11,7 +11,9 @@
 
 #include <LayoutBuilder.h>
 #include <Mime.h>
+#include <Path.h>
 
+#include "ActionView.h"
 #include "FilerDefs.h"
 #include "main.h"
 #include "ModeMenu.h"
@@ -59,13 +61,16 @@ TestView::TestView(const char* name, BMessage* test, const int32& flags)
 	fValueBox = new AutoTextControl("valuebox", NULL, NULL, new BMessage());
 	fValueBox->SetDivider(0);
 
+	const float height = fValueBox->Bounds().Height();
+	fPanelButton = new PanelButton(MSG_TEST_PANEL, nTestTypes, height);
 	fAddRemoveButtons = new AddRemoveButtons(MSG_ADD_TEST, MSG_REMOVE_TEST,
-		this, fValueBox->Bounds().Height());
+		this, height);
 
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_HALF_ITEM_SPACING)
 		.Add(fTestField, 0)
 		.Add(fModeField, 0)
 		.AddGroup(B_HORIZONTAL, 0)
+			.Add(fPanelButton, 0)
 			.Add(fValueBox)
 			.Add(fUnitField, 0)
 			.End()
@@ -111,6 +116,7 @@ TestView::~TestView()
 {
 	delete fTestField;
 	delete fModeField;
+	delete fPanelButton;
 	delete fValueBox;
 	delete fUnitField;
 	delete fAddRemoveButtons;
@@ -131,6 +137,8 @@ TestView::AttachedToWindow()
 	}
 
 	fUnitField->Menu()->SetTargetForItems(this);
+
+	fPanelButton->SetTarget(this);
 	fValueBox->SetTarget(this);
 }
 
@@ -140,6 +148,32 @@ TestView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what)
 	{
+		case B_REFS_RECEIVED:
+		{
+			entry_ref ref;
+			if (msg->FindRef("refs", &ref) == B_OK) {
+				BString text;
+				switch (fType) {
+					case TEST_TYPE:
+						SetTextForMime(text, ref);
+						break;
+					case TEST_NAME:
+						text = ref.name;
+						break;
+					case TEST_SIZE:
+						if (SetTextForSize(text, ref))
+							ResetUnit();
+						break;
+					case TEST_LOCATION:
+						text = BPath(&ref).Path();
+						break;
+				}
+
+				fValueBox->SetText(text);
+			}
+
+			break;
+		}
 		case MSG_TEST_CHOSEN:
 		{
 			int8 type;
@@ -159,6 +193,19 @@ TestView::MessageReceived(BMessage* msg)
 			}
 			break;
 		}
+		case MSG_TEST_PANEL:
+			if (!fPanelButton->PanelExists(fType)) {
+				uint32 flavors = B_DIRECTORY_NODE;
+				if (fType != TEST_LOCATION)
+					flavors |= B_FILE_NODE;
+
+				fPanelButton->CreatePanel(fType, this,
+					fType == TEST_LOCATION ? flavors : B_FILE_NODE,
+					"", flavors, sTestTypes);
+			}
+
+			fPanelButton->ShowPanel(fType);
+			break;
 		case MSG_UNIT_CHOSEN:
 		{
 			int8 unit;
@@ -373,18 +420,15 @@ TestView::SetTest()
 	}
 	STRACE(("-------------------------\n"));
 
+	ActionView::SetVisibility(fPanelButton, fType != TEST_ATTRIBUTE);
+
 	if (fDataType == TEST_TYPE_NUMBER) {
 		fValueBox->OnlyAllowDigits(true);
 		SetUnit();
-
-		if (fUnitField->IsHidden())
-			fUnitField->Show();
-	} else {
+	} else
 		fValueBox->OnlyAllowDigits(false);
 
-		if (!fUnitField->IsHidden())
-			fUnitField->Hide();
-	}
+	ActionView::SetVisibility(fUnitField, fDataType == TEST_TYPE_NUMBER);
 }
 
 

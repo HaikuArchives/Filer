@@ -123,7 +123,6 @@ ActionView::MessageReceived(BMessage* msg)
 			break;
 		}
 		case MSG_ACTION_PANEL:
-		{
 			if (!fPanelButton->PanelExists(fType)) {
 				const char* fileType;
 				switch (fType) {
@@ -142,14 +141,13 @@ ActionView::MessageReceived(BMessage* msg)
 					|| fType == ACTION_COMMAND)
 					flavors |= B_FILE_NODE;
 
-				fPanelButton->CreatePanel(fType, this, flavors, fileType,
+				fPanelButton->CreatePanel(fType, this,
 					fType == ACTION_RENAME || fType == ACTION_COMMAND
-						? B_FILE_NODE : flavors, sActions);
+						? B_FILE_NODE : flavors, fileType, flavors, sActions);
 			}
 
 			fPanelButton->ShowPanel(fType);
 			break;
-		}
 		default:
 			BView::MessageReceived(msg);
 	}
@@ -169,14 +167,14 @@ ActionView::GetAction() const
 }
 
 
-static void
-setVisibility(BControl* control, bool show)
+void
+ActionView::SetVisibility(BView* view, bool show)
 {
 	if (show) {
-		if (control->IsHidden())
-			control->Show();
-	} else if (!control->IsHidden())
-			control->Hide();
+		if (view->IsHidden())
+			view->Show();
+	} else if (!view->IsHidden())
+		view->Hide();
 }
 
 
@@ -186,8 +184,8 @@ ActionView::SetAction()
 	fActionField->MenuItem()->SetLabel(sActions[fType].locale);
 
 	bool show = ActionHasTarget(fType);
-	setVisibility(fValueBox, show);
-	setVisibility(fPanelButton, show);
+	SetVisibility(fValueBox, show);
+	SetVisibility(fPanelButton, show);
 }
 
 

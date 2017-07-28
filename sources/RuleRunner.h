@@ -21,6 +21,8 @@ struct NamePair
 };
 
 extern const NamePair sTestTypes[];
+extern const unsigned nTestTypes;
+
 extern const NamePair sModeTypes[];
 
 extern const NamePair sActions[];
@@ -35,6 +37,15 @@ enum {
 	TEST_TYPE_NUMBER,
 	TEST_TYPE_DATE,
 	TEST_TYPE_ANY
+};
+
+enum TestType {
+	TEST_TYPE,
+	TEST_NAME,
+	TEST_SIZE,
+	TEST_LOCATION,
+//	TEST_DATE,	//	"Last changed"
+	TEST_ATTRIBUTE
 };
 
 enum {
@@ -79,6 +90,8 @@ int8		AttributeTestType();
 bool		ActionHasTarget(int8 type);
 bool		SetTextForType(BString& text, int8 type, const entry_ref& ref,
 				bool isTest);
+bool		SetTextForMime(BString& text, const entry_ref& ref);
+bool		SetTextForSize(BString& text, const entry_ref& ref);
 void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
 
 #endif	// RULERUNNER_H
