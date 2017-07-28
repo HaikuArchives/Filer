@@ -13,7 +13,6 @@
 #include <Button.h>
 #include <FilePanel.h>
 
-#include "RuleRunner.h"
 #include "TypedRefFilter.h"
 
 class PanelButton : public BButton
@@ -29,7 +28,7 @@ public:
 			~PanelButton();
 
 	void	CreatePanel(int8 which, const BView* target, uint32 flavors,
-				const char* fileType, uint32 filters, const NamePair pairs[]);
+				const char* fileType, uint32 filters, const char* title);
 	void	ShowPanel(int8 which) { fPanels[which]->Show(); }
 	bool	PanelExists(int8 which) { return fPanels[which] != NULL; }
 };

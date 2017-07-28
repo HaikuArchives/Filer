@@ -9,9 +9,13 @@
 #include "PanelButton.h"
 
 #include <Application.h>
+#include <Catalog.h>
 #include <IconUtils.h>
 #include <Resources.h>
 #include <Window.h>
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "PanelButton"
 
 
 PanelButton::PanelButton(uint32 what, int32 nPanels, float height)
@@ -56,7 +60,7 @@ PanelButton::~PanelButton()
 
 void
 PanelButton::CreatePanel(int8 which, const BView* target, uint32 flavors,
-	const char* fileType, uint32 filters, const NamePair pairs[])
+	const char* fileType, uint32 filters, const char* title)
 {
 	BFilePanel*& panel = fPanels[which];
 
@@ -68,6 +72,10 @@ PanelButton::CreatePanel(int8 which, const BView* target, uint32 flavors,
 		panel = new BFilePanel(B_OPEN_PANEL, &msgr, NULL, flavors, false, NULL,
 			filter);
 
-		panel->Window()->SetTitle(pairs[which].locale);
+		BString str(B_TRANSLATE("Filer"));
+		str << ": " << title;
+
+		panel->Window()->SetTitle(str);
+		panel->SetButtonLabel(B_DEFAULT_BUTTON, B_TRANSLATE("Choose"));
 	}
 }
