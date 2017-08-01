@@ -145,7 +145,7 @@ HelpTab::HelpTab()
 		| B_FONT_FLAGS);
 	fName->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
 
-	fVersion = new BStringView("version", "v1.1.0");
+	fVersion = new BStringView("version", "v1.2.0");
 	fVersion->GetFont(&font);
 	font.SetFace(B_REGULAR_FACE);
 	font.SetSize(font.Size() * 0.9);

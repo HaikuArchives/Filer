@@ -1,7 +1,5 @@
-1	German	application/x-vnd.dw-Filer	1186486884
+1	German	application/x-vnd.dw-Filer	3921041941
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tKompletter Dateiname\n%EXTENSION%\tNur die Dateiendung\n%BASENAME%\tDateiname ohne Endung\n%FOLDER%\t\tKompletter Pfad zum Ordner der Datei\n%FULLPATH%\t\tKompletter Pfad der Datei\n%DATE%\t\t\tAktuelles Datum im Format MM-TT-JJJ\n%EURODATE%\t\tAktuelles Datum im Format TT-MM-JJJ\n%REVERSEDATE%\tAktuelles Datum im Format JJJ-MM-TT\n%TIME%\t\t\tAktuelle Zeit im 24-Stundenformat\n%ATTR:xxxx%\t\tEin Extra-Attribut der Datei
-Add rule	AddRemoveButtons		Regel hinzufügen
-Remove rule	AddRemoveButtons		Regel entfernen
 Add folder	AutoFilerTab		Ordner hinzufügen
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Ordner hinzufügen
@@ -23,7 +21,9 @@ Filer dropzone	DropZoneTab		Filer DropZone
 Open Filer…	DropZoneTab		Filer öffnen…
 Replicate dropzone…	DropZoneTab		DropZone als Replikant…
 Abort	FSUtils		Abbrechen
+Add	FSUtils		Hinzufügen
 Error	FSUtils		Fehler
+Remove	FSUtils		Entfernen
 Replace file	FSUtils		Datei ersetzen
 Skip file	FSUtils		Datei überspringen
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Die Datei '%name%' existiert bereits. Soll sie ersetzt werden?
@@ -33,6 +33,8 @@ Filer is an automatic file organizer. It takes the files it's opened with or tha
 Help	HelpTab		Hilfe
 Help on rules	HelpTab		Hilfe zu Regeln
 User documentation	HelpTab		Anleitung
+Choose	PanelButton		Auswählen
+Filer	PanelButton		Filer
 Add rule	RuleEditWindow		Regel hinzufügen
 Cancel	RuleEditWindow		Abbrechen
 Description:	RuleEditWindow		Beschreibung:
@@ -82,3 +84,5 @@ Move down	RuleTab		Runter
 Move up	RuleTab		Rauf
 Rules	RuleTab		Regeln
 Filer	System name		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Datei für deren %s% wählen
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Ordner für dessen %s% wählen
