@@ -19,6 +19,9 @@
 #include <SeparatorView.h>
 #include <StringView.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "AutoFilerTab.h"
 #include "FilerDefs.h"
 #include "RefStorage.h"

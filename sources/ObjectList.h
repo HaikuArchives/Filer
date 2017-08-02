@@ -678,7 +678,7 @@ BObjectList<T>::BinaryInsert(T *item, CompareFunctionWithState func, void *state
 
 template<class T>
 bool 
-BObjectList<T>::BinaryInsertUnique(T *, CompareFunction func)
+BObjectList<T>::BinaryInsertUnique(T *item, CompareFunction func)
 {
 	int32 index = _PointerList_::BinarySearchIndex(item,
 		(GenericCompareFunction)func);
@@ -691,7 +691,7 @@ BObjectList<T>::BinaryInsertUnique(T *, CompareFunction func)
 
 template<class T>
 bool 
-BObjectList<T>::BinaryInsertUnique(T *, CompareFunctionWithState func, void *state)
+BObjectList<T>::BinaryInsertUnique(T *item, CompareFunctionWithState func, void *state)
 {
 	int32 index = _PointerList_::BinarySearchIndex(item,
 		(GenericCompareFunctionWithState)func, state);
