@@ -107,10 +107,10 @@ RuleEditWindow::RuleEditWindow(BRect frame, FilerRule* rule, BHandler* caller)
 
 	Show();
 
-	BRect window = Frame();
-	if (window.left == -1.0) {
+	BRect rect = Frame();
+	if (rect.left == -1.0) {
 		CenterOnScreen();
-		ResizeTo(450.0, window.Height());
+		ResizeTo(450.0, rect.Height());
 	}
 }
 
