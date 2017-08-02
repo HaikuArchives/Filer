@@ -8,24 +8,22 @@
  *	Owen Pan <owen.pan@yahoo.com>, 2017
  */
 
-#include <Alert.h>
+#include "AutoFilerTab.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <Catalog.h>
 #include <ControlLook.h>
 #include <FindDirectory.h>
 #include <LayoutBuilder.h>
-#include <MessageRunner.h>
 #include <Path.h>
 #include <Roster.h>
 #include <SeparatorView.h>
 #include <StringView.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "AutoFilerTab.h"
 #include "FilerDefs.h"
 #include "RefStorage.h"
-#include "TypedRefFilter.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "AutoFilerTab"

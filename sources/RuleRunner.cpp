@@ -1102,8 +1102,8 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 
 		command = "create table ";
 		command << tablename
-			<< "(entrytype varchar, testtype int, testmode int,"
-			"testvalue varchar, attrtype varchar, attrtypename varchar,"
+			<< "(entrytype varchar, testtype int, testmode int, "
+			"testvalue varchar, attrtype varchar, attrtypename varchar, "
 			"attrpublicname varchar, sizeunit int);";
 		DBCommand(db, command.String(), "RuleTab::SaveRules");
 

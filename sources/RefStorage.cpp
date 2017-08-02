@@ -78,13 +78,12 @@ LoadFolders(BListView* folderList)
 			if (entry.GetRef(&ref) != B_OK)
 				continue;
 
-			RefStorage* refholder = new RefStorage(ref);
-			if (refholder) {
-				gRefStructList.AddItem(refholder);
-				count++;
-			}
+			RefStorage refholder(ref);
+			gRefStructList.AddItem(&refholder);
+			count++;
 		} else {
-			folderList->AddItem(new BStringItem(str));
+			BStringItem item(str);
+			folderList->AddItem(&item);
 			count++;
 		}
 	}

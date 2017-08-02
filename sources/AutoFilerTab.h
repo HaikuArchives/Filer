@@ -14,10 +14,10 @@
 #include <CheckBox.h>
 #include <FilePanel.h>
 #include <ListView.h>
+#include <MessageRunner.h>
 #include <ScrollView.h>
-#include <View.h>
 
-class TypedRefFilter;
+#include "TypedRefFilter.h"
 
 class AutoFilerTab : public BView
 {
