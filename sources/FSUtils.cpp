@@ -172,6 +172,7 @@ status_t MoveFile(BEntry* srcentry, BEntry* destentry, bool clobber)
 }
 
 
+#if 0
 const char* GetValidName(BEntry* entry)
 {
 	// given a particular location, this will (1) check to see if said entry
@@ -207,6 +208,7 @@ const char* GetValidName(BEntry* entry)
 
 	return path.Path();
 }
+#endif
 
 
 bool IsFilenameChar(char c)
