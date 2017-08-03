@@ -12,8 +12,10 @@
 #include <Button.h>
 #include <Catalog.h>
 
+#define ADD_REMVOE_BUTTONS_CONTEXT "AddRemoveButtons"
+
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "AddRemoveButtons"
+#define B_TRANSLATION_CONTEXT ADD_REMVOE_BUTTONS_CONTEXT
 
 
 class AddRemoveButtons : public BView
