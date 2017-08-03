@@ -54,43 +54,25 @@ LoadFolders(BListView* folderList)
 			return B_BUSY;
 	}
 
-	BMessage msg;
-
 	BFile file(path.Path(), B_READ_ONLY);
 	status_t status = file.InitCheck();
 	if (status != B_OK)
 		return status;
 
+	BMessage msg;
 	status = msg.Unflatten(&file);
 	if (status != B_OK)
 		return status;
 
-	BString str;
 	int32 i;
 	int32 count = 0;
 
-	// AutoFilerFolders of v1.1.0 saved paths as entry_refs
-	// The following block is for backwards compatibility
-	entry_ref ref;
-	for (i = 0; msg.FindRef("refs", i, &ref) == B_OK; i++) {
-		BEntry entry(&ref);
-		if (entry.InitCheck() != B_OK || !entry.Exists() || !entry.IsDirectory())
-			continue;
-
-		if (folderList == NULL)
-			gRefStructList.AddItem(new RefStorage(ref));
-		else {
-			BPath path(&ref);
-			folderList->AddItem(new BStringItem(path.Path()));
-		}
-		count++;
-	}
-
-	count = 0;
-
+	// try to load folders in the new paths format
+	BString str;
 	for (i = 0; msg.FindString("path", i, &str) == B_OK; i++) {
 		BEntry entry(str.String());
-		if (entry.InitCheck() != B_OK || !entry.Exists() || !entry.IsDirectory())
+		if (entry.InitCheck() != B_OK || !entry.Exists()
+			|| !entry.IsDirectory())
 			continue;
 
 		if (folderList == NULL) {
@@ -105,10 +87,38 @@ LoadFolders(BListView* folderList)
 		count++;
 	}
 
-	if (count < i)
-		SaveFolders(folderList);
+	if (i > 0) {
+		// at least one data field in paths format was found
 
-	return status;
+		if (count < i)
+			SaveFolders(folderList);
+
+		return B_OK;
+	}
+
+	// folders are not in paths format, so load them in refs format
+
+	count = 0;
+
+	entry_ref ref;
+	for (i = 0; msg.FindRef("refs", i, &ref) == B_OK; i++) {
+		BEntry entry(&ref);
+		if (entry.InitCheck() != B_OK || !entry.Exists()
+			|| !entry.IsDirectory())
+			continue;
+
+		if (folderList == NULL)
+			gRefStructList.AddItem(new RefStorage(ref));
+		else
+			folderList->AddItem(new BStringItem(BPath(&ref).Path()));
+
+		count++;
+	}
+
+	if (count > 0)
+		SaveFolders(folderList);	// save folders in the new paths format
+
+	return B_OK;
 }
 
 
