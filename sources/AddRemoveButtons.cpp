@@ -14,7 +14,7 @@
 #include "FilerDefs.h"
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "AddRemoveButtons"
+#define B_TRANSLATION_CONTEXT ADD_REMVOE_BUTTONS_CONTEXT
 
 
 AddRemoveButtons::AddRemoveButtons(uint32 add, uint32 remove, BView* target,
