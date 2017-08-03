@@ -66,7 +66,27 @@ LoadFolders(BListView* folderList)
 		return status;
 
 	BString str;
-	int32 i, count = 0;
+	int32 i;
+	int32 count = 0;
+
+	// AutoFilerFolders of v1.1.0 saved paths as entry_refs
+	// The following block is for backwards compatibility
+	entry_ref ref;
+	for (i = 0; msg.FindRef("refs", i, &ref) == B_OK; i++) {
+		BEntry entry(&ref);
+		if (entry.InitCheck() != B_OK || !entry.Exists() || !entry.IsDirectory())
+			continue;
+
+		if (folderList == NULL)
+			gRefStructList.AddItem(new RefStorage(ref));
+		else {
+			BPath path(&ref);
+			folderList->AddItem(new BStringItem(path.Path()));
+		}
+		count++;
+	}
+
+	count = 0;
 
 	for (i = 0; msg.FindString("path", i, &str) == B_OK; i++) {
 		BEntry entry(str.String());
