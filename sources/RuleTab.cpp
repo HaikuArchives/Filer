@@ -102,8 +102,8 @@ RuleTab::_BuildLayout()
 	fEditButton->GetPreferredSize(NULL, &height);
 
 	fAddRemoveButtons = new AddRemoveButtons(MSG_SHOW_ADD_WINDOW,
-		MSG_REMOVE_RULE, this, height, B_USE_DEFAULT_SPACING, "Add rule",
-		"Remove rule");
+		MSG_REMOVE_RULE, this, height, B_USE_DEFAULT_SPACING,
+		B_TRANSLATE("Add rule"), B_TRANSLATE("Remove rule"));
 	fAddRemoveButtons->SetRemoveEnabled(false);
 
 	fMoveUpButton = new BButton("moveupbutton", B_TRANSLATE("Move up"),

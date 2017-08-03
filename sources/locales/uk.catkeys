@@ -1,0 +1,90 @@
+1	English	application/x-vnd.dw-Filer	1546053364
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tПовне ім’я файлу\n%EXTENSION%\tЛише розширення\n%BASENAME%\tІм’я файлу без розширення\n%FOLDER%\t\tПовний шлях до папки з файлом\n%FULLPATH%\t\tПовний шлях до файлу\n%DATE%\t\t\tПоточна дата у форматі ММ-ДД-РРРР\n%EURODATE%\t\tПоточна дата у форматі ДД-ММ-РРРР\n%REVERSEDATE%\tПоточна дата у форматі РРРР-ММ-ДД\n%TIME%\t\t\tПоточний час у форматі 24 годин\n%ATTR:xxxx%\t\tРозширений атрибут файлу
+Add	AddRemoveButtons		Add
+Remove	AddRemoveButtons		Remove
+Add folder	AutoFilerTab		Додати папку
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Додати папку
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Автоматично запускати Filer на вміст наступних папок:
+Remove folder	AutoFilerTab		Видалити папку
+Run AutoFiler on system startup	AutoFilerTab		Запускати AutoFiler при старті системи
+Start AutoFiler	AutoFilerTab		Запустити AutoFiler
+Stop AutoFiler	AutoFilerTab		Зупинити AutoFiler
+Add	AutoFilerTab	Used as button in a file panel	Додати
+Do this for all files	ConflictWindow		Виконати для усіх файлів
+Filer: Conflict	ConflictWindow		Filer: Конфлікт
+Replace	ConflictWindow		Замінити
+Skip	ConflictWindow		Пропустити
+The file '%file%' already exists.	ConflictWindow	Don't translate the variable %file%	Файл '%file%' вже існує.
+Drag and drop the files to be processed below.	DropZoneTab		Перетягніть файли для обробки у поле DropZone.
+Dropzone	DropZoneTab		DropZone
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Filer DropZone
+Open Filer…	DropZoneTab		Відкрити Filer…
+Replicate dropzone…	DropZoneTab		Реплікант DropZone…
+Abort	FSUtils		Перервати
+Error	FSUtils		Помилка
+Replace file	FSUtils		Замінити файл
+Skip file	FSUtils		Пропустити файл
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Файл '%file%' вже існує. Замінити його?
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer - автоматичний організатор файлів. Відкриті у ньому або перетягнуті на нього файли Filer переміщує, перейменовує, копіює або виконує усі інші файлові операції згідно з правилами, створеними користувачем.
+Help	HelpTab		Довідка
+Help on rules	HelpTab		Довідка по правилам
+User documentation	HelpTab		Документація
+Choose	PanelButton		Вибрати
+Filer	PanelButton		Filer
+Add rule	RuleEditWindow		Додати правило
+Cancel	RuleEditWindow		Скасувати
+Description:	RuleEditWindow		Опис:
+Do	RuleEditWindow		Тоді
+Edit rule	RuleEditWindow		Редагувати правило
+Help…	RuleEditWindow		Довідка…
+OK	RuleEditWindow		OK
+When	RuleEditWindow		Якщо
+Add to archive	RuleRunner		Додати до архіву
+bytes	RuleRunner		байтів
+contains	RuleRunner		містить
+Continue	RuleRunner		Далі
+Copy to folder	RuleRunner		Копіювати до папки
+Delete	RuleRunner		Видалити
+does not contain	RuleRunner		не містить
+ends with	RuleRunner		закінчується з
+GiB	RuleRunner		ГіБ
+is	RuleRunner		є
+is after	RuleRunner		після
+is at least	RuleRunner		принаймні
+is at most	RuleRunner		щонайбільше
+is before	RuleRunner		перед
+is less than	RuleRunner		менше, ніж
+is more than	RuleRunner		більше, ніж
+is not	RuleRunner		не є
+KiB	RuleRunner		КіБ
+Location	RuleRunner		Розміщення
+MiB	RuleRunner		МіБ
+Move to folder	RuleRunner		Перемістити до папки
+Move to Trash	RuleRunner		Перемістити до Кошика
+Name	RuleRunner		Ім’я
+Open	RuleRunner		Відкрити
+Rename to	RuleRunner		Перейменувати
+Shell command	RuleRunner		Команда оболонки
+Size	RuleRunner		Розмір
+starts with	RuleRunner		починається з
+TiB	RuleRunner		ТіБ
+Type	RuleRunner		Тип
+Add rule	RuleTab		Add rule
+Add rules	RuleTab		Додати правило
+Apply only the first matching rule	RuleTab		Застосувати лише перше правило відповідності
+Cancel	RuleTab		Скасувати
+Disable	RuleTab		Вимкнути
+Edit…	RuleTab		Редагувати…
+Enable	RuleTab		Увімкнути
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Здається, правила для організації файлів відсутні. Бажаєте, щоб Filer додав  для вас деякі основні?
+Move down	RuleTab		Нижче
+Move up	RuleTab		Вище
+Remove rule	RuleTab		Remove rule
+Rules	RuleTab		Правила
+Filer	System name		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Виберіть файл для %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Виберіть папку для %s%

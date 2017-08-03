@@ -1,0 +1,91 @@
+1	English	application/x-vnd.dw-Filer	1546053364
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tVolledige naam\n%EXTENSION%\tEnkel de extentie\n%BASENAME%\tBestandsnaam zonder extentie\n%FOLDER%\t\tVolledig pad naar de folder van het bestand\n%FULLPATH%\t\tVolledig pad naar het bestand\n%DATE%\t\t\tHuidige datum in het formaat MM-DD-YYYY\n%EURODATE%\t\tHuidige datum in het formaat DD-MM-YYYY\n%REVERSEDATE%\tHuidige datum in het formaat YYYY-MM-DD\n%TIME%\t\t\tHuidige tijd in 24 uur\n%ATTR:xxxx%\t\tEen uitgebreide bestands atributie
+Add	AddRemoveButtons		Add
+Remove	AddRemoveButtons		Remove
+Add folder	AutoFilerTab		Folder toevoegen
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Folders toevoegen
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatisch Filer starten met de inhoud van de volgende folders:
+Remove folder	AutoFilerTab		Folder verwijderen
+Run AutoFiler on system startup	AutoFilerTab		AutoFiler starten bij systeemstart
+Start AutoFiler	AutoFilerTab		Start AutoFiler
+Stop AutoFiler	AutoFilerTab		Stop AutoFiler
+Add	AutoFilerTab	Used as button in a file panel	Toevoegen
+Do this for all files	ConflictWindow		Dit toepassen met alle bestanden
+Filer: Conflict	ConflictWindow		Filer: Conflict
+Replace	ConflictWindow		Vervangen
+Skip	ConflictWindow		Overslaan
+The file '%file%' already exists.	ConflictWindow	Don't translate the variable %file%	Het bestand '%file%' bestaat reeds.
+Drag and drop the files to be processed below.	DropZoneTab		Drag and drop de bestanden om te verwerken hieronder.
+Dropzone	DropZoneTab		Dropzone
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Filer dropzone
+Open Filer…	DropZoneTab		Open Filer…
+Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Abort	FSUtils		Annuleren
+Error	FSUtils		Fout
+Replace file	FSUtils		Vervang bestand
+Skip file	FSUtils		Bestand overslaan
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Het bestand '%name%' bestaat reeds. Overschrijven?
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is een automatische bestands organisator. Het neemt de bestanden waarmee het opent of welke er in toegevoegd worden via drag en drop. Hierbij verplaatst, hernoemt, copiëert of past toe welke regels van toepassing zijn die de gebruiker aanmaakt.
+Help	HelpTab		Help
+Help on rules	HelpTab		Help over regels
+User documentation	HelpTab		Gebruikers documentatie
+Choose	PanelButton		Kies
+Filer	PanelButton		Filer
+Add rule	RuleEditWindow		Regels toevoegen
+Cancel	RuleEditWindow		Annuleren
+Description:	RuleEditWindow		Beschrijving:
+Do	RuleEditWindow		Doe
+Edit rule	RuleEditWindow		Regel aanpassen
+Help…	RuleEditWindow		Help…
+OK	RuleEditWindow		OK
+When	RuleEditWindow		Als
+Add to archive	RuleRunner		Toevoegen aan archief
+bytes	RuleRunner		bytes
+contains	RuleRunner		bevat
+Continue	RuleRunner		Verdergaan
+Copy to folder	RuleRunner		Kopiëer naar folder
+Delete	RuleRunner		Verwijder
+does not contain	RuleRunner		bevat niet
+ends with	RuleRunner		eindigt met
+GiB	RuleRunner		GiB
+is	RuleRunner		is
+is after	RuleRunner		is na
+is at least	RuleRunner		is tenminste
+is at most	RuleRunner		is tenminste
+is before	RuleRunner		is voor
+is less than	RuleRunner		is minder dan
+is more than	RuleRunner		is meer dan
+is not	RuleRunner		is niet
+KiB	RuleRunner		KiB
+Location	RuleRunner		Lokatie
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Verplaatst naar folder
+Move to Trash	RuleRunner		Verplaats naar Prullenbak
+Name	RuleRunner		Naam
+Open	RuleRunner		Open
+Rename to	RuleRunner		Hernoem naar
+Shell command	RuleRunner		Shell commando
+Size	RuleRunner		Grootte
+starts with	RuleRunner		start met
+TiB	RuleRunner		TiB
+Type	RuleRunner		Type
+Add rule	RuleTab		Add rule
+Add rules	RuleTab		Regels toevoegen
+Apply only the first matching rule	RuleTab		Enkel de eerste match toepassen
+Cancel	RuleTab		Annuleren
+Disable	RuleTab		Uitschakelen
+Edit…	RuleTab		Aanpassen…
+Enable	RuleTab		Inschakelen
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Het lijkt er op dat er geen regels voor het organiseren van bestanden bestaat. Wil je dat Filer enkele basis regels voor je toevoegt?
+Move down	RuleTab		Verplaats omlaag
+Move up	RuleTab		Verplaats omhoog
+Remove rule	RuleTab		Remove rule
+Rules	RuleTab		Regels
+Filer	System name		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Kies bestand voor %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Kies folder voor %s%
+
