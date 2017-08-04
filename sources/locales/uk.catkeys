@@ -1,7 +1,7 @@
-1	English	application/x-vnd.dw-Filer	1546053364
+1	Ukrainian	application/x-vnd.dw-Filer	1546053364
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tПовне ім’я файлу\n%EXTENSION%\tЛише розширення\n%BASENAME%\tІм’я файлу без розширення\n%FOLDER%\t\tПовний шлях до папки з файлом\n%FULLPATH%\t\tПовний шлях до файлу\n%DATE%\t\t\tПоточна дата у форматі ММ-ДД-РРРР\n%EURODATE%\t\tПоточна дата у форматі ДД-ММ-РРРР\n%REVERSEDATE%\tПоточна дата у форматі РРРР-ММ-ДД\n%TIME%\t\t\tПоточний час у форматі 24 годин\n%ATTR:xxxx%\t\tРозширений атрибут файлу
-Add	AddRemoveButtons		Add
-Remove	AddRemoveButtons		Remove
+Add	AddRemoveButtons		Додати
+Remove	AddRemoveButtons		Видалити
 Add folder	AutoFilerTab		Додати папку
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Додати папку
@@ -73,8 +73,8 @@ Size	RuleRunner		Розмір
 starts with	RuleRunner		починається з
 TiB	RuleRunner		ТіБ
 Type	RuleRunner		Тип
-Add rule	RuleTab		Add rule
-Add rules	RuleTab		Додати правило
+Add rule	RuleTab		Додати правило
+Add rules	RuleTab		Додати правила
 Apply only the first matching rule	RuleTab		Застосувати лише перше правило відповідності
 Cancel	RuleTab		Скасувати
 Disable	RuleTab		Вимкнути
@@ -83,7 +83,7 @@ Enable	RuleTab		Увімкнути
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Здається, правила для організації файлів відсутні. Бажаєте, щоб Filer додав  для вас деякі основні?
 Move down	RuleTab		Нижче
 Move up	RuleTab		Вище
-Remove rule	RuleTab		Remove rule
+Remove rule	RuleTab		Видалити правило
 Rules	RuleTab		Правила
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Виберіть файл для %s%
