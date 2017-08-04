@@ -1,7 +1,9 @@
-1	Italian	application/x-vnd.dw-Filer	1546053364
+1	Italian	application/x-vnd.dw-Filer	1264453126
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tSoltanto il nome completo del file\n%EXTENSION%\tSoltanto l'estensione\n%BASENAME%\tNome del file senza l'estensione\n%FOLDER%\t\tPercorso completo della cartella che contiene il file\n%FULLPATH%\t\tPercorso completo del file incluso il nome\n%DATE%\t\t\tData corrente nel formato MM-GG-AAAA\n%EURODATE%\t\tData corrente nel formato GG-MM-AAAA\n%REVERSEDATE%\tData corrente nel formato AAAA-MM-GG\n%TIME%\t\t\tOrario corrente nel formato 24 ore time\n%ATTR:xxxx%\t\tSpecifica un attributo esteso del file
 Add	AddRemoveButtons		Aggiungi
+Add rule	AddRemoveButtons		Aggiungi regola
 Remove	AddRemoveButtons		Rimuovi
+Remove rule	AddRemoveButtons		Rimuovi regola
 Add folder	AutoFilerTab		Aggiungi cartella
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Aggiungi cartelle
@@ -73,7 +75,6 @@ Size	RuleRunner		La dimensione
 starts with	RuleRunner		Inizia con
 TiB	RuleRunner		TiB
 Type	RuleRunner		Il tipo di file
-Add rule	RuleTab		Aggiungi regola
 Add rules	RuleTab		Aggiungi regole
 Apply only the first matching rule	RuleTab		Applica solo la prima regola corrispondente
 Cancel	RuleTab		Annulla
@@ -83,9 +84,7 @@ Enable	RuleTab		Abilita
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Sembra che non ci siano regole per l'organizzazione dei file. Vuoi che Filer ne aggiunga qualcuna per te?
 Move down	RuleTab		Sposta sotto
 Move up	RuleTab		Sposta sopra
-Remove rule	RuleTab		Rimuovi regola
 Rules	RuleTab		Regole
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Scegli file per %s%
 Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Scegli cartella per %s%
-cegli cartella per %s%

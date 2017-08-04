@@ -1,7 +1,9 @@
-1	British	application/x-vnd.dw-Filer	1546053364
+1	British	application/x-vnd.dw-Filer	1264453126
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file
 Add	AddRemoveButtons		Add
+Add rule	AddRemoveButtons		Add rule
 Remove	AddRemoveButtons		Remove
+Remove rule	AddRemoveButtons		Remove rule
 Add folder	AutoFilerTab		Add folder
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Add folders
@@ -29,7 +31,7 @@ Skip file	FSUtils		Skip file
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	The file '%name%' already exists. Do you want to replace it?
 Copyright	HelpTab		Copyright
 Filer	HelpTab		Filer
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is an automatic file organiser. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
 Help	HelpTab		Help
 Help on rules	HelpTab		Help on rules
 User documentation	HelpTab		User documentation
@@ -41,7 +43,7 @@ Description:	RuleEditWindow		Description:
 Do	RuleEditWindow		Do
 Edit rule	RuleEditWindow		Edit rule
 Help…	RuleEditWindow		Help…
-OK	RuleEditWindow		OK
+OK	RuleEditWindow		Alright
 When	RuleEditWindow		When
 Add to archive	RuleRunner		Add to archive
 bytes	RuleRunner		bytes
@@ -64,7 +66,7 @@ KiB	RuleRunner		KiB
 Location	RuleRunner		Location
 MiB	RuleRunner		MiB
 Move to folder	RuleRunner		Move to folder
-Move to Trash	RuleRunner		Move to Trash
+Move to Trash	RuleRunner		Move to Rubbish Bin
 Name	RuleRunner		Name
 Open	RuleRunner		Open
 Rename to	RuleRunner		Rename to
@@ -73,17 +75,15 @@ Size	RuleRunner		Size
 starts with	RuleRunner		starts with
 TiB	RuleRunner		TiB
 Type	RuleRunner		Type
-Add rule	RuleTab		Add rule
 Add rules	RuleTab		Add rules
 Apply only the first matching rule	RuleTab		Apply only the first matching rule
 Cancel	RuleTab		Cancel
 Disable	RuleTab		Disable
 Edit…	RuleTab		Edit…
 Enable	RuleTab		Enable
-It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		It appears that there aren't any rules for organising files. Would you like Filer to add some basic ones for you?
 Move down	RuleTab		Move down
 Move up	RuleTab		Move up
-Remove rule	RuleTab		Remove rule
 Rules	RuleTab		Rules
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choose file for %s%
