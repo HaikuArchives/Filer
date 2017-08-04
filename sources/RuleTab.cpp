@@ -82,8 +82,8 @@ RuleTab::_BuildLayout()
 		B_TRANSLATE("Apply only the first matching rule"),
 		new BMessage(MSG_MATCH_ONCE));
 
-	fRuleItemList = new BListView("rulelist", B_SINGLE_SELECTION_LIST,
-		B_WILL_DRAW	| B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
+	fRuleItemList = new RuleItemList("rulelist", this);
+
 	fScrollView = new BScrollView("listscroll", fRuleItemList,
 		B_FRAME_EVENTS | B_WILL_DRAW, false, true);
 
@@ -267,6 +267,22 @@ RuleTab::MessageReceived(BMessage* message)
 
 			fRuleItemList->SwapItems(selection, selection + 1);
 			fRuleList->SwapItems(selection, selection + 1);
+
+			UpdateButtons();
+			SaveRules(fRuleList);
+			break;
+		}
+		case MSG_RULE_MOVE:
+		{
+			int32 origIndex;
+			int32 dropIndex;
+			if ((message->FindInt32("origindex", &origIndex) != B_OK)
+				|| (message->FindInt32("dropindex", &dropIndex) != B_OK))
+				break;
+
+			fRuleItemList->MoveItem(origIndex, dropIndex);
+			fRuleItemList->Select(dropIndex);
+			((BList*)fRuleList)->MoveItem(origIndex, dropIndex);
 
 			UpdateButtons();
 			SaveRules(fRuleList);

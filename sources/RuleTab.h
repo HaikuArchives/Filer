@@ -15,6 +15,7 @@
 #include <View.h>
 
 #include "AddRemoveButtons.h"
+#include "RuleItemList.h"
 #include "ObjectList.h"
 
 class RuleItem;
@@ -48,7 +49,7 @@ private:
 
 	AddRemoveButtons*	fAddRemoveButtons;
 
-	BListView*		fRuleItemList;
+	RuleItemList*	fRuleItemList;
 	BScrollView*	fScrollView;
 	bool			fChanges;
 	BRect			fRulePos;

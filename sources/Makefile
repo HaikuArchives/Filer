@@ -32,7 +32,8 @@ SRCS = AutoFilerTab.cpp FilerRule.cpp FSUtils.cpp main.cpp PatternProcessor.cpp 
 	RuleRunner.cpp ActionView.cpp AutoTextControl.cpp CppSQLite3.cpp Database.cpp \
 	DropZoneTab.cpp HelpTab.cpp MainWindow.cpp RefStorage.cpp ReplicantWindow.cpp \
 	RuleEditWindow.cpp RuleItem.cpp RuleTab.cpp TypedRefFilter.cpp TestView.cpp \
-	ConflictWindow.cpp ModeMenu.cpp AddRemoveButtons.cpp PanelButton.cpp
+	ConflictWindow.cpp ModeMenu.cpp AddRemoveButtons.cpp PanelButton.cpp \
+	RuleItemList.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.
@@ -105,7 +106,7 @@ SYMBOLS :=
 
 #	Includes debug information, which allows the binary to be debugged easily.
 #	If set to "TRUE", debug info will be created.
-DEBUGGER := 
+DEBUGGER := TRUE
 
 #	Specify any additional compiler flags to be used.
 COMPILER_FLAGS = -Woverloaded-virtual -funsigned-bitfields -Wwrite-strings
