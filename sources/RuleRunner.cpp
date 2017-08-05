@@ -73,8 +73,10 @@ static bool StringCompare(const BString& from, const BString& to, int8 modetype,
 				const bool& match_case);
 
 // The various action functions used by RunAction to do the heavy lifting
-static status_t MoveAction(const BMessage& action, entry_ref& ref);
-static status_t CopyAction(const BMessage& action, entry_ref& ref);
+static status_t MoveAction(const BMessage& action, entry_ref& ref,
+					const char* desc);
+static status_t CopyAction(const BMessage& action, entry_ref& ref,
+					const char* desc);
 static status_t RenameAction(const BMessage& action, entry_ref& ref);
 static status_t OpenAction(entry_ref& ref);
 static status_t ArchiveAction(const BMessage& action, entry_ref& ref);
@@ -374,7 +376,7 @@ RuleRunner::IsMatch(const BMessage& test, const entry_ref& ref)
 
 
 status_t
-RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
+RuleRunner::RunAction(const BMessage& action, entry_ref& ref, const char* desc)
 {
 	int8 type;
 	if (action.FindInt8("type", &type) != B_OK) {
@@ -383,9 +385,9 @@ RuleRunner::RunAction(const BMessage& action, entry_ref& ref)
 	}
 
 	if (type == ACTION_MOVE)
-		return MoveAction(action, ref);
+		return MoveAction(action, ref, desc);
 	else if (type == ACTION_COPY)
-		return CopyAction(action, ref);
+		return CopyAction(action, ref, desc);
 	else if (type == ACTION_RENAME)
 		return RenameAction(action, ref);
 	else if (type == ACTION_OPEN)
@@ -412,8 +414,9 @@ RuleRunner::RunRule(FilerRule* rule, entry_ref& ref)
 		return B_ERROR;
 
 	bool pass;
-	printf("Running rule '%s'\n",rule->GetDescription());
-	
+	const char* desc = rule->GetDescription();
+	printf("Running rule '%s'\n", desc);
+
 	if (rule->GetRuleMode() == FILER_RULE_ANY) {
 		pass = false;
 		for (int32 i = 0; i < rule->CountTests(); i++)
@@ -448,7 +451,7 @@ RuleRunner::RunRule(FilerRule* rule, entry_ref& ref)
 			// next. This allows the user to chain actions together. The only thing
 			// required to do this is for the particular action to change the ref
 			// passed to it.
-			status_t status = RunAction(*action, realref);
+			status_t status = RunAction(*action, realref, desc);
 //			if (status == CONTINUE_TESTS)	// keep ref in sync with reality
 			ref = realref;
 			if (status != B_OK)
@@ -735,7 +738,7 @@ StringCompare(const BString& from, const BString& to, int8 modetype,
 
 
 static status_t
-MoveOrCopy(const BMessage& action, entry_ref& ref, bool move)
+MoveOrCopy(const BMessage& action, entry_ref& ref, const char* desc, bool move)
 {
 	BString value;
 	status_t status;
@@ -744,13 +747,14 @@ MoveOrCopy(const BMessage& action, entry_ref& ref, bool move)
 		return status;
 	value = ProcessPatterns(value.String(), ref);
 
-	BEntry entry(value.String(), true);
+	const char* destDir = value.String();
+	BEntry entry(destDir, true);
 	status = entry.InitCheck();
 	if (status != B_OK || (entry.Exists() && !entry.IsDirectory()))
 		return B_ERROR;
 
 	if (!entry.Exists())
-		create_directory(value.String(), 0777);
+		create_directory(destDir, 0777);
 
 	BEntry source(&ref);
 	status = source.InitCheck();
@@ -761,54 +765,63 @@ MoveOrCopy(const BMessage& action, entry_ref& ref, bool move)
 	bool doAll = app->DoAll();
 	bool replace = app->Replace();
 
-	BPath path;
 	char name[B_FILE_NAME_LENGTH];
 	bool conflict = false;
 
 	if (!(replace && doAll)) {
-		source.GetName(name);
-		entry.GetPath(&path);
-		path.Append(name);
+		BString destPath(destDir);
 
-		BEntry dest(path.Path());
+		if (destDir[strlen(destDir) - 1] != '/')
+			destPath += '/';
+
+		source.GetName(name);
+		destPath += name;
+
+		BEntry dest(destPath);
 		conflict = dest.Exists();
 	}
 
 	if (conflict && !doAll) {
-		ConflictWindow* window = new ConflictWindow(name);
+		BEntry parent;
+		source.GetParent(&parent);
+
+		BPath path;
+		parent.GetPath(&path);
+
+		ConflictWindow* window = new ConflictWindow(name, destDir, path.Path(),
+			desc);
 		replace = window->Go(doAll);
+		delete window;
+
 		app->Replace(replace);
 		app->DoAll(doAll);
 	}
 
 	if (replace || !conflict) {
 		status = (move ? MoveFile : CopyFile)(&source, &entry, false);
-		if (status == B_OK) {
-			printf("\t%s %s to %s\n", move ? "Moved" : "Copied", ref.name, value.String());
-			source.GetRef(&ref);
-		} else {
+		if (status == B_OK)
+			printf("\t%s %s to %s\n", move ? "Moved" : "Copied", ref.name, destDir);
+		else
 			printf("\tCouldn't %s %s to %s. Stopping here.\n\t\t"
-				"Error Message: %s\n", move ? "move" : "copy", ref.name, value.String(), strerror(status));
-		}
-	} else {
+				"Error Message: %s\n", move ? "move" : "copy", ref.name, destDir, strerror(status));
+	} else
 		printf("\tSkipped %s\n", ref.name);
-	}
 
 	return B_OK;
 }
 
 
 status_t
-MoveAction(const BMessage& action, entry_ref& ref)
+MoveAction(const BMessage& action, entry_ref& ref, const char* desc)
 {
-	return MoveOrCopy(action, ref, true);
+	return MoveOrCopy(action, ref, desc, true);
 }
 
 
 status_t
-CopyAction(const BMessage& action, entry_ref& ref)
+CopyAction(const BMessage& action, entry_ref& ref, const char* desc)
 {
-	return MoveOrCopy(action, ref, false);
+	return MoveOrCopy(action, ref, desc, false);
 }
 
 

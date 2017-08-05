@@ -12,7 +12,6 @@
 
 #include <Button.h>
 #include <Catalog.h>
-#include <ControlLook.h>
 #include <LayoutBuilder.h>
 #include <String.h>
 #include <StringView.h>
@@ -24,7 +23,8 @@ static const unsigned kReplace = 'RPLC';
 static const unsigned kSkip = 'SKIP';
 
 
-ConflictWindow::ConflictWindow(const char* file)
+ConflictWindow::ConflictWindow(const char* file, const char* dest,
+	const char* src, const char* desc)
 	:
 	BWindow(BRect(0, 0, 0, 0), B_TRANSLATE("Filer: Conflict"),
 		B_FLOATING_WINDOW_LOOK, B_FLOATING_ALL_WINDOW_FEEL,
@@ -34,24 +34,48 @@ ConflictWindow::ConflictWindow(const char* file)
 	fReplace(false),
 	fSem(create_sem(0, ""))
 {
-	const float spacing = be_control_look->DefaultItemSpacing();
+	BStringView* info = new BStringView("",
+		"File already exists in target folder.");
 
-	BString text(B_TRANSLATE_COMMENT("The file '%file%' already exists.",
+	BString text(B_TRANSLATE_COMMENT("File name: %file%",
 		"Don't translate the variable %file%"));
-	text.ReplaceAll("%file%", file);
+	text.ReplaceFirst("%file%", file);
+	BStringView* fileName = new BStringView("", text);
 
-	BStringView* info = new BStringView("", text.String());
+	text = B_TRANSLATE_COMMENT("Source folder: %src%",
+		"Don't translate the variable %src%");
+	text.ReplaceFirst("%src%", src);
+	BStringView* srcFolder = new BStringView("", text);
+
+	text = B_TRANSLATE_COMMENT("Target folder: %dest%",
+		"Don't translate the variable %dest%");
+	text.ReplaceFirst("%dest%", dest);
+	BStringView* destFolder = new BStringView("", text);
+
+	text = B_TRANSLATE_COMMENT("Rule name: %desc%",
+		"Don't translate the variable %desc%");
+	text.ReplaceFirst("%desc%", desc);
+	BStringView* ruleDesc = new BStringView("", text);
+
 	BButton* replace = new BButton("", B_TRANSLATE("Replace"),
 		new BMessage(kReplace));
 	BButton* skip = new BButton("", B_TRANSLATE("Skip"), new BMessage(kSkip));
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL, spacing)
-		.SetInsets(spacing, spacing, spacing, spacing)
-		.Add(info)
-		.AddGroup(B_HORIZONTAL, spacing)
-			.SetInsets(spacing, spacing, spacing, spacing)
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
+		.SetInsets(B_USE_BIG_INSETS)
+		.AddGroup(B_VERTICAL, 0)
+			.Add(info)
+			.AddStrut(5)
+			.Add(fileName)
+			.Add(srcFolder)
+			.Add(destFolder)
+			.Add(ruleDesc)
+			.End()
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.AddGlue()
 			.Add(skip)
 			.Add(replace)
+			.AddGlue()
 			.End()
 		.Add(fDoAll)
 		.End();
