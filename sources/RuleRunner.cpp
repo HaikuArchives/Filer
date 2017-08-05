@@ -126,12 +126,12 @@ static const TestType numberTests[] = {
 static const unsigned
 nNumberTests = sizeof(numberTests) / sizeof(numberTests[0]);
 
+#if 0
 static const TestType dateTests[] = {
 //	"Last changed"
 };
 static const unsigned nDateTests = sizeof(dateTests) / sizeof(dateTests[0]);
 
-#if 0
 static const char* sTestEditors[] =
 {
 	"type selector",
@@ -156,9 +156,9 @@ const NamePair sModeTypes[] = {
 	LOCALIZE("is more than"),
 	LOCALIZE("is less than"),
 	LOCALIZE("is at least"),
-	LOCALIZE("is at most"),
-	LOCALIZE("is before"),
-	LOCALIZE("is after")
+	LOCALIZE("is at most")
+//	LOCALIZE("is before"),
+//	LOCALIZE("is after")
 };
 static const unsigned nModeTypes = sizeof(sModeTypes) / sizeof(sModeTypes[0]);
 
@@ -172,9 +172,9 @@ enum ModeType {
 	MODE_MORE,
 	MODE_LESS,
 	MODE_LEAST,
-	MODE_MOST,
-	MODE_BEFORE,
-	MODE_AFTER
+	MODE_MOST
+//	MODE_BEFORE,
+//	MODE_AFTER
 };
 
 static const ModeType anyModes[] = {
@@ -204,11 +204,13 @@ static const ModeType numberModes[] = {
 static const unsigned
 nNumberModes = sizeof(numberModes) / sizeof(numberModes[0]);
 
+#if 0
 static const ModeType dateModes[] = {
 	MODE_BEFORE,
 	MODE_AFTER
 };
 static const unsigned nDateModes = sizeof(dateModes) / sizeof(dateModes[0]);
+#endif
 
 const char* const sSizeUnits[] = {
 	B_TRANSLATE("bytes"),
@@ -279,7 +281,7 @@ status_t
 RuleRunner::GetCompatibleModes(const int32& type, BMessage& msg)
 {
 	if (type != TEST_TYPE_STRING && type != TEST_TYPE_NUMBER &&
-		type != TEST_TYPE_DATE && type != TEST_TYPE_ANY)
+		/*type != TEST_TYPE_DATE &&*/ type != TEST_TYPE_ANY)
 		return B_BAD_VALUE;
 
 	uint32 i;
@@ -297,10 +299,12 @@ RuleRunner::GetCompatibleModes(const int32& type, BMessage& msg)
 			for (i = 0; i < nNumberModes; i++)
 				msg.AddInt8("modes", numberModes[i]);
 			break;
+#if 0
 		case TEST_TYPE_DATE:
 			for (i = 0; i < nDateModes; i++)
 				msg.AddInt8("modes", dateModes[i]);
 			break;
+#endif
 	}
 	return B_OK;
 }
@@ -320,8 +324,8 @@ RuleRunner::GetModes(BMessage& msg)
 	for (i = 0; i < nNumberModes; i++)
 		msg.AddInt8("modes", numberModes[i]);
 
-	for (i = 0; i < nDateModes; i++)
-		msg.AddInt8("modes", dateModes[i]);
+//	for (i = 0; i < nDateModes; i++)
+//		msg.AddInt8("modes", dateModes[i]);
 }
 
 
@@ -1028,9 +1032,11 @@ GetDataTypeForTest(int8 testtype)
 		if (testtype == numberTests[i])
 			return TEST_TYPE_NUMBER;
 
+#if 0
 	for (i = 0; i < nDateTests; i++)
 		if (testtype == dateTests[i])
 			return TEST_TYPE_DATE;
+#endif
 
 	return TEST_TYPE_NULL;
 }
@@ -1052,9 +1058,11 @@ GetDataTypeForMode(int8 modetype)
 		if (modetype == numberModes[i])
 			return TEST_TYPE_NUMBER;
 
+#if 0
 	for (i = 0; i < nDateModes; i++)
 		if (modetype == dateModes[i])
 			return TEST_TYPE_DATE;
+#endif
 
 	for (i = 0; i < nAnyModes; i++)
 		if (modetype == anyModes[i])
