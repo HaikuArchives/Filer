@@ -29,7 +29,8 @@ class ConflictWindow : public BWindow
 	void	MessageReceived(BMessage* msg);
 
 public:
-			ConflictWindow(const char* file);
+			ConflictWindow(const char* file, const char* dest, const char* src,
+				const char* desc);
 	bool	Go(bool& doAll);
 };
 

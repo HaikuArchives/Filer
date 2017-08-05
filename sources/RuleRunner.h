@@ -78,7 +78,8 @@ public:
 //	static	BString		GetEditorTypeForTest(const char* testname);
 
 			bool		IsMatch(const BMessage& test, const entry_ref& ref);
-			status_t	RunAction(const BMessage& test, entry_ref& ref);
+			status_t	RunAction(const BMessage& test, entry_ref& ref,
+							const char* desc = NULL);
 			status_t	RunRule(FilerRule* rule, entry_ref& ref);
 };
 
