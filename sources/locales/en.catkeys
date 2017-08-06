@@ -1,9 +1,5 @@
-1	English	application/x-vnd.dw-Filer	1264453126
+1	English	application/x-vnd.dw-Filer	4257288050
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file
-Add	AddRemoveButtons		Add
-Add rule	AddRemoveButtons		Add rule
-Remove	AddRemoveButtons		Remove
-Remove rule	AddRemoveButtons		Remove rule
 Add folder	AutoFilerTab		Add folder
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Add folders
@@ -17,7 +13,10 @@ Do this for all files	ConflictWindow		Do this for all files
 Filer: Conflict	ConflictWindow		Filer: Conflict
 Replace	ConflictWindow		Replace
 Skip	ConflictWindow		Skip
-The file '%file%' already exists.	ConflictWindow	Don't translate the variable %file%	The file '%file%' already exists.
+Rule name: %desc%	ConflictWindow	Don't translate the variable %desc%	Rule name: %desc%
+Target folder: %dest%	ConflictWindow	Don't translate the variable %dest%	Target folder: %dest%
+File name: %file%	ConflictWindow	Don't translate the variable %file%	File name: %file%
+Source folder: %src%	ConflictWindow	Don't translate the variable %src%	Source folder: %src%
 Drag and drop the files to be processed below.	DropZoneTab		Drag and drop the files to be processed below.
 Dropzone	DropZoneTab		Dropzone
 Filer	DropZoneTab		Filer
@@ -55,10 +54,8 @@ does not contain	RuleRunner		does not contain
 ends with	RuleRunner		ends with
 GiB	RuleRunner		GiB
 is	RuleRunner		is
-is after	RuleRunner		is after
 is at least	RuleRunner		is at least
 is at most	RuleRunner		is at most
-is before	RuleRunner		is before
 is less than	RuleRunner		is less than
 is more than	RuleRunner		is more than
 is not	RuleRunner		is not
@@ -75,15 +72,20 @@ Size	RuleRunner		Size
 starts with	RuleRunner		starts with
 TiB	RuleRunner		TiB
 Type	RuleRunner		Type
+Add	RuleTab		Add
+Add rule	RuleTab		Add rule
 Add rules	RuleTab		Add rules
 Apply only the first matching rule	RuleTab		Apply only the first matching rule
 Cancel	RuleTab		Cancel
 Disable	RuleTab		Disable
+Edit	RuleTab		Edit
 Edit…	RuleTab		Edit…
 Enable	RuleTab		Enable
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?
 Move down	RuleTab		Move down
 Move up	RuleTab		Move up
+Remove	RuleTab		Remove
+Remove rule	RuleTab		Remove rule
 Rules	RuleTab		Rules
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choose file for %s%

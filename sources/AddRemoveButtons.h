@@ -12,7 +12,7 @@
 #include <Button.h>
 #include <Catalog.h>
 
-#define ADD_REMVOE_BUTTONS_CONTEXT "AddRemoveButtons"
+#define ADD_REMVOE_BUTTONS_CONTEXT "RuleTab"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT ADD_REMVOE_BUTTONS_CONTEXT
