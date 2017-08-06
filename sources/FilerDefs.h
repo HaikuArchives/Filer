@@ -49,6 +49,7 @@ static const char	kSettingsFile[] = "Filer_settings";
 #define MSG_MATCH_ONCE			'chon'
 #define MSG_RULE_DRAGGED		'rdra'
 #define MSG_RULE_MOVE			'rmov'
+#define MSG_POPUP_CLOSED		'popc'
 
 #define MSG_STARTSTOP_AUTOFILER	'ssaf'
 #define MSG_AUTOFILER_AUTORUN	'afas'

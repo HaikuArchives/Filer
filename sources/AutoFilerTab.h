@@ -17,6 +17,7 @@
 #include <MessageRunner.h>
 #include <ScrollView.h>
 
+#include "AutoFilerList.h"
 #include "TypedRefFilter.h"
 
 class AutoFilerTab : public BView
@@ -41,7 +42,7 @@ private:
 	void			ToggleAutoFiler();
 	void			UpdateAutoFilerLabel();
 	
-	BListView*		fFolderList;
+	AutoFilerList*	fFolderList;
 	BScrollView*	fScrollView;
 
 	BCheckBox*		fAutorunBox;

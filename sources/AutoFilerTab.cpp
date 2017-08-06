@@ -70,8 +70,7 @@ AutoFilerTab::_BuildLayout()
 	BStringView* folderLabel = new BStringView("folderlabel",
 		B_TRANSLATE("Automatically run Filer on the contents of these folders:"));
 
-	fFolderList = new BListView("rulelist", B_SINGLE_SELECTION_LIST,
-		B_WILL_DRAW	| B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
+	fFolderList = new AutoFilerList("rulelist", this);
 	fScrollView = new BScrollView("listscroll", fFolderList,
 		B_FRAME_EVENTS | B_WILL_DRAW, false, true);
 	fFolderList->SetSelectionMessage(new BMessage(MSG_FOLDER_SELECTED));

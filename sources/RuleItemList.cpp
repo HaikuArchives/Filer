@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016. All rights reserved.
+ * Copyright 2015-2017. All rights reserved.
  * Distributed under the terms of the MIT license.
  *
  * Author:
@@ -9,13 +9,17 @@
 #include <Bitmap.h>
 #include <Catalog.h>
 #include <ControlLook.h>
+#include <MenuItem.h>
 
+#include "ContextPopUp.h"
 #include "FilerDefs.h"
+#include "FilerRule.h"
+#include "MainWindow.h"
 #include "RuleItem.h"
 #include "RuleItemList.h"
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "ClipList"
+#define B_TRANSLATION_CONTEXT "RuleTab"
 
 
 RuleItemList::RuleItemList(const char* name, BHandler* caller)
@@ -102,18 +106,6 @@ RuleItemList::InitiateDrag(BPoint point, int32 dragIndex, bool wasSelected)
 	return true;
 }
 
-//
-//void
-//RuleItemList::MakeFocus(bool focused)
-//{
-//	BListView::MakeFocus(focused);
-//
-//	// only signal RuleItemList is focused when gaining focus
-//	if (focused)
-//		my_app->fMainWindow->SetHistoryActiveFlag(!focused);
-//
-//}
-
 
 void
 RuleItemList::MessageReceived(BMessage* message)
@@ -142,11 +134,11 @@ RuleItemList::MessageReceived(BMessage* message)
 			msgr.SendMessage(&msg, fCaller);
 			break;
 		}
-//		case POPCLOSED:
-//		{
-//			fShowingPopUpMenu = false;
-//			break;
-//		}
+		case MSG_POPUP_CLOSED:
+		{
+			fShowingPopUpMenu = false;
+			break;
+		}
 		default:
 		{
 			BListView::MessageReceived(message);
@@ -156,54 +148,47 @@ RuleItemList::MessageReceived(BMessage* message)
 }
 
 
-//void
-//RuleItemList::KeyDown(const char* bytes, int32 numBytes)
-//{
-//	switch (bytes[0]) {
-//		case B_DELETE:
-//		{
-//			BMessage message(DELETE);
-//			Looper()->PostMessage(&message);
-//			break;
-//		}
-//		case B_LEFT_ARROW:
-//		{
-//			if (my_app->fMainWindow->Lock())
-//				my_app->fMainWindow->fHistory->MakeFocus(true);
-//			my_app->fMainWindow->Unlock();
-//			break;
-//		}
-//		default:
-//		{
-//			BListView::KeyDown(bytes, numBytes);
-//			break;
-//		}
-//	}
-//}
+void
+RuleItemList::KeyDown(const char* bytes, int32 numBytes)
+{
+	switch (bytes[0]) {
+		case B_DELETE:
+		{
+			BMessage msg;
+			BMessenger msgr(fCaller);
+			msg.what = MSG_REMOVE_RULE;
+			msgr.SendMessage(&msg, fCaller);
+			break;
+		}
+		default:
+		{
+			BListView::KeyDown(bytes, numBytes);
+			break;
+		}
+	}
+}
 
 
-//void
-//RuleItemList::MouseDown(BPoint position)
-//{
-//	MakeFocus(true);
-//
-//	BRect bounds(Bounds());
-//	BRect itemFrame = ItemFrame(CountItems() - 1);
-//	bounds.top = itemFrame.bottom;
-//	if (bounds.Contains(position))
-//		return;
-//
-//	uint32 buttons = 0;
-//	if (Window() != NULL && Window()->CurrentMessage() != NULL)
-//		buttons = Window()->CurrentMessage()->FindInt32("buttons");
-//
-//	if ((buttons & B_SECONDARY_MOUSE_BUTTON) != 0) {
-//		Select(IndexOf(position));
-//		_ShowPopUpMenu(ConvertToScreen(position));
-//		return;
-//	}
-//	BListView::MouseDown(position);
-//}
+void
+RuleItemList::MouseDown(BPoint position)
+{
+	BRect bounds(Bounds());
+	BRect itemFrame = ItemFrame(CountItems() - 1);
+	bounds.top = itemFrame.bottom;
+	if (bounds.Contains(position))
+		DeselectAll();
+
+	uint32 buttons = 0;
+	if (Window() != NULL && Window()->CurrentMessage() != NULL)
+		buttons = Window()->CurrentMessage()->FindInt32("buttons");
+
+	if ((buttons & B_SECONDARY_MOUSE_BUTTON) != 0) {
+		Select(IndexOf(position));
+		_ShowPopUpMenu(ConvertToScreen(position));
+		return;
+	}
+	BListView::MouseDown(position);
+}
 
 
 void
@@ -259,29 +244,43 @@ RuleItemList::MouseMoved(BPoint where, uint32 transit, const BMessage* dragMessa
 
 // #pragma mark - Member Functions
 
-//
-//void
-//RuleItemList::_ShowPopUpMenu(BPoint screen)
-//{
-//	if (fShowingPopUpMenu)
-//		return;
-//
-//	ContextPopUp* menu = new ContextPopUp("PopUpMenu", this);
-//	BMessage* msg = NULL;
-//
-//	msg = new BMessage(PASTE_SPRUNGE);
-//	BMenuItem* item = new BMenuItem(B_TRANSLATE("Paste to Sprunge.us"), msg, 'P');
-//	menu->AddItem(item);
-//
-//	msg = new BMessage(EDIT_TITLE);
-//	item = new BMenuItem(B_TRANSLATE("Edit title"), msg, 'E');
-//	menu->AddItem(item);
-//
-//	msg = new BMessage(DELETE);
-//	item = new BMenuItem(B_TRANSLATE("Remove"), msg);
-//	menu->AddItem(item);
-//
-//	menu->SetTargetForItems(Looper());
-//	menu->Go(screen, true, true, true);
-//	fShowingPopUpMenu = true;
-//}
+
+void
+RuleItemList::_ShowPopUpMenu(BPoint screen)
+{
+	if (fShowingPopUpMenu)
+		return;
+
+	ContextPopUp* menu = new ContextPopUp("PopUpMenu", this);
+	BMessage* msg = NULL;
+	BMenuItem* item;
+
+	if (IsEmpty() || CurrentSelection() < 0) {
+		msg = new BMessage(MSG_SHOW_ADD_WINDOW);
+		item = new BMenuItem(B_TRANSLATE("Add"), msg);
+		menu->AddItem(item);
+	} else {
+		msg = new BMessage(MSG_SHOW_EDIT_WINDOW);
+		item = new BMenuItem(B_TRANSLATE("Edit"), msg);
+		menu->AddItem(item);
+
+		RuleItem* rule = dynamic_cast<RuleItem *> (ItemAt(CurrentSelection()));	
+		const char* label = rule->Rule()->Disabled() ?
+			B_TRANSLATE("Enable") : B_TRANSLATE("Disable");
+		msg = new BMessage(MSG_DISABLE_RULE);
+		item = new BMenuItem(label, msg);
+		menu->AddItem(item);
+
+		msg = new BMessage(MSG_SHOW_ADD_WINDOW);
+		item = new BMenuItem(B_TRANSLATE("Add"), msg);
+		menu->AddItem(item);
+
+		msg = new BMessage(MSG_REMOVE_RULE);
+		item = new BMenuItem(B_TRANSLATE("Remove"), msg);
+		menu->AddItem(item);
+	}
+
+	menu->SetTargetForItems(fCaller);
+	menu->Go(screen, true, true, true);
+	fShowingPopUpMenu = true;
+}
