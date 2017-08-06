@@ -12,19 +12,27 @@
 
 #include <Button.h>
 #include <Catalog.h>
+#include <DateTimeFormat.h>
+#include <Directory.h>
 #include <LayoutBuilder.h>
-#include <String.h>
-#include <StringView.h>
+
+#include <private/shared/StringForSize.h>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ConflictWindow"
+
+#define CREATE_TRANSLATED_VIEW(str, var, view) \
+	text = B_TRANSLATE_COMMENT(str ": %" #var "%", \
+		"Don't translate the variable %" #var "%"); \
+	text.ReplaceFirst("%" #var "%", var); \
+	BStringView* view = new BStringView("", text)
 
 static const unsigned kReplace = 'RPLC';
 static const unsigned kSkip = 'SKIP';
 
 
-ConflictWindow::ConflictWindow(const char* file, const char* dest,
-	const char* src, const char* desc)
+ConflictWindow::ConflictWindow(const char* file, const char* src,
+	const char* dest, const char* desc)
 	:
 	BWindow(BRect(0, 0, 0, 0), B_TRANSLATE("Filer: Conflict"),
 		B_FLOATING_WINDOW_LOOK, B_FLOATING_ALL_WINDOW_FEEL,
@@ -36,26 +44,19 @@ ConflictWindow::ConflictWindow(const char* file, const char* dest,
 {
 	BStringView* info = new BStringView("",
 		"File already exists in target folder.");
+	info->SetAlignment(B_ALIGN_CENTER);
 
-	BString text(B_TRANSLATE_COMMENT("File name: %file%",
-		"Don't translate the variable %file%"));
-	text.ReplaceFirst("%file%", file);
-	BStringView* fileName = new BStringView("", text);
+	BString text;
 
-	text = B_TRANSLATE_COMMENT("Source folder: %src%",
-		"Don't translate the variable %src%");
-	text.ReplaceFirst("%src%", src);
-	BStringView* srcFolder = new BStringView("", text);
+	CREATE_TRANSLATED_VIEW("File name", file, fileName);
 
-	text = B_TRANSLATE_COMMENT("Target folder: %dest%",
-		"Don't translate the variable %dest%");
-	text.ReplaceFirst("%dest%", dest);
-	BStringView* destFolder = new BStringView("", text);
+	CREATE_TRANSLATED_VIEW("Source folder", src, srcFolder);
+	BStringView* srcInfo = _CreateAttrView(file, src);
 
-	text = B_TRANSLATE_COMMENT("Rule name: %desc%",
-		"Don't translate the variable %desc%");
-	text.ReplaceFirst("%desc%", desc);
-	BStringView* ruleDesc = new BStringView("", text);
+	CREATE_TRANSLATED_VIEW("Target folder", dest, destFolder);
+	BStringView* destInfo = _CreateAttrView(file, dest);
+
+	CREATE_TRANSLATED_VIEW("Rule name", desc, ruleDesc);
 
 	BButton* replace = new BButton("", B_TRANSLATE("Replace"),
 		new BMessage(kReplace));
@@ -65,10 +66,11 @@ ConflictWindow::ConflictWindow(const char* file, const char* dest,
 		.SetInsets(B_USE_BIG_INSETS)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(info)
-			.AddStrut(5)
 			.Add(fileName)
 			.Add(srcFolder)
+			.Add(srcInfo)
 			.Add(destFolder)
+			.Add(destInfo)
 			.Add(ruleDesc)
 			.End()
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
@@ -117,4 +119,33 @@ ConflictWindow::MessageReceived(BMessage* msg)
 		default:
 			BWindow::MessageReceived(msg);
 	}
+}
+
+
+BStringView*
+ConflictWindow::_CreateAttrView(const char* file, const char* folder)
+{
+	BDirectory dir(folder);
+	if (dir.InitCheck() != B_OK)
+		return NULL;
+
+	struct stat attr;
+	if (dir.GetStatFor(file, &attr) != B_OK)
+		return NULL;
+
+	BString str;
+	BDateTimeFormat fmt;
+	if (fmt.Format(str, attr.st_mtime, B_SHORT_DATE_FORMAT, B_SHORT_TIME_FORMAT)
+		!= B_OK)
+		return NULL;
+
+	char size[128];
+	string_for_size(attr.st_size, size, sizeof(size));
+
+	BString text("[ ");
+	text << str << "; " << size << " ]";
+	BStringView* view = new BStringView("", text);
+	view->SetAlignment(B_ALIGN_CENTER);
+
+	return view;
 }
