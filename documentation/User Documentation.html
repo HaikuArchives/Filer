@@ -129,7 +129,7 @@ ul {
 <img src="./images/filer_icon_64.png" alt="Filer icon" /></a>
 <p><span style="font-size: 1.5em; font-weight:bold">Filer's User Documentation</span></p>
 <hr />
-<p id="index"><a href="#usage">Usage</a> — <a href="#dropzone">Dropzone</a> — <a href="#rules">Rules</a> — <a href="#autofiler">AutoFiler</a> — <a href="#help">Help</a> — <a href="#history">History</a></p>
+<p id="index"><a href="#usage">Usage</a> — <a href="#rules">Rules</a> — <a href="#autofiler">AutoFiler</a> — <a href="#dropzone">Dropzone</a> — <a href="#help">Help</a> — <a href="#history">History</a></p>
 </div>
 <hr />
 <p><br /></p>
@@ -154,32 +154,20 @@ ul {
 </div>
 <p>You can either <span class="button">Skip</span> the move/copy of the file or <span class="button">Replace</span> the existing file. In case there are similar conflicts for the rest of the currently running Filer job, you can decide to <span class="button">Do this for all files</span> by ticking the checkbox before making your decision.<br />
 Note, the state of the checkbox is only valid for the current Filer job. If <i>Filer</i> (or <i>AutoFiler</i>) is triggered at some later time and a conflict with an existing file occurs again, you are once more presented with this conflict window.</p>
-<p>Filer's interface is divided into four tabs: Dropzone, Rules, AutoFiler and Help.</p>
-
-<h2>
-<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
-<a id="dropzone" name="dropzone">Dropzone</a></h2>
-<div align="center">
-<img src="./images/filer_dropzone.png" alt="Filer's dropzone" />
-</div>
-<p>As described above under 4.), you can drag&amp;drop files onto the Dropzone to have them processed according to your set of rules. If you'd like to embed this Dropzone into the Desktop, click the button <span class="button">Replicate dropzone…</span>.<br />
-It opens a window to resize the dropzone to fit your needs. When that's done, drag the little Replicant handle in the bottom-right corner onto your Desktop. Make sure to have <span class="menu">Show replicants</span> in the Deskbar menu activated. Once on the Desktop, right-click the Replicant's handle for a menu to remove it again.<br />
-A right-click into the shaded part of the replicated Dropzone offers a menu as a shortcut to <span class="menu">Open Filer…</span>.</p>
-<div class="box-info">
-If you drag files from another partition onto a replicated Dropzone, you'll end up with copies of those files on your Desktop. This is because notifications of dropped files are not only processed by the Replicant, but also by the Tracker sitting below.</div>
+<p>Filer's interface is divided into four tabs: Rules, AutoFiler, Dropzone and Help.</p>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="rules" name="rules">Rules</a></h2>
 <div align="center">
-<img src="./images/filer_ruleslist.png" alt="Filer's rules" />
+<img src="./images/rules.png" alt="Filer's rules" />
 </div>
-<p>The second tab shows the list of organization rules. Every dropped file is being tested against — and if its type etc. matches, processed  by — each rule, top to bottom.</p>
+<p>The first tab shows the list of organization rules. Every dropped file is being tested against — and if its type etc. matches, processed  by — each rule, top to bottom.</p>
 <p>You can opt to <span class="menu">Apply only the first matching rule</span> if you prefer that. Filer will then stop trying to match rules to a file after it found one. (A rule can override that by adding a <span class="menu">Continue</span> in its "Do" block. See the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> for more info.)</p>
 <p>You arrange the order of rules with the <span class="button">Move up/down</span> buttons. You can <span class="button">Edit…</span> and <span class="button">Disable</span> rules and add/remove a rule with the <span class="button">+</span> and <span class="button">-</span> buttons.</p>
 <p>Here's the window that opens to edit a rule, which is similar to the one for adding a rule:</p>
 <div align="center">
-<img src="./images/filer_edit_rule.png" alt="Editing a rule" /></div>
+<img src="./images/edit_rule.png" alt="Editing a rule" /></div>
 <p>A rule needs three things: A <span class="menu">Description</span>, the condition <span class="menu">When</span> it is applied, and what action to <span class="menu">Do</span>.</p>
 <p>Click on the pop-up menus in the "When" and "Do" boxes to explore the various options to construct the right condition and what action will be taken. You can add several conditions which will <i>all</i> have to be met to trigger the action. If you add several actions in the "Do" box, be aware that they are executed in order, from top to bottom.<br />
 You add or remove a condition or action with its <span class="button">+</span> or <span class="button">-</span> buttons.</p>
@@ -191,11 +179,22 @@ You add or remove a condition or action with its <span class="button">+</span> o
 <a id="autofiler" name="autofiler">AutoFiler</a></h2>
 <p>When <i>AutoFiler</i> is running, it monitors user-defined folders and executes the actions defined in the <i>Filer</i> rules automatically.</p>
 <div align="center">
-<img src="./images/autofiler_settings.png" alt="AutoFiler settings" />
+<img src="./images/autofiler.png" alt="AutoFiler settings" />
 </div>
-
 <p>The <i>AutoFiler</i> itself is a background application. You can activate the checkbox at the top to automatically <span class="menu">Run AutoFiler on system startup</span>. The button beside it lets you start/stop it manually.</p>
 <p>With the <span class="button">+</span> and <span class="button">-</span> buttons, you can add and remove the folders that <i>AutoFiler</i> will monitor for incoming files. One or more folders are quickly added via drag&amp;drop.</p>
+
+<h2>
+<a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="dropzone" name="dropzone">Dropzone</a></h2>
+<div align="center">
+<img src="./images/dropzone.png" alt="Filer's dropzone" />
+</div>
+<p>You can drag&amp;drop files onto the Dropzone to have them processed according to your set of rules. If you'd like to embed this Dropzone into the Desktop, click the button <span class="button">Replicate dropzone…</span>.<br />
+It opens a window to resize the dropzone to fit your needs. When that's done, drag the little Replicant handle in the bottom-right corner onto your Desktop. Make sure to have <span class="menu">Show replicants</span> in the Deskbar menu activated. Once on the Desktop, right-click the Replicant's handle for a menu to remove it again.<br />
+A right-click into the shaded part of the replicated Dropzone offers a menu as a shortcut to <span class="menu">Open Filer…</span>.</p>
+<div class="box-info">
+If you drag files from another partition onto a replicated Dropzone, you'll end up with copies of those files on your Desktop. This is because notifications of dropped files are not only processed by the Replicant, but also by the Tracker sitting below.</div>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
@@ -204,7 +203,7 @@ You add or remove a condition or action with its <span class="button">+</span> o
 <img src="./images/help.png" alt="The help tab" />
 </div>
 <p>The last tab shows some information about <i>Filer</i> and offers two quick links to <span class="button">Help on rules</span> and the <span class="button">User documentation</span>.</p>
-<p>Please report bugs or create feature requests at <a href="https://github.com/HaikuArchives/Filer/issues">Filer's issue tracker at GitHub</a>.</p>
+<p>Please report bugs, create feature requests or offers for additional translations at <a href="https://github.com/HaikuArchives/Filer/issues">Filer's issue tracker at GitHub</a>.</p>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
