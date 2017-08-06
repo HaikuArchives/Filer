@@ -742,34 +742,35 @@ StringCompare(const BString& from, const BString& to, int8 modetype,
 
 
 static status_t
-MoveOrCopy(const BMessage& action, entry_ref& ref, const char* desc, bool move)
+MoveOrCopy(const BMessage& action, const entry_ref& ref, const char* desc,
+	bool move)
 {
+	BEntry source(&ref);
+	if (source.InitCheck() != B_OK)
+		return B_ERROR;
+
 	BString value;
-	status_t status;
-	status = action.FindString("value", &value);
-	if (status != B_OK)
-		return status;
+	if (action.FindString("value", &value) != B_OK)
+		return B_ERROR;
+
 	value = ProcessPatterns(value.String(), ref);
 
 	const char* destDir = value.String();
 	BEntry entry(destDir, true);
-	status = entry.InitCheck();
-	if (status != B_OK || (entry.Exists() && !entry.IsDirectory()))
+	if (entry.InitCheck() != B_OK)
 		return B_ERROR;
 
-	if (!entry.Exists())
-		create_directory(destDir, 0777);
-
-	BEntry source(&ref);
-	status = source.InitCheck();
-	if (status != B_OK)
+	if (entry.Exists()) {
+		if(!entry.IsDirectory())
+			return B_ERROR;
+	} else if (create_directory(destDir, 0777) != B_OK)
 		return B_ERROR;
 
 	App* app = static_cast<App*>(be_app);
 	bool doAll = app->DoAll();
 	bool replace = app->Replace();
 
-	char name[B_FILE_NAME_LENGTH];
+	const char* name = ref.name;
 	bool conflict = false;
 
 	if (!(replace && doAll)) {
@@ -778,21 +779,27 @@ MoveOrCopy(const BMessage& action, entry_ref& ref, const char* desc, bool move)
 		if (destDir[strlen(destDir) - 1] != '/')
 			destPath += '/';
 
-		source.GetName(name);
 		destPath += name;
 
 		BEntry dest(destPath);
+		if (dest.InitCheck() != B_OK)
+			return B_ERROR;
+
 		conflict = dest.Exists();
 	}
 
 	if (conflict && !doAll) {
 		BEntry parent;
 		source.GetParent(&parent);
+		if (parent.InitCheck() != B_OK)
+			return B_ERROR;
 
 		BPath path;
 		parent.GetPath(&path);
+		if (path.InitCheck() != B_OK)
+			return B_ERROR;
 
-		ConflictWindow* window = new ConflictWindow(name, destDir, path.Path(),
+		ConflictWindow* window = new ConflictWindow(name, path.Path(), destDir,
 			desc);
 		replace = window->Go(doAll);
 		delete window;
@@ -801,17 +808,20 @@ MoveOrCopy(const BMessage& action, entry_ref& ref, const char* desc, bool move)
 		app->DoAll(doAll);
 	}
 
-	if (replace || !conflict) {
-		status = (move ? MoveFile : CopyFile)(&source, &entry, false);
-		if (status == B_OK)
-			printf("\t%s %s to %s\n", move ? "Moved" : "Copied", ref.name, destDir);
-		else
-			printf("\tCouldn't %s %s to %s. Stopping here.\n\t\t"
-				"Error Message: %s\n", move ? "move" : "copy", ref.name, destDir, strerror(status));
-	} else
-		printf("\tSkipped %s\n", ref.name);
+	if (conflict && !replace) {
+		printf("\tSkipped %s\n", name);
+		return B_OK;
+	}
 
-	return B_OK;
+	status_t status = (move ? MoveFile : CopyFile)(&source, &entry, false);
+	if (status == B_OK)
+		printf("\t%s %s to %s\n", move ? "Moved" : "Copied", name, destDir);
+	else
+		printf("\tCouldn't %s %s to %s. Stopping here.\n\t\t"
+			"Error Message: %s\n", move ? "move" : "copy", name, destDir,
+			strerror(status));
+
+	return status;
 }
 
 
