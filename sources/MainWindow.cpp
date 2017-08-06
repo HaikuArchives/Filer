@@ -75,9 +75,9 @@ MainWindow::_BuildLayout()
 	fAutoFiler = new AutoFilerTab();
 	fHelp = new HelpTab();
 
-	fTabView->AddTab(fDropZone);
 	fTabView->AddTab(fRules);
 	fTabView->AddTab(fAutoFiler);
+	fTabView->AddTab(fDropZone);
 	fTabView->AddTab(fHelp);
 
 	// do the layouting
