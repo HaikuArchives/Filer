@@ -271,12 +271,12 @@ RuleItemList::_ShowPopUpMenu(BPoint screen)
 		item = new BMenuItem(label, msg);
 		menu->AddItem(item);
 
-		msg = new BMessage(MSG_SHOW_ADD_WINDOW);
-		item = new BMenuItem(B_TRANSLATE("Add"), msg);
-		menu->AddItem(item);
-
 		msg = new BMessage(MSG_REMOVE_RULE);
 		item = new BMenuItem(B_TRANSLATE("Remove"), msg);
+		menu->AddItem(item);
+
+		msg = new BMessage(MSG_SHOW_ADD_WINDOW);
+		item = new BMenuItem(B_TRANSLATE("Add"), msg);
 		menu->AddItem(item);
 	}
 

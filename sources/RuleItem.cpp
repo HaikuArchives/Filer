@@ -20,23 +20,24 @@ RuleItem::RuleItem(FilerRule* item)
 void
 RuleItem::DrawItem(BView* owner, BRect frame, bool complete)
 {
-	if (fRule->Disabled()) {
-		rgb_color color;
-		float tint, light, dark;
+	rgb_color color;
+	float tint = B_NO_TINT;
+	float light, dark;
 
-		if (IsSelected()) {
-			color = ui_color(B_LIST_SELECTED_ITEM_TEXT_COLOR);
-			light = B_LIGHTEN_1_TINT;
-			dark = B_DARKEN_1_TINT;
-		} else {
-			color = ui_color(B_LIST_ITEM_TEXT_COLOR);
-			light = B_LIGHTEN_2_TINT;
-			dark = B_DARKEN_2_TINT;
-		}
-
-		tint = color.red + color.green + color.blue > 128 * 3 ? dark : light;
-		owner->SetHighColor(tint_color(color, tint));
+	if (IsSelected()) {
+		color = ui_color(B_LIST_SELECTED_ITEM_TEXT_COLOR);
+		light = B_LIGHTEN_1_TINT;
+		dark = B_DARKEN_1_TINT;
+	} else {
+		color = ui_color(B_LIST_ITEM_TEXT_COLOR);
+		light = B_LIGHTEN_2_TINT;
+		dark = B_DARKEN_2_TINT;
 	}
+
+	if (fRule->Disabled())
+		tint = color.red + color.green + color.blue > 128 * 3 ? dark : light;
+
+	owner->SetHighColor(tint_color(color, tint));
 
 	BStringItem::DrawItem(owner, frame, complete);
 }
