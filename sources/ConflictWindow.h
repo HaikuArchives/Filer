@@ -25,6 +25,7 @@ class ConflictWindow : public BWindow
 	sem_id	fSem;
 
 	void			MessageReceived(BMessage* msg);
+	BStringView*	_CreateLabelView(const char* label);
 	BStringView*	_CreateAttrView(const char* file, const char* folder);
 
 public:
