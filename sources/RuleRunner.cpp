@@ -770,6 +770,7 @@ MoveOrCopy(const BMessage& action, const entry_ref& ref, const char* desc,
 	bool doAll = app->DoAll();
 	bool replace = app->Replace();
 
+	entry_ref destRef;
 	const char* name = ref.name;
 	bool conflict = false;
 
@@ -786,6 +787,8 @@ MoveOrCopy(const BMessage& action, const entry_ref& ref, const char* desc,
 			return B_ERROR;
 
 		conflict = dest.Exists();
+		if (conflict)
+			dest.GetRef(&destRef);
 	}
 
 	if (conflict && !doAll) {
@@ -799,8 +802,8 @@ MoveOrCopy(const BMessage& action, const entry_ref& ref, const char* desc,
 		if (path.InitCheck() != B_OK)
 			return B_ERROR;
 
-		ConflictWindow* window = new ConflictWindow(name, path.Path(), destDir,
-			desc);
+		ConflictWindow* window = new ConflictWindow(path.Path(), ref, destDir,
+			destRef, desc);
 		replace = window->Go(doAll);
 		delete window;
 

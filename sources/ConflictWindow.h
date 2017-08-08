@@ -15,6 +15,7 @@
 
 class ConflictWindow : public BWindow
 {
+	const char*	fFile;
 	BCheckBox*	fDoAll;
 	bool		fReplace;
 
@@ -26,10 +27,11 @@ class ConflictWindow : public BWindow
 
 	void			MessageReceived(BMessage* msg);
 	BStringView*	_CreateLabelView(const char* label);
-	BStringView*	_CreateAttrView(const char* file, const char* folder);
+	BStringView*	_CreateAttrView(const char* folder);
 
 public:
-			ConflictWindow(const char* file, const char* src, const char* dest,
+			ConflictWindow(const char* srcFolder, const entry_ref& srcFile,
+				const char* destFolder, const entry_ref& destFile,
 				const char* desc);
 	bool	Go(bool& doAll);
 };
