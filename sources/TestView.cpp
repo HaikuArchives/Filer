@@ -277,7 +277,7 @@ TestView::TestMenu() const
 	// These ones will always exist. Type is the default because it's probably
 	// going to be the one most used
 	BMessage* msg;
-	BPopUpMenu* menu = new BPopUpMenu("", true, false);
+	BPopUpMenu* menu = new BPopUpMenu("", false, false);
 
 	// Read in the types in the MIME database which have extra attributes
 	// associated with them

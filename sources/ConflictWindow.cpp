@@ -12,69 +12,47 @@
 
 #include <Button.h>
 #include <Catalog.h>
-#include <Cursor.h>
 #include <DateTimeFormat.h>
 #include <Directory.h>
 #include <LayoutBuilder.h>
 
 #include <private/shared/StringForSize.h>
 
+#include "FolderPathView.h"
+
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ConflictWindow"
 
-static const unsigned kReplace = 'RPLC';
-static const unsigned kSkip = 'SKIP';
+static const uint32 kReplace = 'RPLC';
+static const uint32 kSkip = 'SKIP';
 
 
-class FolderView : public BStringView
+static BStringView*
+CreateLightString(const char* str)
 {
-	void	MouseMoved(BPoint point, uint32 transit, const BMessage* dragMsg);
+	BStringView* view = new BStringView("", str);
 
-public:
-			FolderView(const BString& path);
-};
+	view->SetHighColor(mix_color(ui_color(B_PANEL_BACKGROUND_COLOR),
+		ui_color(B_PANEL_TEXT_COLOR), 192));
 
-
-FolderView::FolderView(const BString& path)
-	:
-	BStringView("", path)
-{
+	return view;
 }
 
 
-void
-FolderView::MouseMoved(BPoint point, uint32 transit, const BMessage* dragMsg)
-{
-	switch (transit) {
-		case B_ENTERED_VIEW:
-		{
-			const BCursor cursor(B_CURSOR_ID_FOLLOW_LINK);
-			SetViewCursor(&cursor);
-			break;
-		}
-		case B_EXITED_VIEW:
-		{
-			const BCursor cursor(B_CURSOR_ID_SYSTEM_DEFAULT);
-			SetViewCursor(&cursor);
-			break;
-		}
-	}
-}
-
-
-ConflictWindow::ConflictWindow(const char* file, const char* src,
-	const char* dest, const char* desc)
+ConflictWindow::ConflictWindow(const char* srcFolder, const entry_ref& srcFile,
+	const char* destFolder, const entry_ref& destFile, const char* desc)
 	:
 	BWindow(BRect(0, 0, 0, 0), B_TRANSLATE("Filer: Conflict"),
 		B_FLOATING_WINDOW_LOOK, B_FLOATING_ALL_WINDOW_FEEL,
 		B_NOT_CLOSABLE | B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_AVOID_FOCUS
 			| B_AUTO_UPDATE_SIZE_LIMITS),
+	fFile(srcFile.name),
 	fDoAll(new BCheckBox("", B_TRANSLATE("Do this for all files"), NULL)),
 	fReplace(false),
 	fSem(create_sem(0, ""))
 {
 	BStringView* info = new BStringView("",
-		"File already exists in target folder.");
+		B_TRANSLATE("File already exists in target folder."));
 
 	BButton* replace = new BButton("", B_TRANSLATE("Replace"),
 		new BMessage(kReplace));
@@ -85,15 +63,21 @@ ConflictWindow::ConflictWindow(const char* file, const char* src,
 		.Add(info)
 		.AddGrid(B_USE_HALF_ITEM_SPACING, 0)
 			.Add(_CreateLabelView(B_TRANSLATE("File name")), 0, 0)
-			.Add(new BStringView("", file), 1, 0)
-			.Add(_CreateLabelView(B_TRANSLATE("Source folder")), 0, 1)
-			.Add(new FolderView(src), 1, 1)
-			.Add(_CreateAttrView(file, src), 1, 2)
-			.Add(_CreateLabelView(B_TRANSLATE("Target folder")), 0, 3)
-			.Add(new FolderView(dest), 1, 3)
-			.Add(_CreateAttrView(file, dest), 1, 4)
-			.Add(_CreateLabelView(B_TRANSLATE("Rule name")), 0, 5)
-			.Add(new BStringView("", desc), 1, 5)
+			.Add(CreateLightString(fFile), 1, 0)
+			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
+				0, 1)
+			.Add(_CreateLabelView(B_TRANSLATE("Source folder")), 0, 2)
+			.Add(new FolderPathView(srcFolder, srcFile), 1, 2)
+			.Add(_CreateAttrView(srcFolder), 1, 3)
+			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
+				0, 4)
+			.Add(_CreateLabelView(B_TRANSLATE("Target folder")), 0, 5)
+			.Add(new FolderPathView(destFolder, destFile), 1, 5)
+			.Add(_CreateAttrView(destFolder), 1, 6)
+			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
+				0, 7)
+			.Add(_CreateLabelView(B_TRANSLATE("Rule name")), 0, 8)
+			.Add(CreateLightString(desc), 1, 8)
 			.End()
 		.AddGroup(B_HORIZONTAL)
 			.AddGlue()
@@ -150,24 +134,27 @@ ConflictWindow::_CreateLabelView(const char* label)
 	BString text(label);
 	text += ':';
 
-	return new BStringView("", text);
+	BStringView* view = new BStringView("", text);
+	view->SetAlignment(B_ALIGN_RIGHT);
+
+	return view;
 }
 
 
 BStringView*
-ConflictWindow::_CreateAttrView(const char* file, const char* folder)
+ConflictWindow::_CreateAttrView(const char* folder)
 {
 	BDirectory dir(folder);
 	if (dir.InitCheck() != B_OK)
 		return NULL;
 
 	struct stat attr;
-	if (dir.GetStatFor(file, &attr) != B_OK)
+	if (dir.GetStatFor(fFile, &attr) != B_OK)
 		return NULL;
 
 	BString str;
 	BDateTimeFormat fmt;
-	if (fmt.Format(str, attr.st_mtime, B_SHORT_DATE_FORMAT, B_SHORT_TIME_FORMAT)
+	if (fmt.Format(str, attr.st_mtime, B_LONG_DATE_FORMAT, B_MEDIUM_TIME_FORMAT)
 		!= B_OK)
 		return NULL;
 
@@ -175,12 +162,5 @@ ConflictWindow::_CreateAttrView(const char* file, const char* folder)
 	string_for_size(attr.st_size, size, sizeof(size));
 	str << "; " << size;
 
-	BStringView* view = new BStringView("", str);
-
-	BFont font;
-	view->GetFont(&font);
-	font.SetFace(B_ITALIC_FACE);
-	view->SetFont(&font);
-
-	return view;
+	return CreateLightString(str);
 }
