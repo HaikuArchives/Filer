@@ -173,7 +173,9 @@ ConflictWindow::_CreateAttrView(const char* folder)
 
 	char size[128];
 	string_for_size(attr.st_size, size, sizeof(size));
-	str << "; " << size;
+
+	str.Prepend("  •  ");
+	str.Prepend(size);
 
 	return CreateLightString(str);
 }
