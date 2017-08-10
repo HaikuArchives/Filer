@@ -1,9 +1,5 @@
-1	Dutch	application/x-vnd.dw-Filer	1264453126
+1	Dutch	application/x-vnd.dw-Filer	4088055065
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tVolledige naam\n%EXTENSION%\tEnkel de extentie\n%BASENAME%\tBestandsnaam zonder extentie\n%FOLDER%\t\tVolledig pad naar de folder van het bestand\n%FULLPATH%\t\tVolledig pad naar het bestand\n%DATE%\t\t\tHuidige datum in het formaat MM-DD-YYYY\n%EURODATE%\t\tHuidige datum in het formaat DD-MM-YYYY\n%REVERSEDATE%\tHuidige datum in het formaat YYYY-MM-DD\n%TIME%\t\t\tHuidige tijd in 24 uur\n%ATTR:xxxx%\t\tEen uitgebreide bestands atributie
-Add	AddRemoveButtons		Toevoegen
-Add rule	AddRemoveButtons		Regels toevoegen
-Remove	AddRemoveButtons		Verwijder
-Remove rule	AddRemoveButtons		Regel verwijderen
 Add folder	AutoFilerTab		Folder toevoegen
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Folders toevoegen
@@ -13,17 +9,23 @@ Run AutoFiler on system startup	AutoFilerTab		AutoFiler starten bij systeemstart
 Start AutoFiler	AutoFilerTab		Start AutoFiler
 Stop AutoFiler	AutoFilerTab		Stop AutoFiler
 Add	AutoFilerTab	Used as button in a file panel	Toevoegen
+A file with that name already exists in the target folder.	ConflictWindow		A file with that name already exists in the target folder.
 Do this for all files	ConflictWindow		Dit toepassen met alle bestanden
+File name	ConflictWindow		File name
 Filer: Conflict	ConflictWindow		Filer: Conflict
 Replace	ConflictWindow		Vervangen
+Rule name	ConflictWindow		Rule name
 Skip	ConflictWindow		Overslaan
-The file '%file%' already exists.	ConflictWindow	Don't translate the variable %file%	Het bestand '%file%' bestaat reeds.
+Source folder	ConflictWindow		Source folder
+Target folder	ConflictWindow		Target folder
 Drag and drop the files to be processed below.	DropZoneTab		Drag and drop de bestanden om te verwerken hieronder.
 Dropzone	DropZoneTab		Dropzone
 Filer	DropZoneTab		Filer
 Filer dropzone	DropZoneTab		Filer dropzone
 Open Filer…	DropZoneTab		Open Filer…
 Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Open file	FolderPathView		Open file
+Open folder	FolderPathView		Open folder
 Abort	FSUtils		Annuleren
 Error	FSUtils		Fout
 Replace file	FSUtils		Vervang bestand
@@ -55,10 +57,8 @@ does not contain	RuleRunner		bevat niet
 ends with	RuleRunner		eindigt met
 GiB	RuleRunner		GiB
 is	RuleRunner		is
-is after	RuleRunner		is na
 is at least	RuleRunner		is tenminste
 is at most	RuleRunner		is tenminste
-is before	RuleRunner		is voor
 is less than	RuleRunner		is minder dan
 is more than	RuleRunner		is meer dan
 is not	RuleRunner		is niet
@@ -75,15 +75,20 @@ Size	RuleRunner		Grootte
 starts with	RuleRunner		start met
 TiB	RuleRunner		TiB
 Type	RuleRunner		Type
+Add	RuleTab		Add
+Add rule	RuleTab		Add rule
 Add rules	RuleTab		Regels toevoegen
 Apply only the first matching rule	RuleTab		Enkel de eerste match toepassen
 Cancel	RuleTab		Annuleren
 Disable	RuleTab		Uitschakelen
+Edit	RuleTab		Edit
 Edit…	RuleTab		Aanpassen…
 Enable	RuleTab		Inschakelen
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Het lijkt er op dat er geen regels voor het organiseren van bestanden bestaat. Wil je dat Filer enkele basis regels voor je toevoegt?
 Move down	RuleTab		Verplaats omlaag
 Move up	RuleTab		Verplaats omhoog
+Remove	RuleTab		Remove
+Remove rule	RuleTab		Remove rule
 Rules	RuleTab		Regels
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Kies bestand voor %s%

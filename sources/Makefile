@@ -28,13 +28,19 @@ APP_MIME_SIG = application/x-vnd.dw-Filer
 #	means this Makefile will not work correctly if two source files with the
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
-SRCS = AutoFilerTab.cpp FilerRule.cpp FSUtils.cpp main.cpp PatternProcessor.cpp \
-	RuleRunner.cpp ActionView.cpp AutoTextControl.cpp CppSQLite3.cpp Database.cpp \
-	DropZoneTab.cpp HelpTab.cpp MainWindow.cpp RefStorage.cpp ReplicantWindow.cpp \
-	RuleEditWindow.cpp RuleItem.cpp RuleTab.cpp TypedRefFilter.cpp TestView.cpp \
-	ConflictWindow.cpp ModeMenu.cpp AddRemoveButtons.cpp PanelButton.cpp \
-	RuleItemList.cpp ContextPopUp.cpp AutoFilerList.cpp FolderPathView.cpp \
-	StripeView.cpp
+SRCS = \
+	ActionView.cpp AddRemoveButtons.cpp AutoFilerList.cpp AutoFilerTab.cpp \
+	AutoTextControl.cpp \
+	ConflictWindow.cpp ContextPopUp.cpp CppSQLite3.cpp \
+	Database.cpp DropZoneTab.cpp \
+	HelpTab.cpp \
+	FilerRule.cpp FolderPathView.cpp FSUtils.cpp  \
+	main.cpp MainWindow.cpp ModeMenu.cpp \
+	PanelButton.cpp PatternProcessor.cpp \
+	RuleEditWindow.cpp RuleItem.cpp RuleItemList.cpp RuleTab.cpp \
+	RuleRunner.cpp RefStorage.cpp ReplicantWindow.cpp \
+	StripeView.cpp \
+	TestView.cpp TypedRefFilter.cpp \
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.
@@ -88,7 +94,7 @@ OPTIMIZE :=
 # 	will recreate only the "locales/en.catkeys" file. Use it as a template
 # 	for creating catkeys for other languages. All localization files must be
 # 	placed in the "locales" subdirectory.
-LOCALES = de en en_GB it nl uk 
+LOCALES = de en en_GB fr it nl uk 
 
 #	Specify all the preprocessor symbols to be defined. The symbols will not
 #	have their values set automatically; you must supply the value (if any) to

@@ -1,4 +1,4 @@
-1	English	application/x-vnd.dw-Filer	4257288050
+1	English	application/x-vnd.dw-Filer	4088055065
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file
 Add folder	AutoFilerTab		Add folder
 AutoFiler	AutoFilerTab		AutoFiler
@@ -9,20 +9,23 @@ Run AutoFiler on system startup	AutoFilerTab		Run AutoFiler on system startup
 Start AutoFiler	AutoFilerTab		Start AutoFiler
 Stop AutoFiler	AutoFilerTab		Stop AutoFiler
 Add	AutoFilerTab	Used as button in a file panel	Add
+A file with that name already exists in the target folder.	ConflictWindow		A file with that name already exists in the target folder.
 Do this for all files	ConflictWindow		Do this for all files
+File name	ConflictWindow		File name
 Filer: Conflict	ConflictWindow		Filer: Conflict
 Replace	ConflictWindow		Replace
+Rule name	ConflictWindow		Rule name
 Skip	ConflictWindow		Skip
-Rule name: %desc%	ConflictWindow	Don't translate the variable %desc%	Rule name: %desc%
-Target folder: %dest%	ConflictWindow	Don't translate the variable %dest%	Target folder: %dest%
-File name: %file%	ConflictWindow	Don't translate the variable %file%	File name: %file%
-Source folder: %src%	ConflictWindow	Don't translate the variable %src%	Source folder: %src%
+Source folder	ConflictWindow		Source folder
+Target folder	ConflictWindow		Target folder
 Drag and drop the files to be processed below.	DropZoneTab		Drag and drop the files to be processed below.
 Dropzone	DropZoneTab		Dropzone
 Filer	DropZoneTab		Filer
 Filer dropzone	DropZoneTab		Filer dropzone
 Open Filer…	DropZoneTab		Open Filer…
 Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Open file	FolderPathView		Open file
+Open folder	FolderPathView		Open folder
 Abort	FSUtils		Abort
 Error	FSUtils		Error
 Replace file	FSUtils		Replace file

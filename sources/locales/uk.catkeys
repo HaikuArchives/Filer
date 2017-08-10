@@ -1,9 +1,5 @@
-1	Ukrainian	application/x-vnd.dw-Filer	1264453126
+1	Ukrainian	application/x-vnd.dw-Filer	4088055065
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tПовне ім’я файлу\n%EXTENSION%\tЛише розширення\n%BASENAME%\tІм’я файлу без розширення\n%FOLDER%\t\tПовний шлях до папки з файлом\n%FULLPATH%\t\tПовний шлях до файлу\n%DATE%\t\t\tПоточна дата у форматі ММ-ДД-РРРР\n%EURODATE%\t\tПоточна дата у форматі ДД-ММ-РРРР\n%REVERSEDATE%\tПоточна дата у форматі РРРР-ММ-ДД\n%TIME%\t\t\tПоточний час у форматі 24 годин\n%ATTR:xxxx%\t\tРозширений атрибут файлу
-Add	AddRemoveButtons		Додати
-Add rule	AddRemoveButtons		Додати правило
-Remove	AddRemoveButtons		Видалити
-Remove rule	AddRemoveButtons		Видалити правило
 Add folder	AutoFilerTab		Додати папку
 AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Додати папку
@@ -13,17 +9,23 @@ Run AutoFiler on system startup	AutoFilerTab		Запускати AutoFiler пр�
 Start AutoFiler	AutoFilerTab		Запустити AutoFiler
 Stop AutoFiler	AutoFilerTab		Зупинити AutoFiler
 Add	AutoFilerTab	Used as button in a file panel	Додати
+A file with that name already exists in the target folder.	ConflictWindow		A file with that name already exists in the target folder.
 Do this for all files	ConflictWindow		Виконати для усіх файлів
+File name	ConflictWindow		File name
 Filer: Conflict	ConflictWindow		Filer: Конфлікт
 Replace	ConflictWindow		Замінити
+Rule name	ConflictWindow		Rule name
 Skip	ConflictWindow		Пропустити
-The file '%file%' already exists.	ConflictWindow	Don't translate the variable %file%	Файл '%file%' вже існує.
+Source folder	ConflictWindow		Source folder
+Target folder	ConflictWindow		Target folder
 Drag and drop the files to be processed below.	DropZoneTab		Перетягніть файли для обробки у поле DropZone.
 Dropzone	DropZoneTab		DropZone
 Filer	DropZoneTab		Filer
 Filer dropzone	DropZoneTab		Filer DropZone
 Open Filer…	DropZoneTab		Відкрити Filer…
 Replicate dropzone…	DropZoneTab		Реплікант DropZone…
+Open file	FolderPathView		Open file
+Open folder	FolderPathView		Open folder
 Abort	FSUtils		Перервати
 Error	FSUtils		Помилка
 Replace file	FSUtils		Замінити файл
@@ -55,10 +57,8 @@ does not contain	RuleRunner		не містить
 ends with	RuleRunner		закінчується з
 GiB	RuleRunner		ГіБ
 is	RuleRunner		є
-is after	RuleRunner		після
 is at least	RuleRunner		принаймні
 is at most	RuleRunner		щонайбільше
-is before	RuleRunner		перед
 is less than	RuleRunner		менше, ніж
 is more than	RuleRunner		більше, ніж
 is not	RuleRunner		не є
@@ -75,15 +75,20 @@ Size	RuleRunner		Розмір
 starts with	RuleRunner		починається з
 TiB	RuleRunner		ТіБ
 Type	RuleRunner		Тип
+Add	RuleTab		Add
+Add rule	RuleTab		Add rule
 Add rules	RuleTab		Додати правила
 Apply only the first matching rule	RuleTab		Застосувати лише перше правило відповідності
 Cancel	RuleTab		Скасувати
 Disable	RuleTab		Вимкнути
+Edit	RuleTab		Edit
 Edit…	RuleTab		Редагувати…
 Enable	RuleTab		Увімкнути
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Здається, правила для організації файлів відсутні. Бажаєте, щоб Filer додав  для вас деякі основні?
 Move down	RuleTab		Нижче
 Move up	RuleTab		Вище
+Remove	RuleTab		Remove
+Remove rule	RuleTab		Remove rule
 Rules	RuleTab		Правила
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Виберіть файл для %s%
