@@ -148,12 +148,16 @@ ul {
 <li>Open Filer, select the files to process and drag&amp;drop them onto the "Dropzone". The Dropzone can also be embedded into the Desktop as a Replicant.</li>
 </ol>
 <p>…or have <i>AutoFiler</i> monitor specific folders to automatically process their incoming files according to Filer's rules.</p>
-<p>If <i>Filer</i> (or <i>AutoFiler</i> for that matter) encounters a conflict when moving or copying a file, i.e. there's already a file with that same name at the destination, a conflict window is shown (here about a file named 'Symbols'):</p>
+<p>If <i>Filer</i> (or <i>AutoFiler</i> for that matter) encounters a conflict when moving or copying a file, i.e. there's already a file with that same name at the destination, a conflict window is shown (here about a file named 'TheFile'):</p>
 <div align="center">
-<img src="./images/conflict.png" alt="Conflict: FIle already exists" />
+<img src="./images/conflict.png" alt="Conflict: File already exists" />
 </div>
 <p>You can either <span class="button">Skip</span> the move/copy of the file or <span class="button">Replace</span> the existing file. In case there are similar conflicts for the rest of the currently running Filer job, you can decide to <span class="button">Do this for all files</span> by ticking the checkbox before making your decision.<br />
 Note, the state of the checkbox is only valid for the current Filer job. If <i>Filer</i> (or <i>AutoFiler</i>) is triggered at some later time and a conflict with an existing file occurs again, you are once more presented with this conflict window.</p>
+<p>To decide if the file at the target folder should be replaced or the move/copy operation skipped instead, the modified date and the size of the file in the source and target folders are displayed beneath their paths.<br />
+Left-click a path to open the file's parent folder in a Tracker window, where  the file in the target folder can be renamed or moved elsewhere.<br />
+A right-click on a path offers a context menu with an item <span class="menu">Open file</span>, which opens the file in its preferred application. Very useful when comparing source and target images, for example.</p>
+<p><br /></p>
 <p>Filer's interface is divided into four tabs: Rules, AutoFiler, Dropzone and Help.</p>
 
 <h2>
@@ -203,7 +207,8 @@ If you drag files from another partition onto a replicated Dropzone, you'll end 
 <img src="./images/help.png" alt="The help tab" />
 </div>
 <p>The last tab shows some information about <i>Filer</i> and offers two quick links to <span class="button">Help on rules</span> and the <span class="button">User documentation</span>.</p>
-<p>Please report bugs, create feature requests or offers for additional translations at <a href="https://github.com/HaikuArchives/Filer/issues">Filer's issue tracker at GitHub</a>.</p>
+<p>Please report bugs, create feature requests or offers for additional translations at <a href="https://github.com/HaikuArchives/Filer/issues">Filer's issue tracker at GitHub</a><br />
+Thanks to Alexey 'Lan72', Begasus, Giovanni and Phoudoin for their translations!</p>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
