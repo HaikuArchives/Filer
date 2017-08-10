@@ -13,22 +13,25 @@
 #include <PopUpMenu.h>
 #include <StringView.h>
 
+
 class FolderPathView : public BStringView
 {
-	void	AttachedToWindow();
 	void	MessageReceived(BMessage* msg);
 	void	MouseMoved(BPoint where, uint32 transit, const BMessage* dragMsg);
+	void	MouseDown(BPoint position);
+
 	void	MouseUp(BPoint where);
 
 	void	_OpenFolder();
+	void	_ShowPopUpMenu(BPoint screen);
 
 	entry_ref	fFolderRef;
 	entry_ref	fFileRef;
-	BPopUpMenu*	fPopupMenu;
+	bool		fShowingPopUpMenu;
 
 public:
 			FolderPathView(const BString& path, const entry_ref& ref);
-			~FolderPathView() { delete fPopupMenu; }
+			~FolderPathView();
 };
 
 #endif	// FOLDER_PATH_VIEW_H

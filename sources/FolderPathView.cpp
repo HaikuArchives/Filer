@@ -6,7 +6,9 @@
  *			Owen Pan <owen.pan@yahoo.com>
  */
 
-
+#include "ConflictWindow.h"
+#include "ContextPopUp.h"
+#include "FilerDefs.h"
 #include "FolderPathView.h"
 
 #include <Catalog.h>
@@ -15,12 +17,10 @@
 #include <Roster.h>
 #include <Window.h>
 
-#include <private/shared/LongAndDragTrackingFilter.h>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "FolderPathView"
 
-static const uint32 kMouseLongDown = 'Mold';
 static const uint32 kOpenFolder = 'Opfd';
 static const uint32 kOpenFile = 'Opfl';
 
@@ -28,24 +28,16 @@ static const uint32 kOpenFile = 'Opfl';
 FolderPathView::FolderPathView(const BString& path, const entry_ref& ref)
 	:
 	BStringView("", path),
-	fFileRef(ref)
+	fFileRef(ref),
+	fShowingPopUpMenu(false)
 {
 	SetHighUIColor(B_LINK_TEXT_COLOR);
 	get_ref_for_path(path, &fFolderRef);
-
-	fPopupMenu = new BPopUpMenu("", false, false);
-	fPopupMenu->AddItem(new BMenuItem(B_TRANSLATE("Open folder"),
-		new BMessage(kOpenFolder)));
-	fPopupMenu->AddItem(new BMenuItem(B_TRANSLATE("Open file"),
-		new BMessage(kOpenFile)));
 }
 
 
-void
-FolderPathView::AttachedToWindow()
+FolderPathView::~FolderPathView()
 {
-	AddFilter(new LongAndDragTrackingFilter(kMouseLongDown, 0));
-	fPopupMenu->SetTargetForItems(this);
 }
 
 
@@ -53,20 +45,21 @@ void
 FolderPathView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
-		case kMouseLongDown:
+		case MSG_POPUP_CLOSED:
 		{
-			BPoint where;
-			if (msg->FindPoint("where", &where) == B_OK)
-				fPopupMenu->Go(ConvertToScreen(where), true);
-
+			fShowingPopUpMenu = false;
 			break;
 		}
 		case kOpenFolder:
+		{
 			_OpenFolder();
 			break;
+		}
 		case kOpenFile:
+		{
 			be_roster->Launch(&fFileRef);
 			break;
+		}
 		default:
 			BStringView::MessageReceived(msg);
 	}
@@ -99,6 +92,21 @@ FolderPathView::MouseMoved(BPoint where, uint32 transit, const BMessage* msg)
 
 
 void
+FolderPathView::MouseDown(BPoint position)
+{
+	uint32 buttons = 0;
+	if (Window() != NULL && Window()->CurrentMessage() != NULL)
+		buttons = Window()->CurrentMessage()->FindInt32("buttons");
+
+	if ((buttons & B_SECONDARY_MOUSE_BUTTON) != 0) {
+		_ShowPopUpMenu(ConvertToScreen(position));
+		return;
+	}
+	BStringView::MouseDown(position);
+}
+
+
+void
 FolderPathView::MouseUp(BPoint where)
 {
 	if (Bounds().Contains(where))
@@ -120,4 +128,28 @@ FolderPathView::_OpenFolder()
 	msgList.AddItem(&msgSel);
 
 	be_roster->Launch("application/x-vnd.Be-TRAK", &msgList);
+}
+
+
+void
+FolderPathView::_ShowPopUpMenu(BPoint screen)
+{
+	if (fShowingPopUpMenu)
+		return;
+
+	ContextPopUp* menu = new ContextPopUp("PopUpMenu", this);
+	BMessage* msg = NULL;
+	BMenuItem* item;
+
+	msg = new BMessage(kOpenFile);
+	item = new BMenuItem(B_TRANSLATE("Open file"), msg);
+	menu->AddItem(item);
+
+	msg = new BMessage(kOpenFolder);
+	item = new BMenuItem(B_TRANSLATE("Open folder"), msg);
+	menu->AddItem(item);
+
+	menu->SetTargetForItems(this);
+	menu->Go(screen, true, true, true);
+	fShowingPopUpMenu = true;
 }
