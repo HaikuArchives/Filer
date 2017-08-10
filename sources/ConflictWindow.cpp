@@ -10,11 +10,15 @@
 
 #include "ConflictWindow.h"
 
+#include <Application.h>
 #include <Button.h>
 #include <Catalog.h>
 #include <DateTimeFormat.h>
 #include <Directory.h>
 #include <LayoutBuilder.h>
+#include <NodeInfo.h>
+#include <Roster.h>
+
 
 #include <private/shared/StringForSize.h>
 
@@ -49,43 +53,52 @@ ConflictWindow::ConflictWindow(const char* srcFolder, const entry_ref& srcFile,
 	fFile(srcFile.name),
 	fDoAll(new BCheckBox("", B_TRANSLATE("Do this for all files"), NULL)),
 	fReplace(false),
-	fSem(create_sem(0, ""))
+	fSem(create_sem(0, "")),
+	fStripeView(NULL)
 {
+	BBitmap icon = _GetIcon(32 * icon_layout_scale());
+	fStripeView = new StripeView(icon);
+
 	BStringView* info = new BStringView("",
-		B_TRANSLATE("File already exists in target folder."));
+		B_TRANSLATE("A file with that name already exists in the target folder."));
 
 	BButton* replace = new BButton("", B_TRANSLATE("Replace"),
 		new BMessage(kReplace));
 	BButton* skip = new BButton("", B_TRANSLATE("Skip"), new BMessage(kSkip));
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.SetInsets(B_USE_BIG_INSETS)
-		.Add(info)
-		.AddGrid(B_USE_HALF_ITEM_SPACING, 0)
-			.Add(_CreateLabelView(B_TRANSLATE("File name")), 0, 0)
-			.Add(CreateLightString(fFile), 1, 0)
-			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
-				0, 1)
-			.Add(_CreateLabelView(B_TRANSLATE("Source folder")), 0, 2)
-			.Add(new FolderPathView(srcFolder, srcFile), 1, 2)
-			.Add(_CreateAttrView(srcFolder), 1, 3)
-			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
-				0, 4)
-			.Add(_CreateLabelView(B_TRANSLATE("Target folder")), 0, 5)
-			.Add(new FolderPathView(destFolder, destFile), 1, 5)
-			.Add(_CreateAttrView(destFolder), 1, 6)
-			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
-				0, 7)
-			.Add(_CreateLabelView(B_TRANSLATE("Rule name")), 0, 8)
-			.Add(CreateLightString(desc), 1, 8)
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, B_USE_ITEM_SPACING)
+		.Add(fStripeView)
+		.AddGroup(B_VERTICAL)
+			.SetInsets(0, B_USE_WINDOW_SPACING, B_USE_WINDOW_SPACING, B_USE_WINDOW_SPACING)
+			.Add(info)
+			.AddStrut(B_USE_HALF_ITEM_SPACING)
+			.AddGrid(B_USE_HALF_ITEM_SPACING, 0)
+				.Add(_CreateLabelView(B_TRANSLATE("File name")), 0, 0)
+				.Add(CreateLightString(fFile), 1, 0)
+				.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
+					0, 1)
+				.Add(_CreateLabelView(B_TRANSLATE("Source folder")), 0, 2)
+				.Add(new FolderPathView(srcFolder, srcFile), 1, 2)
+				.Add(_CreateAttrView(srcFolder), 1, 3)
+				.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
+					0, 4)
+				.Add(_CreateLabelView(B_TRANSLATE("Target folder")), 0, 5)
+				.Add(new FolderPathView(destFolder, destFile), 1, 5)
+				.Add(_CreateAttrView(destFolder), 1, 6)
+				.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_HALF_ITEM_SPACING),
+					0, 7)
+				.Add(_CreateLabelView(B_TRANSLATE("Rule name")), 0, 8)
+				.Add(CreateLightString(desc), 1, 8)
+				.End()
+			.AddStrut(B_USE_HALF_ITEM_SPACING)
+			.AddGroup(B_HORIZONTAL)
+				.AddGlue()
+				.Add(skip)
+				.Add(replace)
+				.AddGlue()
+				.End()
+			.Add(fDoAll)
 			.End()
-		.AddGroup(B_HORIZONTAL)
-			.AddGlue()
-			.Add(skip)
-			.Add(replace)
-			.AddGlue()
-			.End()
-		.Add(fDoAll)
 		.End();
 }
 
@@ -163,4 +176,17 @@ ConflictWindow::_CreateAttrView(const char* folder)
 	str << "; " << size;
 
 	return CreateLightString(str);
+}
+
+
+BBitmap
+ConflictWindow::_GetIcon(int32 iconSize)
+{
+	BBitmap icon(BRect(0, 0, iconSize - 1, iconSize - 1), 0, B_RGBA32);
+	team_info teamInfo;
+	get_team_info(B_CURRENT_TEAM, &teamInfo);
+	app_info appInfo;
+	be_roster->GetRunningAppInfo(teamInfo.team, &appInfo);
+	BNodeInfo::GetTrackerIcon(&appInfo.ref, &icon, icon_size(iconSize));
+	return icon;
 }

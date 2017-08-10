@@ -10,6 +10,7 @@
 #include "FolderPathView.h"
 
 #include <Catalog.h>
+#include <Cursor.h>
 #include <MenuItem.h>
 #include <Roster.h>
 #include <Window.h>
@@ -77,12 +78,22 @@ FolderPathView::MouseMoved(BPoint where, uint32 transit, const BMessage* msg)
 {
 	switch (transit) {
 		case B_ENTERED_VIEW:
+		{
+			const BCursor cursor(B_CURSOR_ID_FOLLOW_LINK);
+			SetViewCursor(&cursor);
+
 			SetHighUIColor(B_LINK_HOVER_COLOR);
 			Invalidate();
 			break;
+		}
 		case B_EXITED_VIEW:
+		{
+			const BCursor cursor(B_CURSOR_ID_SYSTEM_DEFAULT);
+			SetViewCursor(&cursor);
+
 			SetHighUIColor(B_LINK_TEXT_COLOR);
 			Invalidate();
+		}
 	}
 }
 

@@ -13,11 +13,14 @@
 #include <StringView.h>
 #include <Window.h>
 
+#include "StripeView.h"
+
 class ConflictWindow : public BWindow
 {
 	const char*	fFile;
 	BCheckBox*	fDoAll;
 	bool		fReplace;
+	StripeView*	fStripeView;
 
 	// The semaphore below is used to block the thread that created this
 	// window. When the thread calls Go(), it will be blocked by the
@@ -28,7 +31,7 @@ class ConflictWindow : public BWindow
 	void			MessageReceived(BMessage* msg);
 	BStringView*	_CreateLabelView(const char* label);
 	BStringView*	_CreateAttrView(const char* folder);
-
+	BBitmap			_GetIcon(int32 iconSize);
 public:
 			ConflictWindow(const char* srcFolder, const entry_ref& srcFile,
 				const char* destFolder, const entry_ref& destFile,
