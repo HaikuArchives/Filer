@@ -117,17 +117,24 @@ FolderPathView::MouseUp(BPoint where)
 void
 FolderPathView::_OpenFolder()
 {
-	BMessage msgRef(B_REFS_RECEIVED);
-	msgRef.AddRef("refs", &fFolderRef);
+	be_roster->Launch(&fFolderRef);
 
-	BMessage msgSel('Tsel');
-	msgSel.AddRef("refs", &fFileRef);
+	BMessage sel('Tsel');
+	sel.AddRef("refs", &fFileRef);
 
-	BList msgList(2);
-	msgList.AddItem(&msgRef);
-	msgList.AddItem(&msgSel);
+	BMessage cnt(B_COUNT_PROPERTIES);
+	cnt.AddSpecifier("Selection");
+	cnt.AddSpecifier("Poses");
+	cnt.AddSpecifier("Window", fFolderRef.name);
 
-	be_roster->Launch("application/x-vnd.Be-TRAK", &msgList);
+	int32 count;
+	BMessage reply;
+	BMessenger msgr("application/x-vnd.Be-TRAK");
+	do {
+		msgr.SendMessage(&sel);
+		msgr.SendMessage(&cnt, &reply);
+		count = 0;
+	} while (reply.FindInt32("result", &count) != B_OK || count != 1);
 }
 
 
