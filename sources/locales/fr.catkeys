@@ -1,4 +1,4 @@
-1	French	application/x-vnd.dw-Filer	4088055065
+1	French	application/x-vnd.dw-Filer	2325795976
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNom complet du fichier\n%EXTENSION%\tJuste l'extension\n%BASENAME%\tNom du fichier sans l'extension\n%FOLDER%\t\tChemin complet du dossier contenant le fichier\n%FULLPATH%\t\tChemin complet du fichier\n%DATE%\t\t\tDate courante au format MM-JJ-AAAA\n%EURODATE%\t\tDate courante au  format JJ-MM-AAAA\n%REVERSEDATE%\tDate courante au format AAAA-MM-JJ\n%TIME%\t\t\tHeure courante (sur 24 heures)\n%ATTR:xxxx%\t\tUn attribut étendu du fichier
 Add folder	AutoFilerTab		Ajouter un dossier
 AutoFiler	AutoFilerTab		AutoFiler
@@ -9,23 +9,23 @@ Run AutoFiler on system startup	AutoFilerTab		Lancer AutoFiler au démarrage du 
 Start AutoFiler	AutoFilerTab		Démarrer AutoFiler
 Stop AutoFiler	AutoFilerTab		Arrêter AutoFiler
 Add	AutoFilerTab	Used as button in a file panel	Ajouter
-A file with that name already exists in the target folder.	ConflictWindow		A file with that name already exists in the target folder.
+A file with that name already exists in the target folder.	ConflictWindow		Un fichier avec ce nom existe déjà dans le dossier cible.
 Do this for all files	ConflictWindow		Appliquer pour tous les fichiers
-File name	ConflictWindow		File name
+File name	ConflictWindow		Nom du fichier
 Filer: Conflict	ConflictWindow		Filer : Conflit
 Replace	ConflictWindow		Remplacer
-Rule name	ConflictWindow		Rule name
+Rule name	ConflictWindow		Nom de la règle
 Skip	ConflictWindow		Ignorer
-Source folder	ConflictWindow		Source folder
-Target folder	ConflictWindow		Target folder
+Source folder	ConflictWindow		Dossier source
+Target folder	ConflictWindow		Dossier cible
 Drag and drop the files to be processed below.	DropZoneTab		Glisser et déposer les fichiers à traiter ici.
 Dropzone	DropZoneTab		Zone de dépôt
 Filer	DropZoneTab		Filer
 Filer dropzone	DropZoneTab		Déposer ici
 Open Filer…	DropZoneTab		Ouvrir Filer…
 Replicate dropzone…	DropZoneTab		Cloner la zone de dépôt…
-Open file	FolderPathView		Open file
-Open folder	FolderPathView		Open folder
+Open file	FolderPathView		Ouvrir le fichier
+Open folder	FolderPathView		Ouvrir le dossier
 Abort	FSUtils		Abandonner
 Error	FSUtils		Erreur
 Replace file	FSUtils		Remplacer le fichier
@@ -75,6 +75,15 @@ Size	RuleRunner		Taille
 starts with	RuleRunner		débute par
 TiB	RuleRunner		Tio
 Type	RuleRunner		Type
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extract ZIP files to the Desktop
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Store movie files in my Videos folder
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Store PDF files in my Documents folder
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Store pictures in my Pictures folder
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
 Add	RuleTab		Ajouter
 Add rule	RuleTab		Ajouter une règle
 Add rules	RuleTab		Ajouter les règles

@@ -1,4 +1,4 @@
-1	German	application/x-vnd.dw-Filer	4088055065
+1	German	application/x-vnd.dw-Filer	2325795976
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tKompletter Dateiname\n%EXTENSION%\tNur die Dateiendung\n%BASENAME%\tDateiname ohne Endung\n%FOLDER%\t\tKompletter Pfad zum Ordner der Datei\n%FULLPATH%\t\tKompletter Pfad der Datei\n%DATE%\t\t\tAktuelles Datum im Format MM-TT-JJJ\n%EURODATE%\t\tAktuelles Datum im Format TT-MM-JJJ\n%REVERSEDATE%\tAktuelles Datum im Format JJJ-MM-TT\n%TIME%\t\t\tAktuelle Zeit im 24-Stundenformat\n%ATTR:xxxx%\t\tEin Extra-Attribut der Datei
 Add folder	AutoFilerTab		Ordner hinzufügen
 AutoFiler	AutoFilerTab		AutoFiler
@@ -75,6 +75,15 @@ Size	RuleRunner		Größe
 starts with	RuleRunner		beginnt mit
 TiB	RuleRunner		TiB
 Type	RuleRunner		Typ
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	ZIP-Dateien auf Desktop entpacken
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Filmdateien in 'Videos' Ordner verschieben
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	PDFs in 'Dokumente' Ordner verschieben
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Bilddateien in 'Bilder' Ordner verschieben
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Textdateien in 'Dokumente' Ordner verschieben
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Bilder
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Dokumente
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Dokumente
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
 Add	RuleTab		Hinzufügen
 Add rule	RuleTab		Regel hinzufügen
 Add rules	RuleTab		Regeln anlegen
@@ -92,5 +101,4 @@ Remove rule	RuleTab		Regel entfernen
 Rules	RuleTab		Regeln
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Datei für deren %s% wählen
-Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Ordner für dessen %s% wählen
-hlen
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Ordner für dessen %s% wählen			

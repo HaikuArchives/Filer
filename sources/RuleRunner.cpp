@@ -1515,33 +1515,47 @@ AddDefaultRules(BObjectList<FilerRule>* ruleList)
 	FilerRule* rule = new FilerRule();
 
 	rule->AddTest(MakeTest(TEST_TYPE, MODE_IS, "text/plain"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
-	rule->SetDescription("Store text files in my Documents folder");
+	rule->AddAction(MakeAction(ACTION_MOVE, B_TRANSLATE_COMMENT(
+		"/boot/home/Documents", "Path for default rule moving text files")));
+	rule->SetDescription(B_TRANSLATE_COMMENT(
+		"Store text files in my Documents folder",
+		"One of the default rule names"));
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(TEST_TYPE, MODE_IS, "application/pdf"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Documents"));
-	rule->SetDescription("Store PDF files in my Documents folder");
+	rule->AddAction(MakeAction(ACTION_MOVE, B_TRANSLATE_COMMENT(
+		"/boot/home/Documents", "Path for default rule moving PDF files")));
+	rule->SetDescription(B_TRANSLATE_COMMENT(
+		"Store PDF files in my Documents folder",
+		"One of the default rule names"));
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(TEST_TYPE, MODE_START, "image/"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Pictures"));
-	rule->SetDescription("Store pictures in my Pictures folder");
+	rule->AddAction(MakeAction(ACTION_MOVE, B_TRANSLATE_COMMENT(
+		"/boot/home/Pictures", "Path for default rule moving image files")));
+	rule->SetDescription(B_TRANSLATE_COMMENT(
+		"Store pictures in my Pictures folder",
+		"One of the default rule names"));
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(TEST_TYPE, MODE_START, "video/"));
-	rule->AddAction(MakeAction(ACTION_MOVE, "/boot/home/Videos"));
-	rule->SetDescription("Store movie files in my Videos folder");
+	rule->AddAction(MakeAction(ACTION_MOVE, B_TRANSLATE_COMMENT(
+		"/boot/home/Videos", "Path for default rule moving video files")));
+	rule->SetDescription(B_TRANSLATE_COMMENT(
+		"Store movie files in my Videos folder",
+		"One of the default rule names"));
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
 	rule->AddTest(MakeTest(TEST_TYPE, MODE_END, ".zip"));
 	rule->AddAction(MakeAction(ACTION_COMMAND,
 		"unzip %FULLPATH% -d /boot/home/Desktop"));
-	rule->SetDescription("Extract ZIP files to the Desktop");
+	rule->SetDescription(B_TRANSLATE_COMMENT(
+		"Extract ZIP files to the Desktop",
+		"One of the default rule names"));
 	ruleList->AddItem(rule);
 
 //			rule = new FilerRule();
