@@ -1,4 +1,4 @@
-1	French	application/x-vnd.dw-Filer	2325795976
+1	French	application/x-vnd.dw-Filer	1421557317
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNom complet du fichier\n%EXTENSION%\tJuste l'extension\n%BASENAME%\tNom du fichier sans l'extension\n%FOLDER%\t\tChemin complet du dossier contenant le fichier\n%FULLPATH%\t\tChemin complet du fichier\n%DATE%\t\t\tDate courante au format MM-JJ-AAAA\n%EURODATE%\t\tDate courante au  format JJ-MM-AAAA\n%REVERSEDATE%\tDate courante au format AAAA-MM-JJ\n%TIME%\t\t\tHeure courante (sur 24 heures)\n%ATTR:xxxx%\t\tUn attribut étendu du fichier
 Add folder	AutoFilerTab		Ajouter un dossier
 AutoFiler	AutoFilerTab		AutoFiler
@@ -42,11 +42,11 @@ Filer	PanelButton		Filer
 Add rule	RuleEditWindow		Ajouter une règle
 Cancel	RuleEditWindow		Annuler
 Description:	RuleEditWindow		Description :
-Do	RuleEditWindow		Alors
 Edit rule	RuleEditWindow		Modifier la règle
 Help…	RuleEditWindow		Aide…
+If	RuleEditWindow		If
 OK	RuleEditWindow		OK
-When	RuleEditWindow		Lorsque
+Then	RuleEditWindow		Then
 Add to archive	RuleRunner		Ajouter à l'archive
 bytes	RuleRunner		octets
 contains	RuleRunner		contient

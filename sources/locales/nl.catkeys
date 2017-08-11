@@ -1,4 +1,4 @@
-1	Dutch	application/x-vnd.dw-Filer	2325795976
+1	Dutch	application/x-vnd.dw-Filer	1421557317
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tVolledige naam\n%EXTENSION%\tEnkel de extentie\n%BASENAME%\tBestandsnaam zonder extentie\n%FOLDER%\t\tVolledig pad naar de folder van het bestand\n%FULLPATH%\t\tVolledig pad naar het bestand\n%DATE%\t\t\tHuidige datum in het formaat MM-DD-YYYY\n%EURODATE%\t\tHuidige datum in het formaat DD-MM-YYYY\n%REVERSEDATE%\tHuidige datum in het formaat YYYY-MM-DD\n%TIME%\t\t\tHuidige tijd in 24 uur\n%ATTR:xxxx%\t\tEen uitgebreide bestands atributie
 Add folder	AutoFilerTab		Folder toevoegen
 AutoFiler	AutoFilerTab		AutoFiler
@@ -42,11 +42,11 @@ Filer	PanelButton		Filer
 Add rule	RuleEditWindow		Regels toevoegen
 Cancel	RuleEditWindow		Annuleren
 Description:	RuleEditWindow		Beschrijving:
-Do	RuleEditWindow		Doe
 Edit rule	RuleEditWindow		Regel aanpassen
 Help…	RuleEditWindow		Help…
+If	RuleEditWindow		If
 OK	RuleEditWindow		OK
-When	RuleEditWindow		Als
+Then	RuleEditWindow		Then
 Add to archive	RuleRunner		Toevoegen aan archief
 bytes	RuleRunner		bytes
 contains	RuleRunner		bevat

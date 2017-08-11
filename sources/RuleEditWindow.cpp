@@ -44,11 +44,11 @@ RuleEditWindow::RuleEditWindow(BRect frame, FilerRule* rule, BHandler* caller)
 
 	// Set up the tests group and associated buttons
 	fTestGroup = new BBox("whengroup");
-	fTestGroup->SetLabel(B_TRANSLATE("When"));
+	fTestGroup->SetLabel(B_TRANSLATE("If"));
 
 	// Set up the actions group and associated buttons
 	fActionGroup = new BBox("dogroup");
-	fActionGroup->SetLabel(B_TRANSLATE("Do"));
+	fActionGroup->SetLabel(B_TRANSLATE("Then"));
 
 	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(MSG_OK));
 	// calling AddChild later to ensure proper keyboard navigation
