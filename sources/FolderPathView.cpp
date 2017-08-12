@@ -14,6 +14,7 @@
 #include <Catalog.h>
 #include <Cursor.h>
 #include <MenuItem.h>
+#include <Path.h>
 #include <Roster.h>
 #include <Window.h>
 
@@ -119,22 +120,41 @@ FolderPathView::_OpenFolder()
 {
 	be_roster->Launch(&fFolderRef);
 
-	BMessage sel('Tsel');
-	sel.AddRef("refs", &fFileRef);
-
 	BMessage cnt(B_COUNT_PROPERTIES);
 	cnt.AddSpecifier("Selection");
 	cnt.AddSpecifier("Poses");
 	cnt.AddSpecifier("Window", fFolderRef.name);
 
-	int32 count;
+	BPath path(&fFolderRef);
+	BMessage cnt2(B_COUNT_PROPERTIES);
+	cnt2.AddSpecifier("Selection");
+	cnt2.AddSpecifier("Poses");
+	cnt2.AddSpecifier("Window", path.Path());
+
+	int32 count = 0;
+	int32 count2 = 0;
+	int32 temp = 0;
 	BMessage reply;
+	BMessage reply2;
 	BMessenger msgr("application/x-vnd.Be-TRAK");
 	do {
+		BMessage sel('Tsel');
+		sel.AddRef("refs", &fFileRef);
 		msgr.SendMessage(&sel);
+
+		snooze(100000);	// wait 0.1 sec
+
 		msgr.SendMessage(&cnt, &reply);
-		count = 0;
-	} while (reply.FindInt32("result", &count) != B_OK || count != 1);
+		reply.FindInt32("result", &count);
+
+		msgr.SendMessage(&cnt2, &reply2);
+		reply2.FindInt32("result", &count2);
+	} while (count == 0 && count2 == 0);
+
+	snooze(200000);	// wait 0.2 sec for large folders to populate
+	BMessage sel('Tsel');
+	sel.AddRef("refs", &fFileRef);
+	msgr.SendMessage(&sel);
 }
 
 
