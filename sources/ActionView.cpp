@@ -102,9 +102,11 @@ ActionView::MessageReceived(BMessage* msg)
 		case B_REFS_RECEIVED:
 		{
 			entry_ref ref;
-			if (msg->FindRef("refs", &ref) == B_OK)
-				fValueBox->SetText(fType == ACTION_RENAME ? ref.name
-					: BPath(&ref).Path());
+			if (msg->FindRef("refs", &ref) == B_OK) {
+				BString text;
+				if (SetTextForType(text, fType, ref, false))
+					fValueBox->SetText(text);
+			}
 			break;
 		}
 		case MSG_ACTION_CHOSEN:
