@@ -157,25 +157,14 @@ TestView::MessageReceived(BMessage* msg)
 			entry_ref ref;
 			if (msg->FindRef("refs", &ref) == B_OK) {
 				BString text;
-				switch (fType) {
-					case TEST_TYPE:
-						SetTextForMime(text, ref);
-						break;
-					case TEST_NAME:
-						text = ref.name;
-						break;
-					case TEST_SIZE:
-						if (SetTextForSize(text, ref))
+				if (SetTextForType(text, fType, ref, true)) {
+					fValueBox->SetText(text);
+
+					if (fType == TEST_SIZE)
 							ResetUnit();
-						break;
-					case TEST_LOCATION:
-						text = BPath(&ref).Path();
-						break;
 				}
 
-				fValueBox->SetText(text);
 			}
-
 			break;
 		}
 		case MSG_TEST_CHOSEN:

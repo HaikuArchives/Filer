@@ -1426,9 +1426,26 @@ GetDirectoryPath(BString& str, const entry_ref& ref)
 }
 
 
+static bool
+GetPathForRef(BString& str, const entry_ref& ref)
+{
+	BPath path(&ref);
+	if (path.InitCheck() != B_OK)
+		return false;
+
+	str = path.Path();
+	return true;
+}
+
+
 bool
 SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 {
+	entry_ref target;
+	BEntry entry(&ref, true);
+	if (entry.InitCheck() != B_OK || entry.GetRef(&target) != B_OK)
+		return false;
+
 	if (isTest)
 		switch (type) {
 			case TEST_TYPE:
@@ -1437,9 +1454,9 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 				text = ref.name;
 				return true;
 			case TEST_SIZE:
-				return SetTextForSize(text, ref);
+				return SetTextForSize(text, target);
 			case TEST_LOCATION:
-				return GetDirectoryPath(text, ref);
+				return GetDirectoryPath(text, target);
 			default:
 				return false;
 		}
@@ -1447,25 +1464,14 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 		switch (type) {
 			case ACTION_MOVE:
 			case ACTION_COPY:
-				return GetDirectoryPath(text, ref);
+				return GetDirectoryPath(text, target);
 			case ACTION_RENAME:
 				text = ref.name;
 				return true;
 			case ACTION_COMMAND:
-			{
-				BEntry entry(&ref);
-				if (entry.InitCheck() != B_OK || !entry.IsFile())
-					return false;
-			}
+				return !entry.IsFile() ? false : GetPathForRef(text, ref);
 			case ACTION_ARCHIVE:
-			{
-				BPath path(&ref);
-				if (path.InitCheck() != B_OK)
-					return false;
-
-				text = path.Path();
-				return true;
-			}
+				return GetPathForRef(text, target);
 			default:
 				return false;
 		}
