@@ -44,9 +44,9 @@ Cancel	RuleEditWindow		Скасувати
 Description:	RuleEditWindow		Опис:
 Edit rule	RuleEditWindow		Редагувати правило
 Help…	RuleEditWindow		Довідка…
-If	RuleEditWindow		If
+If	RuleEditWindow		Якщо
 OK	RuleEditWindow		OK
-Then	RuleEditWindow		Then
+Then	RuleEditWindow		Тоді
 Add to archive	RuleRunner		Додати до архіву
 bytes	RuleRunner		байтів
 contains	RuleRunner		містить

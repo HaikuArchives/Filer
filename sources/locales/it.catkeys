@@ -44,9 +44,9 @@ Cancel	RuleEditWindow		Annulla
 Description:	RuleEditWindow		Descrizione regola:
 Edit rule	RuleEditWindow		Modifica regola
 Help…	RuleEditWindow		Aiuto…
-If	RuleEditWindow		If
+If	RuleEditWindow		Se
 OK	RuleEditWindow		OK
-Then	RuleEditWindow		Then
+Then	RuleEditWindow		Allora
 Add to archive	RuleRunner		Aggiungi all'archivio
 bytes	RuleRunner		bytes
 contains	RuleRunner		contiene
@@ -75,15 +75,15 @@ Size	RuleRunner		La dimensione
 starts with	RuleRunner		Inizia con
 TiB	RuleRunner		TiB
 Type	RuleRunner		Il tipo di file
-Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extract ZIP files to the Desktop
-Store movie files in my Videos folder	RuleRunner	One of the default rule names	Store movie files in my Videos folder
-Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Store PDF files in my Documents folder
-Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Store pictures in my Pictures folder
-Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
-/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
-/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
-/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
-/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Estrai i file ZIP sul Desktop
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Salva i file video nella cartella Video
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Salva i file PDF nella cartella Documenti
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Salva le immagini nella cartella Immagini
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Salva i file di testo nella cartella Documenti
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Immagini
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documenti
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documenti
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Video
 Add	RuleTab		Aggiungi
 Add rule	RuleTab		Aggiungi regola
 Add rules	RuleTab		Aggiungi regole

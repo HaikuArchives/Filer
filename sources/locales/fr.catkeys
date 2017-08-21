@@ -21,7 +21,7 @@ Target folder	ConflictWindow		Dossier cible
 Drag and drop the files to be processed below.	DropZoneTab		Glisser et déposer les fichiers à traiter ici.
 Dropzone	DropZoneTab		Zone de dépôt
 Filer	DropZoneTab		Filer
-Filer dropzone	DropZoneTab		Déposer ici
+Filer dropzone	DropZoneTab		Filer
 Open Filer…	DropZoneTab		Ouvrir Filer…
 Replicate dropzone…	DropZoneTab		Cloner la zone de dépôt…
 Open file	FolderPathView		Ouvrir le fichier
@@ -33,7 +33,7 @@ Skip file	FSUtils		Ignorer le fichier
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Le fichier '%name%' existe déjà. Voulez-vous le remplacer ?
 Copyright	HelpTab		Copyright
 Filer	HelpTab		Filer
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer est un organisateur automatique de fichiers.. Il traite les fichiers qu'on lui fait ouvrir ou qu'on lui dépose et les déplace, renomme, copie ou toutes sortes d'autres actions selon des règles définies par l'utilisateur.
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer est un organisateur automatique de fichiers.. Il traite les fichiers qu'on lui fait ouvrir, qu'on lui dépose directement ou, avec AutoFiler, via des dossiers de dépôt et les déplace, renomme, copie ou toutes sortes d'autres actions selon des règles définies par l'utilisateur.
 Help	HelpTab		Aide
 Help on rules	HelpTab		Aide sur les règles
 User documentation	HelpTab		Documentation utilisateur
@@ -44,9 +44,9 @@ Cancel	RuleEditWindow		Annuler
 Description:	RuleEditWindow		Description :
 Edit rule	RuleEditWindow		Modifier la règle
 Help…	RuleEditWindow		Aide…
-If	RuleEditWindow		If
+If	RuleEditWindow		Lorsque
 OK	RuleEditWindow		OK
-Then	RuleEditWindow		Then
+Then	RuleEditWindow		Alors
 Add to archive	RuleRunner		Ajouter à l'archive
 bytes	RuleRunner		octets
 contains	RuleRunner		contient
@@ -75,12 +75,12 @@ Size	RuleRunner		Taille
 starts with	RuleRunner		débute par
 TiB	RuleRunner		Tio
 Type	RuleRunner		Type
-Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extract ZIP files to the Desktop
-Store movie files in my Videos folder	RuleRunner	One of the default rule names	Store movie files in my Videos folder
-Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Store PDF files in my Documents folder
-Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Store pictures in my Pictures folder
-Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
-/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extraire les fichier ZIP sur le Bureau
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Placer les films dans mon dossier Video
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Placer les PDFs dans mon dossier Documents
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Placer les images dans mon dossier Images
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Placer les fichiers texte dans mon dossier Documents
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Images
 /boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
 /boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
 /boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
@@ -93,12 +93,12 @@ Disable	RuleTab		Désactiver
 Edit	RuleTab		Modifier
 Edit…	RuleTab		Modifier…
 Enable	RuleTab		Activer
-It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Il semble qu'il n'y ait aucune règles pour organiser des fichiers. Souhaitez-vous que Filer en ajoute quelques unes de base pour vous ?
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Il semble qu'il n'y ait aucune règle pour organiser des fichiers. Souhaitez-vous que Filer en ajoute quelques unes de base pour vous ?
 Move down	RuleTab		Descendre
 Move up	RuleTab		Monter
 Remove	RuleTab		Retirer
 Remove rule	RuleTab		Retirer la règle
 Rules	RuleTab		Règles
 Filer	System name		Filer
-Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choisissez un fichier pour %s%
-Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choisisser un dossier pour %s%
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choisirun fichier pour %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choisir un dossier pour %s%
