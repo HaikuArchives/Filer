@@ -1,5 +1,7 @@
 #include "TypedRefFilter.h"
 
+#include <NodeInfo.h>
+
 TypedRefFilter::TypedRefFilter()
 	:
 	BRefFilter()
@@ -53,16 +55,40 @@ bool
 TypedRefFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* st,
 	const char* filetype)
 {
+	bool isLink = S_ISLNK(st->st_mode);
+	if (isLink) {
+		BEntry entry(ref, true);
+		if (entry.InitCheck() == B_OK) {
+			BNode target(&entry);
+			if (target.InitCheck() == B_OK) {
+				node = &target;
+
+				struct stat targetStat;
+				if (target.GetStat(&targetStat) == B_OK)
+					st = (struct stat_beos*) (&targetStat);
+
+				BNodeInfo nodeInfo(&target);
+				if (nodeInfo.InitCheck() == B_OK) {
+					char mimeType[B_MIME_TYPE_LENGTH];
+					if (nodeInfo.GetType(mimeType) == B_OK)
+						filetype = mimeType;
+				}
+			}
+		}
+	}
+
+	bool isDir = S_ISDIR(st->st_mode);
+
 	// it does not match the entry filter, then we automatically kick back a false
-	if ( !( ((B_DIRECTORY_NODE & NodeType()) && S_ISDIR(st->st_mode))
+	if ( !( ((B_DIRECTORY_NODE & NodeType()) && isDir)
 		|| ((B_FILE_NODE & NodeType()) && S_ISREG(st->st_mode))
-		|| ((B_SYMLINK_NODE & NodeType()) && S_ISLNK(st->st_mode)) ) )
+		|| ((B_SYMLINK_NODE & NodeType()) && isLink) ) )
 		return false;
 
 	// An empty file type means any file type
 	if (fFileType.IsEmpty())
 		return true;
 
-	return S_ISDIR(st->st_mode) || fFileType == filetype
+	return isDir || fFileType == filetype
 			|| strcmp(filetype, "application/octet-stream") == 0;
 }

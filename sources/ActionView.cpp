@@ -138,14 +138,15 @@ ActionView::MessageReceived(BMessage* msg)
 						fileType = "";
 				}
 
-				uint32 flavors = B_DIRECTORY_NODE;
-				if (fType == ACTION_RENAME || fType == ACTION_ARCHIVE
-					|| fType == ACTION_COMMAND)
-					flavors |= B_FILE_NODE;
+				uint32 flavor = B_FILE_NODE;
+				if (fType != ACTION_COMMAND)
+					flavor |= B_DIRECTORY_NODE;
 
-				fPanelButton->CreatePanel(fType, this,
-					fType == ACTION_RENAME || fType == ACTION_COMMAND
-						? B_FILE_NODE : flavors, fileType, flavors,
+				uint32 filter = B_DIRECTORY_NODE;
+				if (fType != ACTION_MOVE && fType != ACTION_COPY)
+					filter |= B_FILE_NODE | B_SYMLINK_NODE;
+
+				fPanelButton->CreatePanel(fType, this, flavor, fileType, filter,
 					sActions[fType].locale);
 			}
 

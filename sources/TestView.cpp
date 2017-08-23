@@ -188,10 +188,6 @@ TestView::MessageReceived(BMessage* msg)
 		}
 		case MSG_TEST_PANEL:
 			if (!fPanelButton->PanelExists(fType)) {
-				uint32 flavors = B_DIRECTORY_NODE;
-				if (fType != TEST_LOCATION)
-					flavors |= B_FILE_NODE;
-
 				BString title;
 
 				if (fType == TEST_LOCATION)
@@ -205,9 +201,16 @@ TestView::MessageReceived(BMessage* msg)
 
 				title.ReplaceFirst("%s%", sTestTypes[fType].locale);
 
-				fPanelButton->CreatePanel(fType, this,
-					fType == TEST_LOCATION ? flavors : B_FILE_NODE,
-					"", flavors, title);
+				uint32 flavor = B_FILE_NODE;
+				if (fType != TEST_SIZE)
+					flavor |= B_DIRECTORY_NODE;
+
+				uint32 filter = B_DIRECTORY_NODE;
+				if (fType != TEST_LOCATION)
+					filter |= B_FILE_NODE | B_SYMLINK_NODE;
+
+				fPanelButton->CreatePanel(fType, this, flavor, "", filter,
+					title);
 			}
 
 			fPanelButton->ShowPanel(fType);
