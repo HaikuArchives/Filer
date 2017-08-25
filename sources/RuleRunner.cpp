@@ -1427,8 +1427,35 @@ GetDirectoryPath(BString& str, const entry_ref& ref)
 
 
 static bool
-GetPathForRef(BString& str, const entry_ref& ref)
+GetPathForRef(BString& str, const entry_ref& ref, const char* mime)
 {
+	// The code below checks if the MIME type matches. Skipped for now because
+	// Haiku doesn't recognize some file types (zip, script, etc.) from other
+	// file systems.
+#if 0
+	BEntry entry(&ref, true);
+	if (entry.InitCheck() != B_OK)
+		return false;
+
+	if (!entry.IsDirectory()) {
+		entry_ref target;
+		if (entry.GetRef(&target) != B_OK)
+			return false;
+
+		BNode node(&target);
+		if (node.InitCheck() != B_OK)
+			return false;
+
+		BNodeInfo nodeInfo(&node);
+		if (nodeInfo.InitCheck() != B_OK)
+			return false;
+
+		char type[B_MIME_TYPE_LENGTH];
+		if (nodeInfo.GetType(type) != B_OK || strcmp(type, mime))
+			return false;
+	}
+#endif
+
 	BPath path(&ref);
 	if (path.InitCheck() != B_OK)
 		return false;
@@ -1469,9 +1496,10 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 				text = ref.name;
 				return true;
 			case ACTION_COMMAND:
-				return !entry.IsFile() ? false : GetPathForRef(text, ref);
+				return !entry.IsFile() ? false
+						: GetPathForRef(text, ref, "text/plain");
 			case ACTION_ARCHIVE:
-				return GetPathForRef(text, target);
+				return GetPathForRef(text, target, "application/zip");
 			default:
 				return false;
 		}
