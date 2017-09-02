@@ -9,15 +9,15 @@ Run AutoFiler on system startup	AutoFilerTab		AutoFiler starten bij systeemstart
 Start AutoFiler	AutoFilerTab		Start AutoFiler
 Stop AutoFiler	AutoFilerTab		Stop AutoFiler
 Add	AutoFilerTab	Used as button in a file panel	Toevoegen
-A file with that name already exists in the target folder.	ConflictWindow		A file with that name already exists in the target folder.
+A file with that name already exists in the target folder.	ConflictWindow		Bestandsnaam bestaat reeds in de opgegeven folder.
 Do this for all files	ConflictWindow		Dit toepassen met alle bestanden
-File name	ConflictWindow		File name
+File name	ConflictWindow		Bestandsnaam
 Filer: Conflict	ConflictWindow		Filer: Conflict
 Replace	ConflictWindow		Vervangen
-Rule name	ConflictWindow		Rule name
+Rule name	ConflictWindow		Regelnaam
 Skip	ConflictWindow		Overslaan
-Source folder	ConflictWindow		Source folder
-Target folder	ConflictWindow		Target folder
+Source folder	ConflictWindow		Bron folder
+Target folder	ConflictWindow		Doel folder
 Drag and drop the files to be processed below.	DropZoneTab		Drag and drop de bestanden om te verwerken hieronder.
 Dropzone	DropZoneTab		Dropzone
 Filer	DropZoneTab		Filer
@@ -44,9 +44,9 @@ Cancel	RuleEditWindow		Annuleren
 Description:	RuleEditWindow		Beschrijving:
 Edit rule	RuleEditWindow		Regel aanpassen
 Help…	RuleEditWindow		Help…
-If	RuleEditWindow		If
+If	RuleEditWindow		Als
 OK	RuleEditWindow		OK
-Then	RuleEditWindow		Then
+Then	RuleEditWindow		Dan
 Add to archive	RuleRunner		Toevoegen aan archief
 bytes	RuleRunner		bytes
 contains	RuleRunner		bevat
@@ -57,13 +57,13 @@ does not contain	RuleRunner		bevat niet
 ends with	RuleRunner		eindigt met
 GiB	RuleRunner		GiB
 is	RuleRunner		is
-is at least	RuleRunner		is tenminste
-is at most	RuleRunner		is tenminste
+is at least	RuleRunner		is minstens
+is at most	RuleRunner		is meestens
 is less than	RuleRunner		is minder dan
 is more than	RuleRunner		is meer dan
 is not	RuleRunner		is niet
 KiB	RuleRunner		KiB
-Location	RuleRunner		Lokatie
+Location	RuleRunner		Locatie
 MiB	RuleRunner		MiB
 Move to folder	RuleRunner		Verplaatst naar folder
 Move to Trash	RuleRunner		Verplaats naar Prullenbak
@@ -75,29 +75,29 @@ Size	RuleRunner		Grootte
 starts with	RuleRunner		start met
 TiB	RuleRunner		TiB
 Type	RuleRunner		Type
-Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extract ZIP files to the Desktop
-Store movie files in my Videos folder	RuleRunner	One of the default rule names	Store movie files in my Videos folder
-Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Store PDF files in my Documents folder
-Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Store pictures in my Pictures folder
-Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	ZIP bestanden uitpakken naar Bureaublad
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Video bestanden opslaan in mijn Videos folder
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	PDF bestanden opslaan in mijn Documents folder
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Afbeeldingen opslaan in mijn Pictures folder
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Tekst bestanden opslaan in mijn Documents folder
 /boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
 /boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
 /boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
 /boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
-Add	RuleTab		Add
-Add rule	RuleTab		Add rule
+Add	RuleTab		Toevoegen
+Add rule	RuleTab		Regel toevoegen
 Add rules	RuleTab		Regels toevoegen
 Apply only the first matching rule	RuleTab		Enkel de eerste match toepassen
 Cancel	RuleTab		Annuleren
 Disable	RuleTab		Uitschakelen
-Edit	RuleTab		Edit
+Edit	RuleTab		Aanpassen
 Edit…	RuleTab		Aanpassen…
 Enable	RuleTab		Inschakelen
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Het lijkt er op dat er geen regels voor het organiseren van bestanden bestaat. Wil je dat Filer enkele basis regels voor je toevoegt?
 Move down	RuleTab		Verplaats omlaag
 Move up	RuleTab		Verplaats omhoog
-Remove	RuleTab		Remove
-Remove rule	RuleTab		Remove rule
+Remove	RuleTab		Verwijder
+Remove rule	RuleTab		Verwijder regel
 Rules	RuleTab		Regels
 Filer	System name		Filer
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Kies bestand voor %s%
