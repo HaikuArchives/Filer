@@ -167,13 +167,13 @@ A right-click on a path offers a context menu with an item <span class="menu">Op
 <img src="./images/rules.png" alt="Filer's rules" />
 </div>
 <p>The first tab shows the list of organization rules. Every dropped file is being tested against — and if its type etc. matches, processed  by — each rule, top to bottom.</p>
-<p>You can opt to <span class="menu">Apply only the first matching rule</span> if you prefer that. Filer will then stop trying to match rules to a file after it found one. (A rule can override that by adding a <span class="menu">Continue</span> in its "Do" block. See the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> for more info.)</p>
+<p>You can opt to <span class="menu">Apply only the first matching rule</span> if you prefer that. Filer will then stop trying to match rules to a file after it found one. (A rule can override that by adding a <span class="menu">Continue</span> in its "Then" block. See the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> for more info.)</p>
 <p>You arrange the order of rules with the <span class="button">Move up/down</span> buttons. You can <span class="button">Edit…</span> and <span class="button">Disable</span> rules and add/remove a rule with the <span class="button">+</span> and <span class="button">-</span> buttons.</p>
 <p>Here's the window that opens to edit a rule, which is similar to the one for adding a rule:</p>
 <div align="center">
 <img src="./images/edit_rule.png" alt="Editing a rule" /></div>
-<p>A rule needs three things: A <span class="menu">Description</span>, the condition <span class="menu">When</span> it is applied, and what action to <span class="menu">Do</span>.</p>
-<p>Click on the pop-up menus in the "When" and "Do" boxes to explore the various options to construct the right condition and what action will be taken. You can add several conditions which will <i>all</i> have to be met to trigger the action. If you add several actions in the "Do" box, be aware that they are executed in order, from top to bottom.<br />
+<p>A rule needs three things: A <span class="menu">Description</span>, the condition deciding when it is applied ("<span class="menu">If</span>"), and what action to take ("<span class="menu">Then</span>").</p>
+<p>Click on the pop-up menus in the "If" and "Then" boxes to explore the various options to construct the right condition and what action will be taken. You can add several conditions which will <i>all</i> have to be met to trigger the action. If you add several actions in the "Then" box, be aware that they are executed in order, from top to bottom.<br />
 You add or remove a condition or action with its <span class="button">+</span> or <span class="button">-</span> buttons.</p>
 <p>Conveniently, the text boxes support drag&amp;dropping of a file or folder. You can also click the folder icon which will open a file panel to navigate to your target. Depending on the kind of condition or action, the path, size, or file type etc. will be inserted.</p>
 <p>Please read the <a href="Rule-Making%20Reference.html">Rule-Making Reference</a> (also available from the <span class="button">Help…</span> button) for more information on the various possibilities.</p>
@@ -213,7 +213,7 @@ Thanks to Alexey 'Lan72', Begasus, Giovanni and Phoudoin for their translations!
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="history" name="history">History</a></h2>
-<p><b>1.2.0</b> - <i>2017</i></p>
+<p><b>1.2.0</b> - <i>2017-09-02</i></p>
 <ul>
 <li>Show a dialog if a similarly named file already exists at the destination.</li>
 <li>Bugfix to make the AutoFiler settings more robust with regard to changes of mounted volumes.</li>
