@@ -248,6 +248,9 @@ const NamePair sActions[] = {
 };
 const unsigned nActions = sizeof(sActions) / sizeof(sActions[0]);
 
+const char* const archiveMime = "application/zip";
+const char* const scriptMime = "text/plain application/x-vnd.Be-elfexecutable";
+
 
 RuleRunner::RuleRunner()
 {
@@ -1451,7 +1454,7 @@ GetPathForRef(BString& str, const entry_ref& ref, const char* mime)
 			return false;
 
 		char type[B_MIME_TYPE_LENGTH];
-		if (nodeInfo.GetType(type) != B_OK || strcmp(type, mime))
+		if (nodeInfo.GetType(type) != B_OK || strstr(mime, type) == NULL)
 			return false;
 	}
 #endif
@@ -1497,9 +1500,9 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 				return true;
 			case ACTION_COMMAND:
 				return !entry.IsFile() ? false
-						: GetPathForRef(text, ref, "text/plain");
+						: GetPathForRef(text, ref, scriptMime);
 			case ACTION_ARCHIVE:
-				return GetPathForRef(text, target, "application/zip");
+				return GetPathForRef(text, target, archiveMime);
 			default:
 				return false;
 		}
