@@ -31,6 +31,9 @@ extern const unsigned nActions;
 extern const char* const sSizeUnits[];
 extern const unsigned nSizeUnits;
 
+extern const char* const archiveMime;
+extern const char* const scriptMime;
+
 enum {
 	TEST_TYPE_NULL = 0,
 	TEST_TYPE_STRING,

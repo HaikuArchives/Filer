@@ -87,6 +87,6 @@ TypedRefFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* st,
 	if (fFileType.IsEmpty())
 		return true;
 
-	return isDir || fFileType == filetype || *filetype == '\0'
+	return isDir || fFileType.FindFirst(filetype) != B_ERROR
 			|| strcmp(filetype, "application/octet-stream") == 0;
 }
