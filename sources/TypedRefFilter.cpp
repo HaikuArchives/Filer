@@ -1,6 +1,11 @@
 #include "TypedRefFilter.h"
 
-#include <NodeInfo.h>
+#include <fs_attr.h>
+
+#include <Mime.h>
+#include <Path.h>
+
+#include "RuleRunner.h"
 
 TypedRefFilter::TypedRefFilter()
 	:
@@ -56,7 +61,7 @@ TypedRefFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* st,
 	const char* filetype)
 {
 	struct stat targetStat;
-	char targetType[B_MIME_TYPE_LENGTH];
+	BString targetType;
 
 	bool isLink = S_ISLNK(st->st_mode);
 	if (isLink) {
@@ -67,9 +72,14 @@ TypedRefFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* st,
 
 			BNode target(&entry);
 			if (target.InitCheck() == B_OK) {
-				BNodeInfo nodeInfo(&target);
-				if (nodeInfo.InitCheck() == B_OK
-					&& nodeInfo.GetType(targetType) == B_OK)
+				attr_info info;
+				BPath path(ref);
+
+				if ((target.GetAttrInfo("BEOS:TYPE", &info) == B_OK
+						|| path.InitCheck() == B_OK
+							&& update_mime_info(path.Path(), NULL, 1,
+								B_UPDATE_MIME_INFO_NO_FORCE) == B_OK)
+					&& target.ReadAttrString("BEOS:TYPE", &targetType) == B_OK)
 					filetype = targetType;
 			}
 		}
@@ -88,5 +98,5 @@ TypedRefFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* st,
 		return true;
 
 	return isDir || fFileType.FindFirst(filetype) != B_ERROR
-			|| strcmp(filetype, "application/octet-stream") == 0;
+			|| strcmp(filetype, genericMime) == 0;
 }
