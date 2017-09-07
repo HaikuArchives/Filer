@@ -103,8 +103,8 @@ RuleTab::_BuildLayout()
 
 	fAddRemoveButtons = new AddRemoveButtons(MSG_SHOW_ADD_WINDOW,
 		MSG_REMOVE_RULE, this, height, B_USE_DEFAULT_SPACING,
-		B_TRANSLATE_MARK_ALL("Add rule", ADD_REMVOE_BUTTONS_CONTEXT, NULL),
-		B_TRANSLATE_MARK_ALL("Remove rule", ADD_REMVOE_BUTTONS_CONTEXT, NULL));
+		B_TRANSLATE_MARK_CONTEXT("Add rule", ADD_REMVOE_BUTTONS_CONTEXT),
+		B_TRANSLATE_MARK_CONTEXT("Remove rule", ADD_REMVOE_BUTTONS_CONTEXT));
 	fAddRemoveButtons->SetRemoveEnabled(false);
 
 	fMoveUpButton = new BButton("moveupbutton", B_TRANSLATE("Move up"),

@@ -13,7 +13,6 @@
 #include <Entry.h>
 #include <FindDirectory.h>
 #include <Mime.h>
-#include <NodeInfo.h>
 #include <Path.h>
 #include <Roster.h>
 
@@ -248,6 +247,7 @@ const NamePair sActions[] = {
 };
 const unsigned nActions = sizeof(sActions) / sizeof(sActions[0]);
 
+const char* const genericMime = "application/octet-stream";
 const char* const archiveMime = "application/zip";
 const char* const scriptMime = "text/plain application/x-vnd.Be-elfexecutable";
 
@@ -1432,36 +1432,30 @@ GetDirectoryPath(BString& str, const entry_ref& ref)
 static bool
 GetPathForRef(BString& str, const entry_ref& ref, const char* mime)
 {
-	// The code below checks if the MIME type matches. Skipped for now because
-	// Haiku doesn't recognize some file types (zip, script, etc.) from other
-	// file systems.
-#if 0
+	BPath path(&ref);
+	if (path.InitCheck() != B_OK)
+		return false;
+
 	BEntry entry(&ref, true);
 	if (entry.InitCheck() != B_OK)
 		return false;
 
 	if (!entry.IsDirectory()) {
-		entry_ref target;
-		if (entry.GetRef(&target) != B_OK)
-			return false;
-
-		BNode node(&target);
+		BNode node(&entry);
 		if (node.InitCheck() != B_OK)
 			return false;
 
-		BNodeInfo nodeInfo(&node);
-		if (nodeInfo.InitCheck() != B_OK)
-			return false;
-
-		char type[B_MIME_TYPE_LENGTH];
-		if (nodeInfo.GetType(type) != B_OK || strstr(mime, type) == NULL)
-			return false;
+		attr_info info;
+		if (node.GetAttrInfo("BEOS:TYPE", &info) == B_OK
+			|| update_mime_info(path.Path(), NULL, 1,
+				B_UPDATE_MIME_INFO_NO_FORCE) == B_OK) {
+			BString mimeType;
+			if (node.ReadAttrString("BEOS:TYPE", &mimeType) == B_OK
+				&& strstr(mime, mimeType) == NULL
+				&& strcmp(mimeType, genericMime))
+				return false;
+		}
 	}
-#endif
-
-	BPath path(&ref);
-	if (path.InitCheck() != B_OK)
-		return false;
 
 	str = path.Path();
 	return true;
@@ -1490,22 +1484,22 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 			default:
 				return false;
 		}
-	else
-		switch (type) {
-			case ACTION_MOVE:
-			case ACTION_COPY:
-				return GetDirectoryPath(text, target);
-			case ACTION_RENAME:
-				text = ref.name;
-				return true;
-			case ACTION_COMMAND:
-				return !entry.IsFile() ? false
-						: GetPathForRef(text, ref, scriptMime);
-			case ACTION_ARCHIVE:
-				return GetPathForRef(text, target, archiveMime);
-			default:
-				return false;
-		}
+
+	switch (type) {
+		case ACTION_MOVE:
+		case ACTION_COPY:
+			return GetDirectoryPath(text, target);
+		case ACTION_RENAME:
+			text = ref.name;
+			return true;
+		case ACTION_COMMAND:
+			return !entry.IsFile() ? false
+					: GetPathForRef(text, ref, scriptMime);
+		case ACTION_ARCHIVE:
+			return GetPathForRef(text, target, archiveMime);
+		default:
+			return false;
+	}
 }
 
 
@@ -1516,12 +1510,17 @@ SetTextForMime(BString& text, const entry_ref& ref)
 	if (node.InitCheck() != B_OK)
 		return false;
 
-	BNodeInfo nodeInfo(&node);
-	if (nodeInfo.InitCheck() != B_OK)
-		return false;
+	attr_info info;
+	if (node.GetAttrInfo("BEOS:TYPE", &info) != B_OK) {
+		BPath path(&ref);
+		if (path.InitCheck() != B_OK
+			|| update_mime_info(path.Path(), NULL, 1,
+				B_UPDATE_MIME_INFO_NO_FORCE) != B_OK)
+			return false;
+	}
 
-	char mimeType[B_MIME_TYPE_LENGTH];
-	if (nodeInfo.GetType(mimeType) != B_OK)
+	BString mimeType;
+	if (node.ReadAttrString("BEOS:TYPE", &mimeType) != B_OK)
 		return false;
 
 	text = mimeType;

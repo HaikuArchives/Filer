@@ -30,7 +30,7 @@ public:
 	void			ArgvReceived(int32 argc, char** argv);
 	void			ReadyToRun();
 
-	void			SetupTypeMenu();
+//	void			SetupTypeMenu();
 	void			ShowHTML(const char* docfile);
 	void			FileRef(entry_ref ref);
 	char			GetDecimalMark() { return fDecimalMark; }

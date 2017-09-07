@@ -223,6 +223,7 @@ App::FileRef(entry_ref ref)
 }
 
 
+#if 0
 void
 App::SetupTypeMenu()
 {
@@ -276,6 +277,7 @@ App::SetupTypeMenu()
 	menu->Archive(&gArchivedTypeMenu);
 	delete menu;
 }
+#endif
 
 
 void
