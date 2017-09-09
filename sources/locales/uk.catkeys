@@ -2,7 +2,7 @@
 %FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tПовне ім’я файлу\n%EXTENSION%\tЛише розширення\n%BASENAME%\tІм’я файлу без розширення\n%FOLDER%\t\tПовний шлях до папки з файлом\n%FULLPATH%\t\tПовний шлях до файлу\n%DATE%\t\t\tПоточна дата у форматі ММ-ДД-РРРР\n%EURODATE%\t\tПоточна дата у форматі ДД-ММ-РРРР\n%REVERSEDATE%\tПоточна дата у форматі РРРР-ММ-ДД\n%TIME%\t\t\tПоточний час у форматі 24 годин\n%ATTR:xxxx%\t\tРозширений атрибут файлу
 Add folder	AutoFilerTab		Додати папку
 AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Додати папки
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Додати папку
 Automatically run Filer on the contents of these folders:	AutoFilerTab		Автоматично запускати Filer на вміст наступних папок:
 Remove folder	AutoFilerTab		Видалити папку
 Run AutoFiler on system startup	AutoFilerTab		Запускати AutoFiler при старті системи
@@ -31,7 +31,7 @@ Error	FSUtils		Помилка
 Replace file	FSUtils		Замінити файл
 Skip file	FSUtils		Пропустити файл
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Файл '%file%' вже існує. Замінити його?
-Copyright	HelpTab		Copyright
+Copyright	HelpTab		Авторське право
 Filer	HelpTab		Filer
 Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer - автоматичний організатор файлів. Відкриті у ньому або перетягнуті на нього файли Filer переміщує, перейменовує, копіює або виконує усі інші файлові операції згідно з правилами, створеними користувачем.
 Help	HelpTab		Довідка
@@ -75,15 +75,15 @@ Size	RuleRunner		Розмір
 starts with	RuleRunner		починається з
 TiB	RuleRunner		ТіБ
 Type	RuleRunner		Тип
-Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extract ZIP files to the Desktop
-Store movie files in my Videos folder	RuleRunner	One of the default rule names	Store movie files in my Videos folder
-Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Store PDF files in my Documents folder
-Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Store pictures in my Pictures folder
-Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
-/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
-/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
-/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
-/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Видобути ZIP-файли на Робочий стіл
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Зберегти відеофайли у папці Відео
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Зберегти PDF-файли у папці Документи
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Зберегти зображення у папці Зображення
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Зберегти текстові файли у папці Документи
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Зображення
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Документи
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Документи
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Відео
 Add	RuleTab		Додати
 Add rule	RuleTab		Додати правило
 Add rules	RuleTab		Додати правила
