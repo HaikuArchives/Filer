@@ -9,10 +9,6 @@
 #define RULERUNNER_H
 
 #include "FilerRule.h"
-#include "ObjectList.h"
-
-#include <Entry.h>
-#include <Message.h>
 
 struct NamePair
 {
@@ -31,9 +27,8 @@ extern const unsigned nActions;
 extern const char* const sSizeUnits[];
 extern const unsigned nSizeUnits;
 
-extern const char* const genericMime;
-extern const char* const archiveMime;
-extern const char* const scriptMime;
+extern const char* const kArchiveMime;
+extern const char* const kScriptMime;
 
 enum {
 	TEST_TYPE_NULL = 0,

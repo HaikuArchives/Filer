@@ -129,10 +129,10 @@ ActionView::MessageReceived(BMessage* msg)
 				const char* fileType;
 				switch (fType) {
 					case ACTION_ARCHIVE:
-						fileType = archiveMime;
+						fileType = kArchiveMime;
 						break;
 					case ACTION_COMMAND:
-						fileType = scriptMime;
+						fileType = kScriptMime;
 						break;
 					default:
 						fileType = "";
