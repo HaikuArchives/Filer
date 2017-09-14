@@ -8,24 +8,23 @@
 		Owen Pan <owen.pan@yahoo.com>, 2017
 */
 
-#include <Catalog.h>
-#include <Directory.h>
-#include <Entry.h>
-#include <FindDirectory.h>
-#include <Mime.h>
-#include <Path.h>
-#include <Roster.h>
-
-#include "CppSQLite3.h"
-#include "Database.h"
-#include "ConflictWindow.h"
-#include "FSUtils.h"
-#include "main.h"
-#include "PatternProcessor.h"
 #include "RuleRunner.h"
 
 #include <fs_attr.h>
-#include <stdlib.h>
+
+#include <Catalog.h>
+#include <Directory.h>
+#include <FindDirectory.h>
+#include <MimeType.h>
+#include <Path.h>
+#include <Roster.h>
+
+#include "ConflictWindow.h"
+#include "CppSQLite3.h"
+#include "Database.h"
+#include "FSUtils.h"
+#include "main.h"
+#include "PatternProcessor.h"
 
 /*
 	FilerAction message fields:
@@ -247,9 +246,8 @@ const NamePair sActions[] = {
 };
 const unsigned nActions = sizeof(sActions) / sizeof(sActions[0]);
 
-const char* const genericMime = "application/octet-stream";
-const char* const archiveMime = "application/zip";
-const char* const scriptMime = "text/plain application/x-vnd.Be-elfexecutable";
+const char* const kArchiveMime = "application/zip";
+const char* const kScriptMime = "text/plain";
 
 
 RuleRunner::RuleRunner()
@@ -1432,30 +1430,24 @@ GetDirectoryPath(BString& str, const entry_ref& ref)
 static bool
 GetPathForRef(BString& str, const entry_ref& ref, const char* mime)
 {
-	BPath path(&ref);
-	if (path.InitCheck() != B_OK)
-		return false;
-
 	BEntry entry(&ref, true);
 	if (entry.InitCheck() != B_OK)
 		return false;
 
 	if (!entry.IsDirectory()) {
-		BNode node(&entry);
-		if (node.InitCheck() != B_OK)
+		entry_ref target;
+		if (entry.GetRef(&target) != B_OK)
 			return false;
 
-		attr_info info;
-		if (node.GetAttrInfo("BEOS:TYPE", &info) == B_OK
-			|| update_mime_info(path.Path(), NULL, 1,
-				B_UPDATE_MIME_INFO_NO_FORCE) == B_OK) {
-			BString mimeType;
-			if (node.ReadAttrString("BEOS:TYPE", &mimeType) == B_OK
-				&& strstr(mime, mimeType) == NULL
-				&& strcmp(mimeType, genericMime))
-				return false;
-		}
+		BMimeType mimeType;
+		if (BMimeType::GuessMimeType(&target, &mimeType) != B_OK
+			|| strcmp(mimeType.Type(), mime))
+			return false;
 	}
+
+	BPath path(&ref);
+	if (path.InitCheck() != B_OK)
+		return false;
 
 	str = path.Path();
 	return true;
@@ -1494,9 +1486,9 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 			return true;
 		case ACTION_COMMAND:
 			return !entry.IsFile() ? false
-					: GetPathForRef(text, ref, scriptMime);
+					: GetPathForRef(text, ref, kScriptMime);
 		case ACTION_ARCHIVE:
-			return GetPathForRef(text, target, archiveMime);
+			return GetPathForRef(text, target, kArchiveMime);
 		default:
 			return false;
 	}
@@ -1506,24 +1498,11 @@ SetTextForType(BString& text, int8 type, const entry_ref& ref, bool isTest)
 bool
 SetTextForMime(BString& text, const entry_ref& ref)
 {
-	BNode node(&ref);
-	if (node.InitCheck() != B_OK)
+	BMimeType mimeType;
+	if (BMimeType::GuessMimeType(&ref, &mimeType) != B_OK)
 		return false;
 
-	attr_info info;
-	if (node.GetAttrInfo("BEOS:TYPE", &info) != B_OK) {
-		BPath path(&ref);
-		if (path.InitCheck() != B_OK
-			|| update_mime_info(path.Path(), NULL, 1,
-				B_UPDATE_MIME_INFO_NO_FORCE) != B_OK)
-			return false;
-	}
-
-	BString mimeType;
-	if (node.ReadAttrString("BEOS:TYPE", &mimeType) != B_OK)
-		return false;
-
-	text = mimeType;
+	text = mimeType.Type();
 	return true;
 }
 

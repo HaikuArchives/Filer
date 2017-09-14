@@ -4,8 +4,6 @@
 #include <FilePanel.h>
 #include <String.h>
 
-#include <compat/sys/stat.h>
-
 /*
 	This utility class is for filtering 
 */
