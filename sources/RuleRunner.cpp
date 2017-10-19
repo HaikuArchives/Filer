@@ -806,7 +806,6 @@ MoveOrCopy(const BMessage& action, const entry_ref& ref, const char* desc,
 		ConflictWindow* window = new ConflictWindow(path.Path(), ref, destDir,
 			destRef, desc);
 		replace = window->Go(doAll);
-		delete window;
 
 		app->Replace(replace);
 		app->DoAll(doAll);

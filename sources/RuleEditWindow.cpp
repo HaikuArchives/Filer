@@ -123,7 +123,8 @@ RuleEditWindow::~RuleEditWindow()
 	msg.what = MSG_RULE_WINDOW_POS;
 	msg.AddRect("rulepos", pos);
 
-	fCaller->Looper()->PostMessage(&msg);
+	BMessenger msgr(fCaller);
+	msgr.SendMessage(&msg);
 }
 
 
