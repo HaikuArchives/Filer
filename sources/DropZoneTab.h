@@ -30,6 +30,7 @@ public:
 	void					MouseDown(BPoint position);
 
 	void					_Init();
+	bool					_SupportTransparency() const;
 
 private:
 	void					ShowPopUpMenu(BPoint screen);
