@@ -141,7 +141,7 @@ void
 DropZone::Draw(BRect rect)
 {
 	BRect bounds = Bounds();
-	if (!fReplicated) {
+	if (!_SupportTransparency()) {
 		SetHighColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 		FillRect(bounds);
 	}
@@ -156,6 +156,14 @@ DropZone::Draw(BRect rect)
 	FillRect(bounds.InsetBySelf(3, 3), stripePattern);
 
 	BView::Draw(rect);
+}
+
+
+bool
+DropZone::_SupportTransparency() const
+{
+	return fReplicated && Parent()
+		&& (Parent()->Flags() & B_DRAW_ON_CHILDREN) != 0;
 }
 
 
