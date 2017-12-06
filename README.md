@@ -1,6 +1,6 @@
 Filer
 
-![Filer App](https://github.com/ayushmunot/Vision/blob/master/vision.png?raw=true "filer")
+![Filer App](https://raw.githubusercontent.com/ayushmunot/Filer/master/filer.png "filer")
 
 Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
 
