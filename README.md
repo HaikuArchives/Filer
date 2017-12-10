@@ -1,7 +1,7 @@
 Filer
 ==
 
-![Filer Screenshot](Filer.png)
+![Filer Screenshot](http://rawgit.com/HaikuArchives/Filer/master/documentation/images/rules.png)
 
 Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
 
