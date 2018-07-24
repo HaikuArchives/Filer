@@ -510,22 +510,11 @@ IsTypeMatch(const BMessage& test, const entry_ref& ref)
 		return false;
 	}
 
-	BString string;
-	attr_info info;
-	BNode node(&ref);
-	if (node.InitCheck() != B_OK)
+	BMimeType mimeType;
+	if (BMimeType::GuessMimeType(&ref, &mimeType) != B_OK)
 		return false;
 
-	if (node.GetAttrInfo("BEOS:TYPE", &info) != B_OK) {
-		BPath path(&ref);
-		if (update_mime_info(path.Path(), 0, 1, 0) != B_OK)
-			return false;
-	}
-
-	if (node.ReadAttrString("BEOS:TYPE", &string) != B_OK)
-		return false;
-
-	bool result = StringCompare(value, string.String(), modetype, true);
+	bool result = StringCompare(value, mimeType.Type(), modetype, true);
 	printf("\tType test: %s %s %s - %s\n", ref.name,
 		sModeTypes[modetype].locale, value.String(),
 		result ? "MATCH" : "NO MATCH");
