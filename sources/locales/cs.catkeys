@@ -1,0 +1,104 @@
+1	Czech	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Dokumenty
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Dokumenty
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Obrázky
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videa
+Add to archive	RuleRunner		Přidat do archívu
+bytes	RuleRunner		bajty/ů
+contains	RuleRunner		obsahuje
+Continue	RuleRunner		Pokračovat
+Copy to folder	RuleRunner		Kopírovat do
+Delete	RuleRunner		Smazat
+does not contain	RuleRunner		neobsahuje
+ends with	RuleRunner		končící na
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Rozbalit ZIP na plochu
+GiB	RuleRunner		GiB
+is	RuleRunner		je
+is at least	RuleRunner		je alespoň
+is at most	RuleRunner		je nanejvýš
+is less than	RuleRunner		je méně než
+is more than	RuleRunner		je více než
+is not	RuleRunner		není
+KiB	RuleRunner		KiB
+Location	RuleRunner		Umístění
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Přesunout do adresáře
+Move to Trash	RuleRunner		Přesunout do koše
+Name	RuleRunner		Název
+Open	RuleRunner		Otevřít
+Rename to	RuleRunner		Přejmenovat na
+Shell command	RuleRunner		Příkaz shellu
+Size	RuleRunner		Velikost
+starts with	RuleRunner		začínající na
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Uložit video soubory ve složce Videa
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Uložit PDF soubory ve složce Dokumenty
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Uložit obrázkové soubory ve složce Obrázky
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Uložit textové dokumenty ve složce Dokumenty
+TiB	RuleRunner		TiB
+Type	RuleRunner		Typ
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tCelý název souboru\n%EXTENSION%\tPouze přípona\n%BASENAME%\tNázev souboru bez přípony\n%FOLDER%\t\tPlná cesta adresáře obsahující soubor\n%FULLPATH%\t\tÚplná cesta k souboru\n%DATE%\t\t\tAktuální datum ve formátu MM-DD-YYYY\n%EURODATE%\t\tAktuální datum ve formátu DD-MM-YYYY\n%REVERSEDATE%\tAktuální datum ve formátu YYYY-MM-DD\n%TIME%\t\t\tAktuální čas (24 hodinový formát)\n%ATTR:xxxx%\t\tRozšířený atribut souboru
+A file with that name already exists in the target folder.	ConflictWindow		Soubor toho jména již v cílovém adresáři existuje.
+Do this for all files	ConflictWindow		Pro všechny soubory
+File name	ConflictWindow		Název souboru
+Filer: Conflict	ConflictWindow		Filer: Problém
+Replace	ConflictWindow		Nahradit
+Rule name	ConflictWindow		Pravidlo
+Skip	ConflictWindow		Přeskočit
+Source folder	ConflictWindow		Zdrojový adresář
+Target folder	ConflictWindow		Cílový adresář
+Abort	FSUtils		O aplikaci
+Error	FSUtils		Chyba
+Replace file	FSUtils		Nahradit soubor
+Skip file	FSUtils		Přeskočit soubor
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Soubor '%name%' už existuje. Přepsat?
+Add	RuleTab		Přidat
+Add rule	RuleTab		Přidat pravidlo
+Add rules	RuleTab		Přidat pravidla
+Apply only the first matching rule	RuleTab		Použít pouze první odpovídající pravidlo
+Cancel	RuleTab		Zrušit
+Disable	RuleTab		Zakázat
+Edit	RuleTab		Upravit
+Edit…	RuleTab		Upravit…
+Enable	RuleTab		Povolit
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Vypadá to, že nemáte žádná pravidla pro organizaci souborů. Chcete přidat některá základní?
+Move down	RuleTab		Posunout dolů
+Move up	RuleTab		Posunout nahoru
+Remove	RuleTab		Odebrat
+Remove rule	RuleTab		Odebrat pravidlo
+Rules	RuleTab		Pravidla
+Add	AutoFilerTab	Used as button in a file panel	Přidat
+Add folder	AutoFilerTab		Přidat adresář
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Přidat adresáře
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Automaticky spouštět Filer na obsah těchto adresářů:
+Remove folder	AutoFilerTab		Odebrat adresář
+Run AutoFiler on system startup	AutoFilerTab		Spustit Autofiler při spuštění systému
+Start AutoFiler	AutoFilerTab		Spustit AutoFiler
+Stop AutoFiler	AutoFilerTab		Zastavit AutoFiler
+Add rule	RuleEditWindow		Přidat pravidlo
+Cancel	RuleEditWindow		Zrušit
+Description:	RuleEditWindow		Popis:
+Edit rule	RuleEditWindow		Upravit pravidlo
+Help…	RuleEditWindow		Nápověda…
+If	RuleEditWindow		Když
+OK	RuleEditWindow		OK
+Then	RuleEditWindow		Potom
+Choose	PanelButton		Zvolte
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Zvolte soubor pro %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Zvolte adresář pro %s%
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer je automatický organizátor souborů. Pracuje se soubory otevřenými či přetaženými a přesouvá, přejmenovává, kopíruje a ostatní činnosti na základě pravidel zadaných uživatelem.
+Help	HelpTab		Nápověda
+Help on rules	HelpTab		Nápověda k pravidlům
+User documentation	HelpTab		Uživatelská dokumentace
+Drag and drop the files to be processed below.	DropZoneTab		Přetáhněte soubory níže ke zpracování.
+Dropzone	DropZoneTab		Přetahovací zóna
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Přetahovací zóna Fileru
+Open Filer…	DropZoneTab		Otevřít Filer…
+Replicate dropzone…	DropZoneTab		Replikovat přetahovací zónu…
+Filer	System name		Filer
+Open file	FolderPathView		Otevřít soubor
+Open folder	FolderPathView		Otevřít adresář

@@ -1,0 +1,104 @@
+1	Swedish	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Dokument
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Dokument
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Bilder
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videor
+Add to archive	RuleRunner		Lägg till i arkivet
+bytes	RuleRunner		bytes
+contains	RuleRunner		innehåller
+Continue	RuleRunner		Fortsätt
+Copy to folder	RuleRunner		Kopiera till mapp
+Delete	RuleRunner		Ta bort
+does not contain	RuleRunner		innehåller inte
+ends with	RuleRunner		slutar med
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extrahera ZIP-filer till Skrivbordet
+GiB	RuleRunner		GiB
+is	RuleRunner		är
+is at least	RuleRunner		är åtminstone
+is at most	RuleRunner		är högst
+is less than	RuleRunner		är mindre än
+is more than	RuleRunner		är mer än
+is not	RuleRunner		är inte
+KiB	RuleRunner		KiB
+Location	RuleRunner		Plats
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Flytta till mapp
+Move to Trash	RuleRunner		Flytta till Papperskorgen
+Name	RuleRunner		Namn
+Open	RuleRunner		Öppna
+Rename to	RuleRunner		Byt namn till
+Shell command	RuleRunner		Skalkommando
+Size	RuleRunner		Storlek
+starts with	RuleRunner		börjar med
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Lagra filmfiler i min videomapp
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Lagra PDF-filer i min dokumentmapp
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Lagra bilder i min bildmapp
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Lagra textfiler i min dokumentmapp
+TiB	RuleRunner		TiB
+Type	RuleRunner		Typ
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tHela filnamnet\n%EXTENSION%\tEndast filtillägget\n%BASENAME%\tFilnamnet utan filtillägget\n%FOLDER%\t\tHela sökvägen till mappen där filen finns\n%FULLPATH%\t\tHela sökvägen till filen\n%DATE%\t\t\tDagens datum enligt formatet MM-DD-YYYY\n%EURODATE%\t\tDagens datum enligt formatet DD-MM-YYYY\n%REVERSEDATE%\tDagens datum enligt formatet YYYY-MM-DD\n%TIME%\t\t\tNuvarande tid enligt 24-timmarsklocka\n%ATTR:xxxx%\t\tEtt utökat attribut av filen
+A file with that name already exists in the target folder.	ConflictWindow		En fil med det namnet existerar redan i målmappen.
+Do this for all files	ConflictWindow		Gör detta för alla filer
+File name	ConflictWindow		Filnamn
+Filer: Conflict	ConflictWindow		Filer: Konflikt
+Replace	ConflictWindow		Ersätt
+Rule name	ConflictWindow		Regelnamn
+Skip	ConflictWindow		Hoppa över
+Source folder	ConflictWindow		Källmapp
+Target folder	ConflictWindow		Målmapp
+Abort	FSUtils		Avbryt
+Error	FSUtils		Fel
+Replace file	FSUtils		Ersätt fil
+Skip file	FSUtils		Hoppa över fil
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Filen '%name%' finns redan. Vill du ersätta den?
+Add	RuleTab		Lägg till
+Add rule	RuleTab		Lägg till regel
+Add rules	RuleTab		Lägg till regler
+Apply only the first matching rule	RuleTab		Applicera bara den första matchande regeln
+Cancel	RuleTab		Avbryt
+Disable	RuleTab		Inaktivera
+Edit	RuleTab		Redigera
+Edit…	RuleTab		Redigera...
+Enable	RuleTab		Aktivera
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Det verkar som det inte finns några regler för att organisera filer. Vill du att Filer skapar några enkla regler till dig?
+Move down	RuleTab		Flytta ner
+Move up	RuleTab		Flytta upp
+Remove	RuleTab		Ta bort
+Remove rule	RuleTab		Ta bort regel
+Rules	RuleTab		Regler
+Add	AutoFilerTab	Used as button in a file panel	Lägg till
+Add folder	AutoFilerTab		Lägg till mapp
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Lägg till mappar
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Kör Filer automatiskt på innehållet i dessa mappar:
+Remove folder	AutoFilerTab		Ta bort mapp
+Run AutoFiler on system startup	AutoFilerTab		Kör AutoFiler vid systemstart
+Start AutoFiler	AutoFilerTab		Starta AutoFiler
+Stop AutoFiler	AutoFilerTab		Stoppa AutoFiler
+Add rule	RuleEditWindow		Lägg till regel
+Cancel	RuleEditWindow		Avbryt
+Description:	RuleEditWindow		Beskrivning:
+Edit rule	RuleEditWindow		Ändra regel
+Help…	RuleEditWindow		Hjälp...
+If	RuleEditWindow		Om
+OK	RuleEditWindow		OK
+Then	RuleEditWindow		Sedan
+Choose	PanelButton		Välj
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Välj fil till %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Välj mapp till %s%
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer är en automatisk filorganisatör. Den tar filer som den öppnat eller som släppts på den och flyttar, byter namn på, kopierar eller gör andra saker som användaren definierat i olika regler.
+Help	HelpTab		Hjälp
+Help on rules	HelpTab		Hjälp med regler
+User documentation	HelpTab		Användardokumentation
+Drag and drop the files to be processed below.	DropZoneTab		Drag och släpp filerna som ska processa nedan.
+Dropzone	DropZoneTab		Släppzon
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Filer släppzon
+Open Filer…	DropZoneTab		Öppna Filer…
+Replicate dropzone…	DropZoneTab		Replikera släppzon...
+Filer	System name		Filer
+Open file	FolderPathView		Öppna fil
+Open folder	FolderPathView		Öppna mapp

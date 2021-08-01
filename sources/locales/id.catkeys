@@ -1,0 +1,104 @@
+1	Indonesian	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
+Add to archive	RuleRunner		Tambah ke arsip
+bytes	RuleRunner		bita
+contains	RuleRunner		berisikan
+Continue	RuleRunner		Lanjutkan
+Copy to folder	RuleRunner		Salin ke folder
+Delete	RuleRunner		Hapus
+does not contain	RuleRunner		tidak mengandungi
+ends with	RuleRunner		diakhiri dengan
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extrak berkas ZIP ke desktop
+GiB	RuleRunner		GiB
+is	RuleRunner		adalah
+is at least	RuleRunner		adalah setidaknya
+is at most	RuleRunner		adalah paling banyak
+is less than	RuleRunner		lebih sedikit dari
+is more than	RuleRunner		lebih besar dari
+is not	RuleRunner		adalah tidak
+KiB	RuleRunner		KiB
+Location	RuleRunner		Lokasi
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Pindahkan ke folder
+Move to Trash	RuleRunner		Pindahkan ke tempat sampah
+Name	RuleRunner		Nama
+Open	RuleRunner		Buka
+Rename to	RuleRunner		Ganti nama ke
+Shell command	RuleRunner		Perintah shell
+Size	RuleRunner		Ukuran
+starts with	RuleRunner		dimulai dengan
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Simpan berkas film saya di folder Video
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Simpan berkas PDF saya di folder Documents
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Simpan gambar saya di folder Pictures
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Simpan file teks saya dalam folder Documents
+TiB	RuleRunner		TiB
+Type	RuleRunner		Tipe
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNama berkas lengkap\n%EXTENSION%\tCukup ekstensinya\n%BASENAME%\tNama berkas tanpa ekstensi\n%FOLDER%\t\tLokasi lengkap folder yang berusi berkas\n%FULLPATH%\t\tLokasi lengkap berkas\n%DATE%\t\t\tTanggal saat ini dalam format MM-DD-YYYY\n%EURODATE%\t\tTanggal saat ini dalam format DD-MM-YYYY\n%REVERSEDATE%\tTanggal saat ini dalam format YYYY-MM-DD\n%TIME%\t\t\tWaktu sekarang denga format 24-jam\n%ATTR:xxxx%\t\tSebuah tambahan atribut berkas
+A file with that name already exists in the target folder.	ConflictWindow		Berkas dengan nama itu sudah ada di folder target.
+Do this for all files	ConflictWindow		Lakukan ini untuk semua berkas
+File name	ConflictWindow		Nama berkas
+Filer: Conflict	ConflictWindow		Filer: Konflik
+Replace	ConflictWindow		Ganti
+Rule name	ConflictWindow		Nama aturan
+Skip	ConflictWindow		Lewati
+Source folder	ConflictWindow		Folder sumber
+Target folder	ConflictWindow		Folder target
+Abort	FSUtils		Batal
+Error	FSUtils		Galat
+Replace file	FSUtils		Ganti berkas
+Skip file	FSUtils		Lewati berkas
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Berkas '%name%' sudah ada. Anda akan menggantinya?
+Add	RuleTab		Tambah
+Add rule	RuleTab		Tambah aturan
+Add rules	RuleTab		Tambah aturan-aturan
+Apply only the first matching rule	RuleTab		Terapkan hanya aturan yang cocok pertama
+Cancel	RuleTab		Batal
+Disable	RuleTab		Nonaktifkan
+Edit	RuleTab		Sunting
+Edit…	RuleTab		Sunting…
+Enable	RuleTab		Memungkinkan
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Tampaknya tidak ada aturan untuk mengatur file. Apakah Anda ingin Filer menambahkan beberapa yang dasar untuk Anda?
+Move down	RuleTab		Turunkan
+Move up	RuleTab		Naikkan
+Remove	RuleTab		Hapus
+Remove rule	RuleTab		Hapus aturan
+Rules	RuleTab		Aturan
+Add	AutoFilerTab	Used as button in a file panel	Tambah
+Add folder	AutoFilerTab		Tambah folder
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Tambah folder
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Jalankan Filer secara otomatis pada konten folder ini:
+Remove folder	AutoFilerTab		Hapus folder
+Run AutoFiler on system startup	AutoFilerTab		Jalankan AutoFiler saat system startup
+Start AutoFiler	AutoFilerTab		Mulai AutoFiler
+Stop AutoFiler	AutoFilerTab		Stop AutoFiler
+Add rule	RuleEditWindow		Tambah aturan
+Cancel	RuleEditWindow		Batal
+Description:	RuleEditWindow		Deskripsi:
+Edit rule	RuleEditWindow		Sunting aturan
+Help…	RuleEditWindow		Tolong…
+If	RuleEditWindow		Jika
+OK	RuleEditWindow		OKE
+Then	RuleEditWindow		Maka
+Choose	PanelButton		Pilih
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Pilih file untuk %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Pilih folder untuk %s%
+Copyright	HelpTab		Hakcipta
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer adalah pengelola file otomatis. File yang dibuka dengan atau yang dijatuhkan di atasnya dan dipindahkan, mengganti nama, menyalin atau melakukan segala macam hal dengannya sesuai dengan aturan yang dibuat oleh pengguna.
+Help	HelpTab		Tolong
+Help on rules	HelpTab		Pertolongan atas aturan
+User documentation	HelpTab		Dokumentasi pengguna
+Drag and drop the files to be processed below.	DropZoneTab		Seret dan taruh berkas yang akan diproses di bawah.
+Dropzone	DropZoneTab		Dropzone
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Filer dropzone
+Open Filer…	DropZoneTab		Buka Filer…
+Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Filer	System name		Filer
+Open file	FolderPathView		Buka berkas
+Open folder	FolderPathView		Buka folder

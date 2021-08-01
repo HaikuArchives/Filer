@@ -1,0 +1,104 @@
+1	Romanian	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documente
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documente
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Imagini
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Video
+Add to archive	RuleRunner		Adaugă la arhivă
+bytes	RuleRunner		octeți
+contains	RuleRunner		conține
+Continue	RuleRunner		Continuă
+Copy to folder	RuleRunner		Copiază la dosar
+Delete	RuleRunner		Șterge
+does not contain	RuleRunner		nu conține
+ends with	RuleRunner		se termină cu
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extrage fișiere ZIP pe Desktop
+GiB	RuleRunner		GiB
+is	RuleRunner		este
+is at least	RuleRunner		este cel puțin
+is at most	RuleRunner		este cel mult
+is less than	RuleRunner		este mai puțin ca
+is more than	RuleRunner		este mai mult decât
+is not	RuleRunner		nu este
+KiB	RuleRunner		KiB
+Location	RuleRunner		Locație
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Mută la dosarul
+Move to Trash	RuleRunner		Mută la Gunoi
+Name	RuleRunner		Nume
+Open	RuleRunner		Deschide
+Rename to	RuleRunner		Redenumește la
+Shell command	RuleRunner		Comandă shell
+Size	RuleRunner		Dimensiune
+starts with	RuleRunner		începe cu
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Stochează fișiere film în dosarul Video
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Stochează fișiere PDF în dosarul Documente
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Stochează imagini în dosarul Imagini
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Stochează fișiere text în dosarul Documente
+TiB	RuleRunner		TiB
+Type	RuleRunner		Tip
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNumele complet al fișierului\n%EXTENSION%\tDoar extensia\n%BASENAME%\tNumele fișierului fără extensie\n%FOLDER%\t\tLocația completă a dosarului care conține fișierul\n%FULLPATH%\t\tLocația completă a fișierului\n%DATE%\t\t\tData curentă în formatul LL-ZZ-AAAA\n%EURODATE%\t\tData curentă în formatul ZZ-LL-AAAA\n%REVERSEDATE%\tData curentă în formatul AAAA-LL-ZZ\n%TIME%\t\t\tOra curentă utilizând timpul de 24-ore\n%ATTR:xxxx%\t\tUn atribut extins al fișierului
+A file with that name already exists in the target folder.	ConflictWindow		Un fișier cu acest nume există deja în dosarul țintă.
+Do this for all files	ConflictWindow		Face acest lucru pentru toate fișierele
+File name	ConflictWindow		Nume fișier
+Filer: Conflict	ConflictWindow		Filer: Conflict
+Replace	ConflictWindow		Înlocuiește
+Rule name	ConflictWindow		Nume regulă
+Skip	ConflictWindow		Sari
+Source folder	ConflictWindow		Dosar sursă
+Target folder	ConflictWindow		Dosar țintă
+Abort	FSUtils		Anulează
+Error	FSUtils		Eroare
+Replace file	FSUtils		Înlocuiește fișierul
+Skip file	FSUtils		Sari fișierul
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Fișierul „%name%” există deja. Doriți să îl înlocuiți?
+Add	RuleTab		Adaugă
+Add rule	RuleTab		Adaugă regulă
+Add rules	RuleTab		Adaugă reguli
+Apply only the first matching rule	RuleTab		Aplică doar la prima regulă potrivită
+Cancel	RuleTab		Anulează
+Disable	RuleTab		Dezactivare
+Edit	RuleTab		Editează
+Edit…	RuleTab		Editare...
+Enable	RuleTab		Activare
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Se pare că nu există reguli pentru organizarea fișierelor. Doriți ca Filer să adauge câteva reguli de bază?
+Move down	RuleTab		Mută jos
+Move up	RuleTab		Mută sus
+Remove	RuleTab		Elimină
+Remove rule	RuleTab		Elimină regula
+Rules	RuleTab		Reguli
+Add	AutoFilerTab	Used as button in a file panel	Adaugă
+Add folder	AutoFilerTab		Adaugă dosar
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: adaugă dosare
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Rulează Filer automat pe conținutul acestor dosare:
+Remove folder	AutoFilerTab		Elimină dosar
+Run AutoFiler on system startup	AutoFilerTab		Rulează AutoFiler la pornirea sistemului
+Start AutoFiler	AutoFilerTab		Pornește AutoFiler
+Stop AutoFiler	AutoFilerTab		Oprește AutoFiler
+Add rule	RuleEditWindow		Adaugă regulă
+Cancel	RuleEditWindow		Anulează
+Description:	RuleEditWindow		Descriere:
+Edit rule	RuleEditWindow		Editează regulă
+Help…	RuleEditWindow		Ajutor...
+If	RuleEditWindow		Dacă
+OK	RuleEditWindow		OK
+Then	RuleEditWindow		Atunci
+Choose	PanelButton		Alege
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Alege fișier pentru %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Alege dosar pentru %s%
+Copyright	HelpTab		Drepturi de autor
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer este un organizator de fișiere automat. Acesta ia fișierele cu care a fost deschis sau care sunt plasate pe acesta și le mută, redenumește, copiază sau execută o varietate de alte operații cu acestea, pe baza regulilor create de utilizator.
+Help	HelpTab		Ajutor
+Help on rules	HelpTab		Ajutor la reguli
+User documentation	HelpTab		Documentație utilizator
+Drag and drop the files to be processed below.	DropZoneTab		Trage și plasează fișierele care urmează să fie procesate mai jos.
+Dropzone	DropZoneTab		Zona de plasare
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Zona de plasare Filer
+Open Filer…	DropZoneTab		Deschide Filer…
+Replicate dropzone…	DropZoneTab		Replică zona de plasare…
+Filer	System name		Filer
+Open file	FolderPathView		Deschide fișier
+Open folder	FolderPathView		Deschide dosar

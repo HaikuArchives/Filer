@@ -1,0 +1,104 @@
+1	Catalan	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Imatges
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Vídeos
+Add to archive	RuleRunner		Afegeix a l'arxiu
+bytes	RuleRunner		bytes
+contains	RuleRunner		conté
+Continue	RuleRunner		Continua
+Copy to folder	RuleRunner		Copia a la carpeta
+Delete	RuleRunner		Suprimeix
+does not contain	RuleRunner		no conté
+ends with	RuleRunner		acaba amb
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extreu fitxers ZIP a l'escriptori
+GiB	RuleRunner		GiB
+is	RuleRunner		és
+is at least	RuleRunner		almenys
+is at most	RuleRunner		és com a molt
+is less than	RuleRunner		és menor que
+is more than	RuleRunner		és major que
+is not	RuleRunner		no és
+KiB	RuleRunner		KiB
+Location	RuleRunner		Ubicació:
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Mou a la carpeta
+Move to Trash	RuleRunner		Mou a la paperera
+Name	RuleRunner		Nom
+Open	RuleRunner		Obre
+Rename to	RuleRunner		Canvia'n el nom a
+Shell command	RuleRunner		Ordre de l'intèrpret d'ordres
+Size	RuleRunner		Mida
+starts with	RuleRunner		comença amb
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Desa els fitxers de pel·lícules a la carpeta de Vídeos.
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Desa els fitxers PDF a la carpeta de Documents.
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Desa els fitxers d'imatges a la carpeta d'Imatges.
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Desa els fitxers de text a la carpeta de Documents.
+TiB	RuleRunner		TiB
+Type	RuleRunner		Tipus
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNom complet del fitxer\n%EXTENSION%\tNomés l'extensio\n%BASENAME%\tNom del fitxer sense l'extensió\n%FOLDER%\t\tUbicació completa de la carpeta que conté el fixer\n%FULLPATH%\t\tUbicació completa del fitxer\n%DATE%\t\t\tData actual amb el format MM-DD-AAAAA\n%EURODATE%\t\tData actual amb el format DD-MM-AAAA\n%REVERSEDATE%\tData actual amb el format AAAA-MM-DD\n%TIME%\t\t\tHora actual amb un compte de 24 hores\n%ATTR:xxxx%\t\tUn atribut ampliat del fitxer
+A file with that name already exists in the target folder.	ConflictWindow		Ja existeix un fitxer amb aquest nom a la carpeta de destinació.
+Do this for all files	ConflictWindow		Fes això a tots els fitxers
+File name	ConflictWindow		Nom del fitxer
+Filer: Conflict	ConflictWindow		Filer: conflicte
+Replace	ConflictWindow		Reemplaça
+Rule name	ConflictWindow		Nom de la regla
+Skip	ConflictWindow		Omet
+Source folder	ConflictWindow		Carpeta d'origen
+Target folder	ConflictWindow		Carpeta de destinació
+Abort	FSUtils		Avorta
+Error	FSUtils		Error
+Replace file	FSUtils		Reemplaça el fitxer
+Skip file	FSUtils		Omet el fitxer
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	El fitxer '%name%' ja existeix. Voleu reemplaçar-lo?
+Add	RuleTab		Afegeix
+Add rule	RuleTab		Afegeix una regla
+Add rules	RuleTab		Afegiu regles
+Apply only the first matching rule	RuleTab		Aplica només la primera regla que hi coincideixi.
+Cancel	RuleTab		Cancel·la
+Disable	RuleTab		Inhabilita
+Edit	RuleTab		Edita
+Edit…	RuleTab		Edita…
+Enable	RuleTab		Habilita
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Sembla que no hi ha cap regla per organitzar fitxers. Voleu que Filer us n'afegeixi algunes de bàsiques?
+Move down	RuleTab		Mou avall
+Move up	RuleTab		Mou amunt
+Remove	RuleTab		Suprimeix
+Remove rule	RuleTab		Suprimeix la regla
+Rules	RuleTab		Regles
+Add	AutoFilerTab	Used as button in a file panel	Afegeix
+Add folder	AutoFilerTab		Afegeix una carpeta
+AutoFiler	AutoFilerTab		Filer automàtic
+AutoFiler: Add folders	AutoFilerTab		Filer automàtic: afegeix carpetes
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Executa automàticament Filer sobre el contingut d'aquestes carpetes:
+Remove folder	AutoFilerTab		Suprimeix la carpteta
+Run AutoFiler on system startup	AutoFilerTab		Executa el Filer automàtic a l'inici del sistema
+Start AutoFiler	AutoFilerTab		Incia el Filer automàtic
+Stop AutoFiler	AutoFilerTab		Atura el Filer automàtic
+Add rule	RuleEditWindow		Afegeix una regla
+Cancel	RuleEditWindow		Cancel·la
+Description:	RuleEditWindow		Descripció:
+Edit rule	RuleEditWindow		Edita la regla
+Help…	RuleEditWindow		Ajuda...
+If	RuleEditWindow		Si
+OK	RuleEditWindow		D'acord
+Then	RuleEditWindow		Llavors
+Choose	PanelButton		Trieu
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Tria el fitxer per %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Tria la carpeta per %s%
+Copyright	HelpTab		Dret de còpia
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		El Filer és un organitzador automàtic de fitxers. Pren els fitxers que ha obert o se li han deixat anar i els desplaça, canvia de nom, copia o hi aplica tota mena d'altres operacions segons les regles creades per l'usuari.
+Help	HelpTab		Ajuda
+Help on rules	HelpTab		Ajuda per a les regles
+User documentation	HelpTab		Documentació per a l'usuari
+Drag and drop the files to be processed below.	DropZoneTab		Deixeu anar els fitxers per processar a continuació.
+Dropzone	DropZoneTab		Àrea de recepció
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Àrea de recepció de Filer
+Open Filer…	DropZoneTab		Obre el Filer…
+Replicate dropzone…	DropZoneTab		Replica l'àrea de recepció...
+Filer	System name		Filer
+Open file	FolderPathView		Obre un fitxer
+Open folder	FolderPathView		Obre una carpeta

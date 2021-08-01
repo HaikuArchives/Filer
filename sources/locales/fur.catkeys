@@ -1,0 +1,104 @@
+1	Friulian	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Imagjins
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Video
+Add to archive	RuleRunner		Zonte al archivi
+bytes	RuleRunner		byte
+contains	RuleRunner		al conten
+Continue	RuleRunner		Continue
+Copy to folder	RuleRunner		Copie te cartele
+Delete	RuleRunner		Elimine
+does not contain	RuleRunner		nol conten
+ends with	RuleRunner		al finìs cun
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Tire fûr i file ZIP sul Scritori
+GiB	RuleRunner		GiB
+is	RuleRunner		al è
+is at least	RuleRunner		al è almancul
+is at most	RuleRunner		al è al massim
+is less than	RuleRunner		al è mancul di
+is more than	RuleRunner		al è plui di
+is not	RuleRunner		nol è
+KiB	RuleRunner		KiB
+Location	RuleRunner		Posizion
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Sposte te cartele
+Move to Trash	RuleRunner		Sposte te Scovacere
+Name	RuleRunner		Non
+Open	RuleRunner		Vierç
+Rename to	RuleRunner		Cambie non a
+Shell command	RuleRunner		Comant di Shell
+Size	RuleRunner		Dimension
+starts with	RuleRunner		al tache cun
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Archivie i filmâts te mê cartele Video
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Archivie i file PDF te mê cartele Documents
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Archivie lis imagjins te mê cartele Imagjins
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Archivie i file di test te mê cartele Documents
+TiB	RuleRunner		TiB
+Type	RuleRunner		Gjenar
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNon complet dal file\n%EXTENSION%\tdome la estension\n%BASENAME%\tNon dal file cence estension\n%FOLDER%\t\tPercors complete de cartele che e conten il file\n%FULLPATH%\t\tPercors complet dal file\n%DATE%\t\t\tDate atuâl intal formât MM-DD-AAAA\n%EURODATE%\t\tDate atuâl intal formât DD-MM-AAAA\n%REVERSEDATE%\tDate atuâl intal formât AAAA-MM-DD\n%TIME%\t\t\tOre atuâl tal formât 24-oris\n%ATTR:xxxx%\t\tUn atribût estês dal file
+A file with that name already exists in the target folder.	ConflictWindow		Un file cun chel non al esist za inte cartele di destinazion.
+Do this for all files	ConflictWindow		Fâs cheste operazion par ducj i file
+File name	ConflictWindow		Non dal file
+Filer: Conflict	ConflictWindow		Filer: conflit
+Replace	ConflictWindow		Sostituìs
+Rule name	ConflictWindow		Non regule
+Skip	ConflictWindow		Salte
+Source folder	ConflictWindow		Cartele sorzint
+Target folder	ConflictWindow		Cartele di destinazion
+Abort	FSUtils		Interomp
+Error	FSUtils		Erôr
+Replace file	FSUtils		Sostituìs file
+Skip file	FSUtils		Salte il file
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Il file '%name%' al esist za. Sostituîlu?
+Add	RuleTab		Zonte
+Add rule	RuleTab		Zonte regule
+Add rules	RuleTab		Zonte regulis
+Apply only the first matching rule	RuleTab		Apliche dome la prime regule corispondente
+Cancel	RuleTab		Anule
+Disable	RuleTab		Disabilite
+Edit	RuleTab		Modifiche
+Edit…	RuleTab		Modifiche…
+Enable	RuleTab		Abilite
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Al semee che no sedin presintis regulis par organizâ i file. Desideristu che Filer ti zonti cualchi regule di base al to puest?
+Move down	RuleTab		Sposte jù
+Move up	RuleTab		Sposte sù
+Remove	RuleTab		Gjave
+Remove rule	RuleTab		Gjave regule
+Rules	RuleTab		Regulis
+Add	AutoFilerTab	Used as button in a file panel	Zonte
+Add folder	AutoFilerTab		Zonte cartele
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: zonte cartelis
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Eseguìs Filer in automatic sui contignûts di chestis cartelis:
+Remove folder	AutoFilerTab		Gjave cartele
+Run AutoFiler on system startup	AutoFilerTab		Eseguìs AutoFiler al inviament dal sisteme
+Start AutoFiler	AutoFilerTab		Invie AutoFiler
+Stop AutoFiler	AutoFilerTab		Ferme AutoFiler
+Add rule	RuleEditWindow		Zonte regule
+Cancel	RuleEditWindow		Anule
+Description:	RuleEditWindow		Descrizion:
+Edit rule	RuleEditWindow		Modifiche regule
+Help…	RuleEditWindow		Jutori…
+If	RuleEditWindow		Se
+OK	RuleEditWindow		Va ben
+Then	RuleEditWindow		Alore
+Choose	PanelButton		Sielç
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Sielç file par %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Sielç cartele par %s%
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer al è un organizadôr di file automatic. Al cjape i file molâts su di lui o vierts cun lui e ju sposte, cambie non, copie o altris azions in base aes regulis creadis dal utent.
+Help	HelpTab		Jutori
+Help on rules	HelpTab		Jutori su lis regulis
+User documentation	HelpTab		Documentazion utent
+Drag and drop the files to be processed below.	DropZoneTab		Strissine e mole i file di elaborâ chi sot.
+Dropzone	DropZoneTab		Dropzone
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Dropzone di Filer
+Open Filer…	DropZoneTab		Vierç Filer…
+Replicate dropzone…	DropZoneTab		Repliche la dropzone…
+Filer	System name		Filer
+Open file	FolderPathView		Vierç file
+Open folder	FolderPathView		Vierç cartele
