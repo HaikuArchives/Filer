@@ -1140,14 +1140,14 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			if (!test)
 				continue;
 
-			BString value, mimeType, typeName, attrName;
+			BString value, attrType, typeName, attrName;
 			int8 type, modetype;
 			type = modetype = 0;
 
 			test->FindInt8("name", &type);
 			test->FindInt8("mode", &modetype);
 			test->FindString("value", &value);
-			test->FindString("mimetype", &mimeType);
+			test->FindString("attrtype", &attrType);
 			test->FindString("typename", &typeName);
 			test->FindString("attrname", &attrName);
 
@@ -1158,7 +1158,7 @@ SaveRules(const BObjectList<FilerRule>* ruleList)
 			command = "insert into ";
 			command << tablename << " values('test', " << type << ", "
 				<< modetype << ", '" << EscapeIllegalCharacters(value.String())
-				<< "', '" << EscapeIllegalCharacters(mimeType.String())
+				<< "', '" << EscapeIllegalCharacters(attrType.String())
 				<< "', '" << EscapeIllegalCharacters(typeName.String())
 				<< "', '" << EscapeIllegalCharacters(attrName.String())
 				<< "', " << unit << ");";
@@ -1283,7 +1283,7 @@ LoadRules(BObjectList<FilerRule>* ruleList)
 			test->AddInt8("name", type);
 
 			if (type == TEST_ATTRIBUTE) {
-				test->AddString("mimetype",
+				test->AddString("attrtype",
 					DeescapeIllegalCharacters(query.getStringField(4)));
 				test->AddString("typename",
 					DeescapeIllegalCharacters(query.getStringField(5)));
