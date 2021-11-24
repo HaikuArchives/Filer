@@ -1075,122 +1075,73 @@ GetDataTypeForMode(int8 modetype)
 
 
 status_t
+LoadRules(BObjectList<FilerRule>* ruleList)
+{
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
+
+	path.Append("Filer");
+	status_t ret = create_directory(path.Path(), 0777);
+	path.Append("FilerRules");
+	if (ret != B_OK)
+		return ret;
+
+	BFile file(path.Path(), B_READ_ONLY);
+	ret = file.InitCheck();
+	if (ret != B_OK)
+		return ret;
+
+	BMessage rulesMsg;
+	ret = rulesMsg.Unflatten(&file);
+
+	// Import from SQL if necessary
+	if (ret != B_OK && ret != B_NO_MEMORY && LoadSQLRules(ruleList) == B_OK) {
+		ret = BEntry(path.Path()).Rename("FilerRules.sql");
+		if (ret == B_OK)
+			return SaveRules(ruleList);
+		return ret;
+	}
+
+	BMessage ruleMsg;
+	for (int i = 0; rulesMsg.FindMessage("rule", i, &ruleMsg) == B_OK; i++) {
+		FilerRule* rule = FilerRule::Instantiate(&ruleMsg);
+		if (rule != NULL)
+			ruleList->AddItem(rule);
+	}
+	return ret;
+}
+
+
+status_t
 SaveRules(const BObjectList<FilerRule>* ruleList)
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);
 
-	status_t ret = path.Append("Filer");
-	if (ret == B_OK)
-		ret = create_directory(path.Path(), 0777);
-
-	if (ret == B_OK)
-		ret = path.Append("FilerRules");
-
-	if (ret == B_OK) {
-		BFile file(path.Path(), B_WRITE_ONLY | B_CREATE_FILE);
-		ret = file.InitCheck();
-	}
+	path.Append("Filer");
+	status_t ret = create_directory(path.Path(), 0777);
+	path.Append("FilerRules");
 	if (ret != B_OK)
-		return(ret);
+		return ret;
 
-	BEntry entry(path.Path());
-	if (entry.Exists())
-		entry.Remove();
+	BFile file(path.Path(), B_WRITE_ONLY | B_CREATE_FILE);
+	ret = file.InitCheck();
+	if (ret != B_OK)
+		return ret;
 
-	CppSQLite3DB db;
-	db.open(path.Path());
-
-	// While we could use other means of obtaining table names, this table is also
-	// used for maintaining the order of the rules, which must be preserved
-	DBCommand(db,"create table RuleList (ruleid int primary key, name varchar, disabled int);",
-		"RuleTab::SaveRules");
-
-	BString command;
-
-	for (int32 i = 0; i < ruleList->CountItems(); i++)
-	{
+	BMessage rulesMsg;
+	for (int i = 0; i < ruleList->CountItems(); i++) {
+		BMessage ruleMsg;
 		FilerRule* rule = ruleList->ItemAt(i);
-
-		// Test table:
-		// 0) Entry type (test vs action)
-		// 1) type
-		// 2) mode
-		// 3) value
-		// 4) attribute type (if Attribute test)
-		// 5) attribute type public name (short description)
-		// 6) attribute public name (if Attribute test)
-
-		BString tablename(EscapeIllegalCharacters(rule->GetDescription()));
-
-		command = "create table ";
-		command << tablename
-			<< "(entrytype varchar, testtype int, testmode int, "
-			"testvalue varchar, attrtype varchar, attrtypename varchar, "
-			"attrpublicname varchar, sizeunit int);";
-		DBCommand(db, command.String(), "RuleTab::SaveRules");
-
-		command = "insert into RuleList values(";
-		command << i << ",'" << tablename << "'," << (rule->Disabled() ? 1 : 0) << ");";
-		DBCommand(db, command.String(), "RuleTab::SaveRules");
-
-		for (int32 j = 0; j < rule->CountTests(); j++)
-		{
-			BMessage* test = rule->TestAt(j);
-			if (!test)
-				continue;
-
-			BString value, attrType, typeName, attrName;
-			int8 type, modetype;
-			type = modetype = 0;
-
-			test->FindInt8("name", &type);
-			test->FindInt8("mode", &modetype);
-			test->FindString("value", &value);
-			test->FindString("attrtype", &attrType);
-			test->FindString("typename", &typeName);
-			test->FindString("attrname", &attrName);
-
-			int8 unit;
-			if (type != TEST_SIZE || test->FindInt8("unit", &unit) != B_OK)
-				unit = SIZE_BT;
-
-			command = "insert into ";
-			command << tablename << " values('test', " << type << ", "
-				<< modetype << ", '" << EscapeIllegalCharacters(value.String())
-				<< "', '" << EscapeIllegalCharacters(attrType.String())
-				<< "', '" << EscapeIllegalCharacters(typeName.String())
-				<< "', '" << EscapeIllegalCharacters(attrName.String())
-				<< "', " << unit << ");";
-
-			DBCommand(db, command.String(), "RuleTab::SaveRules:save test");
-		}
-
-		for (int32 j = 0; j < rule->CountActions(); j++)
-		{
-			BMessage* action = rule->ActionAt(j);
-			if (!action)
-				continue;
-
-			int8 type;
-			BString value;
-			action->FindInt8("type", &type);
-			action->FindString("value", &value);
-
-			command = "insert into ";
-			command << tablename << " values('action', " << type << ", '"
-				<< "', '" << EscapeIllegalCharacters(value.String())
-				<< "', '', '', '', '');";
-			DBCommand(db, command.String(), "RuleTab::SaveRules:save action");
-		}
+		rule->Archive(&ruleMsg, true);
+		rulesMsg.AddMessage("rule", &ruleMsg);
 	}
-	db.close();
-	return B_OK;
+	return rulesMsg.Flatten(&file, NULL);
 }
 
 
 status_t
-LoadRules(BObjectList<FilerRule>* ruleList)
+LoadSQLRules(BObjectList<FilerRule>* ruleList)
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path);

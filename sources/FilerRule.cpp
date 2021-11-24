@@ -40,10 +40,61 @@ FilerRule::FilerRule(FilerRule& rule)
 }
 
 
+FilerRule::FilerRule(BMessage* data)
+{
+	fTestList = new BObjectList<BMessage>(20, true);
+	fActionList = new BObjectList<BMessage>(20, true);
+
+	fDisabled = data->GetBool("_disabled", true);
+	data->FindString("_desc", &fDescription);
+
+	int8 mode = 0;
+	data->FindInt8("_rulemode", &mode);
+	fMode = (filer_rule_mode)mode;
+
+	BMessage test;
+	for (int i = 0; data->FindMessage("test", i, &test) == B_OK; i++)
+		fTestList->AddItem(new BMessage(test));
+
+	BMessage action;
+	for (int i = 0; data->FindMessage("action", i, &action) == B_OK; i++)
+		fActionList->AddItem(new BMessage(action));
+
+	fID = sIDCounter++;
+}
+
+
 FilerRule::~FilerRule()
 {
 	delete fTestList;
 	delete fActionList;
+}
+
+
+status_t
+FilerRule::Archive(BMessage* into, bool deep)
+{
+	status_t ret = BArchivable::Archive(into, deep);
+
+	into->AddString("_desc", fDescription);
+	into->AddBool("_disabled", fDisabled);
+	into->AddInt8("_rulemode", fMode);
+
+	for (int i = 0; i < fTestList->CountItems(); i++)
+		into->AddMessage("test", fTestList->ItemAt(i));
+	for (int i = 0; i < fActionList->CountItems(); i++)
+		into->AddMessage("action", fActionList->ItemAt(i));
+
+	return ret;
+}
+
+
+FilerRule*
+FilerRule::Instantiate(BMessage* archive)
+{
+	if (!validate_instantiation(archive, "FilerRule"))
+		return NULL;
+	return new FilerRule(archive);
 }
 
 

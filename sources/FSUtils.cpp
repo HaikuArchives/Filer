@@ -35,7 +35,7 @@ status_t CheckCopiable(BEntry* src, BEntry* dest)
 		return B_ERROR;
 
 	if (!src->Exists())
-		return B_FILE_NOT_FOUND;
+		return B_ENTRY_NOT_FOUND;
 
 	// Ensure that when we want the destination directory, that is exactly
 	// what we're working with. If we've been given an entry which is a file,
