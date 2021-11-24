@@ -84,8 +84,12 @@ public:
 
 int32		GetDataTypeForTest(int8 testtype);
 int32		GetDataTypeForMode(int8 modetype);
+
 status_t	LoadRules(BObjectList<FilerRule>* ruleList);
 status_t	SaveRules(const BObjectList<FilerRule>* ruleList);
+
+status_t	LoadSQLRules(BObjectList<FilerRule>* ruleList);
+
 int8		AttributeTestType();
 bool		ActionHasTarget(int8 type);
 bool		SetTextForType(BString& text, int8 type, const entry_ref& ref,
@@ -93,5 +97,6 @@ bool		SetTextForType(BString& text, int8 type, const entry_ref& ref,
 bool		SetTextForMime(BString& text, const entry_ref& ref);
 bool		SetTextForSize(BString& text, const entry_ref& ref);
 void		AddDefaultRules(BObjectList<FilerRule>* ruleList);
+
 
 #endif	// RULERUNNER_H
