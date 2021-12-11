@@ -1,13 +1,17 @@
 /*
-	FSUtils.cpp: Utility classes for basic filesystem operations
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
-	Released under the MIT license.
-*/
+ * Copyright 2008, DarkWyrm <darkwyrm@gmail.com>
+ * All rights reserved. Distributed under the terms of the MIT license.
+ */
+
+#include "FSUtils.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <Alert.h>
 #include <Catalog.h>
 #include <Directory.h>
-#include <Entry.h>
 #include <Errors.h>
 #include <File.h>
 #include <OS.h>
@@ -16,19 +20,16 @@
 #include <Volume.h>
 
 #include <fs_attr.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-#include <string.h>
-
-#include "FSUtils.h"
 
 #define COPY_BUFFER_SIZE 1024000
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "FSUtils"
 
-status_t CheckCopiable(BEntry* src, BEntry* dest)
+
+status_t
+CheckCopiable(BEntry* src, BEntry* dest)
 {
 	// Checks to see if we can copy the src to dest.
 	if (!src || !dest)
@@ -103,7 +104,8 @@ status_t CheckCopiable(BEntry* src, BEntry* dest)
 }
 
 
-status_t CopyFile(BEntry* srcentry, BEntry* destentry, bool clobber)
+status_t
+CopyFile(BEntry* srcentry, BEntry* destentry, bool clobber)
 {
 	if (!srcentry || !destentry)
 		return B_ERROR;
@@ -118,13 +120,13 @@ status_t CopyFile(BEntry* srcentry, BEntry* destentry, bool clobber)
 	srcentry->GetPath(&srcpath);
 
 	BString srcstring(srcpath.Path());
-	srcstring.CharacterEscape("'", '\\');
+	srcstring.ReplaceAll("'", "'\\''");
 
 	BPath destpath;
 	destentry->GetPath(&destpath);
 
 	BString deststring(destpath.Path());
-	deststring.CharacterEscape("'", '\\');
+	deststring.ReplaceAll("'", "'\\''");
 
 	BString command("copyattr -r -d ");
 	command << "'" << srcstring << "' '" << deststring << "/'";
@@ -134,7 +136,8 @@ status_t CopyFile(BEntry* srcentry, BEntry* destentry, bool clobber)
 }
 
 
-status_t MoveFile(BEntry* srcentry, BEntry* destentry, bool clobber)
+status_t
+MoveFile(BEntry* srcentry, BEntry* destentry, bool clobber)
 {
 	if (!srcentry || !destentry)
 		return B_ERROR;
@@ -142,33 +145,17 @@ status_t MoveFile(BEntry* srcentry, BEntry* destentry, bool clobber)
 	if (!destentry->IsDirectory())
 		return B_ERROR;
 
-	BPath srcpath;
-	srcentry->GetPath(&srcpath);
+	BDirectory destDir(destentry);
+	status_t ret = destDir.InitCheck();
+	if (ret != B_OK)
+		return ret;
 
-	BString srcstring(srcpath.Path());
-	srcstring.CharacterEscape("'", '\\');
+	char destLeaf[B_FILE_NAME_LENGTH] = {'\0'};
+	srcentry->GetName(destLeaf);
+	if (destLeaf == NULL)
+		return B_ERROR;
 
-	BPath destpath;
-	destentry->GetPath(&destpath);
-
-	BString deststring(destpath.Path());
-	deststring.CharacterEscape("'", '\\');
-
-	BString command("mv ");
-	if (clobber)
-		command << "-f ";
-	command << "'" << srcstring << "' '" << deststring << "/'";
-	int code = system(command.String());
-
-	if (!code) {
-		entry_ref ref;
-		srcentry->GetRef(&ref);
-
-		deststring << "/" << ref.name;
-		return srcentry->SetTo(deststring.String());
-	}
-
-	return code;
+	return srcentry->MoveTo(&destDir, destLeaf, clobber);
 }
 
 
@@ -209,47 +196,3 @@ const char* GetValidName(BEntry* entry)
 	return path.Path();
 }
 #endif
-
-
-bool IsFilenameChar(char c)
-{
-//	const char validstring[]="1234567890-_ ~.,+=!@#$%^&[]{}";
-	const char validstring[]="1234567890-_~.,+=!@#$%^&[]{}";
-	if ((c>64 && c < 91) || (c > 96 && c < 123))
-		return true;
-	int validlen = strlen(validstring);
-	for (int i = 0; i < validlen; i++)
-	{
-		if (c == validstring[i])
-			return true;
-	}
-	return false;
-}
-
-
-int charcmp(char c1, char c2)
-{
-	// Case-sensitive character compare
-	if (c1 < c2)
-		return -1;
-	else
-		if (c2 < c1)
-			return 1;
-	return 0;
-}
-
-
-int charncmp(char c1, char c2)
-{
-	if (c1 > 96 && c1 < 123)
-		c1 -= 32;
-	if (c2 > 96 && c2 < 123)
-		c2 -= 32;
-
-	if (c1 < c2)
-		return -1;
-	else
-		if (c2 < c1)
-			return 1;
-	return 0;
-}
