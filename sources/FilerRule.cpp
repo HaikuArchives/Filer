@@ -2,8 +2,11 @@
 	FilerRule.cpp: The main filing class for Filer. It holds a list of both test
 					conditions and one or more actions to be performed should the
 					conditions be met.
-	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
 	Released under the MIT license.
+	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
+	Copyright 2021, Jaidyn Levesque, jadedctrl@teknik.io
+	Contributed by:
+		Jaidyn Levesque <jadedctrl@teknik.io>, 2021
 */
 
 #include "FilerRule.h"

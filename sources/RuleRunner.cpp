@@ -6,6 +6,7 @@
 		Humdinger <humdingerb@gmail.com>, 2016
 		Pete Goodeve
 		Owen Pan <owen.pan@yahoo.com>, 2017
+		Jaidyn Levesque <jadedctrl@teknik.io>, 2021
 */
 
 #include "RuleRunner.h"

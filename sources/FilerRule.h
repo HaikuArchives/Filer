@@ -4,7 +4,9 @@
 					conditions be met.
 	Released under the MIT license.
 	Written by DarkWyrm <darkwyrm@gmail.com>, Copyright 2008
-	Contributed by Owen Pan <owen.pan@yahoo.com>, 2017
+	Contributed by:
+		Owen Pan <owen.pan@yahoo.com>, 2017
+		Jaidyn Levesque <jadedctrl@teknik.io>, 2021
 */
 
 #ifndef FILER_RULE_H

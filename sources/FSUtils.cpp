@@ -1,6 +1,8 @@
 /*
  * Copyright 2008, DarkWyrm <darkwyrm@gmail.com>
  * All rights reserved. Distributed under the terms of the MIT license.
+ * Contributed by:
+ *		Jaidyn Levesque <jadedctrl@teknik.io>, 2021
  */
 
 #include "FSUtils.h"

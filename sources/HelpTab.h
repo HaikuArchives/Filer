@@ -34,7 +34,7 @@ public:
 	virtual	void		Draw(BRect updateRect);
 	virtual BSize		MinSize();
 	virtual BSize		MaxSize();
-			
+
 private:
 			void		GetIcon();
 			BBitmap*	Icon();
@@ -55,8 +55,9 @@ private:
 	BStringView*	fCopyright1;
 	BStringView*	fCopyright2;
 	BStringView*	fCopyright3;
+	BStringView*	fCopyright4;
 	BTextView*		fInfo;
-	
+
 	BButton*		fHelpButton;
 	BButton*		fDocsButton;
 };
