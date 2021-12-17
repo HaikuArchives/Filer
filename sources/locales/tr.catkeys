@@ -84,21 +84,21 @@ If	RuleEditWindow		Eğer
 OK	RuleEditWindow		Tamam
 Then	RuleEditWindow		Öyleyse
 Choose	PanelButton		Seç
-Filer	PanelButton		Filer
+Filer	PanelButton		Dosyalayıcı
 Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	%s% için dosya seç
 Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	%s% için klasör seç
 Copyright	HelpTab		Telif hakkı
-Filer	HelpTab		Filer
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer, otomatik bir dosya organize edicisidir. Birlikte açıldığı veya üzerine bırakılan dosyaları alır ve onları taşır, kopyalar, yeniden adlandırır veya kullanıcı tarafından oluşturulan kurallara göre çeşitli işlemlere yapar.
+Filer	HelpTab		Dosyalayıcı
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer, otomatik bir dosya organize edicisidir. Birlikte açıldığı veya üzerine bırakılan dosyaları alır ve onları taşır, kopyalar, yeniden adlandırır veya kullanıcı tarafından oluşturulan kurallara göre çeşitli işlemler yapar.
 Help	HelpTab		Yardım
 Help on rules	HelpTab		Kurallar hakkında yardım
 User documentation	HelpTab		Kullanıcı belgelendirmesi
 Drag and drop the files to be processed below.	DropZoneTab		İşlenecek dosyaları aşağıya sürükleyip bırakın.
-Dropzone	DropZoneTab		Bırakma alanı
-Filer	DropZoneTab		Filer
+Dropzone	DropZoneTab		Bırakma Alanı
+Filer	DropZoneTab		Dosyalayıcı
 Filer dropzone	DropZoneTab		Filer bırakma alanı
-Open Filer…	DropZoneTab		Filer'ı aç…
+Open Filer…	DropZoneTab		Dosyalayıcı'yı aç…
 Replicate dropzone…	DropZoneTab		Bırakma alanını yinele…
-Filer	System name		Filer
+Filer	System name		Dosyalayıcı
 Open file	FolderPathView		Dosya aç
 Open folder	FolderPathView		Klasör aç

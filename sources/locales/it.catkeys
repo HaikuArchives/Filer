@@ -6,7 +6,7 @@
 Add to archive	RuleRunner		Aggiungi all'archivio
 bytes	RuleRunner		bytes
 contains	RuleRunner		contiene
-Continue	RuleRunner		Vai avanti
+Continue	RuleRunner		Continua
 Copy to folder	RuleRunner		Copia nella cartella
 Delete	RuleRunner		Elimina
 does not contain	RuleRunner		non contiene
@@ -20,7 +20,7 @@ is less than	RuleRunner		è meno di
 is more than	RuleRunner		è più di
 is not	RuleRunner		non è
 KiB	RuleRunner		KiB
-Location	RuleRunner		La posizione del file
+Location	RuleRunner		Posizione
 MiB	RuleRunner		MiB
 Move to folder	RuleRunner		Sposta nella cartella
 Move to Trash	RuleRunner		Sposta nel cestino
@@ -28,15 +28,15 @@ Name	RuleRunner		Il nome
 Open	RuleRunner		Apri
 Rename to	RuleRunner		Rinomina come
 Shell command	RuleRunner		Comando shell
-Size	RuleRunner		La dimensione
+Size	RuleRunner		Dimensione
 starts with	RuleRunner		Inizia con
 Store movie files in my Videos folder	RuleRunner	One of the default rule names	Salva i file video nella cartella Video
 Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Salva i file PDF nella cartella Documenti
 Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Salva le immagini nella cartella Immagini
 Store text files in my Documents folder	RuleRunner	One of the default rule names	Salva i file di testo nella cartella Documenti
 TiB	RuleRunner		TiB
-Type	RuleRunner		Il tipo di file
-%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tSoltanto il nome completo del file\n%EXTENSION%\tSoltanto l'estensione\n%BASENAME%\tNome del file senza l'estensione\n%FOLDER%\t\tPercorso completo della cartella che contiene il file\n%FULLPATH%\t\tPercorso completo del file incluso il nome\n%DATE%\t\t\tData corrente nel formato MM-GG-AAAA\n%EURODATE%\t\tData corrente nel formato GG-MM-AAAA\n%REVERSEDATE%\tData corrente nel formato AAAA-MM-GG\n%TIME%\t\t\tOrario corrente nel formato 24 ore time\n%ATTR:xxxx%\t\tSpecifica un attributo esteso del file
+Type	RuleRunner		Tipo di File
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNome completo file\n%EXTENSION%\tSolo estensione\n%BASENAME%\tNome file senza estensione\n%FOLDER%\t\tPercorso completo della cartella contenente il file\n%FULLPATH%\t\tPercorso completo del file incluso il nome\n%DATE%\t\t\tData attuale nel formato MM-GG-AAAA\n%EURODATE%\t\tData attuale nel formato GG-MM-AAAA\n%REVERSEDATE%\tData attuale nel formato AAAA-MM-GG\n%TIME%\t\t\tOrario attuale nel formato 24 ore \n%ATTR:xxxx%\t\tSpecifica un attributo esteso del file
 A file with that name already exists in the target folder.	ConflictWindow		Un file con questo nome esiste di già nella cartella di destinazione.
 Do this for all files	ConflictWindow		Esegui questa operazione per tutti i file
 File name	ConflictWindow		Nome file
@@ -50,7 +50,7 @@ Abort	FSUtils		Annulla
 Error	FSUtils		Errore
 Replace file	FSUtils		Sostituisci file
 Skip file	FSUtils		Salta file
-The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Il file '%name%' esiste di già. Lo vuoi sostituire?
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Il file '%name%' esiste di già. Vuoi sostituirlo?
 Add	RuleTab		Aggiungi
 Add rule	RuleTab		Aggiungi regola
 Add rules	RuleTab		Aggiungi regole
@@ -58,7 +58,7 @@ Apply only the first matching rule	RuleTab		Applica solo la prima regola corrisp
 Cancel	RuleTab		Annulla
 Disable	RuleTab		Disabilita
 Edit	RuleTab		Modifica
-Edit…	RuleTab		Modifica
+Edit…	RuleTab		Modifica…
 Enable	RuleTab		Abilita
 It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Sembra che non ci siano regole per l'organizzazione dei file. Vuoi che Filer ne aggiunga qualcuna per te?
 Move down	RuleTab		Sposta sotto
@@ -89,16 +89,16 @@ Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/S
 Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Scegli cartella per %s%
 Copyright	HelpTab		Copyright
 Filer	HelpTab		Filer
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer è un organizzatore automatico per i file. Elabora i file aperti con esso o quelli che vengono trascinati nella Dropzone e li sposta, rinomina, copia o li elabora in base alle regole create dall'utente.
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer è un organizzatore automatico per i file. Gestisce i file aperti con esso o quelli che gli vengono trascinati sopra e li sposta, rinomina, copia oppure ogni genere di altra azione in base alle regole create dall'utente.
 Help	HelpTab		Aiuto
 Help on rules	HelpTab		Aiuto sulle regole
 User documentation	HelpTab		Documentazione utente
 Drag and drop the files to be processed below.	DropZoneTab		Trascina qui sotto i file da elaborare manualmente
 Dropzone	DropZoneTab		Dropzone
 Filer	DropZoneTab		Filer
-Filer dropzone	DropZoneTab		Filer Dropzone
+Filer dropzone	DropZoneTab		Dropzone Filer
 Open Filer…	DropZoneTab		Apri Filer…
-Replicate dropzone…	DropZoneTab		Replica la dropzone…
+Replicate dropzone…	DropZoneTab		Replica dropzone…
 Filer	System name		Filer
 Open file	FolderPathView		Apri file
 Open folder	FolderPathView		Apri cartella
