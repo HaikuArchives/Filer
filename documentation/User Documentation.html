@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
 <head>
 <!-- 
- * Copyright 2016-2017
+ * Copyright 2016-2021
  * Distributed under the terms of the MIT License.
  *
  * Authors:
@@ -208,11 +208,24 @@ If you drag files from another partition onto a replicated Dropzone, you'll end 
 </div>
 <p>The last tab shows some information about <i>Filer</i> and offers two quick links to <span class="button">Help on rules</span> and the <span class="button">User documentation</span>.</p>
 <p>Please report bugs, create feature requests or offers for additional translations at <a href="https://github.com/HaikuArchives/Filer/issues">Filer's issue tracker at GitHub</a><br />
-Thanks to Alexey 'Lan72', Begasus, Giovanni and Phoudoin for their translations!</p>
+Thanks to Davidmp, phoudoin, Briseur, tmtfx, TejasMate, mazbrili, zumikkebe, Victor Domingos, Floren, unspacyar, Knezzen and Emir Sarı for their translations!</p>
 
 <h2>
 <a href="#"><img src="images/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="history" name="history">History</a></h2>
+<p><b>1.3.0</b> - <i>2021-12-17</i></p>
+<ul>
+<li>Fix saving/loading of attribute tests.</li>
+<li>Store rules as flattened messages. No need for SQLite anymore (aside for migrating existing rules).</li>
+<li>Improved handling of single quotes in file names.</li>
+</ul>
+<p><b>1.2.2</b> - <i>2017-08-03</i></p>
+<ul>
+<li>Improved Drop Zone with a BShelf's solid background.</li>
+<li>Improved MIME type guessing</li>
+<li>Fixed a crashing bug.</li>
+<li>Added Catalan, Czech, Spanish, Friulian, Indonesian, Romanian, Swedish and Turkish localization.</li>
+</ul>
 <p><b>1.2.1</b> - <i>2017-10-08</i></p>
 <ul>
 <li>Improved sniffing of MIME types on drag&amp;droped files.</li>
