@@ -66,7 +66,7 @@ RSRCS =
 #	- 	if your library does not follow the standard library naming scheme,
 #		you need to specify the path to the library and it's name.
 #		(e.g. for mylib.a, specify "mylib.a" or "path/mylib.a")
-LIBS = be localestub tracker translation $(STDCPPLIBS) sqlite3
+LIBS = be localestub tracker translation $(STDCPPLIBS) sqlite3 shared
 
 #	Specify additional paths to directories following the standard libXXX.so
 #	or libXXX.a naming scheme. You can specify full paths or paths relative
@@ -94,7 +94,7 @@ OPTIMIZE :=
 # 	will recreate only the "locales/en.catkeys" file. Use it as a template
 # 	for creating catkeys for other languages. All localization files must be
 # 	placed in the "locales" subdirectory.
-LOCALES = ca cs de en en_GB es fr fur id it nl ro sv tr uk
+LOCALES = ca cs de en en_GB es fr fur id it nl ro pt sc sv tr uk
 
 #	Specify all the preprocessor symbols to be defined. The symbols will not
 #	have their values set automatically; you must supply the value (if any) to

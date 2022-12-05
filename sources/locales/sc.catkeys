@@ -1,0 +1,104 @@
+1	Sardinian	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
+Add to archive	RuleRunner		Agiunghe a s'artzivu
+bytes	RuleRunner		otetos
+contains	RuleRunner		cabet
+Continue	RuleRunner		Sighi
+Copy to folder	RuleRunner		Copia in sa cartedda
+Delete	RuleRunner		Burra
+does not contain	RuleRunner		non cabet
+ends with	RuleRunner		acaba cun
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Istrae is ischedas ZIP in s'iscritòriu
+GiB	RuleRunner		GO
+is	RuleRunner		est
+is at least	RuleRunner		est a su mancu
+is at most	RuleRunner		est a su plus
+is less than	RuleRunner		est minore de
+is more than	RuleRunner		est majore de
+is not	RuleRunner		no est
+KiB	RuleRunner		KO
+Location	RuleRunner		Logu
+MiB	RuleRunner		MO
+Move to folder	RuleRunner		Move in sa cartedda
+Move to Trash	RuleRunner		Move in s'alga
+Name	RuleRunner		Númene
+Open	RuleRunner		Aberi
+Rename to	RuleRunner		Muda su númene che
+Shell command	RuleRunner		Cumandu pro s'inteprete (Shell)
+Size	RuleRunner		Mannària
+starts with	RuleRunner		cumentzat cun
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Alloga sa pellìcula in sa cartedda Pellìculas
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Alloga su PDF in sa cartedda PDF
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Alloga s'immàgine in sa cartedda Immàgines
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Alloga sa testu in sa cartedda Testos
+TiB	RuleRunner		TO
+Type	RuleRunner		Tipu
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNúmene interu de s'ischeda\n%EXTENSION%\tFetzi s'estensione\n%BASENAME%\tNúmene de s'ischeda chena estensione\n%FOLDER%\t\tàndala intera de sa cartedda in ue cabet s'ischeda\n%FULLPATH% \t\tàndala intera de s'ischeda\n%DATE%\t\t\tData atuale in su formadu MM-GG-AAAA\n%EURODATE%\t\tData atuale in su formadu GG-MM-AAAA\n%REVERSEDATE %\tData atuale in su formadu  AAAA-MM-GG\n%ORA%\t\t\tOra atuale imperende 24 oras\n%ATTR:xxxx%\t\tUn'atributu istendiu de s'ischeda
+A file with that name already exists in the target folder.	ConflictWindow		B'at giae un'ischeda cun custu númene in sa cartedda de lòmpida.
+Do this for all files	ConflictWindow		Faghe custu pro cada ischeda
+File name	ConflictWindow		Númene pro s'ischeda
+Filer: Conflict	ConflictWindow		Artzivadore: Chertu
+Replace	ConflictWindow		Remplatza
+Rule name	ConflictWindow		Régula pro su númene
+Skip	ConflictWindow		Brinca
+Source folder	ConflictWindow		Cartedda de andada
+Target folder	ConflictWindow		Cartedda de lòmpida
+Abort	FSUtils		Tzessa
+Error	FSUtils		Errore
+Replace file	FSUtils		Remplatza un'ischeda
+Skip file	FSUtils		Brinca custa ischeda
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	S'ischeda '%name%' b'at giae. A la cheres remplatzare?
+Add	AutoFilerTab	Used as button in a file panel	Agiunghe
+Add folder	AutoFilerTab		Agiunghe una cartedda
+AutoFiler	AutoFilerTab		Artziva a sa sola
+AutoFiler: Add folders	AutoFilerTab		Artziva a sa sola: Agiunghe is carteddas
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Incarrera s'Artzivadore a sa sola pro su càbidu de custas carteddas:
+Remove folder	AutoFilerTab		Boga una cartedda
+Run AutoFiler on system startup	AutoFilerTab		Incarrera s'Artziva a sa sola cando incarrerat su sistema
+Start AutoFiler	AutoFilerTab		Incarrera s'Artziva a sa sola
+Stop AutoFiler	AutoFilerTab		Firma Artziva a sa sola
+Add	RuleTab		Agiunghe
+Add rule	RuleTab		Agiunghe una régula
+Add rules	RuleTab		Agiunghe unas cantas régulas
+Apply only the first matching rule	RuleTab		Àplica fetzi pro sa prima régula cunforma
+Cancel	RuleTab		Cassa
+Disable	RuleTab		Dis-abilita
+Edit	RuleTab		Muda
+Edit…	RuleTab		Muda…
+Enable	RuleTab		Abilita
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Paret chi non bi siat peruna règula pro ordingiare is ischedas. Cheres chi Artzivadore nde agiungat unas cantas basicas pro tie?
+Move down	RuleTab		Move a giosso
+Move up	RuleTab		Move a susu
+Remove	RuleTab		Boga
+Remove rule	RuleTab		Boga sa régula
+Rules	RuleTab		Régulas
+Add rule	RuleEditWindow		Agiunghe una régula
+Cancel	RuleEditWindow		Cassa
+Description:	RuleEditWindow		Descritzione:
+Edit rule	RuleEditWindow		Muda sa régula
+Help…	RuleEditWindow		Agiudu…
+If	RuleEditWindow		Si
+OK	RuleEditWindow		Eja
+Then	RuleEditWindow		Tando
+Choose	PanelButton		Sèbera
+Filer	PanelButton		Artzivadore
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Sèbera un'ischeda pro %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Sèbera una cartedda pro %s%
+Copyright	HelpTab		Deretos de autore
+Filer	HelpTab		Artzivadore
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Artzivadore est un'ordingiadore automàticu de ischedas. Pigat is ischedas abertas cun issu,  o chi as iscapadu a subra, e las movet, mudat su númene, còpiat o faghet ongi sorta de àtera cosa, cunforma a is règulas creadas dae s'imperadore.
+Help	HelpTab		Agiudu
+Help on rules	HelpTab		Agiudu pro is régulas
+User documentation	HelpTab		Documentatzione de s'imperadore
+Drag and drop the files to be processed below.	DropZoneTab		Traga e iscapa is ischedas de protzessare a giosso
+Dropzone	DropZoneTab		Zona de iscapu
+Filer	DropZoneTab		Artzivadore
+Filer dropzone	DropZoneTab		Zona de iscapu de Artzivadore
+Open Filer…	DropZoneTab		Aberi Artzivadore…
+Replicate dropzone…	DropZoneTab		Réplica sa zona de iscapu…
+Filer	System name		Artzivadore
+Open file	FolderPathView		Aberi un'ischeda
+Open folder	FolderPathView		Aberi una cartedda

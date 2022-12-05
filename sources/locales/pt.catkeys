@@ -1,0 +1,104 @@
+1	Portuguese	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
+Add to archive	RuleRunner		Adicionar à arquivo
+bytes	RuleRunner		bytes
+contains	RuleRunner		contém
+Continue	RuleRunner		Continuar
+Copy to folder	RuleRunner		Copiar para pasta
+Delete	RuleRunner		Apagar
+does not contain	RuleRunner		não contém
+ends with	RuleRunner		termina com
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extraír ficheiro ZIP ao Desktop
+GiB	RuleRunner		GiB
+is	RuleRunner		é
+is at least	RuleRunner		é pelo menos
+is at most	RuleRunner		é no máximo
+is less than	RuleRunner		é inferior à
+is more than	RuleRunner		é maior que
+is not	RuleRunner		não é
+KiB	RuleRunner		KiB
+Location	RuleRunner		Endereço
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Mover para pasta
+Move to Trash	RuleRunner		Mover para o Lixeiro
+Name	RuleRunner		Nome
+Open	RuleRunner		Abrir
+Rename to	RuleRunner		Mudar o nome para
+Shell command	RuleRunner		Comando do Shell
+Size	RuleRunner		Tamanho
+starts with	RuleRunner		começa com
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Guardas ficheiros de vídeo na pasta meus Vídeos
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Guardar ficheiros PDF na pasta meus Documentos
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Guardar imagens na pasta minhas Imagens
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Guardar ficheiros de texto na pasta meus Documentos
+TiB	RuleRunner		TiB
+Type	RuleRunner		Tipo
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNome completo do ficheiro\n%EXTENSION%\tApenas a extensão\n%BASENAME%\tNome do ficheiro sem a extensão\n%FOLDER%\t\tEndereço completo da pasta do ficheiro\n%FULLPATH%\t\tEndereço completo do ficheiro\n%DATE%\t\t\tData corrente no formato MM-DD-YYYY\n%EURODATE%\t\tData corrente no formato DD-MM-YYYY\n%REVERSEDATE%\tData corrente no formato YYYY-MM-DD\n%TIME%\t\t\tHora corrente usando horário de 24-horas\n%ATTR:xxxx%\t\tUm atributo extendido (xattr) do ficheiro
+A file with that name already exists in the target folder.	ConflictWindow		Um ficheiro com esse nome já existe na pasta de destino.
+Do this for all files	ConflictWindow		Fazer isto para todos os ficheiros
+File name	ConflictWindow		Nome do ficheiro
+Filer: Conflict	ConflictWindow		Filer: Conflito
+Replace	ConflictWindow		Substituir
+Rule name	ConflictWindow		Nome da regra
+Skip	ConflictWindow		Saltar
+Source folder	ConflictWindow		Pasta de origem
+Target folder	ConflictWindow		Pasta de destino
+Abort	FSUtils		Abortar
+Error	FSUtils		Erro
+Replace file	FSUtils		Substituir ficheiro
+Skip file	FSUtils		Saltar ficheiro
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	O ficheiro '%name%' já existe. Quer substituí-lo?
+Add	AutoFilerTab	Used as button in a file panel	Adicionar
+Add folder	AutoFilerTab		Adicionar pasta
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Adicionar pastas
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Correr o Filer automaticamente sob os conteúdos destas pastas:
+Remove folder	AutoFilerTab		Remover pasta
+Run AutoFiler on system startup	AutoFilerTab		Correr o AutoFiler ao iniciar o sistema
+Start AutoFiler	AutoFilerTab		Iniciar o AutoFiler
+Stop AutoFiler	AutoFilerTab		Parar o AutoFiler
+Add	RuleTab		Adicionar
+Add rule	RuleTab		Adicionar regra
+Add rules	RuleTab		Adicionar regras
+Apply only the first matching rule	RuleTab		Aplicar apenas a primeira regra que combinar
+Cancel	RuleTab		Cancelar
+Disable	RuleTab		Disabilitar
+Edit	RuleTab		Editar
+Edit…	RuleTab		Editar…
+Enable	RuleTab		Habilitar
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Ao que parece não há nenhuma regra criada para organizar ficheiros. Gostaria que o Filer adicione algumas regras básicas para si?
+Move down	RuleTab		Mover abaixo
+Move up	RuleTab		Mover acima
+Remove	RuleTab		Remover
+Remove rule	RuleTab		Remover regra
+Rules	RuleTab		Regras
+Add rule	RuleEditWindow		Adicionar regra
+Cancel	RuleEditWindow		Cancelar
+Description:	RuleEditWindow		Descrição:
+Edit rule	RuleEditWindow		Editar regra
+Help…	RuleEditWindow		Ajuda...
+If	RuleEditWindow		Se
+OK	RuleEditWindow		OK
+Then	RuleEditWindow		Então
+Choose	PanelButton		Escolher
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Escolher ficheiro a %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Escolher pasta a %s%
+Copyright	HelpTab		Direitos autorais
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer é um organizador automático para ficheiros. Ele toma os ficheiros com os quais ele foi aberto ou que forem soltados sobre ele e move, renomeia, copia ou faz todo o tipo de outras coisas sobre eles, de acordo com as regras criadas pelo utilizador.
+Help	HelpTab		Ajuda
+Help on rules	HelpTab		Ajuda sobre regras
+User documentation	HelpTab		Documentação do utilizador
+Drag and drop the files to be processed below.	DropZoneTab		Arraste e solte os ficheiros a ser processados abaixo.
+Dropzone	DropZoneTab		Zona para soltar ficheiros
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Zona para soltar ficheiros do Filer
+Open Filer…	DropZoneTab		Abrir o Filer...
+Replicate dropzone…	DropZoneTab		Replicar zona para soltar ficheiros…
+Filer	System name		Filer
+Open file	FolderPathView		Abrir ficheiro
+Open folder	FolderPathView		Abrir pasta

@@ -1,7 +1,7 @@
 1	Turkish	application/x-vnd.dw-Filer	1421557317
 /boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Belgeler
 /boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Belgeler
-/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Görseller
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Resimler
 /boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videolar
 Add to archive	RuleRunner		Arşive ekle
 bytes	RuleRunner		bayt
@@ -17,7 +17,7 @@ is	RuleRunner		->
 is at least	RuleRunner		en azından
 is at most	RuleRunner		en fazla
 is less than	RuleRunner		daha az
-is more than	RuleRunner		daha fazla
+is more than	RuleRunner		daha çok
 is not	RuleRunner		değil
 KiB	RuleRunner		KiB
 Location	RuleRunner		Konum
@@ -32,13 +32,13 @@ Size	RuleRunner		Boyut
 starts with	RuleRunner		ile başlar
 Store movie files in my Videos folder	RuleRunner	One of the default rule names	Film dosyalarını Videolar klasöründe depola
 Store PDF files in my Documents folder	RuleRunner	One of the default rule names	PDF dosyalarını Belgeler klasöründe depola
-Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Resimleri Görseller klasöründe depola
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Resimleri Resimler klasöründe depola
 Store text files in my Documents folder	RuleRunner	One of the default rule names	Metin dosyalarını Belgeler klasöründe depola
 TiB	RuleRunner		TiB
 Type	RuleRunner		Tür
-%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tTam dosya adı\n%EXTENSION%\tYalnızca uzantı\n%BASENAME%\tUzantı olmadan dosya adı\n%FOLDER%\t\tDosyayı içeren klasörün tam konumu\n%FULLPATH%\t\tDosyanın tam konumu\n%DATE%\t\t\tAA-GG-YYYY biçiminde geçerli tarih\n%EURODATE%\t\tGG-AA-YYYY biçiminde geçerli tarih\n%REVERSEDATE%\tYYYY-AA-GG biçiminde geçerli tarih\n%TIME%\t\t\t24 saat biçiminde geçerli zaman\n%ATTR:xxxx%\t\tDosyanın genişletilmiş uzantısı
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tTam dosya adı\n%EXTENSION%\tYalnızca uzantı\n%BASENAME%\tUzantı olmadan dosya adı\n%FOLDER%\t\tDosyayı içeren klasörün tam konumu\n%FULLPATH%\t\tDosyanın tam konumu\n%DATE%\t\t\tAA-GG-YYYY biçiminde geçerli tarih\n%EURODATE%\t\tGG-AA-YYYY biçiminde geçerli tarih\n%REVERSEDATE%\tYYYY-AA-GG biçiminde geçerli tarih\n%TIME%\t\t\t24 saat biçiminde geçerli zaman\n%ATTR:xxxx%\t\tDosyanın genişletilmiş özniteliği
 A file with that name already exists in the target folder.	ConflictWindow		Hedef klasörde bu adlı bir dosya halihazırda var.
-Do this for all files	ConflictWindow		Bunu tüm dosyalar için uygula
+Do this for all files	ConflictWindow		Bunu tüm dosyalar için kıl
 File name	ConflictWindow		Dosya adı
 Filer: Conflict	ConflictWindow		Dosyalayıcı: Çakışma
 Replace	ConflictWindow		Değiştir
@@ -50,12 +50,21 @@ Abort	FSUtils		İptal et
 Error	FSUtils		Hata
 Replace file	FSUtils		Dosyayı değiştir
 Skip file	FSUtils		Dosyayı atla
-The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	'%name%' dosyası halihazırda mevcut. Değiştirmek istiyor musunuz?
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	'%name%' dosyası halihazırda var. Değiştirmek istiyor musunuz?
+Add	AutoFilerTab	Used as button in a file panel	Ekle
+Add folder	AutoFilerTab		Klasör ekle
+AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı
+AutoFiler: Add folders	AutoFilerTab		Otomatik Dosyalayıcı: Klasör ekle
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Filer'ı şu klasörlerin içeriği için kendiliğinden çalıştır:
+Remove folder	AutoFilerTab		Klasörü kaldır
+Run AutoFiler on system startup	AutoFilerTab		Sistem başlangıcında Otomatik Dosyalayıcı'yı çalıştır
+Start AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı'yı başlat
+Stop AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı'yı durdur
 Add	RuleTab		Ekle
 Add rule	RuleTab		Kural ekle
 Add rules	RuleTab		Kurallar ekle
 Apply only the first matching rule	RuleTab		Yalnızca ilk eşleşen kuralı uygula
-Cancel	RuleTab		İptal
+Cancel	RuleTab		Vazgeç
 Disable	RuleTab		Devre dışı bırak
 Edit	RuleTab		Düzenle
 Edit…	RuleTab		Düzenle…
@@ -66,17 +75,8 @@ Move up	RuleTab		Yukarı taşı
 Remove	RuleTab		Kaldır
 Remove rule	RuleTab		Kuralı kaldır
 Rules	RuleTab		Kurallar
-Add	AutoFilerTab	Used as button in a file panel	Ekle
-Add folder	AutoFilerTab		Klasör ekle
-AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı
-AutoFiler: Add folders	AutoFilerTab		Otomatik Dosyalayıcı: Klasör ekle
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Filer'ı şu klasörlerin içeriği için kendiliğinden çalıştır:
-Remove folder	AutoFilerTab		Klasörü kaldır
-Run AutoFiler on system startup	AutoFilerTab		Sistem başlangıcında Otomatik Dosyalayıcı'yı çalıştır
-Start AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı'yı başlat
-Stop AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı'yı durdur
 Add rule	RuleEditWindow		Kural ekle
-Cancel	RuleEditWindow		İptal
+Cancel	RuleEditWindow		Vazgeç
 Description:	RuleEditWindow		Açıklama:
 Edit rule	RuleEditWindow		Kuralı düzenle
 Help…	RuleEditWindow		Yardım…
@@ -93,10 +93,10 @@ Filer is an automatic file organizer. It takes the files it's opened with or tha
 Help	HelpTab		Yardım
 Help on rules	HelpTab		Kurallar hakkında yardım
 User documentation	HelpTab		Kullanıcı belgelendirmesi
-Drag and drop the files to be processed below.	DropZoneTab		İşlenecek dosyaları aşağıya sürükleyip bırakın.
+Drag and drop the files to be processed below.	DropZoneTab		İşlenecek dosyaları aşağı sürükleyip bırakın.
 Dropzone	DropZoneTab		Bırakma Alanı
 Filer	DropZoneTab		Dosyalayıcı
-Filer dropzone	DropZoneTab		Filer bırakma alanı
+Filer dropzone	DropZoneTab		Dosyalayıcı bırakma alanı
 Open Filer…	DropZoneTab		Dosyalayıcı'yı aç…
 Replicate dropzone…	DropZoneTab		Bırakma alanını yinele…
 Filer	System name		Dosyalayıcı
