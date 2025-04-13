@@ -24,16 +24,20 @@ ReplicantWindow::ReplicantWindow(BRect frame)
 	B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
 	B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	frame.OffsetBy(290.0, 130.0);
-	MoveTo(frame.LeftTop());
-
+	CenterIn(frame);
 	DropZone* dropzone = new DropZone(true);
-	dropzone->SetExplicitMinSize(BSize(70.0, 64.0));
-	dropzone->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
 
 	static const float spacing = be_control_look->DefaultItemSpacing();
+	float labelWidth = be_plain_font->StringWidth(B_TRANSLATE_SYSTEM_NAME("Filer"));
+	font_height fontHeight;
+	be_plain_font->GetHeight(&fontHeight);
+	float labelHeight = ceilf(fontHeight.ascent + fontHeight.descent);
+
+	dropzone->SetExplicitMinSize(BSize(labelWidth + spacing * 2, labelHeight + spacing * 2));
+	dropzone->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED));
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
-		.SetInsets(spacing)
+		.SetInsets(spacing, spacing, spacing, spacing * 1.5)
 		.Add(dropzone);
 }
 
