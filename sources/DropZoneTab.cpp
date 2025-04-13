@@ -42,7 +42,8 @@ DropZone::_Init()
 	BFont font;
 	fLabel1->GetFont(&font);
 	font.SetFace(B_CONDENSED_FACE);
-	font.SetSize(font.Size() * 1.5);
+
+	font.SetSize(font.Size() * 0.9);
 	fLabel1->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
 		| B_FONT_FLAGS);
 	font.SetSize(font.Size() * 0.75);
@@ -82,11 +83,20 @@ DropZone::DropZone(bool replicatable)
 				.AddGlue()
 				.AddStrut(1)
 				.Add(fLabel1)
-				.Add(fLabel2)
 				.AddGlue()
 			.End()
 			.Add(dragger, 0.01);
 	} else {
+		// Larger font in Dropzone tab, added line for label "Dropzone"
+		BFont font;
+		fLabel1->GetFont(&font);
+		font.SetSize(font.Size() * 1.5);
+		fLabel1->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
+			| B_FONT_FLAGS);
+		font.SetSize(font.Size() * 0.75);
+		fLabel2->SetFont(&font, B_FONT_FAMILY_AND_STYLE | B_FONT_SIZE
+			| B_FONT_FLAGS);
+
 		BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 			.AddGroup(B_VERTICAL, 3)
 				.AddGlue()
@@ -130,7 +140,7 @@ DropZone::Archive(BMessage* archive, bool deep) const
 
 	archive->AddString("add_on", kFilerSignature);
 	archive->AddString("class", "Filer");
-		
+
 	archive->PrintToStream();
 
 	return B_OK;

@@ -1,104 +1,105 @@
-1	English	application/x-vnd.dw-Filer	1421557317
-%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file
-Add folder	AutoFilerTab		Add folder
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Add folders
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatically run Filer on the contents of these folders:
-Remove folder	AutoFilerTab		Remove folder
-Run AutoFiler on system startup	AutoFilerTab		Run AutoFiler on system startup
-Start AutoFiler	AutoFilerTab		Start AutoFiler
-Stop AutoFiler	AutoFilerTab		Stop AutoFiler
-Add	AutoFilerTab	Used as button in a file panel	Add
-A file with that name already exists in the target folder.	ConflictWindow		A file with that name already exists in the target folder.
-Do this for all files	ConflictWindow		Do this for all files
-File name	ConflictWindow		File name
-Filer: Conflict	ConflictWindow		Filer: Conflict
-Replace	ConflictWindow		Replace
-Rule name	ConflictWindow		Rule name
-Skip	ConflictWindow		Skip
-Source folder	ConflictWindow		Source folder
-Target folder	ConflictWindow		Target folder
-Drag and drop the files to be processed below.	DropZoneTab		Drag and drop the files to be processed below.
-Dropzone	DropZoneTab		Dropzone
-Filer	DropZoneTab		Filer
-Filer dropzone	DropZoneTab		Filer dropzone
-Open Filer…	DropZoneTab		Open Filer…
-Replicate dropzone…	DropZoneTab		Replicate dropzone…
-Open file	FolderPathView		Open file
-Open folder	FolderPathView		Open folder
-Abort	FSUtils		Abort
-Error	FSUtils		Error
-Replace file	FSUtils		Replace file
-Skip file	FSUtils		Skip file
-The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	The file '%name%' already exists. Do you want to replace it?
-Copyright	HelpTab		Copyright
-Filer	HelpTab		Filer
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
-Help	HelpTab		Help
-Help on rules	HelpTab		Help on rules
-User documentation	HelpTab		User documentation
-Choose	PanelButton		Choose
-Filer	PanelButton		Filer
-Add rule	RuleEditWindow		Add rule
-Cancel	RuleEditWindow		Cancel
-Description:	RuleEditWindow		Description:
-Edit rule	RuleEditWindow		Edit rule
-Help…	RuleEditWindow		Help…
-If	RuleEditWindow		If
-OK	RuleEditWindow		OK
-Then	RuleEditWindow		Then
-Add to archive	RuleRunner		Add to archive
+1	English	application/x-vnd.dw-Filer	3010273399
 bytes	RuleRunner		bytes
-contains	RuleRunner		contains
-Continue	RuleRunner		Continue
-Copy to folder	RuleRunner		Copy to folder
-Delete	RuleRunner		Delete
-does not contain	RuleRunner		does not contain
-ends with	RuleRunner		ends with
-GiB	RuleRunner		GiB
-is	RuleRunner		is
-is at least	RuleRunner		is at least
-is at most	RuleRunner		is at most
-is less than	RuleRunner		is less than
-is more than	RuleRunner		is more than
-is not	RuleRunner		is not
-KiB	RuleRunner		KiB
-Location	RuleRunner		Location
 MiB	RuleRunner		MiB
-Move to folder	RuleRunner		Move to folder
-Move to Trash	RuleRunner		Move to Trash
-Name	RuleRunner		Name
-Open	RuleRunner		Open
-Rename to	RuleRunner		Rename to
-Shell command	RuleRunner		Shell command
-Size	RuleRunner		Size
-starts with	RuleRunner		starts with
-TiB	RuleRunner		TiB
-Type	RuleRunner		Type
-Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extract ZIP files to the Desktop
-Store movie files in my Videos folder	RuleRunner	One of the default rule names	Store movie files in my Videos folder
-Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Store PDF files in my Documents folder
-Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Store pictures in my Pictures folder
-Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
-/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
-/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
-/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
-/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
-Add	RuleTab		Add
-Add rule	RuleTab		Add rule
-Add rules	RuleTab		Add rules
-Apply only the first matching rule	RuleTab		Apply only the first matching rule
-Cancel	RuleTab		Cancel
-Disable	RuleTab		Disable
+Help…	RuleEditWindow		Help…
+Add	AutoFilerTab	Used as button in a file panel	Add
+Filer	DropZoneTab		Filer
 Edit	RuleTab		Edit
-Edit…	RuleTab		Edit…
-Enable	RuleTab		Enable
-It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?
-Move down	RuleTab		Move down
+Open file	FolderPathView		Open file
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
+Drag and drop the files to be processed below.	DropZoneTab		Drag and drop the files to be processed below.
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Add folders
+Target folder	ConflictWindow		Target folder
+is	RuleRunner		is
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Documents
+Stop AutoFiler	AutoFilerTab		Stop AutoFiler
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Store PDF files in my Documents folder
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	The file '%name%' already exists. Do you want to replace it?
+Do this for all files	ConflictWindow		Do this for all files
+Help on rules	HelpTab		Help on rules
+Dropzone	ReplicantWindow		Dropzone
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
+Copy to folder	RuleRunner		Copy to folder
 Move up	RuleTab		Move up
-Remove	RuleTab		Remove
-Remove rule	RuleTab		Remove rule
-Rules	RuleTab		Rules
-Filer	System name		Filer
-Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choose file for %s%
+starts with	RuleRunner		starts with
+Move down	RuleTab		Move down
+Add rule	RuleTab		Add rule
+Filer	PanelButton		Filer
+Filer: Conflict	ConflictWindow		Filer: Conflict
+is more than	RuleRunner		is more than
+Shell command	RuleRunner		Shell command
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
+Then	RuleEditWindow		Then
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
+Type	RuleRunner		Type
+Description:	RuleEditWindow		Description:
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
+Add to archive	RuleRunner		Add to archive
+Remove folder	AutoFilerTab		Remove folder
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatically run Filer on the contents of these folders:
+is not	RuleRunner		is not
+Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Delete	RuleRunner		Delete
+Run AutoFiler on system startup	AutoFilerTab		Run AutoFiler on system startup
+Abort	FSUtils		Abort
 Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choose folder for %s%
+Continue	RuleRunner		Continue
+Edit…	RuleTab		Edit…
+File name	ConflictWindow		File name
+Dropzone	DropZoneTab		Dropzone
+Disable	RuleTab		Disable
+is less than	RuleRunner		is less than
+Help	HelpTab		Help
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Store movie files in my Videos folder
+Location	RuleRunner		Location
+Filer	HelpTab		Filer
+Remove	RuleTab		Remove
+contains	RuleRunner		contains
+If	RuleEditWindow		If
+Cancel	RuleTab		Cancel
+Skip file	FSUtils		Skip file
+Apply only the first matching rule	RuleTab		Apply only the first matching rule
+Filer	System name		Filer
+Skip	ConflictWindow		Skip
+Filer dropzone	DropZoneTab		Filer dropzone
+Move to folder	RuleRunner		Move to folder
+Rename to	RuleRunner		Rename to
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?
+GiB	RuleRunner		GiB
+Move to Trash	RuleRunner		Move to Trash
+Rules	RuleTab		Rules
+Rule name	ConflictWindow		Rule name
+Add rule	RuleEditWindow		Add rule
+Source folder	ConflictWindow		Source folder
+Error	FSUtils		Error
+Choose	PanelButton		Choose
+is at most	RuleRunner		is at most
+Open	RuleRunner		Open
+Copyright	HelpTab		Copyright
+Open folder	FolderPathView		Open folder
+Enable	RuleTab		Enable
+Name	RuleRunner		Name
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Store pictures in my Pictures folder
+Size	RuleRunner		Size
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choose file for %s%
+OK	RuleEditWindow		OK
+TiB	RuleRunner		TiB
+KiB	RuleRunner		KiB
+Remove rule	RuleTab		Remove rule
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Extract ZIP files to the Desktop
+Add rules	RuleTab		Add rules
+Edit rule	RuleEditWindow		Edit rule
+ends with	RuleRunner		ends with
+Replace	ConflictWindow		Replace
+Add	RuleTab		Add
+A file with that name already exists in the target folder.	ConflictWindow		A file with that name already exists in the target folder.
+is at least	RuleRunner		is at least
+Add folder	AutoFilerTab		Add folder
+User documentation	HelpTab		User documentation
+AutoFiler	AutoFilerTab		AutoFiler
+Cancel	RuleEditWindow		Cancel
+Open Filer…	DropZoneTab		Open Filer…
+Replace file	FSUtils		Replace file
+does not contain	RuleRunner		does not contain
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file
+Start AutoFiler	AutoFilerTab		Start AutoFiler
