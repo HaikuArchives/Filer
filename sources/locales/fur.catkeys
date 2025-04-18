@@ -51,6 +51,15 @@ Error	FSUtils		Erôr
 Replace file	FSUtils		Sostituìs file
 Skip file	FSUtils		Salte il file
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Il file '%name%' al esist za. Sostituîlu?
+Add	AutoFilerTab	Used as button in a file panel	Zonte
+Add folder	AutoFilerTab		Zonte cartele
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: zonte cartelis
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Eseguìs Filer in automatic sui contignûts di chestis cartelis:
+Remove folder	AutoFilerTab		Gjave cartele
+Run AutoFiler on system startup	AutoFilerTab		Eseguìs AutoFiler al inviament dal sisteme
+Start AutoFiler	AutoFilerTab		Invie AutoFiler
+Stop AutoFiler	AutoFilerTab		Ferme AutoFiler
 Add	RuleTab		Zonte
 Add rule	RuleTab		Zonte regule
 Add rules	RuleTab		Zonte regulis
@@ -66,15 +75,6 @@ Move up	RuleTab		Sposte sù
 Remove	RuleTab		Gjave
 Remove rule	RuleTab		Gjave regule
 Rules	RuleTab		Regulis
-Add	AutoFilerTab	Used as button in a file panel	Zonte
-Add folder	AutoFilerTab		Zonte cartele
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: zonte cartelis
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Eseguìs Filer in automatic sui contignûts di chestis cartelis:
-Remove folder	AutoFilerTab		Gjave cartele
-Run AutoFiler on system startup	AutoFilerTab		Eseguìs AutoFiler al inviament dal sisteme
-Start AutoFiler	AutoFilerTab		Invie AutoFiler
-Stop AutoFiler	AutoFilerTab		Ferme AutoFiler
 Add rule	RuleEditWindow		Zonte regule
 Cancel	RuleEditWindow		Anule
 Description:	RuleEditWindow		Descrizion:

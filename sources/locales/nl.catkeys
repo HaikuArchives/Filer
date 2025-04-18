@@ -51,6 +51,15 @@ Error	FSUtils		Fout
 Replace file	FSUtils		Vervang bestand
 Skip file	FSUtils		Bestand overslaan
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Het bestand '%name%' bestaat reeds. Overschrijven?
+Add	AutoFilerTab	Used as button in a file panel	Toevoegen
+Add folder	AutoFilerTab		Folder toevoegen
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Folders toevoegen
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatisch Filer starten met de inhoud van de volgende folders:
+Remove folder	AutoFilerTab		Folder verwijderen
+Run AutoFiler on system startup	AutoFilerTab		AutoFiler starten bij systeemstart
+Start AutoFiler	AutoFilerTab		Start AutoFiler
+Stop AutoFiler	AutoFilerTab		Stop AutoFiler
 Add	RuleTab		Toevoegen
 Add rule	RuleTab		Regel toevoegen
 Add rules	RuleTab		Regels toevoegen
@@ -66,15 +75,6 @@ Move up	RuleTab		Verplaats omhoog
 Remove	RuleTab		Verwijder
 Remove rule	RuleTab		Verwijder regel
 Rules	RuleTab		Regels
-Add	AutoFilerTab	Used as button in a file panel	Toevoegen
-Add folder	AutoFilerTab		Folder toevoegen
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Folders toevoegen
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatisch Filer starten met de inhoud van de volgende folders:
-Remove folder	AutoFilerTab		Folder verwijderen
-Run AutoFiler on system startup	AutoFilerTab		AutoFiler starten bij systeemstart
-Start AutoFiler	AutoFilerTab		Start AutoFiler
-Stop AutoFiler	AutoFilerTab		Stop AutoFiler
 Add rule	RuleEditWindow		Regels toevoegen
 Cancel	RuleEditWindow		Annuleren
 Description:	RuleEditWindow		Beschrijving:

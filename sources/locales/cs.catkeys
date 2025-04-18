@@ -51,6 +51,15 @@ Error	FSUtils		Chyba
 Replace file	FSUtils		Nahradit soubor
 Skip file	FSUtils		Přeskočit soubor
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Soubor '%name%' už existuje. Přepsat?
+Add	AutoFilerTab	Used as button in a file panel	Přidat
+Add folder	AutoFilerTab		Přidat adresář
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Přidat adresáře
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Automaticky spouštět Filer na obsah těchto adresářů:
+Remove folder	AutoFilerTab		Odebrat adresář
+Run AutoFiler on system startup	AutoFilerTab		Spustit Autofiler při spuštění systému
+Start AutoFiler	AutoFilerTab		Spustit AutoFiler
+Stop AutoFiler	AutoFilerTab		Zastavit AutoFiler
 Add	RuleTab		Přidat
 Add rule	RuleTab		Přidat pravidlo
 Add rules	RuleTab		Přidat pravidla
@@ -66,15 +75,6 @@ Move up	RuleTab		Posunout nahoru
 Remove	RuleTab		Odebrat
 Remove rule	RuleTab		Odebrat pravidlo
 Rules	RuleTab		Pravidla
-Add	AutoFilerTab	Used as button in a file panel	Přidat
-Add folder	AutoFilerTab		Přidat adresář
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Přidat adresáře
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Automaticky spouštět Filer na obsah těchto adresářů:
-Remove folder	AutoFilerTab		Odebrat adresář
-Run AutoFiler on system startup	AutoFilerTab		Spustit Autofiler při spuštění systému
-Start AutoFiler	AutoFilerTab		Spustit AutoFiler
-Stop AutoFiler	AutoFilerTab		Zastavit AutoFiler
 Add rule	RuleEditWindow		Přidat pravidlo
 Cancel	RuleEditWindow		Zrušit
 Description:	RuleEditWindow		Popis:

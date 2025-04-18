@@ -1,0 +1,104 @@
+1	Norwegian	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Dokumenter
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Dokumenter
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Bilder
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videoer
+Add to archive	RuleRunner		Legg til i arkiv
+bytes	RuleRunner		bytes
+contains	RuleRunner		inneholder
+Continue	RuleRunner		Fortsett
+Copy to folder	RuleRunner		Kopier til mappe
+Delete	RuleRunner		Slett
+does not contain	RuleRunner		ikke inneholder
+ends with	RuleRunner		slutter på
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Pakk ut ZIP-filer til skrivebordet
+GiB	RuleRunner		GiB
+is	RuleRunner		er
+is at least	RuleRunner		er minst
+is at most	RuleRunner		er maks
+is less than	RuleRunner		er mindre enn
+is more than	RuleRunner		er mer enn
+is not	RuleRunner		ikke er
+KiB	RuleRunner		KiB
+Location	RuleRunner		Sted
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Flytt til mappe
+Move to Trash	RuleRunner		Flytt til Søppelkasse
+Name	RuleRunner		Navn
+Open	RuleRunner		Åpne
+Rename to	RuleRunner		Endre navn til
+Shell command	RuleRunner		Shell-kommando
+Size	RuleRunner		Størrelse
+starts with	RuleRunner		begynner med
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Lagre filmfiler i mappen Videoer
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Lagre PDF-filer i mappen Dokumenter
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Lagre bilder i mappen Bilder
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Lagre tekstfiler i mappen Dokumenter
+TiB	RuleRunner		TiB
+Type	RuleRunner		Type
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFullt filnavn\n%EXTENSION%\tBare filtypen\n%BASENAME%\tFilnavn uten filtype\n%FOLDER%\t\tFull plassering av mappen som inneholder filen\n%FULLPATH% \t\tFull plassering av filen\n%DATE%\t\t\tGjeldende dato i formatet MM-DD-ÅÅÅÅ\n%EURODATE%\t\tGjeldende dato i formatet DD-MM-ÅÅÅÅ\n%REVERSEDATE %\tGjeldende dato i formatet ÅÅÅÅ-MM-DD\n%TIME%\t\t\tGjeldende tid med 24-timers tid\n%ATTR:xxxx%\t\tEn utvidet attributt for filen
+A file with that name already exists in the target folder.	ConflictWindow		En fil med det navnet finnes allerede i målmappen.
+Do this for all files	ConflictWindow		Gjør dette for alle filer
+File name	ConflictWindow		Filnavn
+Filer: Conflict	ConflictWindow		Filer: Konflikt
+Replace	ConflictWindow		Erstatt
+Rule name	ConflictWindow		Regelnavn
+Skip	ConflictWindow		Hopp over
+Source folder	ConflictWindow		Kildemappe
+Target folder	ConflictWindow		Målmappe
+Abort	FSUtils		Avbryt
+Error	FSUtils		Feil
+Replace file	FSUtils		Erstatt fil
+Skip file	FSUtils		Hopp over fil
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Filen '%name%' eksisterer allerede. Vil du erstatte den?
+Add	AutoFilerTab	Used as button in a file panel	Legg til
+Add folder	AutoFilerTab		Legg til mappe
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Legg til mapper
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Kjør Filer automatisk på innholdet i disse mappene:
+Remove folder	AutoFilerTab		Fjern mappe
+Run AutoFiler on system startup	AutoFilerTab		Kjør AutoFiler ved systemoppstart
+Start AutoFiler	AutoFilerTab		Start AutoFiler
+Stop AutoFiler	AutoFilerTab		Stopp AutoFiler
+Add	RuleTab		Legg til
+Add rule	RuleTab		Legg til regel
+Add rules	RuleTab		Legg til regler
+Apply only the first matching rule	RuleTab		Bruk bare den første regelen som matcher
+Cancel	RuleTab		Avbryt
+Disable	RuleTab		Deaktiver
+Edit	RuleTab		Rediger
+Edit…	RuleTab		Rediger…
+Enable	RuleTab		Aktiver
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Det ser ut til at det ikke er noen regler for organisering av filer. Vil du at Filer skal legge til noen enkle regler for deg?
+Move down	RuleTab		Flytt ned
+Move up	RuleTab		Flytt opp
+Remove	RuleTab		Fjern
+Remove rule	RuleTab		Fjern regel
+Rules	RuleTab		Regler
+Add rule	RuleEditWindow		Legg til regel
+Cancel	RuleEditWindow		Avbryt
+Description:	RuleEditWindow		Beskrivelse:
+Edit rule	RuleEditWindow		Rediger regel
+Help…	RuleEditWindow		Hjelp…
+If	RuleEditWindow		Hvis
+OK	RuleEditWindow		OK
+Then	RuleEditWindow		Så
+Choose	PanelButton		Velg
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Velg fil for %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Velg mappe for %s%
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer er et automatisk verktøy for filorganisering. Det tar filene den er åpnet med eller som slippes på den og flytter, gir nytt navn, kopierer eller gjør alle mulige andre ting med dem i henhold til regler opprettet av brukeren.
+Help	HelpTab		Hjelp
+Help on rules	HelpTab		Hjelp med regler
+User documentation	HelpTab		Brukerdokumentasjon
+Drag and drop the files to be processed below.	DropZoneTab		Dra og slipp filene som skal behandles nedenfor.
+Dropzone	DropZoneTab		Droppsone
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Filer droppsone
+Open Filer…	DropZoneTab		Åpne Filer…
+Replicate dropzone…	DropZoneTab		Dupliser droppsone…
+Filer	System name		Filer
+Open file	FolderPathView		Åpne fil
+Open folder	FolderPathView		Åpne mappe

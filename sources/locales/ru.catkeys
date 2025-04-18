@@ -1,0 +1,104 @@
+1	Russian	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Документы
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Документы
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Изображения
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Видео
+Add to archive	RuleRunner		Добавить в архив
+bytes	RuleRunner		байты
+contains	RuleRunner		содержит
+Continue	RuleRunner		Продолжить
+Copy to folder	RuleRunner		Копировать в папку
+Delete	RuleRunner		Удалить
+does not contain	RuleRunner		не содержит
+ends with	RuleRunner		заканчивается на
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	Извлечь ZIP-файлы на рабочий стол
+GiB	RuleRunner		Гбайт
+is	RuleRunner		соответствует
+is at least	RuleRunner		как минимум
+is at most	RuleRunner		как максимум
+is less than	RuleRunner		меньше, чем
+is more than	RuleRunner		больше, чем
+is not	RuleRunner		не соответствует
+KiB	RuleRunner		Кбайт
+Location	RuleRunner		Расположение
+MiB	RuleRunner		Мбайт
+Move to folder	RuleRunner		Переместить в папку
+Move to Trash	RuleRunner		Переместить  в корзину
+Name	RuleRunner		Имя
+Open	RuleRunner		Открыть
+Rename to	RuleRunner		Переименовать в
+Shell command	RuleRunner		Команда оболочки
+Size	RuleRunner		Размер
+starts with	RuleRunner		начинается с
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Сохранять видео в папку «Видео»
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Сохранять PDF-файлы в папку «Документы»
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Сохранять изображения в папку «Изображения»
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Сохранять текстовые файлы в папку «Документы»
+TiB	RuleRunner		Тбайт
+Type	RuleRunner		Тип
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tПолное имя файла\n%EXTENSION%\tТолько расширение\n%BASENAME%\tИмя файла без расширения\n%FOLDER%\t\tПолный путь к папке, содержащей файл\n%FULLPATH%\t\tПолный путь к файлу\n%DATE%\t\tТекущая дата в формате ММ-ДД-ГГГГ\n%EURODATE%\t\tТекущая дата в формате ДД-ММ-ГГГГ\n%REVERSEDATE%\tТекущая дата в формате ГГГГ-ММ-ДД\n%TIME%\t\t\tТекущее время в 24-часовом формате\n%ATTR:xxxx%\t\tРасширенный атрибут файла
+A file with that name already exists in the target folder.	ConflictWindow		Файл с таким именем уже существует в целевой папке.
+Do this for all files	ConflictWindow		Сделать это для всех файлов
+File name	ConflictWindow		Название файла
+Filer: Conflict	ConflictWindow		Filer: Конфликт
+Replace	ConflictWindow		Заменить
+Rule name	ConflictWindow		Название правила
+Skip	ConflictWindow		Пропустить
+Source folder	ConflictWindow		Исходная папка
+Target folder	ConflictWindow		Целевая папка
+Abort	FSUtils		Прервать
+Error	FSUtils		Ошибка
+Replace file	FSUtils		Заменить файл
+Skip file	FSUtils		Пропустить файл
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Файл '%name%' уже существует. Хотите его заменить?
+Add	AutoFilerTab	Used as button in a file panel	Добавить
+Add folder	AutoFilerTab		Добавить папку
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Добавить папки
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Автоматически запускать Filer для содержимого этих папок:
+Remove folder	AutoFilerTab		Удалить папку
+Run AutoFiler on system startup	AutoFilerTab		Запускать AutoFiler при запуске системы
+Start AutoFiler	AutoFilerTab		Запустить AutoFiler
+Stop AutoFiler	AutoFilerTab		Остановить AutoFiler
+Add	RuleTab		Добавить
+Add rule	RuleTab		Добавить правило
+Add rules	RuleTab		Добавить правила
+Apply only the first matching rule	RuleTab		Применить только первое подходящее правило
+Cancel	RuleTab		Отмена
+Disable	RuleTab		Отключить
+Edit	RuleTab		Изменить
+Edit…	RuleTab		Изменить…
+Enable	RuleTab		Включить
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Похоже, правил для организации файлов еще нет. Хотите, чтобы Filer добавил несколько базовых?
+Move down	RuleTab		Вниз
+Move up	RuleTab		Вверх
+Remove	RuleTab		Удалить
+Remove rule	RuleTab		Удалить правило
+Rules	RuleTab		Правила
+Add rule	RuleEditWindow		Добавить правило
+Cancel	RuleEditWindow		Отмена
+Description:	RuleEditWindow		Описание:
+Edit rule	RuleEditWindow		Изменить правило
+Help…	RuleEditWindow		Помощь…
+If	RuleEditWindow		Если
+OK	RuleEditWindow		OK
+Then	RuleEditWindow		Затем
+Choose	PanelButton		Выбрать
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Выбрать файл для %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Выбрать папку для %s%
+Copyright	HelpTab		Copyright
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer — автоматический органайзер файлов. Он берет файлы, с которыми он открыт или которые были переброшены на него, и перемещает, переименовывает, копирует или выполняет с ними всевозможные другие действия в соответствии с правилами, созданными пользователем.
+Help	HelpTab		Помощь
+Help on rules	HelpTab		О правилах
+User documentation	HelpTab		Руководство пользователя
+Drag and drop the files to be processed below.	DropZoneTab		Перетащите файлы для обработки ниже.
+Dropzone	DropZoneTab		Дропзона
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Дропзона Filer
+Open Filer…	DropZoneTab		Открыть Filer…
+Replicate dropzone…	DropZoneTab		Репликант дропзоны…
+Filer	System name		Filer
+Open file	FolderPathView		Открыть файл
+Open folder	FolderPathView		Открыть папку

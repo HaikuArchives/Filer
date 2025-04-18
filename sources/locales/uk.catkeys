@@ -51,6 +51,15 @@ Error	FSUtils		Помилка
 Replace file	FSUtils		Замінити файл
 Skip file	FSUtils		Пропустити файл
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Файл '%file%' вже існує. Замінити його?
+Add	AutoFilerTab	Used as button in a file panel	Додати
+Add folder	AutoFilerTab		Додати папку
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Додати папку
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Автоматично запускати Filer на вміст наступних папок:
+Remove folder	AutoFilerTab		Видалити папку
+Run AutoFiler on system startup	AutoFilerTab		Запускати AutoFiler при старті системи
+Start AutoFiler	AutoFilerTab		Запустити AutoFiler
+Stop AutoFiler	AutoFilerTab		Зупинити AutoFiler
 Add	RuleTab		Додати
 Add rule	RuleTab		Додати правило
 Add rules	RuleTab		Додати правила
@@ -66,15 +75,6 @@ Move up	RuleTab		Вище
 Remove	RuleTab		Видалити
 Remove rule	RuleTab		Видалити правило
 Rules	RuleTab		Правила
-Add	AutoFilerTab	Used as button in a file panel	Додати
-Add folder	AutoFilerTab		Додати папку
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Додати папку
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Автоматично запускати Filer на вміст наступних папок:
-Remove folder	AutoFilerTab		Видалити папку
-Run AutoFiler on system startup	AutoFilerTab		Запускати AutoFiler при старті системи
-Start AutoFiler	AutoFilerTab		Запустити AutoFiler
-Stop AutoFiler	AutoFilerTab		Зупинити AutoFiler
 Add rule	RuleEditWindow		Додати правило
 Cancel	RuleEditWindow		Скасувати
 Description:	RuleEditWindow		Опис:

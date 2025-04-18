@@ -55,7 +55,7 @@ Add	AutoFilerTab	Used as button in a file panel	Ekle
 Add folder	AutoFilerTab		Klasör ekle
 AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı
 AutoFiler: Add folders	AutoFilerTab		Otomatik Dosyalayıcı: Klasör ekle
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Filer'ı şu klasörlerin içeriği için kendiliğinden çalıştır:
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Dosyalayıcı'yı şu klasörlerin içeriğinde kendiliğinden çalıştır:
 Remove folder	AutoFilerTab		Klasörü kaldır
 Run AutoFiler on system startup	AutoFilerTab		Sistem başlangıcında Otomatik Dosyalayıcı'yı çalıştır
 Start AutoFiler	AutoFilerTab		Otomatik Dosyalayıcı'yı başlat
@@ -69,7 +69,7 @@ Disable	RuleTab		Devre dışı bırak
 Edit	RuleTab		Düzenle
 Edit…	RuleTab		Düzenle…
 Enable	RuleTab		Etkinleştir
-It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Dosya organize etmek için herhangi bir kural yok gibi görünüyor. Filer'ın sizin için birkaç temel kural eklemesini ister misiniz?
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Dosya organize etmek için herhangi bir kural yok gibi görünüyor. Dosyalayıcı'nın sizin için birkaç temel kural eklemesini ister misiniz?
 Move down	RuleTab		Aşağı taşı
 Move up	RuleTab		Yukarı taşı
 Remove	RuleTab		Kaldır
@@ -89,7 +89,7 @@ Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/S
 Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	%s% için klasör seç
 Copyright	HelpTab		Telif hakkı
 Filer	HelpTab		Dosyalayıcı
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer, otomatik bir dosya organize edicisidir. Birlikte açıldığı veya üzerine bırakılan dosyaları alır ve onları taşır, kopyalar, yeniden adlandırır veya kullanıcı tarafından oluşturulan kurallara göre çeşitli işlemler yapar.
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Dosyalayıcı, otomatik bir dosya organize edicisidir. Birlikte açıldığı veya üzerine bırakılan dosyaları alır ve onları taşır, kopyalar, yeniden adlandırır veya kullanıcı tarafından oluşturulan kurallara göre çeşitli işlemler yapar.
 Help	HelpTab		Yardım
 Help on rules	HelpTab		Kurallar hakkında yardım
 User documentation	HelpTab		Kullanıcı belgelendirmesi
