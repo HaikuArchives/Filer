@@ -51,6 +51,15 @@ Error	FSUtils		Eroare
 Replace file	FSUtils		Înlocuiește fișierul
 Skip file	FSUtils		Sari fișierul
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Fișierul „%name%” există deja. Doriți să îl înlocuiți?
+Add	AutoFilerTab	Used as button in a file panel	Adaugă
+Add folder	AutoFilerTab		Adaugă dosar
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: adaugă dosare
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Rulează Filer automat pe conținutul acestor dosare:
+Remove folder	AutoFilerTab		Elimină dosar
+Run AutoFiler on system startup	AutoFilerTab		Rulează AutoFiler la pornirea sistemului
+Start AutoFiler	AutoFilerTab		Pornește AutoFiler
+Stop AutoFiler	AutoFilerTab		Oprește AutoFiler
 Add	RuleTab		Adaugă
 Add rule	RuleTab		Adaugă regulă
 Add rules	RuleTab		Adaugă reguli
@@ -66,15 +75,6 @@ Move up	RuleTab		Mută sus
 Remove	RuleTab		Elimină
 Remove rule	RuleTab		Elimină regula
 Rules	RuleTab		Reguli
-Add	AutoFilerTab	Used as button in a file panel	Adaugă
-Add folder	AutoFilerTab		Adaugă dosar
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: adaugă dosare
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Rulează Filer automat pe conținutul acestor dosare:
-Remove folder	AutoFilerTab		Elimină dosar
-Run AutoFiler on system startup	AutoFilerTab		Rulează AutoFiler la pornirea sistemului
-Start AutoFiler	AutoFilerTab		Pornește AutoFiler
-Stop AutoFiler	AutoFilerTab		Oprește AutoFiler
 Add rule	RuleEditWindow		Adaugă regulă
 Cancel	RuleEditWindow		Anulează
 Description:	RuleEditWindow		Descriere:

@@ -1,4 +1,4 @@
-1	English	application/x-vnd.dw-Filer	3010273399
+1	English	application/x-vnd.dw-Filer	1421557317
 bytes	RuleRunner		bytes
 MiB	RuleRunner		MiB
 Help…	RuleEditWindow		Help…
@@ -17,7 +17,6 @@ Store PDF files in my Documents folder	RuleRunner	One of the default rule names	
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	The file '%name%' already exists. Do you want to replace it?
 Do this for all files	ConflictWindow		Do this for all files
 Help on rules	HelpTab		Help on rules
-Dropzone	ReplicantWindow		Dropzone
 Store text files in my Documents folder	RuleRunner	One of the default rule names	Store text files in my Documents folder
 Copy to folder	RuleRunner		Copy to folder
 Move up	RuleTab		Move up

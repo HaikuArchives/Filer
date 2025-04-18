@@ -1,0 +1,104 @@
+1	Croatian	application/x-vnd.dw-Filer	1421557317
+/boot/home/Documents	RuleRunner	Path for default rule moving PDF files	/boot/home/Dokumenti
+/boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Dokumenti
+/boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Slike
+/boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Video
+Add to archive	RuleRunner		Dodaj u arhiv
+bytes	RuleRunner		bytes
+contains	RuleRunner		sadrži
+Continue	RuleRunner		Nastavi
+Copy to folder	RuleRunner		Kopiraj u mapu
+Delete	RuleRunner		Izbriši
+does not contain	RuleRunner		ne sadrži
+ends with	RuleRunner		završava sa
+Extract ZIP files to the Desktop	RuleRunner	One of the default rule names	RaspakirajZIP datoteke na Radnu površinu
+GiB	RuleRunner		GiB
+is	RuleRunner		je
+is at least	RuleRunner		je najmanje
+is at most	RuleRunner		je najviše
+is less than	RuleRunner		je manje od
+is more than	RuleRunner		je više od
+is not	RuleRunner		nije
+KiB	RuleRunner		KiB
+Location	RuleRunner		Lokacija
+MiB	RuleRunner		MiB
+Move to folder	RuleRunner		Premjesti u mapu
+Move to Trash	RuleRunner		Premjesti u smeće
+Name	RuleRunner		Ime
+Open	RuleRunner		Otvori
+Rename to	RuleRunner		Preimenuj u
+Shell command	RuleRunner		Shell command
+Size	RuleRunner		Veličina
+starts with	RuleRunner		počinje sa
+Store movie files in my Videos folder	RuleRunner	One of the default rule names	Pohrani datoteke filmova u moju Video mapu
+Store PDF files in my Documents folder	RuleRunner	One of the default rule names	Pohrani PDF datoteke u moju mapu Dokumenti
+Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Pohrani slike u moju mapu Slike
+Store text files in my Documents folder	RuleRunner	One of the default rule names	Pohrani tekstualne datoteke u moju mapu Dokumenti
+TiB	RuleRunner		TiB
+Type	RuleRunner		Vrsta
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file
+A file with that name already exists in the target folder.	ConflictWindow		Datoteka s ovim imenom već postoji u ciljanoj mapi.
+Do this for all files	ConflictWindow		Učini ovo z sve datoteke
+File name	ConflictWindow		Ime datoteke
+Filer: Conflict	ConflictWindow		Filer: Conflict
+Replace	ConflictWindow		Zamijeni
+Rule name	ConflictWindow		Ime pravila
+Skip	ConflictWindow		Preskoči
+Source folder	ConflictWindow		Izvorna mapa
+Target folder	ConflictWindow		Ciljana mapa
+Abort	FSUtils		Prekini
+Error	FSUtils		Greška
+Replace file	FSUtils		Zamijeni datoteku
+Skip file	FSUtils		Preskoči datoteku
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Datoteka '%name%' već postoji. Želite li je zamijeniti?
+Add	AutoFilerTab	Used as button in a file panel	Dodaj
+Add folder	AutoFilerTab		Dodaj mapu
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Dodaj mape
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Automatically run Filer on the contents of these folders:
+Remove folder	AutoFilerTab		Ukloni mapu
+Run AutoFiler on system startup	AutoFilerTab		Pokreni AutoFiler pri pokretanju sustava
+Start AutoFiler	AutoFilerTab		Pokreni AutoFiler
+Stop AutoFiler	AutoFilerTab		Zaustavi AutoFiler
+Add	RuleTab		Dodaj
+Add rule	RuleTab		Dodaj pravilo
+Add rules	RuleTab		Dodaj pravila
+Apply only the first matching rule	RuleTab		Apply only the first matching rule
+Cancel	RuleTab		Otkaži
+Disable	RuleTab		Onemogući
+Edit	RuleTab		Uredi
+Edit…	RuleTab		Uredi…
+Enable	RuleTab		Omogući
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Izgleda da nema pravila za organizaciju datoteka. Želite li da Filer doda neka osnovna pravila za vas?
+Move down	RuleTab		Pomakni dolje
+Move up	RuleTab		Pomakni gore
+Remove	RuleTab		Ukloni
+Remove rule	RuleTab		Ukloni pravilo
+Rules	RuleTab		Pravila
+Add rule	RuleEditWindow		Dodaj pravilo
+Cancel	RuleEditWindow		Otkaži
+Description:	RuleEditWindow		Opis:
+Edit rule	RuleEditWindow		Uredi pravilo
+Help…	RuleEditWindow		Pomoć…
+If	RuleEditWindow		Ako
+OK	RuleEditWindow		U redu
+Then	RuleEditWindow		Tada
+Choose	PanelButton		izaberi
+Filer	PanelButton		Filer
+Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Izaberite datoteku za %s%
+Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Izaberite mapu za %s%
+Copyright	HelpTab		Autorska prava
+Filer	HelpTab		Filer
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.
+Help	HelpTab		Pomoć
+Help on rules	HelpTab		Pomoć pri pravilima
+User documentation	HelpTab		Korisnička dokumentacija
+Drag and drop the files to be processed below.	DropZoneTab		Drag and drop the files to be processed below.
+Dropzone	DropZoneTab		Dropzone
+Filer	DropZoneTab		Filer
+Filer dropzone	DropZoneTab		Filer dropzone
+Open Filer…	DropZoneTab		Otvori Filer…
+Replicate dropzone…	DropZoneTab		Replicate dropzone…
+Filer	System name		Filer
+Open file	FolderPathView		Otvori datoteku
+Open folder	FolderPathView		Otvori mapu

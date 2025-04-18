@@ -51,6 +51,15 @@ Error	FSUtils		Galat
 Replace file	FSUtils		Ganti berkas
 Skip file	FSUtils		Lewati berkas
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Berkas '%name%' sudah ada. Anda akan menggantinya?
+Add	AutoFilerTab	Used as button in a file panel	Tambah
+Add folder	AutoFilerTab		Tambah folder
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Tambah folder
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Jalankan Filer secara otomatis pada konten folder ini:
+Remove folder	AutoFilerTab		Hapus folder
+Run AutoFiler on system startup	AutoFilerTab		Jalankan AutoFiler saat system startup
+Start AutoFiler	AutoFilerTab		Mulai AutoFiler
+Stop AutoFiler	AutoFilerTab		Stop AutoFiler
 Add	RuleTab		Tambah
 Add rule	RuleTab		Tambah aturan
 Add rules	RuleTab		Tambah aturan-aturan
@@ -66,15 +75,6 @@ Move up	RuleTab		Naikkan
 Remove	RuleTab		Hapus
 Remove rule	RuleTab		Hapus aturan
 Rules	RuleTab		Aturan
-Add	AutoFilerTab	Used as button in a file panel	Tambah
-Add folder	AutoFilerTab		Tambah folder
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Tambah folder
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Jalankan Filer secara otomatis pada konten folder ini:
-Remove folder	AutoFilerTab		Hapus folder
-Run AutoFiler on system startup	AutoFilerTab		Jalankan AutoFiler saat system startup
-Start AutoFiler	AutoFilerTab		Mulai AutoFiler
-Stop AutoFiler	AutoFilerTab		Stop AutoFiler
 Add rule	RuleEditWindow		Tambah aturan
 Cancel	RuleEditWindow		Batal
 Description:	RuleEditWindow		Deskripsi:

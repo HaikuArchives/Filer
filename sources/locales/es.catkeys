@@ -3,7 +3,7 @@
 /boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
 /boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Pictures
 /boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Videos
-Add to archive	RuleRunner		Agregar a archivo
+Add to archive	RuleRunner		Añadir a archivo
 bytes	RuleRunner		bytes
 contains	RuleRunner		contiene
 Continue	RuleRunner		Continuar
@@ -51,9 +51,18 @@ Error	FSUtils		Error
 Replace file	FSUtils		Reemplazar archivo
 Skip file	FSUtils		Omitir archivo
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	El archivo '%name%' ya existe. ¿Desea reemplazarlo?
-Add	RuleTab		Agregar
-Add rule	RuleTab		Agregar regla
-Add rules	RuleTab		Agregar reglas
+Add	AutoFilerTab	Used as button in a file panel	Añadir
+Add folder	AutoFilerTab		Añadir carpeta
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Añadir carpetas
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Ejecutar automáticamente Filer en los contenidos de estas carpetas:
+Remove folder	AutoFilerTab		Quitar carpeta
+Run AutoFiler on system startup	AutoFilerTab		Ejecutar AutoFiler al iniciar el sistema
+Start AutoFiler	AutoFilerTab		Iniciar AutoFiler
+Stop AutoFiler	AutoFilerTab		Detener AutoFiler
+Add	RuleTab		Añadir
+Add rule	RuleTab		Añadir regla
+Add rules	RuleTab		Añadir reglas
 Apply only the first matching rule	RuleTab		Aplicar sólo la primera regla coincidente
 Cancel	RuleTab		Cancelar
 Disable	RuleTab		Deshabilitar
@@ -66,16 +75,7 @@ Move up	RuleTab		Mover arriba
 Remove	RuleTab		Quitar
 Remove rule	RuleTab		Quitar regla
 Rules	RuleTab		Reglas
-Add	AutoFilerTab	Used as button in a file panel	Agregar
-Add folder	AutoFilerTab		Agregar carpeta
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Agregar carpetas
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Ejecutar automáticamente Filer en los contenidos de estas carpetas:
-Remove folder	AutoFilerTab		Quitar carpeta
-Run AutoFiler on system startup	AutoFilerTab		Ejecutar AutoFiler al iniciar el sistema
-Start AutoFiler	AutoFilerTab		Iniciar AutoFiler
-Stop AutoFiler	AutoFilerTab		Detener AutoFiler
-Add rule	RuleEditWindow		Agregar regla
+Add rule	RuleEditWindow		Añadir regla
 Cancel	RuleEditWindow		Cancelar
 Description:	RuleEditWindow		Descripción:
 Edit rule	RuleEditWindow		Editar regla

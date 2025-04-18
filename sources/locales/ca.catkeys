@@ -51,6 +51,15 @@ Error	FSUtils		Error
 Replace file	FSUtils		Reemplaça el fitxer
 Skip file	FSUtils		Omet el fitxer
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	El fitxer '%name%' ja existeix. Voleu reemplaçar-lo?
+Add	AutoFilerTab	Used as button in a file panel	Afegeix
+Add folder	AutoFilerTab		Afegeix una carpeta
+AutoFiler	AutoFilerTab		Filer automàtic
+AutoFiler: Add folders	AutoFilerTab		Filer automàtic: afegeix carpetes
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Executa automàticament Filer sobre el contingut d'aquestes carpetes:
+Remove folder	AutoFilerTab		Suprimeix la carpteta
+Run AutoFiler on system startup	AutoFilerTab		Executa el Filer automàtic a l'inici del sistema
+Start AutoFiler	AutoFilerTab		Incia el Filer automàtic
+Stop AutoFiler	AutoFilerTab		Atura el Filer automàtic
 Add	RuleTab		Afegeix
 Add rule	RuleTab		Afegeix una regla
 Add rules	RuleTab		Afegiu regles
@@ -66,15 +75,6 @@ Move up	RuleTab		Mou amunt
 Remove	RuleTab		Suprimeix
 Remove rule	RuleTab		Suprimeix la regla
 Rules	RuleTab		Regles
-Add	AutoFilerTab	Used as button in a file panel	Afegeix
-Add folder	AutoFilerTab		Afegeix una carpeta
-AutoFiler	AutoFilerTab		Filer automàtic
-AutoFiler: Add folders	AutoFilerTab		Filer automàtic: afegeix carpetes
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Executa automàticament Filer sobre el contingut d'aquestes carpetes:
-Remove folder	AutoFilerTab		Suprimeix la carpteta
-Run AutoFiler on system startup	AutoFilerTab		Executa el Filer automàtic a l'inici del sistema
-Start AutoFiler	AutoFilerTab		Incia el Filer automàtic
-Stop AutoFiler	AutoFilerTab		Atura el Filer automàtic
 Add rule	RuleEditWindow		Afegeix una regla
 Cancel	RuleEditWindow		Cancel·la
 Description:	RuleEditWindow		Descripció:

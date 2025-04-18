@@ -3,7 +3,7 @@
 /boot/home/Documents	RuleRunner	Path for default rule moving text files	/boot/home/Documents
 /boot/home/Pictures	RuleRunner	Path for default rule moving image files	/boot/home/Images
 /boot/home/Videos	RuleRunner	Path for default rule moving video files	/boot/home/Vidéos
-Add to archive	RuleRunner		Ajouter à l'archive
+Add to archive	RuleRunner		Ajouter à l’archive
 bytes	RuleRunner		octets
 contains	RuleRunner		contient
 Continue	RuleRunner		Continuer
@@ -18,7 +18,7 @@ is at least	RuleRunner		est au moins
 is at most	RuleRunner		est au plus
 is less than	RuleRunner		est moins que
 is more than	RuleRunner		est plus que
-is not	RuleRunner		n'est pas
+is not	RuleRunner		n’est pas
 KiB	RuleRunner		Kio
 Location	RuleRunner		Chemin
 MiB	RuleRunner		Mio
@@ -36,7 +36,7 @@ Store pictures in my Pictures folder	RuleRunner	One of the default rule names	Pl
 Store text files in my Documents folder	RuleRunner	One of the default rule names	Placer les fichiers texte dans mon dossier Documents
 TiB	RuleRunner		Tio
 Type	RuleRunner		Type
-%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNom complet du fichier\n%EXTENSION%\tJuste l'extension\n%BASENAME%\tNom du fichier sans l'extension\n%FOLDER%\t\tChemin complet du dossier contenant le fichier\n%FULLPATH%\t\tChemin complet du fichier\n%DATE%\t\t\tDate courante au format MM-JJ-AAAA\n%EURODATE%\t\tDate courante au  format JJ-MM-AAAA\n%REVERSEDATE%\tDate courante au format AAAA-MM-JJ\n%TIME%\t\t\tHeure courante (sur 24 heures)\n%ATTR:xxxx%\t\tUn attribut étendu du fichier
+%FILENAME%\t\tFull file name\n%EXTENSION%\tJust the extension\n%BASENAME%\tFile name without extension\n%FOLDER%\t\tFull location of the folder which contains the file\n%FULLPATH%\t\tFull location of the file\n%DATE%\t\t\tCurrent date in the format MM-DD-YYYY\n%EURODATE%\t\tCurrent date in the format DD-MM-YYYY\n%REVERSEDATE%\tCurrent date in the format YYYY-MM-DD\n%TIME%\t\t\tCurrent time using 24-hour time\n%ATTR:xxxx%\t\tAn extended attribute of the file	ActionView	Tooltip, do not translate the %variables%	%FILENAME%\t\tNom complet du fichier\n%EXTENSION%\tJuste l’extension\n%BASENAME%\tNom du fichier sans l’extension\n%FOLDER%\t\tChemin complet du dossier contenant le fichier\n%FULLPATH%\t\tChemin complet du fichier\n%DATE%\t\t\tDate courante au format MM-JJ-AAAA\n%EURODATE%\t\tDate courante au  format JJ-MM-AAAA\n%REVERSEDATE%\tDate courante au format AAAA-MM-JJ\n%TIME%\t\t\tHeure courante (sur 24 heures)\n%ATTR:xxxx%\t\tUn attribut étendu du fichier
 A file with that name already exists in the target folder.	ConflictWindow		Un fichier avec ce nom existe déjà dans le dossier cible.
 Do this for all files	ConflictWindow		Appliquer pour tous les fichiers
 File name	ConflictWindow		Nom du fichier
@@ -50,22 +50,7 @@ Abort	FSUtils		Abandonner
 Error	FSUtils		Erreur
 Replace file	FSUtils		Remplacer le fichier
 Skip file	FSUtils		Ignorer le fichier
-The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Le fichier '%name%' existe déjà. Voulez-vous le remplacer ?
-Add	RuleTab		Ajouter
-Add rule	RuleTab		Ajouter une règle
-Add rules	RuleTab		Ajouter les règles
-Apply only the first matching rule	RuleTab		Appliquer seulement à la première règle concordante
-Cancel	RuleTab		Annuler
-Disable	RuleTab		Désactiver
-Edit	RuleTab		Modifier
-Edit…	RuleTab		Modifier…
-Enable	RuleTab		Activer
-It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Il semble qu'il n'y ait aucune règle pour organiser des fichiers. Souhaitez-vous que Filer en ajoute quelques unes de base pour vous ?
-Move down	RuleTab		Descendre
-Move up	RuleTab		Monter
-Remove	RuleTab		Retirer
-Remove rule	RuleTab		Retirer la règle
-Rules	RuleTab		Règles
+The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Le fichier « %name% » existe déjà. Voulez-vous le remplacer ?
 Add	AutoFilerTab	Used as button in a file panel	Ajouter
 Add folder	AutoFilerTab		Ajouter un dossier
 AutoFiler	AutoFilerTab		AutoFiler
@@ -75,13 +60,28 @@ Remove folder	AutoFilerTab		Retirer le dossier
 Run AutoFiler on system startup	AutoFilerTab		Lancer AutoFiler au démarrage du système
 Start AutoFiler	AutoFilerTab		Démarrer AutoFiler
 Stop AutoFiler	AutoFilerTab		Arrêter AutoFiler
+Add	RuleTab		Ajouter
+Add rule	RuleTab		Ajouter une règle
+Add rules	RuleTab		Ajouter les règles
+Apply only the first matching rule	RuleTab		Appliquer seulement à la première règle concordante
+Cancel	RuleTab		Annuler
+Disable	RuleTab		Désactiver
+Edit	RuleTab		Modifier
+Edit…	RuleTab		Modifier…
+Enable	RuleTab		Activer
+It appears that there aren't any rules for organizing files. Would you like Filer to add some basic ones for you?	RuleTab		Il semble qu’il n'y ait aucune règle pour organiser des fichiers. Souhaitez-vous que Filer en ajoute quelques unes de base pour vous ?
+Move down	RuleTab		Descendre
+Move up	RuleTab		Monter
+Remove	RuleTab		Retirer
+Remove rule	RuleTab		Retirer la règle
+Rules	RuleTab		Règles
 Add rule	RuleEditWindow		Ajouter une règle
 Cancel	RuleEditWindow		Annuler
 Description:	RuleEditWindow		Description :
 Edit rule	RuleEditWindow		Modifier la règle
 Help…	RuleEditWindow		Aide…
 If	RuleEditWindow		Lorsque
-OK	RuleEditWindow		D'accord
+OK	RuleEditWindow		D’accord
 Then	RuleEditWindow		Alors
 Choose	PanelButton		Choisir
 Filer	PanelButton		Filer
@@ -89,7 +89,7 @@ Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/S
 Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Choisir un dossier pour %s%
 Copyright	HelpTab		Copyright
 Filer	HelpTab		Filer
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer est un organisateur automatique de fichiers.. Il traite les fichiers qu'on lui fait ouvrir, qu'on lui dépose directement ou, avec AutoFiler, via des dossiers de dépôt et les déplace, renomme, copie ou toutes sortes d'autres actions selon des règles définies par l'utilisateur.
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer est un organisateur automatique de fichiers.. Il traite les fichiers qu’on lui fait ouvrir, qu’on lui dépose directement ou, avec AutoFiler, via des dossiers de dépôt et les déplace, renomme, copie ou toutes sortes d’autres actions selon des règles définies par l’utilisateur.
 Help	HelpTab		Aide
 Help on rules	HelpTab		Aide sur les règles
 User documentation	HelpTab		Documentation utilisateur

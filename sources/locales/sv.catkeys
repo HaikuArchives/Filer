@@ -51,6 +51,15 @@ Error	FSUtils		Fel
 Replace file	FSUtils		Ersätt fil
 Skip file	FSUtils		Hoppa över fil
 The file '%name%' already exists. Do you want to replace it?	FSUtils	Don't translate the variable %name%	Filen '%name%' finns redan. Vill du ersätta den?
+Add	AutoFilerTab	Used as button in a file panel	Lägg till
+Add folder	AutoFilerTab		Lägg till mapp
+AutoFiler	AutoFilerTab		AutoFiler
+AutoFiler: Add folders	AutoFilerTab		AutoFiler: Lägg till mappar
+Automatically run Filer on the contents of these folders:	AutoFilerTab		Kör Filer automatiskt på innehållet i dessa mappar:
+Remove folder	AutoFilerTab		Ta bort mapp
+Run AutoFiler on system startup	AutoFilerTab		Kör AutoFiler vid systemstart
+Start AutoFiler	AutoFilerTab		Starta AutoFiler
+Stop AutoFiler	AutoFilerTab		Stoppa AutoFiler
 Add	RuleTab		Lägg till
 Add rule	RuleTab		Lägg till regel
 Add rules	RuleTab		Lägg till regler
@@ -66,15 +75,6 @@ Move up	RuleTab		Flytta upp
 Remove	RuleTab		Ta bort
 Remove rule	RuleTab		Ta bort regel
 Rules	RuleTab		Regler
-Add	AutoFilerTab	Used as button in a file panel	Lägg till
-Add folder	AutoFilerTab		Lägg till mapp
-AutoFiler	AutoFilerTab		AutoFiler
-AutoFiler: Add folders	AutoFilerTab		AutoFiler: Lägg till mappar
-Automatically run Filer on the contents of these folders:	AutoFilerTab		Kör Filer automatiskt på innehållet i dessa mappar:
-Remove folder	AutoFilerTab		Ta bort mapp
-Run AutoFiler on system startup	AutoFilerTab		Kör AutoFiler vid systemstart
-Start AutoFiler	AutoFilerTab		Starta AutoFiler
-Stop AutoFiler	AutoFilerTab		Stoppa AutoFiler
 Add rule	RuleEditWindow		Lägg till regel
 Cancel	RuleEditWindow		Avbryt
 Description:	RuleEditWindow		Beskrivning:
