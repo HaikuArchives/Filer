@@ -23,7 +23,7 @@ KiB	RuleRunner		Кбайт
 Location	RuleRunner		Расположение
 MiB	RuleRunner		Мбайт
 Move to folder	RuleRunner		Переместить в папку
-Move to Trash	RuleRunner		Переместить  в корзину
+Move to Trash	RuleRunner		Переместить в корзину
 Name	RuleRunner		Имя
 Open	RuleRunner		Открыть
 Rename to	RuleRunner		Переименовать в
@@ -57,7 +57,7 @@ AutoFiler	AutoFilerTab		AutoFiler
 AutoFiler: Add folders	AutoFilerTab		AutoFiler: Добавить папки
 Automatically run Filer on the contents of these folders:	AutoFilerTab		Автоматически запускать Filer для содержимого этих папок:
 Remove folder	AutoFilerTab		Удалить папку
-Run AutoFiler on system startup	AutoFilerTab		Запускать AutoFiler при запуске системы
+Run AutoFiler on system startup	AutoFilerTab		Запускать AutoFiler при загрузке системы
 Start AutoFiler	AutoFilerTab		Запустить AutoFiler
 Stop AutoFiler	AutoFilerTab		Остановить AutoFiler
 Add	RuleTab		Добавить
@@ -89,7 +89,7 @@ Choose file for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/S
 Choose folder for %s%	TestView	Don't translate %s%; it's the test for 'Type/Name/Size/Location'	Выбрать папку для %s%
 Copyright	HelpTab		Copyright
 Filer	HelpTab		Filer
-Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer — автоматический органайзер файлов. Он берет файлы, с которыми он открыт или которые были переброшены на него, и перемещает, переименовывает, копирует или выполняет с ними всевозможные другие действия в соответствии с правилами, созданными пользователем.
+Filer is an automatic file organizer. It takes the files it's opened with or that are dropped on it and moves, renames, copies or does all sorts of other things with them according to rules created by the user.	HelpTab		Filer — это автоматический организатор файлов. В соответствии с правилами пользователя Filer перемещает, переименовывает, копирует файлы, с которыми был открыт или которые перетащены на него, а также выполняет с ними всевозможные другие действия.
 Help	HelpTab		Помощь
 Help on rules	HelpTab		О правилах
 User documentation	HelpTab		Руководство пользователя
