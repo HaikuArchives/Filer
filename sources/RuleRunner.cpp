@@ -1505,9 +1505,9 @@ AddDefaultRules(BObjectList<FilerRule>* ruleList)
 	ruleList->AddItem(rule);
 
 	rule = new FilerRule();
-	rule->AddTest(MakeTest(TEST_TYPE, MODE_END, ".zip"));
+	rule->AddTest(MakeTest(TEST_TYPE, MODE_IS, "application/zip"));
 	rule->AddAction(MakeAction(ACTION_COMMAND,
-		"unzip %FULLPATH% -d /boot/home/Desktop"));
+		"unzip \"%FULLPATH%\" -d /boot/home/Desktop"));
 	rule->SetDescription(B_TRANSLATE_COMMENT(
 		"Extract ZIP files to the Desktop",
 		"One of the default rule names"));
